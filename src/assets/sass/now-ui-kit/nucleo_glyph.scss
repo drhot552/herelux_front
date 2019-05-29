@@ -1,0 +1,408 @@
+/* --------------------------------
+
+nc-demo_glyph Web Font - nucleoapp.com/
+License - nucleoapp.com/license/
+
+-------------------------------- */
+@import "variables";
+@import "mixins";
+
+@font-face {
+  font-family: 'nc-demo_glyph';
+  src: url('#{$nc-font-path}/demo_glyph/nc-demo_glyph.eot');
+  src: url('#{$nc-font-path}/demo_glyph/nc-demo_glyph.eot') format('embedded-opentype'),
+    url('#{$nc-font-path}/demo_glyph/nc-demo_glyph.woff2') format('woff2'),
+    url('#{$nc-font-path}/demo_glyph/nc-demo_glyph.woff') format('woff'),
+    url('#{$nc-font-path}/demo_glyph/nc-demo_glyph.ttf') format('truetype'),
+    url('#{$nc-font-path}/demo_glyph/nc-demo_glyph.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*------------------------
+	base class definition
+-------------------------*/
+
+.nc-icon-g {
+  display: inline-block;
+  font: normal normal normal 24px/1 'nc-demo_glyph';
+  speak: none;
+  text-transform: none;
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+}
+
+/*------------------------
+  change icon size
+-------------------------*/
+
+.nc-icon-g.lg {
+	font-size: 1.33333333em;
+  	vertical-align: -16%;
+}
+
+.nc-icon-g.x2 {
+	font-size: 2em;
+}
+
+.nc-icon-g.x3 {
+	font-size: 3em;
+}
+
+/*----------------------------------
+  add a square/circle background
+-----------------------------------*/
+.nc-icon-g.square,
+.nc-icon-g.circle {
+  padding: $nc-padding-width;
+  vertical-align: -16%;
+  background-color: $nc-background-color;
+}
+
+.nc-icon-g.circle {
+  border-radius: 50%;
+}
+
+/*------------------------
+  list icons
+-------------------------*/
+
+.nc-icon-g-ul {
+  padding-left: 0;
+  margin-left: $nc-li-width;
+  list-style-type: none;
+
+  > li {
+    position: relative;
+  }
+
+  > li > .nc-icon-g {
+    position: absolute;
+    left: -$nc-li-width/2 - 0.5em;
+    top: (2em / 14);
+    text-align: center;
+
+    &.lg {
+      top: 0;
+      left: -$nc-li-width/2 - (4em / 14);
+    }
+
+    &.circle,
+    &.square {
+      top: (2em / 14) - $nc-padding-width;
+      left: -$nc-li-width/2 - 0.5em - $nc-padding-width;
+    }
+  }
+}
+
+/*------------------------
+  spinning icons
+-------------------------*/
+
+.nc-icon-g.spin {
+  -webkit-animation: nc-icon-g-spin 2s infinite linear;
+  -moz-animation: nc-icon-g-spin 2s infinite linear;
+  animation: nc-icon-g-spin 2s infinite linear;
+}
+
+@-webkit-keyframes nc-icon-g-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes nc-icon-g-spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@keyframes nc-icon-g-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/*------------------------
+  rotated/flipped icons
+-------------------------*/
+
+.nc-icon-g.rotate-90  {
+	@include nc-rotate(90deg, 1);
+}
+
+.nc-icon-g.rotate-180 {
+	@include nc-rotate(180deg, 2);
+}
+
+.nc-icon-g.rotate-270 {
+	@include nc-rotate(270deg, 3);
+}
+
+.nc-icon-g.flip-y {
+	@include nc-flip(-1, 1, 0);
+}
+.nc-icon-g.flip-x {
+	@include nc-flip(1, -1, 2);
+}
+
+/*------------------------
+	font icons
+-------------------------*/
+
+.nc-icon-g.nc-archive-2:before {
+  content: "\ea01";
+}
+
+.nc-icon-g.nc-archive-paper:before {
+  content: "\ea02";
+}
+
+.nc-icon-g.nc-award-48:before {
+  content: "\ea03";
+}
+
+.nc-icon-g.nc-badge-13:before {
+  content: "\ea04";
+}
+
+.nc-icon-g.nc-bag-09:before {
+  content: "\ea05";
+}
+
+.nc-icon-g.nc-barcode-qr:before {
+  content: "\ea06";
+}
+
+.nc-icon-g.nc-bear-2:before {
+  content: "\ea08";
+}
+
+.nc-icon-g.nc-bell-53:before {
+  content: "\ea07";
+}
+
+.nc-icon-g.nc-bookmark-2:before {
+  content: "\ea09";
+}
+
+.nc-icon-g.nc-briefcase-24:before {
+  content: "\ea0a";
+}
+
+.nc-icon-g.nc-calendar-60:before {
+  content: "\ea0c";
+}
+
+.nc-icon-g.nc-camera-20:before {
+  content: "\ea0b";
+}
+
+.nc-icon-g.nc-cart-simple:before {
+  content: "\ea0d";
+}
+
+.nc-icon-g.nc-chat-46:before {
+  content: "\ea0e";
+}
+
+.nc-icon-g.nc-check-circle-07:before {
+  content: "\ea0f";
+}
+
+.nc-icon-g.nc-cloud-26:before {
+  content: "\ea10";
+}
+
+.nc-icon-g.nc-compass-05:before {
+  content: "\ea11";
+}
+
+.nc-icon-g.nc-dashboard-level:before {
+  content: "\ea12";
+}
+
+.nc-icon-g.nc-diamond:before {
+  content: "\ea13";
+}
+
+.nc-icon-g.nc-edit-78:before {
+  content: "\ea14";
+}
+
+.nc-icon-g.nc-email-84:before {
+  content: "\ea15";
+}
+
+.nc-icon-g.nc-eye-19:before {
+  content: "\ea16";
+}
+
+.nc-icon-g.nc-favourite-31:before {
+  content: "\ea17";
+}
+
+.nc-icon-g.nc-flag-points-32:before {
+  content: "\ea18";
+}
+
+.nc-icon-g.nc-flash-21:before {
+  content: "\ea19";
+}
+
+.nc-icon-g.nc-folder-15:before {
+  content: "\ea1a";
+}
+
+.nc-icon-g.nc-gift-2:before {
+  content: "\ea1b";
+}
+
+.nc-icon-g.nc-grid-45:before {
+  content: "\ea1c";
+}
+
+.nc-icon-g.nc-handout:before {
+  content: "\ea1d";
+}
+
+.nc-icon-g.nc-heart-2:before {
+  content: "\ea1e";
+}
+
+.nc-icon-g.nc-home-52:before {
+  content: "\ea1f";
+}
+
+.nc-icon-g.nc-image:before {
+  content: "\ea20";
+}
+
+.nc-icon-g.nc-key-25:before {
+  content: "\ea21";
+}
+
+.nc-icon-g.nc-layers-3:before {
+  content: "\ea22";
+}
+
+.nc-icon-g.nc-like-2:before {
+  content: "\ea23";
+}
+
+.nc-icon-g.nc-link-72:before {
+  content: "\ea24";
+}
+
+.nc-icon-g.nc-lock-open:before {
+  content: "\ea25";
+}
+
+.nc-icon-g.nc-lock:before {
+  content: "\ea26";
+}
+
+.nc-icon-g.nc-multiple-11:before {
+  content: "\ea27";
+}
+
+.nc-icon-g.nc-notes:before {
+  content: "\ea28";
+}
+
+.nc-icon-g.nc-pencil:before {
+  content: "\ea29";
+}
+
+.nc-icon-g.nc-phone-2:before {
+  content: "\ea2a";
+}
+
+.nc-icon-g.nc-preferences:before {
+  content: "\ea2b";
+}
+
+.nc-icon-g.nc-send-2:before {
+  content: "\ea2c";
+}
+
+.nc-icon-g.nc-settings-gear-63:before {
+  content: "\ea2d";
+}
+
+.nc-icon-g.nc-single-01:before {
+  content: "\ea2e";
+}
+
+.nc-icon-g.nc-single-folded-content:before {
+  content: "\ea2f";
+}
+
+.nc-icon-g.nc-skull-2:before {
+  content: "\ea30";
+}
+
+.nc-icon-g.nc-spaceship:before {
+  content: "\ea31";
+}
+
+.nc-icon-g.nc-square-download:before {
+  content: "\ea32";
+}
+
+.nc-icon-g.nc-square-upload:before {
+  content: "\ea33";
+}
+
+.nc-icon-g.nc-support-16:before {
+  content: "\ea34";
+}
+
+.nc-icon-g.nc-trash-simple:before {
+  content: "\ea35";
+}
+
+.nc-icon-g.nc-turtle:before {
+  content: "\ea36";
+}
+
+.nc-icon-g.nc-vector:before {
+  content: "\ea37";
+}
+
+.nc-icon-g.nc-video-66:before {
+  content: "\ea38";
+}
+
+.nc-icon-g.nc-wallet-43:before {
+  content: "\ea39";
+}
+
+.nc-icon-g.nc-widget:before {
+  content: "\ea3a";
+}
+
+.nc-icon-g.nc-world:before {
+  content: "\ea3b";
+}
+
+.nc-icon-g.nc-zoom-2:before {
+  content: "\ea3c";
+}
