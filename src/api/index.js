@@ -2,7 +2,7 @@
 import axios from 'axios'
 import router from '../router'
 
-// const DOMAIN ='http://54.180.145.103:4000' //운영서버 
+// const DOMAIN ='http://54.180.145.103:4000' //운영서버
 const DOMAIN ='http://54.180.153.54:4000'
 const UNAUTHORIZED = 401
 
@@ -80,6 +80,9 @@ export const board = {
   },
   commentSelect(board_idx, boardtype){
     return request('get', '/board/comment/' + board_idx)
+  },
+  commentDelete(comment_idx){
+    return request('get', '/board/commentdelete/' + comment_idx)
   }
 }
 

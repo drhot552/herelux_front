@@ -41,14 +41,24 @@
           <!-- 댓글 단 -->
           <div style="margin-top:20px; border-bottom:10px solid rgba(135, 135, 135, 0.3);">
           </div>
-          <div style="margin-top:20px;" v-if="this.comment.length > 0">
-            <div style="padding-bottom:10px" v-for="item in comment">
-              <h6 style="padding-left:15px; float:left; width:65%">
-                <b>{{item.name}}</b>
+          <div style="margin-top:20px;" v-for="item in comment">
+            <div style="padding-bottom:5px">
+              <h6 style="padding-left:15px; float:left;">
+                <b style="float:left; margin-right:11px;">{{item.name}}</b>
               </h6>
-              <h6 style="float: left; margin-right:20px; font-size:10px;">{{item.reg_date}}</h6>
-              <h6 style="font-size:10px; padding-bottom:3px;">{{item.reg_time}}</h6>
-              <h6 style="padding-left:15px;">{{item.descript}}</h6>
+              <h6 style="float:left;" v-if="item.userid == writer">
+                <b class="writer_text">글쓴이</b>
+              </h6>
+              <h6 style="text-align:right; margin-right:20px; font-size:10px;">{{item.reg_date}} &ensp; {{item.reg_time}}</h6>
+
+            </div>
+            <div>
+              <h6 style="padding-left:15px; float:left; width:100%;">
+                {{item.descript}}
+                <a v-if="item.userid == userid" v-on:click="commentDelete(item.comment_idx)" style="text-align:right; margin-right:20px; float:right">
+                  <img src="/public/img/btn_garbage.png" style="width:15px;"/>
+                </a>
+              </h6>
             </div>
           </div>
     </div>
@@ -94,18 +104,22 @@ export default{
       title : '',
       descript : '',
       modalShowComment : false,
-      nickName : ''
+      nickName : '',
+      writer : '',
+      modalFlag : 0,
+
     }
   },
   created(){
     this.board_idx = this.$route.params.board_idx;
-    this.userid = this.user = localStorage.getItem('id');
+    this.userid = localStorage.getItem('id');
     //댓글 상태변수 set
     this.$store.state.boardCommentFlag = false;
     //게시판 조회
     board.select(this.board_idx,this.$store.state.boardtype).then(data => {
       if(data.length > 0 ){
         this.boardDetail = data;
+        this.writer = this.boardDetail[0].userid;
         //작성자 Id와 같은지 체크 같으면 댓글 시 같은 닉네임을 사용한다.
         if(this.userid == data[0].userid){
           this.nickName = data[0].name;
@@ -144,15 +158,28 @@ export default{
       this.modalShowComment = false;
     },
     handleOk(){
-      board.commentInsert(this.board_idx, this.userid, this.nickName, $("#comment").text()).then(data=>{
-        console.log(data);
-        this.commentSelect();
-      }).catch(error=>{
-        console.log(error);
-      });
+      //modalFlag = 1 댓글 삽입
+      if(this.modalFlag == 1){
+        board.commentInsert(this.board_idx, this.userid, this.nickName, $("#comment").text()).then(data=>{
+          $("#comment").text("");
+          this.commentSelect();
+        }).catch(error=>{
+          console.log(error);
+        });
+      }
+      //modalFlag = 2 댓글삭제
+      else if(this.modalFlag == 2){
+        board.commentDelete(this.comment_idx).then(data=>{
+          this.commentSelect();
+        }).catch(error=>{
+          console.log(error);
+        });
+      }
+
     },
     commentPopup(){
       //comment 등록
+      this.modalFlag = 1
       if($("#comment").text() == ""){
           alert("댓글을 입력하세요.");
       }
@@ -161,7 +188,13 @@ export default{
         this.descript ="댓글을 등록하시겠습니까??";
         this.modalShowComment = true;
       }
-
+    },
+    commentDelete(comment_idx){
+      this.comment_idx = comment_idx;
+      this.modalFlag = 2;
+      this.title = "댓글삭제";
+      this.descript ="댓글을 삭제하시겠습니까??";
+      this.modalShowComment = true;
     }
   }
 }
@@ -199,5 +232,12 @@ export default{
   border-radius: 7px;
   outline: 0;
   overflow: auto;
+}
+.writer_text{
+  background: black;
+  font-size: 10px;
+  color: white;
+  padding: 3px;
+  border-radius:15%;
 }
 </style>
