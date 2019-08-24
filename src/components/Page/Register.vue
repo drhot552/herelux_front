@@ -11,7 +11,7 @@
                             type="text" name="email"
                             placeholder="Email">
                   </fg-input>
-                  <h6 style="text-align:center; color:red;" v-if="errors.has('email')"> E-mail 형식으로 작성해주세요.</h6>
+                  <h6 style="text-align:center; color:red;" v-if="email_flag = errors.has('email')"> E-mail 형식으로 작성해주세요.</h6>
 
                   <fg-input addon-left-icon="now-ui-icons text_caps-small"
                             type="password"
@@ -23,7 +23,7 @@
                     회원가입
                   </button>
                 </form>
-                <h6>회원가입 시 서비스 이용약관, 개인정보취급방침에 동의한 것으로 간주됩니다.</h6>
+                <h6>회원가입 시 서비스 <a href="/Privacy"><u>이용약관, 개인정보취급방침</u></a>에 동의한 것으로 간주됩니다.</h6>
 
             </div>
         </div>
@@ -46,14 +46,6 @@
         <button class="btn btn-primary" v-on:click="handleOk()">Ok</button>
       </template>
     </modal>
-    <!--
-    <b-modal id="modal-error" centered v-bind:title="title">
-      {{descript}}
-    </b-modal>
-    <b-modal id="modal-success" centered v-bind:title="title" @ok="handleOk">
-      {{descript}}
-    </b-modal>
-    -->
   </div>
 </template>
 <script>
@@ -73,7 +65,8 @@
           title : '',
           descript : '',
           modal_error : false,
-          modal_success : false
+          modal_success : false,
+          email_flag : false
       }
     },
     created() {
@@ -82,27 +75,32 @@
     },
     methods:{
       onSubmit() {
-        auth.register(this.email, this.password).then(data => {
-          //data code 300이면 중복체크
-          if(data == 300){
-            this.descript="같은아이디가 존재합니다. 다른아이디를 사용하세요.";
-            this.title = "아이디중복";
-            this.modal_error = true;
-          }
-          else if (data == 200){
-            this.descript="회원가입이 완료되었습니다. 가입하신 아이디로 로그인하세요.";
-            this.title = "회원가입성공";
-            this.modal_success = true;
-          }
-          else {
+        if(this.email_flag){
+          alert("ID를 이메일형식으로 작성해주세요.");
+        }
+        else{
+          auth.register(this.email, this.password).then(data => {
+            //data code 300이면 중복체크
+            if(data == 300){
+              this.descript="같은아이디가 존재합니다. 다른아이디를 사용하세요.";
+              this.title = "아이디중복";
+              this.modal_error = true;
+            }
+            else if (data == 200){
+              this.descript="회원가입이 완료되었습니다. 가입하신 아이디로 로그인하세요.";
+              this.title = "회원가입성공";
+              this.modal_success = true;
+            }
+            else {
 
-          }
-        })
-        .catch(error => {
-          this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
-          this.title = "서버에러";
-          this.modal_error = true;
-        });
+            }
+          })
+          .catch(error => {
+            this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
+            this.title = "서버에러";
+            this.modal_error = true;
+          })
+        }
       },
       handleOk() {
        // Prevent modal from closing

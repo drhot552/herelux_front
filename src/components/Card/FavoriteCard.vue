@@ -17,8 +17,7 @@
            </div>
          </div>
          <div v-else>
-           <images v-bind:img_url="item.url">
-           </images>
+           <img  v-lazy="item.url"/>
            <div style="width:100%;">
              <div style="display:inline-block;">
                <star-rating id="rating" :rating="ratingnum" class="star" :increment="0.5" :show-rating="false" @rating-selected="setRating"></star-rating>
@@ -56,13 +55,19 @@
           <hr/>
       </div>
   </div>
-  <b-modal id="modal-center" centered v-bind:title="title">
-    {{descript}}
-  </b-modal>
+  <modal :show.sync="modalShow" headerClasses="justify-content-center">
+    <h4 slot="header" class="title title-up">{{title}}</h4>
+    <p>{{descript}}</p>
+    <template slot="footer" class="justify-content-center">
+      <button class="btn btn-secondary" v-on:click="onClose()">Close</button>
+      <button class="btn btn-primary" v-on:click="onClose()">Ok</button>
+    </template>
+  </modal>
  </div>
 </template>
 <script>
 import { Carousel, Slide } from 'vue-carousel'
+import Modal from '../Component/Modal'
 import Images from './Images'
 import StarRating from 'vue-star-rating'
 import { product } from '../../api'
@@ -81,7 +86,8 @@ export default {
       Carousel,
       Slide,
       Images,
-      StarRating
+      StarRating,
+      Modal
     },
     created(){
       this.listImage();
@@ -94,7 +100,8 @@ export default {
        productflag : true,
        user: '',
        title:'',
-       descript:''
+       descript:'',
+       modalShow : false
 
      }
    },
@@ -110,7 +117,7 @@ export default {
               if(data >= 500){
                 this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
                 this.title = "서버에러";
-                this.$root.$emit('bv::show::modal','modal-center', '#btnShow')
+                this.modalShow = true;
               }
               else{
                 this.id = data[0].id;
@@ -160,7 +167,10 @@ export default {
         delay           : 1,
         fontSize        : 50
       })
-     }
+    },
+    onClose(){
+      this.modalShow = false;
+    }
    }
 
   }

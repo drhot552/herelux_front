@@ -11,7 +11,7 @@
                             type="text" name="email"
                             placeholder="Email">
                   </fg-input>
-                  <h6 style="text-align:center; color:red;" v-if="errors.has('email')"> E-mail 형식으로 작성해주세요.</h6>
+                  <h6 style="text-align:center; color:red;" v-if="email_flag = errors.has('email')"> E-mail 형식으로 작성해주세요.</h6>
                   <fg-input addon-left-icon="now-ui-icons text_caps-small"
                             type="password"
                             v-model="password"
@@ -59,7 +59,8 @@
           returnPath : '',
           modalShow: false,
           title : '',
-          descript : ''
+          descript : '',
+          email_flag : false
       }
     },
     created() {
@@ -68,26 +69,36 @@
     },
     methods:{
       onSubmit() {
-        this.$validator.validateAll();
-        auth.login(this.email, this.password).then(data => {
-          //만약에 없으면 금일 상품을 모두 선택했다는 메시지로 변경
-          if(data == 301){
-            this.title = "로그인확인";
-            this.descript ="아이디나 비밀번호를 다시확인해주세요.";
+        if(this.email_flag){
+          alert("ID를 이메일형식으로 작성해주세요.");
+        }
+        else{
+          auth.login(this.email, this.password).then(data => {
+            //만약에 없으면 금일 상품을 모두 선택했다는 메시지로 변경
+            if(data == 301){
+              this.title = "로그인확인";
+              this.descript ="아이디를 다시확인해주세요.";
+              this.modalShow = true;
+            }
+            //비밀번호가 틀리면
+            else if(data == 302){
+              this.title = "비밀번호확인";
+              this.descript ="비밀번호를 다시확인해주세요.";
+              this.modalShow = true;
+            }
+            else{
+              localStorage.setItem('token', data.accessToken)
+              localStorage.setItem('id', this.email)
+              setAuthInHeader(data.accessToken) //token
+              this.$router.push(this.returnPath);
+            }
+          })
+          .catch(error => {
+            this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
+            this.title = "서버에러";
             this.modalShow = true;
-          }
-          else{
-            localStorage.setItem('token', data.accessToken)
-            localStorage.setItem('id', this.email)
-            setAuthInHeader(data.accessToken) //token
-            this.$router.push(this.returnPath);
-          }
-        })
-        .catch(error => {
-          this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
-          this.title = "서버에러";
-          this.modalShow = true;
-        });
+          });
+        }
       },
       onClose(){
         this.modalShow = false;

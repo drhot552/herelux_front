@@ -51,7 +51,7 @@ import Cauly from '../Card/Cauly'
    },
    mounted(){
      //ip 정보
-     this.$http.get('http://54.180.145.103:4000/event').then((response)=>{
+     this.$http.get('http://54.180.153.54:4000/event').then((response)=>{
        this.event = response.data
        this.random()  //random으로 섞기
 

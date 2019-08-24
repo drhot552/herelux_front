@@ -47,14 +47,6 @@
       <BoardCard>
       </BoardCard>
     </div>
-    <modal :show.sync="modalShow" headerClasses="justify-content-center">
-      <h4 slot="header" class="title title-up"></h4>
-      <div class="modal-view">
-        <div style="text-align:center; border-bottom:1px solid hsla(0,0%,53%,.3); padding:5px;" v-for="item in forum">
-          <a v-on:click="forumSelect(item.minor_key, item.descript)">{{item.descript}}</a>
-        </div>
-      </div>
-    </modal>
   </div>
 </template>
 
@@ -118,7 +110,6 @@ import BoardCard from '../Card/BoardCard';
         tabs: [],
         forum:[],
         title:'',
-        modalShow:false,
         boardtype : 0
       }
     },

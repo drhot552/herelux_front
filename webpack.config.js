@@ -59,7 +59,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!(MY-MODULE|ANOTHER-ONE)\/).*/
+        exclude: /node_modules/
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -114,7 +114,6 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'developme
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    })
   ])
 }

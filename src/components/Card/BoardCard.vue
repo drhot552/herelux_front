@@ -3,7 +3,7 @@
         <div class="container">
           <div class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
                 v-for="(item,i) in this.$store.state.board">
-            <div style="width:89%;">
+            <div style="width:100%;">
               <div class="div_board_1" style="margin-left:10px; margin-right:10px; float:left;">
                 <!--순위대로 색을 다르게 check-->
                   <div class="layer">
@@ -40,14 +40,17 @@
                   <h6 class="h6_style"> {{`작성시간 : ` + item.reg_date}} </h6>
                   <h6 class="h6_style"> | </h6>
                   <h6 class="h6_style"> {{`조회수 : ` + item.views}} </h6>
+                  <h6 class="h6_style"> | </h6>
+                  <img src="/public/img/board_icon_reply.png" style="height: 20px;width: 15px; padding-bottom: 8px; margin-right: 5px; float: left;"/>
+                  <h6 class="h6_style"> {{item.comment}} </h6>
                 </div>
               </div>
             </div>
             <div style="margin-top:35px; position: relative;">
-              <img src="/public/img/board_icon_reply.png" style="height:30px;"/>
+              <!--<img src="/public/img/board_icon_reply.png" style="height:30px;"/>
               <div class="board_view">
                 <h6> {{item.comment}} </h6>
-              </div>
+              </div> -->
             </div>
             <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx">
             </router-link>
@@ -77,7 +80,7 @@ export default {
     }
   },
   created(){
-    this.readMore();
+    //this.readMore();
   },
   methods:{
     readMore(){

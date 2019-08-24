@@ -14,7 +14,7 @@
             <div v-lazy:background-image="img_url"></div>
           </div>
           <h1></h1>
-          <a v-if="type=='event'" v-bind:href="direct_url" target="_blank" v-on:click="trackOutboundLink(title, subject)">
+          <a v-if="type=='event'" v-on:click="trackOutboundLink(title, subject, direct_url)">
             <div style="border-bottom: 1px solid rgba(136, 136, 136, 0.3);">
               <div align="left" style="margin-left:15px; margin-bottom:7px;">
                 지금 보러가기 >
@@ -59,8 +59,17 @@ export default{
     this.fetchData()
   },
   methods:{
-    trackOutboundLink: function (title,subject) {
+    trackOutboundLink: function (title,subject, direct_url) {
       gtag('event','상품클릭',{'event_category':title,'event_label':subject});
+      if(navigator.userAgent.match(/Android|Tablet/i)){
+        window.android.bridge(direct_url);
+      }
+      else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+        window.webkit.messageHandlers.YOURMETHOD.postMessage(direct_url.trim());
+      }
+      else {
+        window.open(direct_url, '_blank');
+      }
     },
     fetchData(){
         this.loading = true
@@ -68,6 +77,7 @@ export default{
           this.loading=false
         }, 1000)
     }
+
   }
 }
 </script>

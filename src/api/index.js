@@ -43,8 +43,8 @@ export const product = {
   insert(id, user, rating){
     return request('post', '/product/list', {id, user, rating})
   },
-  mylist(user,page){
-    return request('get', '/product/mylist/' + user +'/' + page)
+  mylist(user,page,category, major_key){
+    return request('get', '/product/mylist/' + user +'/' + page + '/' + category + '/' + major_key)
   },
   detail(id){
     return request('get', '/product/detail/' + id)
@@ -52,6 +52,10 @@ export const product = {
   //랭킹 0
   ranking(category,major_key, page){
     return request('get', '/product/ranking/'+ category +'/' + major_key + '/' + page)
+  },
+  //상품상세 이커머스명
+  detailbrand(productid){
+    return request('get', '/product/detailbrand/' + productid);
   }
 }
 export const event = {
@@ -60,6 +64,26 @@ export const event = {
   },
   video(){
     return request('get', '/video')
+  }
+}
+export const comment = {
+  commentInsert(board_idx,userid,name,descript){
+    return request('post', '/comment', {board_idx, userid, name, descript})
+  },
+  commentSelect(board_idx){
+    return request('get', '/comment/' + board_idx)
+  },
+  commentDelete(comment_idx){
+    return request('get', '/comment/delete/' + comment_idx)
+  },
+  commentDown(comment_idx, board_idx, userid, name, descript){
+    return request('post', '/comment/commentdown', {comment_idx, board_idx, userid,name, descript})
+  },
+  commentDownSelect(board_idx){
+    return request('get', '/comment/commentdown/' + board_idx)
+  },
+  commentDownDelete(commentdown_idx){
+    return request('get', '/comment/downdelete/' + commentdown_idx)
   }
 }
 
@@ -74,15 +98,6 @@ export const board = {
   },
   select(board_idx, boardtype){
     return request('get', '/board/select/' + board_idx + '/' + boardtype)
-  },
-  commentInsert(board_idx,userid,name,descript){
-    return request('post', '/board/comment', {board_idx, userid, name, descript})
-  },
-  commentSelect(board_idx, boardtype){
-    return request('get', '/board/comment/' + board_idx)
-  },
-  commentDelete(comment_idx){
-    return request('get', '/board/commentdelete/' + comment_idx)
   }
 }
 

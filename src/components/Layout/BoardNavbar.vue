@@ -7,7 +7,6 @@
           </router-link>
         </div>
         <div class="board_style_middle">
-          <a> {{this.$store.state.board_name}} </a>
         </div>
         <div v-if="this.$store.state.boardCommentFlag" class="board_style" style="text-align:right;">
            <a style="color:#888; font-size:1.2em;" v-on:click="update()"> 수정 </a>
@@ -22,10 +21,20 @@
       transparent: Boolean,
       colorOnScroll: Number,
     },
+    data(){
+      return{
+        returnPath:''
+      }
+    },
+    created(){
+      this.returnPath = this.$route.query.returnPath || '/update'
+    },
     methods:{
       update(){
         //Write로 이동하기전에 모든 데이터 글, 포럼, 실제 그림 set해서 넘김
-        
+        //이동 boardidx
+        this.returnPath = this.returnPath + '/' + this.$store.state.board_idx;
+         this.$router.push(this.returnPath);
       }
     }
   }

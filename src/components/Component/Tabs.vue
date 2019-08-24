@@ -45,7 +45,7 @@
       <slot></slot>
     </div>
     <div style="text-align:right; margin-right:30px;">
-      <a v-if="this.$store.state.category <= 5" v-on:click="popup()">
+      <a v-if="this.$store.state.rankTabStatus <= 5" v-on:click="popup()">
         <img src="/public/img/btn_filter.png" style="height:18px;"/>
         <b>필터링</b>
       </a>
@@ -160,7 +160,7 @@ import Modal from '../Component/Modal';
           this.$store.state.rankTabStatus = i + 1;
         }
         //store 값 i로 set
-        this.$store.commit('SET_INIT', i);
+        this.$store.commit('SET_INIT');
         // 카테고리 타입이 1이면 대 카테고리로 set한다
         this.category_type  = 1;
         this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
@@ -216,7 +216,8 @@ import Modal from '../Component/Modal';
       categorySelect(key){
         // 카테고리 타입이 2이면 부카테고리로 set한다
         this.category_type = 2;
-        this.$store.commit('SET_INIT', key);
+        this.$store.commit('SET_INIT');
+        this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:key});
         this.modalShow = false;
       },
       onClose(){

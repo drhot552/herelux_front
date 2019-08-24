@@ -13,7 +13,9 @@
       <div class="edit_div">
         <div class="edit_container">
           <div class="edit_textarea"  id="descript" contenteditable="true" placeholder="내용을 입력하세요." style="max-height: 67vh;">
-
+            <!--이미지 수정 삭제-->
+            <div class="image" id="imgzone">
+            </div>
           </div>
         </div>
       </div>
@@ -47,7 +49,7 @@ export default{
   methods:{
     showFiles() {
         console.log("이미지첨부",this.$store.state.writeBoard_Category);
-        var div = document.getElementById('descript');     // The DIV.
+        var div = document.getElementById('imgzone');     // The DIV.
         var fi = document.getElementById('file-input');           // Get the File input.
 
         if (fi.files.length > 0) {
@@ -72,7 +74,6 @@ export default{
         }
     }
   }
-
 }
 </script>
 <style>

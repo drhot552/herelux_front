@@ -12,7 +12,6 @@ const store = new Vuex.Store({
     /* Ranking 변수 */
     product: [],
     idx : 0,
-    category : 0,
     category_type : 1,
     readFlag : false,
     /* Ranking Tab 변수 */
@@ -27,12 +26,21 @@ const store = new Vuex.Store({
     board:[],
     board_readFlag : false,
     boardtype : 0,
+    board_count : 0,
     board_idx : 0,
     /* Board 상세 변수 */
     boardDetail_name : '',
     /* Tab 상태 저장변수 및 댓글 수정가능 저장변수 */
     boardTabStatus : 0,
-    boardCommentFlag : false
+    boardCommentFlag : false,
+    /* 상품상세 클릭시 해당 플래그 set */
+    productDetail_name : '',
+    /* Mylist 관련 Data*/
+    myList:[],
+    myList_idx: 0,
+    myList_readFlag : false,
+    myList_category : 0,
+    myList_category_type : 1
   },
   //변수 set
   mutations: {
@@ -40,17 +48,26 @@ const store = new Vuex.Store({
       state.idx++
     },
     BOARD_IDX_INCREMENT (state) {
-      state.board_idx++
+      state.board_count++
     },
-    SET_INIT (state, category) {
+    MYLIST_IDX_INCREMENT(state){
+      state.myList_idx++
+    },
+    SET_INIT (state) {
       state.idx = 0
       state.product = []
-      state.category = category
     },
     SET_INIT_BOARD(state, boardtype){
-      state.board_idx = 0
+      state.board_count = 0
       state.board = []
       state.boardtype = boardtype
+    },
+    SET_BOARD_IDX(state, board_idx){
+      state.board_idx = board_idx
+    },
+    SET_MYLIST(state){
+      state.myList = [],
+      state.myList_idx = 0
     }
   },
   //보드를 추가하는 액션 api 콜을 해서 보드 생성 -> 비동기 처리시 actions 사용
@@ -67,7 +84,7 @@ const store = new Vuex.Store({
         if(data.length == 0){
           state.readFlag = false;
         }
-        else if(data.length < 6){
+        else if(data.length < 20){
           commit('IDX_INCREMENT', 1);
           state.product.push(...data);
           state.readFlag = false;
@@ -76,16 +93,15 @@ const store = new Vuex.Store({
           commit('IDX_INCREMENT', 1);
           state.product.push(...data);
           state.readFlag = true;
-
         }
       })
     },
     FETCH_BOARD_READMORE({commit, state}, {boardtype}){
-      return api.board.fetch(boardtype, state.board_idx).then(data=>{
+      return api.board.fetch(boardtype, state.board_count).then(data=>{
         if(data.length == 0){
           state.board_readFlag = false;
         }
-        else if(data.length <= 6){
+        else if(data.length < 20){
           commit('BOARD_IDX_INCREMENT',1)
           state.board.push(...data);
           state.board_readFlag = false;
@@ -94,6 +110,31 @@ const store = new Vuex.Store({
           commit('BOARD_IDX_INCREMENT',1)
           state.board.push(...data);
           state.board_readFlag = true;
+        }
+      })
+    },
+    FETCH_MYLIST_READMORE({commit, state}, {userid, category_type, category}){
+      var key = 0;
+      if(category == 0) {
+        key = 99;
+      }
+      else {
+        key = category;
+      }
+      console.log("FETCH_MYLIST_READMORE", userid, category_type, category);
+      return api.product.mylist(userid, state.myList_idx, category_type, key).then(data=>{
+        if(data.length == 0){
+          state.myList_readFlag = false;
+        }
+        else if(data.length < 20){
+          commit('MYLIST_IDX_INCREMENT',1)
+          state.myList.push(...data);
+          state.myList_readFlag = false;
+        }
+        else{
+          commit('MYLIST_IDX_INCREMENT',1)
+          state.myList.push(...data);
+          state.myList_readFlag = true;
         }
       })
     }

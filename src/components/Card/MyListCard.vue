@@ -1,0 +1,73 @@
+<template>
+  <div class="content">
+        <div class="container">
+          <div style="color:#888; text-align:center; margin:20px;">
+            <span> 4점 이상 부여한 상품들 입니다.</span>
+          </div>
+          <div v-if="this.$store.state.myList.length > 0" class="row" style="margin-bottom: 50px;">
+            <div class="div_style" v-for="item in this.$store.state.myList">
+              <div class="in">
+                <a style="color:#000000;" v-on:click="detail(item.id)">
+                  <img v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
+                  <div v-lazy:background-image="item.url"></div>
+                  <h6> <b>{{item.name}}</b> </h6>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div v-else class="container">
+              <div class="row" >
+                  <div class="col-md-8 ml-auto mr-auto text-center">
+                      <h4 class="title">선택한 상품이 없습니다.</h4>
+                  </div>
+              </div>
+          </div>
+          <div v-if="this.$store.state.myList_readFlag" style="text-align:center; height:100px;">
+            <a style="color:#000000;" v-on:click="readMore()">
+              <span>더보기..</span>
+            </a>
+          </div>
+      </div>
+    </div>
+</template>
+
+
+<script>
+import { product } from '../../api'
+
+export default{
+
+  created(){
+    this.returnPath = this.$route.query.returnPath || '/detail'
+    this.userid = localStorage.getItem('id');
+    //this.readMore();
+  },
+  data(){
+    return{
+      returnPath : '',
+      userid : ''
+    }
+  },
+  methods:{
+    readMore(){
+      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+    },
+    detail(id){
+      this.$store.state.productDetail_name = 'mylist'
+      this.returnPath = this.returnPath +'/' + id
+      this.$router.push(this.returnPath)
+    }
+  }
+}
+</script>
+
+<style>
+.div_style{
+  width: 50%;
+  margin-bottom: 20px;
+}
+.in {
+  width: 100%;
+  text-align: center;
+}
+</style>

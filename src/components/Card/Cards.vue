@@ -8,7 +8,7 @@
        :data-background-color="color">
    <div class="author" align="left" style="padding:5px;">
      <h6></h6>
-       <a v-bind:href="url" target="_blank" v-on:click="trackOutboundLink(title, url)">
+       <a v-on:click="trackOutboundLink(title, url)">
          <img v-lazy="logoimgurl" alt="..." class="avatar img-raised">
          <span>{{title}}</span>
        </a>
@@ -55,7 +55,7 @@
             <ul class="ul_style" v-for="video in eventvideo">
               <li class="li_style" v-if="video.videourl == item.direct_url">
                 <h6>
-                  <a v-bind:href="video.url" target="_blank">
+                  <a v-on:click="trackOutboundLinkVideo(video.subject, video.url)">
                     <div class="div_effect">
                       <div class="div_style_1">
                         {{video.id}}.
@@ -137,9 +137,27 @@ export default {
    methods:{
      trackOutboundLink: function (title,url) {
        gtag('event','이커머스클릭',{'event_category':title,'event_label':url});
+       if(navigator.userAgent.match(/Android|Tablet/i)){
+         window.android.bridge(url);
+       }
+       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+         window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+       }
+       else {
+         window.open(url, '_blank');
+       }
      },
-     trackOutboundLinkVideo: function (title,subject) {
-       gtag('event','유투브상품클릭',{'event_category':title,'event_label':subject});
+     trackOutboundLinkVideo: function (title,url) {
+       //gtag('event','유투브상품클릭',{'event_category':title,'event_label':url});
+       if(navigator.userAgent.match(/Android|Tablet/i)){
+         window.android.bridge(url);
+       }
+       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+         window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+       }
+       else {
+         window.open(url, '_blank');
+       }
      },
      pageChange(){
        //현재 유투브 영상이 틀어져있으면 off

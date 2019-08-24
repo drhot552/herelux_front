@@ -6,6 +6,9 @@ import axios from 'axios'
 import VeeValidate from 'vee-validate'
 import VueUp from 'vueup'
 import store from './store'
+import Vue2TouchEvents from 'vue2-touch-events'
+
+Vue.use(Vue2TouchEvents)
 Vue.use(VueUp)
 Vue.use(VeeValidate)
 Vue.use(NowUIKit)

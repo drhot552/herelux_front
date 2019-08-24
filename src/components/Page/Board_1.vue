@@ -1,5 +1,5 @@
 <template>
-  <div class="section" style="padding:52px 0;">
+  <div class="section" style="padding:51px 0;">
     <div class="container" style="padding-left:0px; padding-right:0px;">
         <tabs slot="raw-content">
               <tab-pane >
@@ -27,12 +27,15 @@
   </div>
 </template>
 <script>
-import Tabs from '../Component/WriteTabs';
+import Tabs from '../Component/BoardTabs';
 import TabPane from '../Component/Tab';
 export default{
   components:{
     Tabs,
     TabPane
+  },
+  created(){
+    this.$store.commit('SET_INIT_BOARD', this.$store.state.boardtype);
   }
 
 }

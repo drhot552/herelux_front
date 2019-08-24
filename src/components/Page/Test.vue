@@ -1,53 +1,85 @@
 <template>
-  <div class="section" style="padding:51px 0;">
-    <div class="container" style="padding-left:0px; padding-right:0px;">
+  <div>
+    <div class="section" style="padding:51px 0;">
+      <div class="container" style="padding-left:0px; padding-right:0px;">
 
-      <ul class="tabs_board" ref="tabbar">
-         <div class="tabitem_board" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
-           {{tab.descript}}
-         </div>
-         <div class="slider" :style="'transform:translateX('+activetab*tabwidth+'px)'">
-         </div>
-       </ul>
-      <div ref="tcon" class="tabcontainer_board">
-        <transition :name="transition" v-for="(tab, index) in items" :key="index">
-           <div class="tabpane" v-if="index === activetab">
-             <BoardCard>
-             </BoardCard>
+        <ul class="tabs" ref="tabbar">
+           <div class="tabitem" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
+             {{tab.descript}}
            </div>
-        </transition>
+           <div class="slider" :style="'transform:translateX('+activetab*tabwidth+'px)'">
+           </div>
+         </ul>
+        <div ref="tcon" class="tabcontainer">
+          <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
+            <h5 style="float:left;">
+                내가 선택한 상품 리스트
+            </h5>
+            <h6 style="float:right; margin-top:15px; margin-right:15px;">
+              <a v-if="this.$store.state.myList_category <= 5" v-on:click="test()">
+                <img src="/public/img/btn_filter.png" style="height:18px;"/>
+                <b>필터링</b>
+              </a>
+            </h6>
+
+          </div>
+          <div style="text-align:right; margin-right:30px; margin-bottom:20px;">
+
+          </div>
+          <transition :name="transition" v-for="(tab, index) in items" :key="index">
+             <div class="tabpane" v-if="index === activetab">
+               <MyListCard>
+               </MyListCard>
+             </div>
+          </transition>
+        </div>
       </div>
     </div>
+    <modal :show.sync="modalShow" headerClasses="justify-content-center">
+      <h4 slot="header" class="title title-up"></h4>
+      <div class="modal-view">
+        <div style="text-align:center; border-bottom:1px solid hsla(0,0%,53%,.3); padding:5px;" v-for="item in category_middle">
+          <a v-on:click="categorySelect(item.minor_key, item.descript)">{{item.descript}}</a>
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
-import BoardCard from '../Card/BoardCard';
+import MyListCard from '../Card/MyListCard';
+import Modal from '../Component/Modal';
 import { code } from '../../api';
 export default{
   props:{
     item:Array
   },
   components:{
-    BoardCard
+    MyListCard,
+    Modal
   },
   data() {
     return {
       transition: "slide-next",
       activetab: 0,
       tabwidth: 90,
-      boardtype: 0,
+      category_type : 1,
+      data: 0,
       items:[],
       initialX : null,
       initialY : null,
-      category_middle:[]
+      modalShow: false,
+      category_middle:[],
+      subject : "전체",
+      userid : ""
     }
   },
  created(){
-   //게시판 초기 세팅 ->
-   //this.$store.commit('SET_INIT_BOARD', this.$store.state.boardtype);
-   this.activeTab = this.$store.state.boardTabStatus;
-   code.category(2).then(data=>{
+
+   this.userid = localStorage.getItem('id');
+
+   //전체가져오기
+   code.category(1).then(data=>{
      if(data.length == 0){
 
      }
@@ -56,7 +88,6 @@ export default{
        this.fetch();
      }
    })
-
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
@@ -97,7 +128,7 @@ export default{
         if(this.activetab == undefined)
         {
         }
-        else if(this.activetab >= 0 && this.activetab < 3)
+        else if(this.activetab >= 0 && this.activetab < 12)
         {
           this.switchtab(this.activetab + 1);
           console.log("switchTab", this.activetab);
@@ -144,7 +175,7 @@ export default{
       if(this.activetab>n){
         this.transition = "slide-prev"
          scroll = n-1
-        if(scond)
+        if(scond && this.$refs.tab[scroll])
           this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
       }else  if(this.activetab<n){
          this.transition = "slide-next"
@@ -152,20 +183,62 @@ export default{
       }
       scond = scroll>=0 && scroll < this.items.length
 
-      if(scond)
+      if(scond && this.$refs.tab[scroll])
         this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
 
       this.$nextTick(function() {
-      	this.activetab = n;
-        this.boardtype = n;
-        this.$store.state.boardTabStatus = n;
+      	this.activetab = n
+        this.subject = this.items[n].descript;
+
+        this.data = n;
+        this.$store.state.myList_category = n;
+
         this.fetch();
       })
     },
     fetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
-      this.$store.commit('SET_INIT_BOARD', this.boardtype);
-      this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.boardtype});
+      this.category_type  = 1;
+      this.$store.commit('SET_MYLIST');
+      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.category_type, category:this.$store.state.myList_category});
+      // console.log(this.$store.state.readFlag)
+    },
+    categorySelect(key, descript){
+      // 카테고리 타입이 2이면 부카테고리로 set한다
+      this.subject = descript;
+      this.category_type = 2;
+      this.$store.commit('SET_MYLIST');
+      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.category_type, category:key});
+      this.modalShow = false;
+    },
+    popup(){
+      //category key = 1
+      var idx = 0;
+      if(this.data != 0){
+        idx = (this.data * 10) + 1;
+      }
+      else
+      {
+        idx = 99;
+      }
+      code.category(idx).then(result=>{
+        if(result.length == 0){
+
+        }
+        else{
+          this.category_middle = result;
+          this.modalShow = true;
+        //  this.$refs['modal-category'].show()
+        }
+      })
+    },
+    test(msg){
+      if (window.android){
+        window.android.bridge("https://www.naver.com");
+        //json
+
+      }
+
     }
  }
 }
@@ -180,7 +253,7 @@ export default{
 
 .slide-next-leave-to, .slide-prev-enter, .slide-prev-leave {
 }
-.tabs_board{
+.tabs{
   display:flex;
   color: #f1f1f1;
   height:48px;
@@ -197,7 +270,7 @@ export default{
 width: 0 !important;
 height:0 !important;
 }
-.tabitem_board{
+.tabitem{
   display:flex;
   background:black;
   align-items:center;
@@ -205,13 +278,11 @@ height:0 !important;
   min-width:var(--tabwidth);
   cursor:pointer;
   font-size:14px;
-  width:100%;
 }
-.tabitem_board.active{
+.tabitem.active{
   font-weight: 500;
   background:black;
   color: white;
-  width:100%;
 }
 .slider{
   position:absolute;
@@ -221,7 +292,7 @@ height:0 !important;
   background:white;
   transition:.5s ease;
 }
-.tabcontainer_board {
+.tabcontainer {
   height:480px;
   position: relative;
   min-height: 100%;

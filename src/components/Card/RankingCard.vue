@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="container">
-          <div class="row" v-for="(item,i) in this.$store.state.product">
+          <div class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.product">
             <div class="div_ranking_1" style="margin-left:10px;">
               <!--순위대로 색을 다르게 check-->
                 <div class="layer">
@@ -30,15 +30,15 @@
             <div class="div_ranking_3">
               <img v-lazy="item.url"/>
             </div>
-            <router-link class="div_ranking_4" v-bind:to="`/detail/`+item.id">
-            </router-link>
-
+            <a class="div_ranking_4" style="z-index:0;" v-on:click="detail(item.id)">
+            </a>
           </div>
-          <div v-if="this.$store.state.readFlag" style="text-align:center; height:50px;">
+          <div v-if="this.$store.state.readFlag" style="text-align:center; height:100px; z-index:1;">
             <a style="color:#000000;" v-on:click="readMore()">
               <span>더보기..</span>
             </a>
           </div>
+
         </div>
   </div>
 </template>
@@ -51,16 +51,24 @@ export default {
   data(){
     return{
       descript:'',
-      title:''
+      title:'',
+      returnPath:''
     }
   },
   created(){
-    this.readMore();
+
+    this.returnPath = this.$route.query.returnPath || '/detail'
+    //this.readMore();
   },
   methods:{
     readMore(){
-
+      console.log("readMore");
       this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
+    },
+    detail(id){
+      this.$store.state.productDetail_name = 'ranking'
+      this.returnPath = this.returnPath +'/' + id
+      this.$router.push(this.returnPath)
     }
   }
 

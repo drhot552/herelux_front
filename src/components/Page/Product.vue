@@ -1,7 +1,7 @@
 <template>
   <div class="blogs-4">
       <div class="container">
-        <div class="row">
+        <div class="row" style="height:480px;">
           <article class="col-md-8 ml-auto mr-auto">
             <div v-if="productflag">
               <FavoriteCard type="blog" plain v-if="this.product.length > 0"

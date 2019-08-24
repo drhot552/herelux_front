@@ -10,6 +10,13 @@
               :navigation-prev-label="`<`" :pagination-position="`top-overlay`"	:navigation-enabled="true" :pagination-padding="2"
               :minSwipeDistance="30">
      <slide v-for="item in productimg">
+       <!--<div style="width:100%; padding-bottom:10px;">
+         <div style="display:inline-block;">
+           <h5>
+             평균점수 {{avg}} 점
+           </h5>
+         </div>
+      </div> -->
        <div v-if="loading" style="width:100%; height:100%; text-align: center;">
          <div style="display: inline-block; margin-top:150px;">
            <beat-loader :loading="loading" :color="'#888888'"></beat-loader>
@@ -18,15 +25,7 @@
        <div v-else>
          <images v-bind:img_url="item.url">
          </images>
-         <div style="width:100%;">
-           <div style="display:inline-block;">
-             <!--별점 주기-->
-             <h3>
-               평균점수 {{avg}} 점
-             </h3>
-           </div>
-        </div>
-       </div>
+      </div>
     </slide>
    </carousel>
    <div v-if="loading" style="width:100%; height:100%; text-align: center;">
@@ -40,9 +39,10 @@
          </h5>
        </div>
        <h6></h6>
+       <h6>평균점수 {{avg}} 점 </h6>
        <h6>크기 : {{size}}</h6>
        <h6>색상 : {{color}}</h6>
-       <h6>가격 : {{price}}</h6>
+       <h5 style="margin-bottom: 15px;">가격 : {{price}}</h5>
      </div>
      <div align="left" style="margin-left:15px; margin-right:15px;">
        <div style="border-top: 3px solid rgb(0,0,0); border-bottom: 3px solid rgb(0,0,0);">
@@ -50,6 +50,28 @@
          <h5 style="font-weight:400"> 상품 관련 글 보기 </h5>
        </div>
      </div>
+     <div align="left" style="margin-left:15px; margin-right:15px;">
+       <h5 style="font-weight:400"> 판매정보 </h5>
+    </div>
+    <!-- -->
+    <ul v-for="(item,i) in detailbrand" class="brand ul_style">
+      <li class="li_style" style="height: 60px;">
+        <a v-bind:href="item.url" target="_blank">
+          <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised" style="float:left;">
+          <span class="span_style">
+            >
+          </span>
+          <span class="span_style">
+            {{item.price}} 원
+          </span>
+          <span v-if="i ==0" class="span_style_1">
+            * 이미지출처
+          </span>
+        </a>
+      </li>
+    </ul>
+
+
    </div>
  </div>
 </div>
@@ -79,6 +101,14 @@ export default {
     created(){
       this.avg = this.star / this.count;
       this.avg = this.avg.toFixed(2);
+
+      product.detailbrand(this.id)
+        .then(data => {
+          this.detailbrand = data;
+        })
+        .catch(error =>{
+          console.log(error)
+        });
       this.listImage();
    },
    data(){
@@ -86,7 +116,8 @@ export default {
        productimg:[],
        loading:false,
        productflag : true,
-       avg : 0
+       avg : 0,
+       detailbrand : []
      }
    },
    methods:{
@@ -111,4 +142,52 @@ export default {
   }
 </script>
 <style>
+.avatar {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.brand {
+  width: 100%;
+  text-align: left;
+  margin-left: 15px;
+  margin-bottom: 15px;
+}
+.ul_style {
+    list-style: none;
+    padding: 0;
+    max-width: 100%;
+    margin: 10px auto;
+}
+.li_style{
+  color: #888;
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid hsla(0,0%,53%,.3);
+}
+.div_style_1{
+  float: left;
+  width: 10%;
+}
+.div_style_2{
+  float: left;
+  width: 55%;
+}
+.span_style{
+    float: left;
+    width: 30%;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 17px;
+    color: black;
+}
+.span_style_1{
+  text-align: right;
+  float: right;
+  margin-top: 10px;
+}
 </style>

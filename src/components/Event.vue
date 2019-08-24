@@ -1,6 +1,5 @@
 <template>
-  <div class="wrapper">
-    <div class="section-space"></div>
+  <div class="section" style="padding:51px 0;     overflow:auto;">
     <back-to-top bottom="20px" right="20px">
       <button type="button" class="goTop">
         <i class="fa fa-chevron-up"></i>
