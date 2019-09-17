@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <div class="container">
+        <div class="container" style="margin-bottom:80px">
           <div class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
                 v-for="(item,i) in this.$store.state.board">
             <div style="width:100%;">
@@ -55,7 +55,7 @@
             <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx">
             </router-link>
           </div>
-          <div v-if="this.$store.state.board_readFlag" style="text-align:center; height:50px;">
+          <div v-if="this.$store.state.board_readFlag" style="text-align:center; height: 7vh; padding-top: 15px;">
             <a style="color:#000000;" v-on:click="readMore()">
               <span>더보기..</span>
             </a>

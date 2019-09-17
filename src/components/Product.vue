@@ -1,5 +1,5 @@
 <template>
-  <div class="section" style="padding:51px 0;">
+  <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
     <Product></Product>
     <div class="section-space"></div>
   </div>

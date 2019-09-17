@@ -11,11 +11,11 @@
           <i v-if="this.$store.state.writeBoard_name != ''" class="now-ui-icons arrows-1_minimal-down" style="font-size:10px;"></i>
         </div>
         <div class="write_style" style="text-align:right;">
-           <a style="color:#888; font-size:1.2em;" v-on:click="checklist()"> 등록 </a>
+           <a style="color:#888; font-size:1.2em;" v-on:click="checklist()"> 수정 </a>
         </div>
       </div>
 
-      <modal :show.sync="modalShowWrite" headerClasses="justify-content-center">
+      <modal :show.sync="modalShowBoard" headerClasses="justify-content-center">
         <h4 slot="header" class="title title-up">{{title}}</h4>
         <p>{{descript}}</p>
         <template slot="footer" class="justify-content-center">
@@ -56,7 +56,7 @@ import Modal from '../Component/Modal';
         returnPath:'',
         forum:[],
         modalShow:false,
-        modalShowWrite:false
+        modalShowBoard:false
       }
     },
     mounted(){
@@ -107,7 +107,7 @@ import Modal from '../Component/Modal';
         }
       },
       onClose(){
-        this.modalShowWrite = false;
+        this.modalShowBoard = false;
       },
       checklist(){
 
@@ -152,9 +152,9 @@ import Modal from '../Component/Modal';
         }
       },
       writeAlarm(){
-        this.title = "게시글 등록";
-        this.descript = "게시글을 등록하시겠습니까?";
-        this.modalShowWrite  = true;
+        this.title = "게시글 수정";
+        this.descript = "게시글을 수정하시겠습니까?";
+        this.modalShowBoard  = true;
       },
       handleOk() {
        // Prevent modal from closing
@@ -173,7 +173,7 @@ import Modal from '../Component/Modal';
         axios.post('http://54.180.153.54:4000/board/write', this.$store.state.formData, settings)
          .then(data => {
           console.log(data)
-          this.modalShowWrite = false;
+          this.modalShowBoard = false;
           this.$router.push(this.returnPath);
 
          }).catch(response => {

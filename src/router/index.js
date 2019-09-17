@@ -15,6 +15,8 @@ const MainNavbar = () => import('../components/Layout/MainNavbar.vue');
 const FooterNavbar = () => import('../components/Layout/FooterNavbar.vue');
 const WriteNavbar = () => import('../components/Layout/WriteNavbar.vue');
 const BoardNavbar = () => import('../components/Layout/BoardNavbar.vue');
+const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
+const UpdateNavbar = () => import('../components/Layout/UpdateNavbar.vue');
 const MyList = () => import('../components/Page/MyList.vue');
 const Detail = () => import('../components/Detail.vue');
 const Ranking = () => import('../components/Page/Ranking.vue');
@@ -22,7 +24,6 @@ const Board = () => import('../components/Page/Board.vue');
 const Write = () => import('../components/Page/Write.vue');
 const Register = () => import('../components/Page/Register.vue');
 const Search = () => import('../components/Page/Search.vue');
-const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
 const BoardDetail = () => import('../components/Page/BoardDetail.vue');
 const Update = () => import('../components/Page/Update.vue');
 
@@ -199,7 +200,7 @@ const router = new Router({
     {
       path:'/update/:board_idx',
       name:'Update',
-      components:{default:Update, header:WriteNavbar, footer:FooterNavbar},
+      components:{default:Update, header:UpdateNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Update"}

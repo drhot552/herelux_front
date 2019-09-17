@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import Tabs from '../Component/WriteTabs';
+import Tabs from '../Component/UpdateTabs';
 import TabPane from '../Component/Tab';
 export default{
   components:{

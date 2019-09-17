@@ -1,9 +1,9 @@
 <template>
   <div class="blogs-4" id="blogs-4">
-      <div class="container">
-        <div class="row">
+      <div class="container" style="height: 71vh;">
+        <div class="row" style="height: 71vh;">
               <article class="col-md-8 ml-auto mr-auto" v-for="herelux in event">
-                <div v-if="herelux.brands_name=='Herelux'">
+                <div v-if="herelux.brands_name=='Herelux'" style="padding-bottom: 30px;">
                   <card type="blog" plain v-bind:title="herelux.brands_name" v-bind:url="herelux.url"
                         v-bind:logoimgurl="herelux.logoimgurl">
                   </card>
@@ -15,7 +15,7 @@
               </article>
 
               <article class="col-md-8 ml-auto mr-auto" v-for="(brands,i) in event">
-                <div v-if="brands.brands_name!='Herelux'">
+                <div v-if="brands.brands_name!='Herelux'" style="padding-bottom: 30px;">
                   <card type="blog" plain v-bind:title="brands.brands_name" v-bind:url="brands.url"
                       v-bind:logoimgurl="brands.logoimgurl">
                   </card>
@@ -32,7 +32,7 @@
                 </div>
 
               </article>
-              <article class="col-md-8 ml-auto mr-auto">
+              <article class="col-md-8 ml-auto mr-auto" style="padding-bottom: 30px;">
                 <Cauly v-bind:type="0">
                 </Cauly>
               </article>

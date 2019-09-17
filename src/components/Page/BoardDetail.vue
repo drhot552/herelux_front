@@ -1,6 +1,6 @@
 <template>
-  <div class="section" style="padding-bottom:130px;">
-    <div class="container" style="padding-left:0px; padding-right:0px;">
+  <div class="section" style="padding-bottom:130px; overflow:auto; -webkit-overflow-scrolling: touch; height:85vh">
+    <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
           <div style="height:70px; border-bottom:1px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
             <div style="padding-left:15px;">
               <h5 v-if="this.boardDetail[0].boardtype < 2" style="margin-top:0px;">
@@ -75,8 +75,8 @@
 
             <!-- 대댓글 보여주기 -->
             <div v-for="comment in commentdownArry" >
-              <div v-if="item.comment_idx == comment.comment_idx" style="padding-top:20px;padding-bottom:10px; background: gainsboro;">
-                <div style="padding-bottom:5px">
+              <div v-if="item.comment_idx == comment.comment_idx" style="padding-bottom:10px; background: gainsboro;">
+                <div style="padding-top: 10px; padding-bottom:5px">
                   <h6 style="padding-left:30px; float:left; ">
                     <b style="float:left; margin-right:11px;">{{comment.name}}</b>
                   </h6>
@@ -87,14 +87,14 @@
 
                 </div>
                 <div>
-                  <h6 style="padding-left:30px; float:left; width:100%; background: gainsboro;">
+                  <h6 style="margin-bottom: 0px;padding-bottom: 10px; padding-left:30px; float:left; width:100%; background: gainsboro;">
                     {{comment.descript}}
                   </h6>
                 </div>
                 <div>
-                  <a v-if="item.userid == userid" v-on:click="commentDownDelete(comment.commentdown_idx)" >
+                  <a v-if="comment.userid == userid" v-on:click="commentDownDelete(comment.commentdown_idx)" >
                     <img src="/public/img/btn_garbage.png" style="width: 13px; margin-bottom: 10px; float: left; margin-left: 30px; margin-right: 7px;"/>
-                    <h6 style="font-size:10px">삭제</h6>
+                    <h6 style="font-size:10px; margin-bottom: 0px;">삭제</h6>
                   </a>
                 </div>
               </div>
@@ -132,9 +132,9 @@
             </div>
           </a>
           <a v-else v-on:click="commentPopup()">
-          <div style="text-align:center;">
-            <i class="now-ui-icons ui-1_send"></i>
-          </div>
+            <div style="text-align:center;">
+              <i class="now-ui-icons ui-1_send"></i>
+            </div>
           </a>
         </div>
       </div>

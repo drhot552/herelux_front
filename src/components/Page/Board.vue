@@ -1,6 +1,6 @@
 <template>
-  <div class="section" style="padding:51px 0;">
-    <div class="container" style="padding-left:0px; padding-right:0px;">
+    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
+    <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
 
       <ul class="tabs_board" ref="tabbar">
          <div class="tabitem_board" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
@@ -184,7 +184,6 @@ export default{
   display:flex;
   color: #f1f1f1;
   height:48px;
-  width:100%;
   overflow-x:scroll;
   white-space:nowrap;
   overflow: -moz-scrollbars-none;
@@ -194,8 +193,8 @@ export default{
   padding:0;
 }
 .tabs::-webkit-scrollbar  {
-width: 0 !important;
-height:0 !important;
+  width: 0 !important;
+  height:0 !important;
 }
 .tabitem_board{
   display:flex;

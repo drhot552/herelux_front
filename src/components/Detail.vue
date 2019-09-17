@@ -1,6 +1,5 @@
 <template>
-  <div class="wrapper">
-    <div class="section-space"></div>
+  <div class="section" style="padding:51px 0px; overflow:auto; -webkit-overflow-scrolling: touch;">
     <ProductDetail></ProductDetail>
     <div class="section-space"></div>
   </div>

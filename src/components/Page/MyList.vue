@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="section" style="padding:51px 0;">
-      <div class="container" style="padding-left:0px; padding-right:0px;">
+    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
+      <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh;">
 
         <ul class="tabs" ref="tabbar">
            <div class="tabitem" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">

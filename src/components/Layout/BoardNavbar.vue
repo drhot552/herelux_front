@@ -1,6 +1,6 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-white fixed-top">
-      <div class="container">
+    <nav class="navbar bg-white fixed-top">
+      <div class="container" style="padding-right:0px; padding-left:0px;">
         <div class="board_style" style="text-align:left;">
           <router-link class="navbar-brand" to="/board" style="margin:0">
                     이전
@@ -9,32 +9,59 @@
         <div class="board_style_middle">
         </div>
         <div v-if="this.$store.state.boardCommentFlag" class="board_style" style="text-align:right;">
-           <a style="color:#888; font-size:1.2em;" v-on:click="update()"> 수정 </a>
+          <!-- <a style="color:#888; font-size:1.2em;" v-on:click="update()"> 수정 </a> -->
+           <a style="color:#888; font-size:1.2em;" v-on:click="deleteboard()"> 삭제 </a>
         </div>
       </div>
+      <modal :show.sync="modalShowBoard" headerClasses="justify-content-center">
+        <h4 slot="header" class="title title-up">{{title}}</h4>
+        <p>{{descript}}</p>
+        <template slot="footer" class="justify-content-center">
+          <button class="btn btn-secondary" v-on:click="onClose()">Close</button>
+          <button class="btn btn-primary" v-on:click="handleOk()">Ok</button>
+        </template>
+      </modal>
     </nav>
 </template>
 
 <script>
+import { board } from '../../api'
+import Modal from '../Component/Modal';
   export default {
     props: {
       transparent: Boolean,
-      colorOnScroll: Number,
+      colorOnScroll: Number
+    },
+    components:{
+      Modal
     },
     data(){
       return{
-        returnPath:''
+        returnPath:'',
+        modalShowBoard:false,
+        title : '',
+        descript : ''
       }
     },
     created(){
-      this.returnPath = this.$route.query.returnPath || '/update'
+      this.returnPath = this.$route.query.returnPath || '/board'
     },
     methods:{
-      update(){
-        //Write로 이동하기전에 모든 데이터 글, 포럼, 실제 그림 set해서 넘김
-        //이동 boardidx
-        this.returnPath = this.returnPath + '/' + this.$store.state.board_idx;
-         this.$router.push(this.returnPath);
+      deleteboard(){
+        //이미지 삭제
+        this.modalShowBoard = true;
+        this.title = "게시글 삭제";
+        this.descript = "게시글을 삭제하시겠습니까?";
+      },
+      handleOk(){
+        board.delete(this.$route.params.board_idx).then(data => {
+          console.log("delete", data);
+          this.$router.push(this.returnPath);
+        });
+      },
+      onClose(){
+        this.modalShowBoard = false;
+
       }
     }
   }
@@ -44,7 +71,6 @@ nav {
   text-align: center;
 }
 .board_style{
-  width:15%;
   color: rgb(136, 136, 136);
 }
 

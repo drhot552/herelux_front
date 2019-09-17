@@ -98,6 +98,9 @@ export const board = {
   },
   select(board_idx, boardtype){
     return request('get', '/board/select/' + board_idx + '/' + boardtype)
+  },
+  delete(board_idx){
+    return request('get', '/board/delete/' + board_idx)
   }
 }
 

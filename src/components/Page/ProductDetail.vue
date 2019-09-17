@@ -1,7 +1,7 @@
 <template>
 <div class="blogs-4">
-      <div class="container">
-        <div class="row">
+      <div class="container" style="height: 71vh;">
+        <div class="row" style="height: 71vh;">
           <article class="col-md-8 ml-auto mr-auto">
             <div v-if="productflag">
               <DetailCard type="blog" plain v-if="this.product.length > 0"
