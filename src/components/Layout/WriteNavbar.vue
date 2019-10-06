@@ -13,8 +13,9 @@
         <div class="write_style" style="text-align:right;">
            <a style="color:#888; font-size:1.2em;" v-on:click="checklist()"> 등록 </a>
         </div>
-      </div>
 
+      </div>
+      <!--popup -->
       <modal :show.sync="modalShowWrite" headerClasses="justify-content-center">
         <h4 slot="header" class="title title-up">{{title}}</h4>
         <p>{{descript}}</p>
@@ -32,6 +33,12 @@
           </div>
         </div>
       </modal>
+      <!-- loading -->
+      <loading :active.sync="this.$store.state.isLoading"
+                :can-cancel="true"
+                :is-full-page="true"
+                :z-index="1060">
+      </loading>
     </nav>
 </template>
 
@@ -39,13 +46,17 @@
 import axios from 'axios'
 import { code } from '../../api'
 import Modal from '../Component/Modal';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+  // Init plugin
   export default {
     props: {
       transparent: Boolean,
       colorOnScroll: Number,
     },
     components: {
-      Modal
+      Modal,
+      Loading
     },
     data(){
       return{
@@ -87,7 +98,8 @@ import Modal from '../Component/Modal';
       select(){
         //탭 id 기억, 상단 포럼 및 카테고리 초기화
         var  i = this.$store.state.writeBoard_Category;
-        if( i == 0 || i == 1 ) {
+        if( i == 1 || i == 2 ) {
+          this.$store.commit('ISLOADING', true);
           //major_key가 0이면 브랜드포럼 1이면 상품포럼
           code.forum(i).then(result=>{
             if(result.length == 0){
@@ -95,7 +107,7 @@ import Modal from '../Component/Modal';
             }
             else{
               this.forum = result;
-              if(i == 0){
+              if(i == 1){
                 this.title="포럼선택";
               }
               else{
@@ -103,6 +115,11 @@ import Modal from '../Component/Modal';
               }
               this.modalShow = true;
             }
+            this.$store.commit('ISLOADING', false);
+          }).catch(response => {
+           //error
+           console.log("error",response)
+           this.errorAlert();
           })
         }
       },
@@ -169,17 +186,23 @@ import Modal from '../Component/Modal';
         this.$store.state.formData.append('boardforum', this.$store.state.writeBoard_forum);
 
         //Image server Set
+        this.$store.commit('ISLOADING', true);
         let settings = { headers: { 'content-type': 'multipart/form-data' } }
         axios.post('http://54.180.153.54:4000/board/write', this.$store.state.formData, settings)
          .then(data => {
           console.log(data)
+          this.$store.commit('ISLOADING', false);
           this.modalShowWrite = false;
           this.$router.push(this.returnPath);
 
          }).catch(response => {
-          console.log(response)
-
+          //error
+          console.log("error",response)
+          this.errorAlert();
          })
+      },errorAlert(){
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        this.$router.push(this.$route.query.returnPath || '/error');
       }
     }
   }

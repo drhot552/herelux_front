@@ -50,11 +50,12 @@ export default{
   },
   methods:{
     readMore(){
+      this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
     },
     detail(id){
       this.$store.state.productDetail_name = 'mylist'
-      this.returnPath = this.returnPath +'/' + id
+      this.returnPath = this.returnPath +'/' + id + '/' + 'mylist'
       this.$router.push(this.returnPath)
     }
   }

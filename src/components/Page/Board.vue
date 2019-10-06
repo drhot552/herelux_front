@@ -18,18 +18,26 @@
         </transition>
       </div>
     </div>
+    <loading :active.sync="this.$store.state.isLoading"
+              :can-cancel="true"
+              :is-full-page="true"
+              :z-index="1060">
+    </loading>
   </div>
 </template>
 
 <script>
 import BoardCard from '../Card/BoardCard';
 import { code } from '../../api';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default{
   props:{
     item:Array
   },
   components:{
-    BoardCard
+    BoardCard,
+    Loading
   },
   data() {
     return {
@@ -45,9 +53,11 @@ export default{
   },
  created(){
    //게시판 초기 세팅 ->
-   //this.$store.commit('SET_INIT_BOARD', this.$store.state.boardtype);
+   //this.$store.commit('SET_INIT_BOARD', this.$store.state.boardtype);\
+   this.$store.commit('ISLOADING', true);
    this.activeTab = this.$store.state.boardTabStatus;
-   code.category(2).then(data=>{
+   code.category(3).then(data=>{
+     this.isLoading = false;
      if(data.length == 0){
 
      }
@@ -55,7 +65,13 @@ export default{
        this.items = data;
        this.fetch();
      }
-   })
+     this.$store.commit('ISLOADING', false);
+   }).catch(error =>{
+     console.log("error",error);
+     //alert 후 페이지 이동
+     this.errorAlert();
+   });
+
 
  },
  mounted(){
@@ -97,7 +113,7 @@ export default{
         if(this.activetab == undefined)
         {
         }
-        else if(this.activetab >= 0 && this.activetab < 3)
+        else if(this.activetab >= 0 && this.activetab < 4)
         {
           this.switchtab(this.activetab + 1);
           console.log("switchTab", this.activetab);
@@ -165,7 +181,12 @@ export default{
     fetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
       this.$store.commit('SET_INIT_BOARD', this.boardtype);
+      this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.boardtype});
+    },
+    errorAlert(){
+      alert("서버와의 통신 에러가 발생하였습니다.");
+      this.$router.push(this.$route.query.returnPath || '/error');
     }
  }
 }
@@ -184,6 +205,7 @@ export default{
   display:flex;
   color: #f1f1f1;
   height:48px;
+  width:100%;
   overflow-x:scroll;
   white-space:nowrap;
   overflow: -moz-scrollbars-none;
@@ -204,13 +226,12 @@ export default{
   min-width:var(--tabwidth);
   cursor:pointer;
   font-size:14px;
-  width:100%;
+
 }
 .tabitem_board.active{
   font-weight: 500;
   background:black;
   color: white;
-  width:100%;
 }
 .slider{
   position:absolute;

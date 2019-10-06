@@ -56,7 +56,7 @@
     <!-- -->
     <ul v-for="(item,i) in detailbrand" class="brand ul_style">
       <li class="li_style" style="height: 60px;">
-        <a v-bind:href="item.url" target="_blank">
+        <a v-on:click="detailClick(item.url)" >
           <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised" style="float:left;">
           <span class="span_style">
             >
@@ -103,12 +103,15 @@ export default {
       this.avg = this.star / this.count;
       this.avg = this.avg.toFixed(2);
 
+      this.$store.commit('ISLOADING', true);
       product.detailbrand(this.id)
         .then(data => {
           this.detailbrand = data;
+          this.$store.commit('ISLOADING', false);
         })
         .catch(error =>{
           console.log(error)
+          this.errorAlert();
         });
       this.listImage();
    },
@@ -123,13 +126,16 @@ export default {
    },
    methods:{
      listImage(){
+       this.$store.commit('ISLOADING', true);
        product.select(this.id)
          .then(data => {
            this.productimg = data;
            console.log(data);
+           this.$store.commit('ISLOADING', false);
          })
          .catch(error =>{
            console.log(error)
+           this.errorAlert();
          });
      },
      fetchData(){
@@ -137,6 +143,21 @@ export default {
        setTimeout(() => {
          this.loading=false
        }, 500)
+     },
+     detailClick(url){
+       if(navigator.userAgent.match(/Android|Tablet/i)){
+         window.android.bridge(url);
+       }
+       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+         window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+       }
+       else {
+         window.open(url, '_blank');
+       }
+     },
+     errorAlert(){
+       alert("서버와의 통신 에러가 발생하였습니다.");
+       this.$router.push(this.$route.query.returnPath || '/error');
      }
    }
 

@@ -21,19 +21,28 @@
           <button class="btn btn-primary" v-on:click="handleOk()">Ok</button>
         </template>
       </modal>
+      <loading :active.sync="this.$store.state.isLoading"
+                :can-cancel="true"
+                :is-full-page="true"
+                :z-index="1060">
+      </loading>
     </nav>
 </template>
 
 <script>
 import { board } from '../../api'
 import Modal from '../Component/Modal';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
   export default {
     props: {
       transparent: Boolean,
       colorOnScroll: Number
     },
     components:{
-      Modal
+      Modal,
+      Loading
     },
     data(){
       return{
@@ -54,10 +63,18 @@ import Modal from '../Component/Modal';
         this.descript = "게시글을 삭제하시겠습니까?";
       },
       handleOk(){
+        this.$store.commit('ISLOADING', true);
+        
         board.delete(this.$route.params.board_idx).then(data => {
           console.log("delete", data);
           this.$router.push(this.returnPath);
-        });
+          this.$store.commit('ISLOADING', false);
+        }).catch(error =>{
+          console.log("error",error);
+          //alert 후 페이지 이동
+          alert("서버와의 통신 에러가 발생하였습니다.");
+          this.$router.push(this.$route.query.returnPath || '/error');
+        });;
       },
       onClose(){
         this.modalShowBoard = false;

@@ -3,19 +3,19 @@
     <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
           <div style="height:70px; border-bottom:1px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
             <div style="padding-left:15px;">
-              <h5 v-if="this.boardDetail[0].boardtype < 2" style="margin-top:0px;">
+              <h5 v-if="this.boardDetail[0].boardtype < 3" style="margin-top:0px;">
                 <b>
                 {{`[` + this.boardDetail[0].brand + `]`}}
                 {{this.boardDetail[0].subject}}
                 </b>
               </h5>
-              <h5 v-else-if="this.boardDetail[0].boardtype == 2">
+              <h5 v-else-if="this.boardDetail[0].boardtype == 3">
                 <b>
                 {{`[뭐살까?]`}}
                 {{this.boardDetail[0].subject}}
                 </b>
               </h5>
-              <h5 v-else-if="this.boardDetail[0].boardtype == 3">
+              <h5 v-else-if="this.boardDetail[0].boardtype == 4">
                 <b>
                 {{`[자유게시판]`}}
                 {{this.boardDetail[0].subject}}
@@ -148,14 +148,24 @@
         <button class="btn btn-primary" v-on:click="handleOk()">Ok</button>
       </template>
     </modal>
+
+    <!-- loading -->
+    <loading :active.sync="this.$store.state.isLoading"
+              :can-cancel="true"
+              :is-full-page="true"
+              :z-index="1060">
+    </loading>
   </div>
 </template>
 <script>
 import { comment, board } from '../../api'
 import Modal from '../Component/Modal';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default{
   components:{
-    Modal
+    Modal,
+    Loading
   },
   data(){
     return{
@@ -186,6 +196,8 @@ export default{
     //댓글 상태변수 set
     this.$store.state.boardCommentFlag = false;
     //게시판 조회
+    this.$store.commit('ISLOADING', true);
+
     board.select(this.board_idx,this.$store.state.boardtype).then(data => {
       if(data.length > 0 ){
         this.boardDetail = data;
@@ -201,8 +213,11 @@ export default{
         this.commentDownSelect();
         this.commentSelect();
       }
+      this.$store.commit('ISLOADING', false);
     }).catch(error =>{
-      console.log(error);
+      console.log("error",error);
+      //alert 후 페이지 이동
+      this.errorAlert();
     });
 
   },
@@ -212,13 +227,17 @@ export default{
     },
     handleOk(){
       //modalFlag = 1 댓글 삽입
+      this.$store.commit('ISLOADING', true);
+
       if(this.modalFlag == 1){
         comment.commentInsert(this.board_idx, this.userid, this.nickName, $("#comment").text()).then(data=>{
           $("#comment").text("");
           this.commentDownSelect(); //대댓글조회
           this.commentSelect(); //댓글조회
+          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
+          this.errorAlert();
         });
       }
       //modalFlag = 2 댓글삭제
@@ -226,8 +245,10 @@ export default{
         comment.commentDelete(this.comment_idx).then(data=>{
           this.commentDownSelect(); //대댓글조회
           this.commentSelect();
+          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
+          this.errorAlert();
         });
       }
       //modalFlag = 3 대댓글 입력
@@ -237,8 +258,10 @@ export default{
           this.commentFold();
           this.commentDownSelect(); //대댓글조회
           this.commentSelect();
+          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
+          this.errorAlert();
         });
       }
       //modalFlag == 4 대댓글 삭제
@@ -247,17 +270,21 @@ export default{
           console.log("commentdowndelete" ,this.commentdown_idx);
           this.commentDownSelect(); //대댓글조회
           this.commentSelect();
+          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
+          this.errorAlert();
         });
       }
 
     },
     commentSelect(){
       this.comment = [];
+      this.modalShowComment = false;
+      this.$store.commit('ISLOADING', true);
+
       comment.commentSelect(this.board_idx).then(data =>{
         if(data.length > 0){
-          this.modalShowComment = false;
           this.comment = data;
 
           //댓글리스트에 내 아이디가 있는지 체크 && 글 작성자가 아닌지 체크 -> 없으면 랜덤으로 아이디 부여
@@ -267,16 +294,20 @@ export default{
             }
           }
         }
+        this.$store.commit('ISLOADING', false);
       }).catch(error=>{
         console.log(error);
+        this.errorAlert();
       });
     },
     commentDownSelect(){
       this.commentdownArry = [];
+      this.modalShowComment = false;
+      this.$store.commit('ISLOADING', true);
+
       comment.commentDownSelect(this.board_idx).then(data =>{
         if(data.length > 0){
           console.log(data[0].comment_idx);
-          this.modalShowComment = false;
           this.commentdownArry = data;
 
           //댓글리스트에 내 아이디가 있는지 체크 && 글 작성자가 아닌지 체크 -> 없으면 랜덤으로 아이디 부여
@@ -287,8 +318,10 @@ export default{
           }
 
         }
+        this.$store.commit('ISLOADING', false);
       }).catch(error=>{
         console.log(error);
+        this.errorAlert();
       });
     },
     commentPopup(){
@@ -337,6 +370,10 @@ export default{
     },
     commentFold(){
       this.commentdownFlag = false;
+    },
+    errorAlert(){
+      alert("서버와의 통신 에러가 발생하였습니다.");
+      this.$router.push(this.$route.query.returnPath || '/error');
     }
   }
 }

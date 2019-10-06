@@ -22,6 +22,7 @@
     "vue-carousel": "^0.17.0",
     "vue-infinite-loading": "^2.4.3",
     "vue-lazyload": "^1.2.6",
+    "vue-loading-overlay": "^3.2.0",
     "vue-router": "^3.0.2",
     "vue-spinner": "^1.0.3",
     "vue-star-rating": "^1.6.1",

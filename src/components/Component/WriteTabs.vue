@@ -164,21 +164,21 @@ import WriteCard from '../Card/WriteCard';
         this.data = i;
 
         //탭 id 기억, 상단 포럼 및 카테고리 초기화
-        this.$store.state.writeBoard_Category = i;
+        this.$store.state.writeBoard_Category = i + 1;
         this.$store.state.writeBoard_name = '';
         this.$store.state.writeBoard_image  = [];
-
+        this.$store.state.writeBoard_forum = 0;
         //탭누를때마다 해당 값은
         // i=0 브랜드 포럼 i=1 이거샀어
-        if( i == 0 || i == 1 ) {
+        if( this.$store.state.writeBoard_Category == 1 || this.$store.state.writeBoard_Category == 2 ) {
           //major_key가 0이면 브랜드포럼 1이면 상품포럼 코드값 세팅
-          code.forum(i).then(result=>{
+          code.forum(this.$store.state.writeBoard_Category).then(result=>{
             if(result.length == 0){
                 //server Error
             }
             else{
               this.forum = result;
-              if(i == 0){
+              if(this.$store.state.writeBoard_Category == 1){
                 this.$store.state.writeBoard_name = "포럼선택";
               }
               else{
@@ -228,7 +228,7 @@ import WriteCard from '../Card/WriteCard';
         }
       });
       //처음 화면 접속시 Init -> 브랜드포럼 가장먼저 set
-      code.forum(0).then(result=>{
+      code.forum(1).then(result=>{
         if(result.length == 0){
 
         }

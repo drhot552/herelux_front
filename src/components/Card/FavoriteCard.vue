@@ -109,6 +109,7 @@ export default {
      setRating: function(rating){
        this.user = localStorage.getItem('id');
        this.notify(rating);
+       this.$store.commit('ISLOADING', true);
        setTimeout(() => {
          product.insert(this.id, this.user, rating)
            .then(data => {
@@ -136,23 +137,28 @@ export default {
             else{
               this.productflag = false;
             }
+            this.$store.commit('ISLOADING', false);
             //동기화 진행
-           })
-           .catch(error =>{
-             console.log(error)
-           })
+           }).catch(error =>{
+             console.log("error",error);
+             //alert 후 페이지 이동
+             this.errorAlert();
+           });
        }, 1000)
 
        //gtag('product','별점주기',{'event_category':this.name,'event_label':rating});
      },
      listImage(){
+       this.$store.commit('ISLOADING', true);
        product.select(this.id)
          .then(data => {
            this.productimg = data;
            console.log(data);
+           this.$store.commit('ISLOADING', false);
          })
          .catch(error =>{
            console.log(error)
+           this.errorAlert();
          });
      },
      fetchData(){
@@ -170,6 +176,10 @@ export default {
     },
     onClose(){
       this.modalShow = false;
+    },
+    errorAlert(){
+      alert("서버와의 통신 에러가 발생하였습니다.");
+      this.$router.push(this.$route.query.returnPath || '/error');
     }
    }
 

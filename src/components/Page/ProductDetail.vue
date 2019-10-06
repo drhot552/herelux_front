@@ -19,15 +19,23 @@
           </article>
         </div>
       </div>
+      <loading :active.sync="this.$store.state.isLoading"
+                :can-cancel="true"
+                :is-full-page="true"
+                :z-index="1060">
+      </loading>
 </div>
 </template>
 <script>
 import DetailCard from '../Card/DetailCard'
 import { product } from '../../api'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   components: {
-    DetailCard
+    DetailCard,
+    Loading
   },
   data(){
     return{
@@ -43,6 +51,7 @@ export default {
   },
   methods:{
     listProduct(){
+      this.$store.commit('ISLOADING', true);
       product.detail(this.productId).then(data => {
         //만약에 없으면 금일 상품을 모두 선택했다는 메시지로 변경
         if(data.length > 0){
@@ -52,9 +61,12 @@ export default {
         else{
           this.productflag = false;
         }
+        this.$store.commit('ISLOADING', false);
       })
       .catch(error =>{
         console.log(error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        this.$router.push(this.$route.query.returnPath || '/error');
       });
     }
   }

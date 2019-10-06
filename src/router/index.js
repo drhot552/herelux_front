@@ -17,6 +17,8 @@ const WriteNavbar = () => import('../components/Layout/WriteNavbar.vue');
 const BoardNavbar = () => import('../components/Layout/BoardNavbar.vue');
 const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
 const UpdateNavbar = () => import('../components/Layout/UpdateNavbar.vue');
+const ProductNavbar = () => import('../components/Layout/ProductNavbar.vue');
+
 const MyList = () => import('../components/Page/MyList.vue');
 const Detail = () => import('../components/Detail.vue');
 const Ranking = () => import('../components/Page/Ranking.vue');
@@ -26,7 +28,7 @@ const Register = () => import('../components/Page/Register.vue');
 const Search = () => import('../components/Page/Search.vue');
 const BoardDetail = () => import('../components/Page/BoardDetail.vue');
 const Update = () => import('../components/Page/Update.vue');
-
+const Error = () => import('../components/Page/Error.vue');
 //테스트
 const Test = () => import('../components/Test.vue');
 
@@ -143,9 +145,9 @@ const router = new Router({
       }
     },
     {
-      path:'/detail/:id',
+      path:'/detail/:id/:pagetype',
       name:'Detail',
-      components:{default:Detail, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Detail, header:ProductNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Detail"}
       }
@@ -204,6 +206,15 @@ const router = new Router({
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Update"}
+      }
+    },
+    {
+      path:'/error',
+      name:'Error',
+      components:{default:Error, header:MainNavbar, footer:FooterNavbar},
+      beforeEnter:requireAuth,
+      props:{
+        header:{colorOnScroll:0,pageName:"Error"}
       }
     },
     {

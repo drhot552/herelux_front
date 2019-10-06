@@ -43,6 +43,11 @@
         </div>
       </div>
     </modal>
+    <loading :active.sync="this.$store.state.isLoading"
+              :can-cancel="true"
+              :is-full-page="true"
+              :z-index="1060">
+    </loading>
   </div>
 </template>
 
@@ -50,13 +55,17 @@
 import MyListCard from '../Card/MyListCard';
 import Modal from '../Component/Modal';
 import { code } from '../../api';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default{
   props:{
     item:Array
   },
   components:{
     MyListCard,
-    Modal
+    Modal,
+    Loading
   },
   data() {
     return {
@@ -77,9 +86,10 @@ export default{
 
    this.userid = localStorage.getItem('id');
    this.activetab = this.$store.state.myList_category;
+   this.$store.commit('ISLOADING', true);
 
    //전체가져오기
-   code.category(1).then(data=>{
+   code.category(2).then(data=>{
      if(data.length == 0){
 
      }
@@ -87,7 +97,12 @@ export default{
        this.items = data;
        this.fetch();
      }
-   })
+     this.$store.commit('ISLOADING', false);
+   }).catch(error =>{
+     console.log("error",error);
+     //alert 후 페이지 이동
+     this.errorAlert();
+   });
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
@@ -200,6 +215,7 @@ export default{
       // 카테고리 타입이 1이면 대 카테고리로 set한다
       this.$store.state.myList_category_type = 1;
       this.$store.commit('SET_MYLIST');
+      this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
       // console.log(this.$store.state.readFlag)
     },
@@ -209,6 +225,7 @@ export default{
       this.$store.state.myList_category_type = 2;
       this.$store.state.myList_category = key;
       this.$store.commit('SET_MYLIST');
+      this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
       this.modalShow = false;
     },
@@ -222,6 +239,7 @@ export default{
       {
         idx = 99;
       }
+      this.$store.commit('ISLOADING', true);
       code.category(idx).then(result=>{
         if(result.length == 0){
 
@@ -231,7 +249,16 @@ export default{
           this.modalShow = true;
         //  this.$refs['modal-category'].show()
         }
-      })
+        this.$store.commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        //alert 후 페이지 이동
+        this.errorAlert();
+      });
+    },
+    errorAlert(){
+      alert("서버와의 통신 에러가 발생하였습니다.");
+      this.$router.push(this.$route.query.returnPath || '/error');
     }
  }
 }

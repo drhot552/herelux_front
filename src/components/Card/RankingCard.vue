@@ -62,12 +62,12 @@ export default {
   },
   methods:{
     readMore(){
-      console.log("readMore");
+      this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
     },
     detail(id){
       this.$store.state.productDetail_name = 'ranking'
-      this.returnPath = this.returnPath +'/' + id
+      this.returnPath = this.returnPath +'/' + id + '/ranking'
       this.$router.push(this.returnPath)
     }
   }

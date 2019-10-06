@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import * as api from '../api'
+import router from '../router'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,7 @@ const store = new Vuex.Store({
     /* Ranking Tab 변수 */
     rankTabStatus : 0,
     /* Write 변수 */
-    writeBoard_Category : 0,
+    writeBoard_Category : 1,
     writeBoard_Forum : 0,
     writeBoard_name : '',
     writeBoard_image : [],
@@ -40,7 +41,10 @@ const store = new Vuex.Store({
     myList_idx: 0,
     myList_readFlag : false,
     myList_category : 0,
-    myList_category_type : 1
+    myList_category_type : 1,
+
+    /* Loading */
+    isLoading : false
   },
   //변수 set
   mutations: {
@@ -68,6 +72,9 @@ const store = new Vuex.Store({
     SET_MYLIST(state){
       state.myList = [],
       state.myList_idx = 0
+    },
+    ISLOADING(state,isloading){
+      state.isLoading = isloading;
     }
   },
   //보드를 추가하는 액션 api 콜을 해서 보드 생성 -> 비동기 처리시 actions 사용
@@ -94,7 +101,12 @@ const store = new Vuex.Store({
           state.product.push(...data);
           state.readFlag = true;
         }
-      })
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
     },
     FETCH_BOARD_READMORE({commit, state}, {boardtype}){
       return api.board.fetch(boardtype, state.board_count).then(data=>{
@@ -111,7 +123,12 @@ const store = new Vuex.Store({
           state.board.push(...data);
           state.board_readFlag = true;
         }
-      })
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
     },
     FETCH_MYLIST_READMORE({commit, state}, {userid, category_type, category}){
       var key = 0;
@@ -136,7 +153,12 @@ const store = new Vuex.Store({
           state.myList.push(...data);
           state.myList_readFlag = true;
         }
-      })
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
     }
   }
 })

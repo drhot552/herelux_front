@@ -19,9 +19,11 @@ const request = (method, url, data, setting) =>{
     setting
   }).then(result => result.data)
     .catch(result => {
-      const {status} = result.response
-      if(status == UNAUTHORIZED) return onUnauthorized()
-      throw Error(result)
+      //error 시 팝업 생성
+      alert("서버와의 통신 에러가 발생하였습니다.");
+      router.push('/error');
+      if(status == UNAUTHORIZED) return onUnauthorized();
+
   })
 }
 

@@ -4,36 +4,27 @@
           <div class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
                 v-for="(item,i) in this.$store.state.board">
             <div style="width:100%;">
-              <div class="div_board_1" style="margin-left:10px; margin-right:10px;">
+              <div class="div_board_1" style="margin-left:10px; margin-right:10px; float:left;">
                 <!--순위대로 색을 다르게 check-->
                   <div class="layer">
                     <!--브랜드 이름 -->
-                    <span v-if="item.boardtype < 3">
+                    <h5 v-if="item.boardtype < 3">
                       <b>{{`[` + item.forum + `]`}}</b>
-                    </span>
-                    <span v-else-if ="item.boardtype == 3">
+                    </h5>
+                    <h5 v-else-if ="item.boardtype == 3">
                       <b>{{`[뭐살까?]`}}</b>
-                    </span>
-                    <span v-else ="item.boardtype == 4">
+                    </h5>
+                    <h5 v-else ="item.boardtype == 4">
                       <b>{{`[자유게시판]`}}</b>
-                    </span>
-                    <span>
-                      <b>{{item.subject}}</b>
-                    </span>
-                    <span v-if="item.img_cnt > 0" style="float:right;">
-                      <img v-lazy ="item.imgurl" style="width:80px; height:80px;"/>
-                    </span>
-                    <h6 style="margin-top: 25px;">
-                      {{item.descript}}
-                    </h6>
+                    </h5>
                   </div>
-
               </div>
-            <!--  <div class="div_board_2">
+              <div class="div_board_2">
                 <div class="layer">
-
+                  <h5>
+                    <b>{{item.subject}}</b>
+                  </h5>
                 </div>
-
               </div>
               <div class="div_board_2">
                 <div class="layer" style="margin-left:10px; margin-bottom:35px;">
@@ -41,8 +32,8 @@
                     {{item.descript}}
                   </h6>
                 </div>
-              </div> -->
-              <div class="div_board_1" style="margin-left:10px">
+              </div>
+              <div style="margin-left:10px">
                 <div>
                   <h6 class="h6_style"> {{item.name}} </h6>
                   <h6 class="h6_style"> | </h6>
@@ -95,7 +86,7 @@ export default {
     readMore(){
       //처음은 일단 0으로 set
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});
+      this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus/2});
 
     }
   }
