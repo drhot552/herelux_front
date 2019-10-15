@@ -3,15 +3,16 @@
     <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
 
       <ul class="tabs_board" ref="tabbar">
-         <div class="tabitem_board" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
+         <div class="tabitem_board" :class="index === boardactivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
            {{tab.descript}}
          </div>
-         <div class="slider" :style="'transform:translateX('+activetab*tabwidth+'px)'">
+         <div class="slider" :style="'transform:translateX('+boardactivetab*tabwidth+'px)'">
          </div>
        </ul>
-      <div ref="tcon" class="tabcontainer_board">
+
+      <div v-hammer:swipe="boardmoveTouch" ref="tcon" class="tabcontainer_board">
         <transition :name="transition" v-for="(tab, index) in items" :key="index">
-           <div class="tabpane" v-if="index === activetab">
+           <div class="tabpane" v-if="index === boardactivetab">
              <BoardCard>
              </BoardCard>
            </div>
@@ -42,7 +43,7 @@ export default{
   data() {
     return {
       transition: "slide-next",
-      activetab: 0,
+      boardactivetab: 0,
       tabwidth: 90,
       boardtype: 0,
       items:[],
@@ -55,9 +56,7 @@ export default{
    //게시판 초기 세팅 ->
    //this.$store.commit('SET_INIT_BOARD', this.$store.state.boardtype);\
    this.$store.commit('ISLOADING', true);
-   this.activeTab = this.$store.state.boardTabStatus;
    code.category(3).then(data=>{
-     this.isLoading = false;
      if(data.length == 0){
 
      }
@@ -71,13 +70,10 @@ export default{
      //alert 후 페이지 이동
      this.errorAlert();
    });
-
-
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
-  document.addEventListener('touchstart', this.startTouch, false);
-  document.addEventListener("touchmove", this.moveTouch, false);
+
  },
  computed:{
    pointer(){
@@ -86,93 +82,61 @@ export default{
    }
  },
  methods: {
-   startTouch(e) {
-    this.initialX = e.touches[0].clientX;
-    this.initialY = e.touches[0].clientY;
-   },
-  moveTouch(e) {
-    if (this.initialX === null) {
-      return;
-    }
-
-    if (this.initialY === null) {
-      return;
-    }
-
-    var currentX = e.touches[0].clientX;
-    var currentY = e.touches[0].clientY;
-
-    var diffX = this.initialX - currentX;
-    var diffY = this.initialY - currentY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      // sliding horizontally
-      if (diffX > 0) {
-        // swiped left
-        console.log("swiped left");
-        if(this.activetab == undefined)
-        {
-        }
-        else if(this.activetab >= 0 && this.activetab < 4)
-        {
-          this.switchtab(this.activetab + 1);
-          console.log("switchTab", this.activetab);
-          if(this.activetab == 0){
-          }
-        }
-        else{
-        }
-      } else {
-        // swiped right
-        if(this.activetab == undefined)
-        {
-          this.switchtab(1);
-        }
-        else if(this.activetab >= 1)
-        {
-          this.switchtab(this.activetab - 1);
-          if(this.activetab == 0){
-            //this.switchtab(0);
-          }
-        }
-        else{
-          //this.switchtab(0);
-        }
-        console.log("swiped right");
-      }
-    } else {
-      // sliding vertically
-      if (diffY > 0) {
-        // swiped up
-        console.log("swiped up");
-      } else {
-        // swiped down
-        console.log("swiped down");
-      }
-    }
-
-    this.initialX = null;
-    this.initialY = null;
+   boardmoveTouch(direction) {
+    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
+       if(direction.deltaX < direction.deltaY){
+         console.log("board swiped left");
+         if(this.boardactivetab == undefined)
+         {
+         }
+         else if(this.boardactivetab >= 0 && this.boardactivetab < 4)
+         {
+           this.switchtab(this.boardactivetab + 1);
+           console.log("board switchTab", this.boardactivetab);
+           if(this.boardactivetab == 0){
+           }
+         }
+         else{
+         }
+       }
+       else if (direction.deltaX > direction.deltaY){
+         // swiped right
+         if(this.boardactivetab == undefined)
+         {
+           this.switchtab(1);
+         }
+         else if(this.boardactivetab >= 1)
+         {
+           this.switchtab(this.boardactivetab - 1);
+           if(this.boardactivetab == 0){
+             //this.switchtab(0);
+           }
+         }
+         else{
+           //this.switchtab(0);
+         }
+         console.log("board swiped right");
+       }
+     }
   },
    switchtab(n){
       let scroll, scond
 
-      if(this.activetab>n){
+      if(this.boardactivetab >n){
         this.transition = "slide-prev"
          scroll = n-1
         if(scond)
           this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
-      }else  if(this.activetab<n){
+      }else  if(this.boardactivetab<n){
          this.transition = "slide-next"
          scroll = n+1
       }
       scond = scroll>=0 && scroll < this.items.length
-
-      if(scond)
+      if(scond && this.$refs.tab[scroll])
         this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
 
       this.$nextTick(function() {
-      	this.activetab = n;
+      	this.boardactivetab = n;
         this.boardtype = n;
         this.$store.state.boardTabStatus = n;
         this.fetch();
@@ -248,6 +212,7 @@ export default{
   width: 100%;
   z-index: 0;
   padding-top: 47px;
+  touch-action: pan-y !important;
 }
 .tabpane{
     position: absolute;

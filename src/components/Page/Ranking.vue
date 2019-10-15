@@ -10,7 +10,7 @@
            <div class="slider" :style="'transform:translateX('+activetab*tabwidth+'px)'">
            </div>
          </ul>
-        <div ref="tcon" class="tabcontainer">
+        <div v-hammer:swipe="rankmoveTouch" ref="tcon" class="tabcontainer" >
           <div style="padding-top:20px; padding-left:20px;">
             <h5 style="margin-top:0px;">
               {{subject}}
@@ -76,14 +76,15 @@ export default{
       initialY : null,
       modalShow: false,
       category_middle:[],
-      subject : "전체"
+      subject : "전체",
+      flag : true
     }
   },
  created(){
    //Tab가져오기
    this.$store.commit('SET_INIT');
    this.$store.commit('ISLOADING', true);
-   this.activetab = this.$store.state.rankTabStatus;
+   this.$store.state.rankTabStatus = 0;
 
    code.category(2).then(data=>{
      if(data.length == 0){
@@ -102,8 +103,7 @@ export default{
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
-  document.addEventListener('touchstart', this.startTouch, false);
-  document.addEventListener("touchmove", this.moveTouch, false);
+
  },
  computed:{
    pointer(){
@@ -112,73 +112,41 @@ export default{
    }
  },
  methods: {
-   startTouch(e) {
-    this.initialX = e.touches[0].clientX;
-    this.initialY = e.touches[0].clientY;
-   },
-  moveTouch(e) {
-    if (this.initialX === null) {
-      return;
-    }
+  rankmoveTouch(direction) {
+    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
+       if(direction.deltaX < direction.deltaY){
+         console.log("rank swiped left");
+         if(this.activetab == undefined)
+         {
+         }
+         else if(this.activetab >= 0 && this.activetab< 12)
+         {
+           this.switchtab(this.activetab + 1);
+           console.log("rank switchTab", this.activetab);
+           if(this.activetab == 0){
+           }
+         }
+         else{
+         }
+       } else if (direction.deltaX > direction.deltaY){
+         if(this.activetab == undefined)
+         {
+           this.switchtab(1);
+         }
+         else if(this.activetab >= 1)
+         {
+           this.switchtab(this.activetab - 1);
+           if(this.activetab == 0){
+             //this.switchtab(0);
+           }
+         }
+         else{
+           //this.switchtab(0);
+         }
+       }
+     }
 
-    if (this.initialY === null) {
-      return;
-    }
 
-    var currentX = e.touches[0].clientX;
-    var currentY = e.touches[0].clientY;
-
-    var diffX = this.initialX - currentX;
-    var diffY = this.initialY - currentY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      // sliding horizontally
-      if (diffX > 0) {
-        // swiped left
-        console.log("swiped left");
-        if(this.activetab == undefined)
-        {
-        }
-        else if(this.activetab >= 0 && this.activetab < 12)
-        {
-          this.switchtab(this.activetab + 1);
-          console.log("switchTab", this.activetab);
-          if(this.activetab == 0){
-          }
-        }
-        else{
-        }
-      } else {
-        // swiped right
-        if(this.activetab == undefined)
-        {
-          this.switchtab(1);
-        }
-        else if(this.activetab >= 1)
-        {
-          this.switchtab(this.activetab - 1);
-          if(this.activetab == 0){
-            //this.switchtab(0);
-          }
-        }
-        else{
-          //this.switchtab(0);
-        }
-        console.log("swiped right");
-      }
-    } else {
-      // sliding vertically
-      if (diffY > 0) {
-        // swiped up
-        console.log("swiped up");
-      } else {
-        // swiped down
-        console.log("swiped down");
-      }
-    }
-
-    this.initialX = null;
-    this.initialY = null;
   },
    switchtab(n){
       let scroll, scond
@@ -186,9 +154,11 @@ export default{
       if(this.activetab>n){
         this.transition = "slide-prev"
          scroll = n-1
-        if(scond && this.$refs.tab[scroll])
+        if(scond && this.$refs.tab[scroll]){
           this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
-      }else  if(this.activetab<n){
+          console.log("slide-prev");
+        }
+      } else  if(this.activetab < n){
          this.transition = "slide-next"
          scroll = n+1
       }
@@ -200,11 +170,12 @@ export default{
       this.$nextTick(function() {
       	this.activetab = n
         this.subject = this.items[n].descript;
-        console.log("this.activetab12",this.activetab, n);
+        console.log("rank this.activetab12",this.$store.state.rankActivetab, n, this.$store.state.rankActivetab*this.$store.state.rankTabwidth);
         this.data = n;
         this.$store.state.rankTabStatus = n;
 
         this.fetch();
+      //  this.eventstartlistener();
       })
     },
     fetch(){
@@ -212,7 +183,10 @@ export default{
       this.category_type  = 1;
       this.$store.commit('SET_INIT');
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
+      console.log("rank 패치데이터", this.data, this.category_type, this.$store.state.product.length);
+      this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.data});
+
+      //this.eventlistener();
       // console.log(this.$store.state.readFlag)
     },
     categorySelect(key, descript){
@@ -314,6 +288,7 @@ height:0 !important;
   width: 100%;
   z-index: 0;
   padding-top: 47px;
+  touch-action: pan-y !important;
 }
 .tabpane{
     position: absolute;

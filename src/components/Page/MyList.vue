@@ -4,13 +4,13 @@
       <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh;">
 
         <ul class="tabs" ref="tabbar">
-           <div class="tabitem" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
+           <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
              {{tab.descript}}
            </div>
-           <div class="slider" :style="'transform:translateX('+activetab*tabwidth+'px)'">
+           <div class="slider" :style="'transform:translateX('+mylistActivetab*tabwidth+'px)'">
            </div>
          </ul>
-        <div ref="tcon" class="tabcontainer">
+        <div v-hammer:swipe="mylistmoveTouch" ref="tcon" class="tabcontainer">
           <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
             <h5 style="float:left;">
                 내가 선택한 상품 리스트
@@ -27,7 +27,7 @@
 
           </div>
           <transition :name="transition" v-for="(tab, index) in items" :key="index">
-             <div class="tabpane" v-if="index === activetab">
+             <div class="tabpane" v-if="index === mylistActivetab">
                <MyListCard>
                </MyListCard>
              </div>
@@ -70,7 +70,7 @@ export default{
   data() {
     return {
       transition: "slide-next",
-      activetab: 0,
+      mylistActivetab: 0,
       tabwidth: 90,
       data: 0,
       items:[],
@@ -84,10 +84,12 @@ export default{
   },
  created(){
 
-   this.userid = localStorage.getItem('id');
-   this.activetab = this.$store.state.myList_category;
-   this.$store.commit('ISLOADING', true);
+   this.$store.state.myList_category_type = 0;
+   this.$store.state.myList_category = 0;
 
+   this.userid = localStorage.getItem('id');
+   this.$store.commit('ISLOADING', true);
+   this.$store.commit('SET_MYLIST');
    //전체가져오기
    code.category(2).then(data=>{
      if(data.length == 0){
@@ -106,8 +108,7 @@ export default{
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
-  document.addEventListener('touchstart', this.startTouch, false);
-  document.addEventListener("touchmove", this.moveTouch, false);
+
  },
  computed:{
    pointer(){
@@ -116,83 +117,51 @@ export default{
    }
  },
  methods: {
-   startTouch(e) {
-    this.initialX = e.touches[0].clientX;
-    this.initialY = e.touches[0].clientY;
-   },
-  moveTouch(e) {
-    if (this.initialX === null) {
-      return;
-    }
-
-    if (this.initialY === null) {
-      return;
-    }
-
-    var currentX = e.touches[0].clientX;
-    var currentY = e.touches[0].clientY;
-
-    var diffX = this.initialX - currentX;
-    var diffY = this.initialY - currentY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      // sliding horizontally
-      if (diffX > 0) {
-        // swiped left
-        console.log("swiped left");
-        if(this.activetab == undefined)
-        {
-        }
-        else if(this.activetab >= 0 && this.activetab < 12)
-        {
-          this.switchtab(this.activetab + 1);
-          console.log("switchTab", this.activetab);
-          if(this.activetab == 0){
-          }
-        }
-        else{
-        }
-      } else {
-        // swiped right
-        if(this.activetab == undefined)
-        {
-          this.switchtab(1);
-        }
-        else if(this.activetab >= 1)
-        {
-          this.switchtab(this.activetab - 1);
-          if(this.activetab == 0){
-            //this.switchtab(0);
-          }
-        }
-        else{
-          //this.switchtab(0);
-        }
-        console.log("swiped right");
-      }
-    } else {
-      // sliding vertically
-      if (diffY > 0) {
-        // swiped up
-        console.log("swiped up");
-      } else {
-        // swiped down
-        console.log("swiped down");
-      }
-    }
-
-    this.initialX = null;
-    this.initialY = null;
+  mylistmoveTouch(direction) {
+    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
+       if(direction.deltaX < direction.deltaY){
+         console.log("swiped left");
+         if(this.mylistActivetab == undefined)
+         {
+         }
+         else if(this.mylistActivetab >= 0 && this.mylistActivetab < 12)
+         {
+           this.switchtab(this.mylistActivetab + 1);
+           console.log("switchTab", this.mylistActivetab);
+           if(this.mylistActivetab== 0){
+           }
+         }
+         else{
+         }
+       }
+       else if (direction.deltaX > direction.deltaY){
+         if(this.mylistActivetab == undefined)
+         {
+           this.switchtab(1);
+         }
+         else if(this.mylistActivetab >= 1)
+         {
+           this.switchtab(this.mylistActivetab - 1);
+           if(this.mylistActivetab == 0){
+             //this.switchtab(0);
+           }
+         }
+         else{
+           //this.switchtab(0);
+         }
+         console.log("swiped right");
+       }
+     }
   },
    switchtab(n){
       let scroll, scond
 
-      if(this.activetab>n){
+      if(this.mylistActivetab > n){
         this.transition = "slide-prev"
          scroll = n-1
         if(scond && this.$refs.tab[scroll])
           this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
-      }else  if(this.activetab<n){
+      }else  if(this.mylistActivetab < n){
          this.transition = "slide-next"
          scroll = n+1
       }
@@ -202,7 +171,7 @@ export default{
         this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
 
       this.$nextTick(function() {
-      	this.activetab = n
+      	this.mylistActivetab = n
         this.subject = this.items[n].descript;
 
         this.data = n;
@@ -319,6 +288,7 @@ height:0 !important;
   width: 100%;
   z-index: 0;
   padding-top: 47px;
+  touch-action: pan-y !important;
 }
 .tabpane{
     position: absolute;

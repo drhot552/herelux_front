@@ -16,7 +16,7 @@
             </div>
           </div>
           <div v-else class="container">
-              <div class="row" >
+              <div v-if="!this.$store.state.isLoading" class="row" >
                   <div class="col-md-8 ml-auto mr-auto text-center">
                       <h4 class="title">선택한 상품이 없습니다.</h4>
                   </div>

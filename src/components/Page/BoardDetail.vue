@@ -41,8 +41,8 @@
           <!-- 댓글 단 -->
           <div style="margin-top:20px; border-bottom:10px solid rgba(135, 135, 135, 0.3);">
           </div>
-          <div style="margin-top:20px;" v-for="item in comment">
-            <div style="padding-bottom:5px">
+          <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
+            <div style="padding-bottom:5px; padding-top:15px;">
               <h6 style="padding-left:15px; float:left;">
                 <b style="float:left; margin-right:11px;">{{item.name}}</b>
               </h6>
@@ -58,46 +58,44 @@
               </h6>
             </div>
             <a v-if="item.userid == userid" style="margin-bottom:0px; margin-top:0px;" v-on:click="commentDown(item.comment_idx, item.name, item.descript)">
-              <img src="/public/img/btn_reply.png" style="width:13px; margin-bottom:10px; float:left; margin-left:15px; margin-right:7px;"/>
-              <h6 style="float:left; margin-right:15px; font-size:10px;">대댓글</h6>
+              <img src="/public/img/btn_reply.png" style="width:13px; margin-top:7px; float:left; margin-left:15px; margin-right:7px;"/>
+              <span style="float:left; margin-right:15px; font-size:10px;">대댓글</span>
             </a>
             <a v-else style="margin-bottom:0px; margin-top:0px;" v-on:click="commentDown(item.comment_idx, item.name, item.descript)">
               <img src="/public/img/btn_reply.png" class="img_style"/>
-              <h6 style="font-size:10px">대댓글</h6>
+              <span style="font-size:10px">대댓글</span>
+            </a>
+            <a v-if="item.userid == userid" v-on:click="commentDelete(item.comment_idx)" >
+              <img src="/public/img/btn_garbage.png" style="width:13px;  margin-right:7px;"/>
+              <span style="font-size:10px">삭제</span>
             </a>
 
-            <div>
-              <a v-if="item.userid == userid" v-on:click="commentDelete(item.comment_idx)" >
-                <img src="/public/img/btn_garbage.png" style="width:13px; margin-bottom:10px; float:left;  margin-right:7px;"/>
-                <h6 style="font-size:10px">삭제</h6>
-              </a>
-            </div>
-
             <!-- 대댓글 보여주기 -->
-            <div v-for="comment in commentdownArry" >
-              <div v-if="item.comment_idx == comment.comment_idx" style="padding-bottom:10px; background: gainsboro;">
-                <div style="padding-top: 10px; padding-bottom:5px">
-                  <h6 style="padding-left:30px; float:left; ">
-                    <b style="float:left; margin-right:11px;">{{comment.name}}</b>
-                  </h6>
-                  <h6 style="float:left;" v-if="comment.userid == writer">
-                    <b class="writer_text">글쓴이</b>
-                  </h6>
-                  <h6 style="text-align:right; margin-right:20px; font-size:10px; ">{{comment.reg_date}} &ensp; {{comment.reg_time}}</h6>
+            <div style="margin-top: 10px;"  >
+              <div v-for="comment in commentdownArry">
+                <div v-if="item.comment_idx == comment.comment_idx" style="padding-bottom:10px; background: gainsboro;">
+                  <div style="padding-top: 10px; padding-bottom:5px">
+                    <h6 style="padding-left:30px; float:left; ">
+                      <b style="float:left; margin-right:11px;">{{comment.name}}</b>
+                    </h6>
+                    <h6 style="float:left;" v-if="comment.userid == writer">
+                      <b class="writer_text">글쓴이</b>
+                    </h6>
+                    <h6 style="text-align:right; margin-right:20px; font-size:10px; ">{{comment.reg_date}} &ensp; {{comment.reg_time}}</h6>
 
-                </div>
-                <div>
-                  <h6 style="margin-bottom: 0px;padding-bottom: 10px; padding-left:30px; float:left; width:100%; background: gainsboro;">
-                    {{comment.descript}}
-                  </h6>
-                </div>
-                <div>
+                  </div>
+                  <div>
+                    <h6 style="margin-bottom: 0px;padding-bottom: 10px; padding-left:30px; float:left; width:100%; background: gainsboro;">
+                      {{comment.descript}}
+                    </h6>
+                  </div>
                   <a v-if="comment.userid == userid" v-on:click="commentDownDelete(comment.commentdown_idx)" >
-                    <img src="/public/img/btn_garbage.png" style="width: 13px; margin-bottom: 10px; float: left; margin-left: 30px; margin-right: 7px;"/>
-                    <h6 style="font-size:10px; margin-bottom: 0px;">삭제</h6>
+                    <img src="/public/img/btn_garbage.png" style="width: 13px; margin-left: 30px; margin-right: 7px;"/>
+                    <span style="font-size:10px; margin-bottom: 0px;">삭제</span>
                   </a>
                 </div>
               </div>
+
             </div>
           </div>
     </div>
@@ -389,6 +387,7 @@ export default{
   margin-left: 15px;
   float: left;
   margin-right:7px;
+  margin-top:7px;
 }
 .edit_div{
   line-height: 1;

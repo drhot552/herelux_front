@@ -29,6 +29,7 @@ const Search = () => import('../components/Page/Search.vue');
 const BoardDetail = () => import('../components/Page/BoardDetail.vue');
 const Update = () => import('../components/Page/Update.vue');
 const Error = () => import('../components/Page/Error.vue');
+const Ready = () => import('../components/Page/Ready.vue');
 //테스트
 const Test = () => import('../components/Test.vue');
 
@@ -224,6 +225,15 @@ const router = new Router({
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Test"}
+      }
+    },
+    {
+      path:'/ready',
+      name:'Ready',
+      components:{default:Ready, header:MainNavbar, footer:FooterNavbar},
+      beforeEnter:requireAuth,
+      props:{
+        header:{colorOnScroll:0,pageName:"Ready"}
       }
     }
   ],

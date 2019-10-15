@@ -18,7 +18,11 @@
                             v-model="password"
                             placeholder="비밀번호">
                   </fg-input>
-
+                  <fg-input addon-left-icon="now-ui-icons text_caps-small"
+                            type="password"
+                            v-model="password_check"
+                            placeholder="비밀번호확인">
+                  </fg-input>
                   <button class="btn btn-github btn-lg" style="width:100%;" type="submit">
                     회원가입
                   </button>
@@ -61,6 +65,7 @@
       return {
           email: '',
           password: '',
+          password_check :'',
           returnPath : '',
           title : '',
           descript : '',
@@ -79,27 +84,33 @@
           alert("ID를 이메일형식으로 작성해주세요.");
         }
         else{
-          auth.register(this.email, this.password).then(data => {
-            //data code 300이면 중복체크
-            if(data == 300){
-              this.descript="같은아이디가 존재합니다. 다른아이디를 사용하세요.";
-              this.title = "아이디중복";
-              this.modal_error = true;
-            }
-            else if (data == 200){
-              this.descript="회원가입이 완료되었습니다. 가입하신 아이디로 로그인하세요.";
-              this.title = "회원가입성공";
-              this.modal_success = true;
-            }
-            else {
+          //비밀번호 확인
+          if(this.password != this.password_check){
+            alert("비밀번호가 일치하지 않습니다.");
+          }
+          else {
+            auth.register(this.email, this.password).then(data => {
+              //data code 300이면 중복체크
+              if(data == 300){
+                this.descript="같은아이디가 존재합니다. 다른아이디를 사용하세요.";
+                this.title = "아이디중복";
+                this.modal_error = true;
+              }
+              else if (data == 200){
+                this.descript="회원가입이 완료되었습니다. 가입하신 아이디로 로그인하세요.";
+                this.title = "회원가입성공";
+                this.modal_success = true;
+              }
+              else {
 
-            }
-          })
-          .catch(error => {
-            this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
-            this.title = "서버에러";
-            this.modal_error = true;
-          })
+              }
+            })
+            .catch(error => {
+              this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
+              this.title = "서버에러";
+              this.modal_error = true;
+            })
+          }
         }
       },
       handleOk() {

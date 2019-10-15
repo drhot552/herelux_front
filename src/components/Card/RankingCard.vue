@@ -58,6 +58,7 @@ export default {
   created(){
 
     this.returnPath = this.$route.query.returnPath || '/detail'
+    console.log("test",this.$store.state.product.length)
     //this.readMore();
   },
   methods:{

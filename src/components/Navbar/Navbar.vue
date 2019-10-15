@@ -4,7 +4,7 @@
             <div class="navbar-translate">
                 <slot v-bind="slotData"></slot>
                 <div style="text-align:right; width:100%;">
-                  <router-link to="/search">
+                  <router-link to="/ready">
                     <img src="/public/img/btn_search.png" style="height:20px;"/>
                   </router-link>
                 </div>

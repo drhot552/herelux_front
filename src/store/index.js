@@ -87,6 +87,8 @@ const store = new Vuex.Store({
       else {
         key = category;
       }
+      console.log("FETCH_ranking_READMORE", key, category_type, state.idx);
+
       return api.product.ranking(category_type, key, state.idx).then(data=>{
         if(data.length == 0){
           state.readFlag = false;
@@ -95,12 +97,15 @@ const store = new Vuex.Store({
           commit('IDX_INCREMENT', 1);
           state.product.push(...data);
           state.readFlag = false;
+
         }
         else{
           commit('IDX_INCREMENT', 1);
           state.product.push(...data);
           state.readFlag = true;
         }
+        console.log("FETCH_ranking_READMORE_board", data.length);
+
           commit('ISLOADING', false);
       }).catch(error =>{
         console.log("error",error);
@@ -147,6 +152,7 @@ const store = new Vuex.Store({
           commit('MYLIST_IDX_INCREMENT',1)
           state.myList.push(...data);
           state.myList_readFlag = false;
+
         }
         else{
           commit('MYLIST_IDX_INCREMENT',1)
