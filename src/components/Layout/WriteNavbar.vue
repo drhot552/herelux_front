@@ -44,7 +44,7 @@
 
 <script>
 import axios from 'axios'
-import { code } from '../../api'
+import { code, WRITEDOMAIN } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -188,7 +188,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         //Image server Set
         this.$store.commit('ISLOADING', true);
         let settings = { headers: { 'content-type': 'multipart/form-data' } }
-        axios.post('http://54.180.153.54:4000/board/write', this.$store.state.formData, settings)
+        axios.post( WRITEDOMAIN + '/board/write', this.$store.state.formData, settings)
          .then(data => {
           console.log(data)
           this.$store.commit('ISLOADING', false);

@@ -44,6 +44,7 @@
 <script>
 import Card from '../Card/Cards'
 import Cauly from '../Card/Cauly'
+import { event } from '../../api'
  export default{
    components : {
      Card,
@@ -51,17 +52,18 @@ import Cauly from '../Card/Cauly'
    },
    mounted(){
      //ip 정보
-     this.$http.get('http://54.180.153.54:4000/event').then((response)=>{
-       this.event = response.data
+     event.fetch().then(data => {
+       this.event = data;
        this.random()  //random으로 섞기
 
        //adfit
        let recaptchaScript = document.createElement('script');
        recaptchaScript.setAttribute('src', '//t1.daumcdn.net/adfit/static/ad.min.js');
        document.head.appendChild(recaptchaScript);
-
-
-    });
+     }).catch(error =>{
+       console.log(error)
+       this.errorAlert();
+     });
 
      //cauly
      let cauly = document.createElement('script');
