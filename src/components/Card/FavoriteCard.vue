@@ -33,13 +33,13 @@
        <div align="left" style="margin-left:15px; margin-right:15px;">
          <div style="border-bottom: 3px solid rgb(0,0,0);">
            <h5>
-               {{name}}
+               {{product_name}}
            </h5>
          </div>
          <h6></h6>
-         <h6>크기 : {{size}}</h6>
-         <h6>색상 : {{color}}</h6>
-         <h6>가격 : {{price}}</h6>
+         <h6>크기 : {{product_size}}</h6>
+         <h6>색상 : {{product_color}}</h6>
+         <h6>가격 : {{product_price}}</h6>
        </div>
      </div>
 
@@ -90,7 +90,14 @@ export default {
       Modal
     },
     created(){
+      //data set
+      this.product_id = this.id;
+      this.product_size = this.size;
+      this.product_name = this.name;
+      this.product_color = this.color;
+      this.product_price = this.price;
       this.listImage();
+      
    },
    data(){
      return{
@@ -101,7 +108,12 @@ export default {
        user: '',
        title:'',
        descript:'',
-       modalShow : false
+       modalShow : false,
+       product_id : 0,
+       product_size : '',
+       product_name : '',
+       product_color : '',
+       product_price : ''
 
      }
    },
@@ -111,7 +123,7 @@ export default {
        this.notify(rating);
        this.$store.commit('ISLOADING', true);
        setTimeout(() => {
-         product.insert(this.id, this.user, rating)
+         product.insert(this.product_id, this.user, rating)
            .then(data => {
             console.log(data);
             if(data.length > 0){
@@ -121,14 +133,14 @@ export default {
                 this.modalShow = true;
               }
               else{
-                this.id = data[0].id;
-                this.name = data[0].name;
-                this.size = data[0].size;
-                this.color = data[0].color;
-                this.price = data[0].price;
+                this.product_id = data[0].id;
+                this.product_name = data[0].name;
+                this.product_size = data[0].size;
+                this.product_color = data[0].color;
+                this.product_price = data[0].price;
                 this.productimg[0].source = data[0].source;
                 this.productimg[0].url = data[0].url;
-
+                console.log("fetchdata",this.id, this.name, this.size, this.color, this.price);
                 this.ratingnum = 0;
                 this.productflag = true;
                 this.fetchData();
@@ -150,7 +162,7 @@ export default {
      },
      listImage(){
        this.$store.commit('ISLOADING', true);
-       product.select(this.id)
+       product.select(this.product_id)
          .then(data => {
            this.productimg = data;
            console.log(data);
