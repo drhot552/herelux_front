@@ -39,9 +39,10 @@
             </div>
           </div>
           <!-- 댓글 단 -->
-          <Cauly v-bind:type="2">
-          </Cauly>
-
+          <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);">
+            <Cauly v-bind:type="2">
+            </Cauly>
+          </div>
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">
               <h6 style="padding-left:15px; float:left;">
