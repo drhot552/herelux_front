@@ -20,7 +20,7 @@
                 </div>
 
             </div>
-            <div class="div_ranking_2" style="margin-right: 25px;">
+            <div class="div_ranking_2" style="margin-right: 40px;">
               <div class="layer" style="text-align: left; margin-left: 25px;">
                 <span style="font-size:0.81em;">{{item.name}}</span>
                 <h5 style="margin-left: 25px;">{{item.avg}}</h5>

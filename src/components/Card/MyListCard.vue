@@ -10,7 +10,7 @@
                 <a style="color:#000000;" v-on:click="detail(item.id)">
                   <img v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
                   <div v-lazy:background-image="item.url"></div>
-                  <h6> <b>{{item.name}}</b> </h6>
+                  <h6> <br /> <b>{{item.name}}</b> </h6>
                 </a>
               </div>
             </div>
