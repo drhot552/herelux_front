@@ -22,20 +22,20 @@
             </div>
             <div class="div_ranking_2">
               <div class="layer">
-                <span>{{item.name}}</span>
-                <h5>{{item.avg}}</h5>
+                <span style="font-size:0.81em; margin-left: 25px;">{{item.name}}</span>
+                <h5 style="margin-left: 25px;">{{item.avg}}</h5>
               </div>
 
             </div>
             <div class="div_ranking_3">
-              <img v-lazy="item.url"/>
+              <img style="width:70%; float:right;" v-lazy="item.url"/>
             </div>
             <a class="div_ranking_4" style="z-index:0;" v-on:click="detail(item.id)">
             </a>
           </div>
           <div v-if="this.$store.state.readFlag" style="text-align:center; height:100px; z-index:1;">
             <a style="color:#000000;" v-on:click="readMore()">
-              <span>더보기..</span>
+              <img src="/public/img/btn_arrow_down.png" style="height:20px;"/>
             </a>
           </div>
 

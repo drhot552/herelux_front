@@ -9,7 +9,7 @@
                 </router-link>
         </template>
         <template slot="navbar-menu">
-          <drop-down tag="li" title="명품사" class="nav-item">
+          <!--<drop-down tag="li" title="명품사" class="nav-item">
             <a href="https://www.chanel.com/" target="_blank" class="dropdown-item">
                 Chanel
             </a>
@@ -48,7 +48,12 @@
             </a>
             <a> 준비중입니다...</a>
 
-          </drop-down>
+          </drop-down> -->
+          <!--<li class="nav-item">
+            <a v-on:click="brandurl('http://www.shoponlyhere.com')" class="dropdown-item nav-link">
+              <span>명품사</span>
+            </a>
+          </li> -->
           <li class="nav-item">
             <nav-link class="nav-link" to="/About">
               <span>About us</span>

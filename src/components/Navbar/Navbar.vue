@@ -4,9 +4,13 @@
             <div class="navbar-translate">
                 <slot v-bind="slotData"></slot>
                 <div style="text-align:right; width:100%;">
-                  <router-link to="/ready">
+                  <router-link to="/ready" style="margin-right:10px;">
                     <img src="/public/img/btn_search.png" style="height:20px;"/>
                   </router-link>
+                  <a v-on:click="brandurl('http://www.shoponlyhere.com')" style="margin-right:5px;">
+                    <img src="/public/img/instagram.png" style="height:20px;"/>
+                  </a>
+
                 </div>
                 <navbar-toggle-button :toggled="showMenu" @click.native.stop="toggle"></navbar-toggle-button>
             </div>
@@ -212,6 +216,27 @@
      },
      onClose(){
        this.modalShow=false;
+     },
+     brandurl(url){
+       if(navigator.userAgent.match(/Android|Tablet/i)){
+         if(navigator.userAgent.match(/herelux_app_and/i)){
+           window.android.bridge(url);
+         }
+         else{
+           window.open(url, '_blank');
+         }
+       }
+       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+         if(navigator.userAgent.match(/herelux_app_ios/i)){
+           window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+         }
+         else{
+           window.open(url, '_blank');
+         }
+       }
+       else {
+         window.open(url, '_blank');
+       }
      }
     },
     mounted () {

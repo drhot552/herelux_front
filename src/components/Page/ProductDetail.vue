@@ -11,7 +11,8 @@
                 v-bind:color="this.product[0].color"
                 v-bind:price="this.product[0].price"
                 v-bind:star="this.product[0].star"
-                v-bind:count="this.product[0].count">
+                v-bind:count="this.product[0].count"
+                v-bind:sub_name="this.product[0].sub_name">
               </DetailCard>
               <br/>
               <br/>

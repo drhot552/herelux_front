@@ -11,17 +11,20 @@
            </div>
          </ul>
         <div v-hammer:swipe="rankmoveTouch" ref="tcon" class="tabcontainer" >
-          <div style="padding-top:20px; padding-left:20px;">
-            <h5 style="margin-top:0px;">
+          <div style="border-bottom: 3px solid rgb(0, 0, 0); height: 50px; margin-left: 15px; margin-right: 15px;">
+            <h5 style="float:left;">
               {{subject}}
             </h5>
+            <h6 style="float: right; margin-top: 15px; margin-right: 15px;">
+              <a v-if="this.$store.state.rankTabStatus <= 5" v-on:click="popup()">
+                <img src="/public/img/btn_filter.png" style="height:18px;"/>
+                <b>필터링</b>
+              </a>
+            </h6>
           </div>
-          <div style="text-align:right; margin-right:30px; margin-bottom:20px;">
-            <a v-if="this.$store.state.rankTabStatus <= 5" v-on:click="popup()">
-              <img src="/public/img/btn_filter.png" style="height:18px;"/>
-              <b>필터링</b>
-            </a>
-          </div>
+          <!--<div style="text-align:right; margin-right:30px; margin-bottom:20px;">
+
+          </div> -->
           <transition :name="transition" v-for="(tab, index) in items" :key="index">
              <div class="tabpane" v-if="index === activetab">
                <RankingCard v-bind:category_type="category_type">
@@ -295,6 +298,7 @@ height:0 !important;
     width: 100%;
     align-items:center;
     justify-content:center;
+    margin-top:30px;
 }
 .modal-view{
   width: 100%;

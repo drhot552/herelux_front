@@ -12,7 +12,7 @@
 
       <div v-hammer:swipe="boardmoveTouch" ref="tcon" class="tabcontainer_board">
         <transition :name="transition" v-for="(tab, index) in items" :key="index">
-           <div class="tabpane" v-if="index === boardactivetab">
+           <div class="tabpane_board" v-if="index === boardactivetab">
              <BoardCard>
              </BoardCard>
            </div>
@@ -214,7 +214,7 @@ export default{
   padding-top: 47px;
   touch-action: pan-y !important;
 }
-.tabpane{
+.tabpane_board{
     position: absolute;
     width: 100%;
     align-items:center;

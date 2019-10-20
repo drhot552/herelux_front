@@ -42,6 +42,7 @@
        <h6>평균점수 {{avg}} 점 </h6>
        <h6>크기 : {{size}}</h6>
        <h6>색상 : {{color}}</h6>
+       <h6>모델/상품번호 : {{sub_name}}</h6>
        <h5 style="margin-bottom: 15px;">가격 : {{price}}</h5>
      </div>
      <div align="left" style="margin-left:15px; margin-right:15px;">
@@ -95,6 +96,7 @@ export default {
       plain: Boolean,
       star : Number,
       count : Number,
+      sub_name : String,
       raised: Boolean
     },
     components:{
@@ -218,13 +220,12 @@ export default {
     float: left;
     width: 30%;
     text-align: center;
-    margin-top: 10px;
-    font-size: 17px;
+    font-size: 0.9em;
     color: black;
 }
 .span_style_1{
   text-align: right;
   float: right;
-  margin-top: 10px;
+  font-size: 0.81em;
 }
 </style>

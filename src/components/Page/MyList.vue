@@ -27,7 +27,7 @@
 
           </div>
           <transition :name="transition" v-for="(tab, index) in items" :key="index">
-             <div class="tabpane" v-if="index === mylistActivetab">
+             <div class="tabpane_mylist" v-if="index === mylistActivetab">
                <MyListCard>
                </MyListCard>
              </div>
@@ -290,7 +290,7 @@ height:0 !important;
   padding-top: 47px;
   touch-action: pan-y !important;
 }
-.tabpane{
+.tabpane_mylist{
     position: absolute;
     width: 100%;
     align-items:center;
