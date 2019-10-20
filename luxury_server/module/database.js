@@ -1,6 +1,6 @@
 //database 연결구조
 const db = require('mysql');
-const config = require('../module/db_server').dev;
+const config = require('../module/db_server').real;
 
 
 module.exports.conn= function(){

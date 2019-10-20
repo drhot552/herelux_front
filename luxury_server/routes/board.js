@@ -19,9 +19,9 @@ module.exports = function(conn){
     const maxSize = 2 * 1024 * 1024;
 
     //bucket name 운영
-    //const bucketname  = 'hereluxuryboard';
+    const bucketname  = 'hereluxuryboard';
     //bucket name 개발
-    const bucketname  = 'luxuryboard';
+    //const bucketname  = 'luxuryboard';
 
     //이미지 업로드 필드 두개
     var upload = multer({

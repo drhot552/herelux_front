@@ -39,8 +39,9 @@
             </div>
           </div>
           <!-- 댓글 단 -->
-          <div style="margin-top:20px; border-bottom:10px solid rgba(135, 135, 135, 0.3);">
-          </div>
+          <Cauly v-bind:type="2">
+          </Cauly>
+
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">
               <h6 style="padding-left:15px; float:left;">
@@ -137,6 +138,7 @@
         </div>
       </div>
     </div>
+
     <!-- pop up -->
     <modal :show.sync="modalShowComment" headerClasses="justify-content-center">
       <h4 slot="header" class="title title-up">{{title}}</h4>
@@ -160,10 +162,13 @@ import { comment, board } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import Cauly from '../Card/Cauly'
+
 export default{
   components:{
     Modal,
-    Loading
+    Loading,
+    Cauly
   },
   data(){
     return{
