@@ -45,7 +45,7 @@
        <h5 style="margin-bottom: 15px;">가격 : {{price}}</h5>
      </div>
      <div align="left" style="margin-left:15px; margin-right:15px;">
-       <div style="border-top: 3px solid rgb(0,0,0); border-bottom: 3px solid rgb(0,0,0);">
+       <div style="border-top: 3px solid rgb(0,0,0); padding-top : 10px">
         <!-- <h5 style="font-weight:400"> 상품 글 적기 </h5>
          <h5 style="font-weight:400"> 상품 관련 글 보기 </h5> -->
          <Cauly v-bind:type="2">
