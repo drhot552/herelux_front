@@ -138,10 +138,20 @@ export default {
      trackOutboundLink: function (title,url) {
        gtag('event','이커머스클릭',{'event_category':title,'event_label':url});
        if(navigator.userAgent.match(/Android|Tablet/i)){
-         window.android.bridge(url);
+         if(navigator.userAgent.match(/herelux_app_and/i)){
+           window.android.bridge(url);
+         }
+         else{
+           window.open(url, '_blank');
+         }
        }
        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-         window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+         if(navigator.userAgent.match(/herelux_app_ios/i)){
+           window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+         }
+         else{
+           window.open(url, '_blank');
+         }
        }
        else {
          window.open(url, '_blank');
@@ -150,10 +160,20 @@ export default {
      trackOutboundLinkVideo: function (title,url) {
        //gtag('event','유투브상품클릭',{'event_category':title,'event_label':url});
        if(navigator.userAgent.match(/Android|Tablet/i)){
-         window.android.bridge(url);
+         if(navigator.userAgent.match(/herelux_app_and/i)){
+           window.android.bridge(url);
+         }
+         else{
+           window.open(url, '_blank');
+         }
        }
        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-         window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+         if(navigator.userAgent.match(/herelux_app_ios/i)){
+           window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+         }
+         else{
+           window.open(url, '_blank');
+         }
        }
        else {
          window.open(url, '_blank');
