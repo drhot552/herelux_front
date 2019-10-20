@@ -5,30 +5,30 @@
             <div class="div_ranking_1" style="margin-left:10px;">
               <!--순위대로 색을 다르게 check-->
                 <div class="layer">
-                  <h1 v-if="i+1==1" style="color:#ffd700;">
+                  <h2 v-if="i+1==1" style="color:#ffd700; font-size:3em;">
                     <b>{{i + 1}}</b>
-                  </h1>
-                  <h1 v-else-if="i+1==2" style="color:#c0c0c0;">
+                  </h2>
+                  <h2 v-else-if="i+1==2" style="color:#c0c0c0; font-size:3em;">
                     <b>{{i + 1}}</b>
-                  </h1>
-                  <h1 v-else-if="i+1==3" style="color:#964b00;">
+                  </h2>
+                  <h2 v-else-if="i+1==3" style="color:#964b00; font-size:3em;">
                     <b>{{i + 1}}</b>
-                  </h1>
-                  <h1 v-else>
+                  </h2>
+                  <h2 v-else style="font-size:3em;">
                     <b>{{i + 1}}</b>
-                  </h1>
+                  </h2>
                 </div>
 
             </div>
             <div class="div_ranking_2">
-              <div class="layer">
-                <span style="font-size:0.81em; margin-left: 25px;">{{item.name}}</span>
+              <div class="layer" style="text-align: left; margin-left: 25px;">
+                <span style="font-size:0.81em;">{{item.name}}</span>
                 <h5 style="margin-left: 25px;">{{item.avg}}</h5>
               </div>
 
             </div>
-            <div class="div_ranking_3">
-              <img style="width:70%; float:right;" v-lazy="item.url"/>
+            <div class="div_ranking_3" style="float:right;">
+              <img style="width:100%; float:right;" v-lazy="item.url"/>
             </div>
             <a class="div_ranking_4" style="z-index:0;" v-on:click="detail(item.id)">
             </a>
