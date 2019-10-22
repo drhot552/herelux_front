@@ -10,7 +10,7 @@
          </div>
        </ul>
 
-      <div v-hammer:swipe="boardmoveTouch" ref="tcon" class="tabcontainer_board">
+      <div v-hammer:tap="boardmoveTouch" ref="tcon" class="tabcontainer_board">
         <transition :name="transition" v-for="(tab, index) in items" :key="index">
            <div class="tabpane_board" v-if="index === boardactivetab">
              <BoardCard>

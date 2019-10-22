@@ -23,7 +23,7 @@
                     <span v-if="item.img_cnt > 0" style="float:right;">
                       <img v-lazy ="item.imgurl" style="width:80px; height:80px;"/>
                     </span>
-                    <h6 style="margin-top: 25px;">
+                    <h6 class="write_ellipsis" style="margin-top: 25px;">
                       {{item.descript}}
                     </h6>
                   </div>
@@ -156,5 +156,18 @@ export default {
   right: 20px;
   bottom: 75px;
   border: none;
+}
+.write_ellipsis{
+  width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.2;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>
