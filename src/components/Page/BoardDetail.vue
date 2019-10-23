@@ -28,7 +28,7 @@
               <h6 class="h6_style"> {{`조회수 : ` + this.boardDetail[0].views}} </h6>
             </div>
           </div>
-          <div style="margin-top:10px; padding-left:15px;" v-if="this.boardDetail.length > 0">
+          <div style="margin-top:10px; padding-left:15px; line-height: 3em; padding-right: 15px;" v-if="this.boardDetail.length > 0">
             {{this.boardDetail[0].descript}}
           </div>
           <!-- 사진 이미지 set -->
