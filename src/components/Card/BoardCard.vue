@@ -163,7 +163,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
-  line-height: 1.2;
+  line-height: 1.9em;
   text-align: left;
   word-wrap: break-word;
   display: -webkit-box;
