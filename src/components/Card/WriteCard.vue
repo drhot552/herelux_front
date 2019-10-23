@@ -12,9 +12,9 @@
     <div style="box-sizing: border-box; height: 40vh; margin:10px;">
       <div class="edit_div">
         <div class="edit_container">
-          <div class="edit_textarea"  id="descript" contenteditable="true" placeholder="내용을 입력하세요." style="max-height: 40vh;">
+          <textarea class="edit_textarea"  id="descript" placeholder="내용을 입력하세요." style="max-height: 40vh;">
 
-          </div>
+          </textarea>
         </div>
       </div>
     </div>
@@ -225,6 +225,7 @@ export default{
   border-radius: 5px;
   outline: 0;
   overflow: auto;
+  width: 100%;
 }
 .image_box{
   min-height: 24vh;

@@ -28,8 +28,7 @@
               <h6 class="h6_style"> {{`조회수 : ` + this.boardDetail[0].views}} </h6>
             </div>
           </div>
-          <div style="margin-top:10px; padding-left:15px; line-height: 3em; padding-right: 15px;" v-if="this.boardDetail.length > 0">
-            {{this.boardDetail[0].descript}}
+          <div id="descript_board" v-html="this.boardDetail[0].descript" style="margin-top:10px; padding-left:15px; line-height: 2em; padding-right: 15px;" v-if="this.boardDetail.length > 0">
           </div>
           <!-- 사진 이미지 set -->
           <div style="margin-top:10px; text-align:center;" v-if="this.boardDetail.length > 0">
@@ -214,6 +213,7 @@ export default{
         else {
           this.$store.state.boardCommentFlag = false;
         }
+
         this.commentDownSelect();
         this.commentSelect();
       }

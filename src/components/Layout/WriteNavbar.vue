@@ -127,7 +127,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.modalShowWrite = false;
       },
       checklist(){
-
         if(this.$store.state.writeBoard_Category == 0){
           if(this.$store.state.writeBoard_name == "포럼선택"){
             alert("포럼을 선택하세요.");
@@ -135,7 +134,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           else if($("#subject").text() == ""){
             alert("제목을 적으세요.");
           }
-          else if($("#descript").text() == ""){
+          else if($("#descript").val() == ""){
             alert("본문을 적으세요.");
           }
           else{
@@ -149,7 +148,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           else if($("#subject").text() == ""){
             alert("제목을 적으세요.");
           }
-          else if($("#descript").text() == ""){
+          else if($("#descript").val() == ""){
             alert("본문을 적으세요.");
           }
           else{
@@ -160,7 +159,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           if($("#subject").text() == ""){
             alert("제목을 적으세요.");
           }
-          else if($("#descript").text() == ""){
+          else if($("#descript").val() == ""){
             alert("본문을 적으세요.");
           }
           else{
@@ -179,8 +178,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
     },
       write(){
         /* 글 전체를 저장 */
+        var str = $('#descript').val();
+        console.log("db check1", str);
+        str = str.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+        console.log("db check", str);
         this.$store.state.formData.append('userid', this.email_id);
-        this.$store.state.formData.append('descript', $("#descript").text());
+        this.$store.state.formData.append('descript', str);
         this.$store.state.formData.append('subject', $("#subject").text());
         this.$store.state.formData.append('boardtype', this.$store.state.writeBoard_Category);
         this.$store.state.formData.append('boardforum', this.$store.state.writeBoard_forum);

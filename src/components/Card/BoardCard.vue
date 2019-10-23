@@ -23,8 +23,7 @@
                     <span v-if="item.img_cnt > 0" style="float:right;">
                       <img v-lazy ="item.imgurl" style="width:80px; height:80px;"/>
                     </span>
-                    <h6 class="write_ellipsis" style="margin-top: 25px;">
-                      {{item.descript}}
+                    <h6 v-html="item.descript" class="write_ellipsis" style="margin-top: 25px;">
                     </h6>
                   </div>
 
