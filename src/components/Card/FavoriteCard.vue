@@ -17,7 +17,7 @@
            </div>
          </div>
          <div v-else>
-           <img  v-lazy="item.url"/>
+           <img  v-lazy="item.url" style="max-width:90%;"/>
            <div style="width:100%;">
              <div style="display:inline-block;">
                <star-rating id="rating" :rating="ratingnum" class="star" :increment="0.5" :show-rating="false" @rating-selected="setRating"></star-rating>
@@ -30,7 +30,7 @@
 
      </div>
      <div v-else>
-       <div align="left" style="margin-left:15px; margin-right:15px;">
+       <div align="left" style="margin-left:15px; margin-right:15px; padding-bottom:32px;">
          <div style="border-bottom: 3px solid rgb(0,0,0);">
            <h5>
                {{product_name}}
@@ -97,7 +97,7 @@ export default {
       this.product_color = this.color;
       this.product_price = this.price;
       this.listImage();
-      
+
    },
    data(){
      return{

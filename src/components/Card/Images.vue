@@ -62,13 +62,23 @@ export default{
     trackOutboundLink: function (title,subject, direct_url) {
       gtag('event','상품클릭',{'event_category':title,'event_label':subject});
       if(navigator.userAgent.match(/Android|Tablet/i)){
-        window.android.bridge(direct_url);
+        if(navigator.userAgent.match(/herelux_app_and/i)){
+          window.android.bridge(url);
+        }
+        else{
+          window.open(url, '_blank');
+        }
       }
       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-        window.webkit.messageHandlers.YOURMETHOD.postMessage(direct_url.trim());
+        if(navigator.userAgent.match(/herelux_app_ios/i)){
+          window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+        }
+        else{
+          window.open(url, '_blank');
+        }
       }
       else {
-        window.open(direct_url, '_blank');
+        window.open(url, '_blank');
       }
     },
     fetchData(){
