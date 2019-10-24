@@ -125,7 +125,7 @@ export default{
          if(this.mylistActivetab == undefined)
          {
          }
-         else if(this.mylistActivetab >= 0 && this.mylistActivetab < 12)
+         else if(this.mylistActivetab >= 0 && this.mylistActivetab < this.items.length)
          {
            this.switchtab(this.mylistActivetab + 1);
            console.log("switchTab", this.mylistActivetab);
