@@ -16,7 +16,7 @@
                 내가 선택한 상품 리스트
             </h5>
             <h6 style="float:right; margin-top:15px; margin-right:15px;">
-              <a v-if="this.$store.state.myList_category <= 5" v-on:click="popup()">
+              <a v-if="this.category_middle.length > 0" v-on:click="popup()">
                 <img src="/public/img/btn_filter.png" style="height:18px;"/>
                 <b>필터링</b>
               </a>
@@ -98,6 +98,7 @@ export default{
      else{
        this.items = data;
        this.fetch();
+       this.categoryMiddle();
      }
      this.$store.commit('ISLOADING', false);
    }).catch(error =>{
@@ -178,6 +179,7 @@ export default{
         this.$store.state.myList_category = n;
 
         this.fetch();
+        this.categoryMiddle();
       })
     },
     fetch(){
@@ -198,9 +200,10 @@ export default{
       this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
       this.modalShow = false;
     },
-    popup(){
+    categoryMiddle(){
       //category key = 1
       var idx = 0;
+      this.category_middle = [];
       if(this.data != 0){
         idx = (this.data * 10) + 1;
       }
@@ -215,7 +218,7 @@ export default{
         }
         else{
           this.category_middle = result;
-          this.modalShow = true;
+        //  this.modalShow = true;
         //  this.$refs['modal-category'].show()
         }
         this.$store.commit('ISLOADING', false);
@@ -228,6 +231,9 @@ export default{
     errorAlert(){
       alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
+    },
+    popup(){
+        this.modalShow = true;
     }
  }
 }
