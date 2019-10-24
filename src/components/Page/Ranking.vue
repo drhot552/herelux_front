@@ -16,7 +16,7 @@
               {{subject}}
             </h5>
             <h6 style="float: right; margin-top: 15px; margin-right: 15px;">
-              <a v-if="this.$store.state.rankTabStatus <= 5" v-on:click="popup()">
+              <a v-if="this.category_middle.length > 0" v-on:click="popup()">
                 <img src="/public/img/btn_filter.png" style="height:18px;"/>
                 <b>필터링</b>
               </a>
@@ -96,6 +96,7 @@ export default{
      else{
        this.items = data;
        this.fetch();
+       this.categoryMiddle();
      }
      this.$store.commit('ISLOADING', false);
    }).catch(error =>{
@@ -116,13 +117,14 @@ export default{
  },
  methods: {
   rankmoveTouch(direction) {
+
     if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
        if(direction.deltaX < direction.deltaY){
          console.log("rank swiped left");
          if(this.activetab == undefined)
          {
          }
-         else if(this.activetab >= 0 && this.activetab< 12)
+         else if(this.activetab >= 0 && this.activetab < this.items.length)
          {
            this.switchtab(this.activetab + 1);
            console.log("rank switchTab", this.activetab);
@@ -178,6 +180,7 @@ export default{
         this.$store.state.rankTabStatus = n;
 
         this.fetch();
+        this.categoryMiddle();
       //  this.eventstartlistener();
       })
     },
@@ -201,9 +204,10 @@ export default{
       this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:key});
       this.modalShow = false;
     },
-    popup(){
+    categoryMiddle(){
       //category key = 1
       var idx = 0;
+      this.category_middle = [];
       if(this.data != 0){
         idx = (this.data * 10) + 1;
       }
@@ -218,7 +222,6 @@ export default{
         }
         else{
           this.category_middle = result;
-          this.modalShow = true;
         //  this.$refs['modal-category'].show()
         }
         this.$store.commit('ISLOADING', false);
@@ -231,6 +234,9 @@ export default{
     errorAlert(){
       alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
+    },
+    popup(){
+        this.modalShow = true;
     }
  }
 }
