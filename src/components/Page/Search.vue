@@ -3,21 +3,31 @@
     <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%;">
       <div class="edit_div">
         <div class="container" style="padding-right:0px; padding-left:0px;">
-          <div class="search_textarea"  contenteditable="true" id="search" placeholder="검색어를 입력하세요." style="width: 100%; max-height: 35px; height: 30px; float:left;">
+          <div class="search_textarea"  contenteditable="true" id="search" placeholder="검색어를 입력하세요." style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100;">
 
           </div>
         </div>
       </div>
     </div>
     <div class="container" style="padding-left:0px; padding-right:0px; padding-top:50px;">
-        <tabs slot="raw-content">
+      <div v-if="this.items.length > 0" class="row" style="margin-bottom: 50px; margin-top: 20px;">
+        <div class="div_style" v-for="item in this.items">
+          <div class="in" v-if="item.sub_descript != null">
+            <a style="color:#000000;" v-on:click="detail(item.minor_key)">
+              <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="width: 130px; height: 130px;"alt="..." >
+              <div v-lazy:background-image="item.url"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!--  <tabs slot="raw-content">
               <tab-pane >
                   <template slot="label">
                        상품
                   </template>
               </tab-pane>
               <tab-pane >
-                  <template slot="label">
+                  <template slot="l abel">
                        브랜드
                   </template>
               </tab-pane>
@@ -26,17 +36,52 @@
                        게시판
                   </template>
               </tab-pane>
-        </tabs>
+        </tabs>-->
       </div>
+      <loading :active.sync="this.$store.state.isLoading"
+                :can-cancel="true"
+                :is-full-page="true"
+                :z-index="1060">
+      </loading>
   </div>
 </template>
 <script>
 import Tabs from '../Component/SearchTab';
 import TabPane from '../Component/Tab';
+import { code } from '../../api'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default{
   components:{
     Tabs,
     TabPane
+  },
+  data(){
+    return{
+      items:[]
+    }
+  },
+  created(){
+    //Brand name
+    this.$store.commit('ISLOADING', true);
+    code.forum(1).then(data=>{
+      if(data.length == 0){
+
+      }
+      else{
+        this.items = data;
+      }
+      this.$store.commit('ISLOADING', false);
+    }).catch(error =>{
+      console.log("error",error);
+      //alert 후 페이지 이동
+      this.errorAlert();
+    });
+  },
+  methods:{
+    detail(){
+
+    }
   }
 }
 </script>
@@ -63,5 +108,13 @@ export default{
   border-radius: 7px;
   outline: 0;
   overflow: auto;
+}
+.div_style{
+  width: 50%;
+  margin-bottom: 20px;
+}
+.in {
+  width: 100%;
+  text-align: center;
 }
 </style>
