@@ -1,5 +1,5 @@
 <template>
-  <div class="section" style="padding: 53px 0 53px;">
+  <div class="section" style="padding: 49px 0 53px; overflow:auto; -webkit-overflow-scrolling: touch;">
     <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%;">
       <div class="edit_div">
         <div class="container" style="padding-right:0px; padding-left:0px;">
@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div class="container" style="padding-left:0px; padding-right:0px; padding-top:50px;">
+    <div class="container" style="padding-left:15px; padding-right:15px; padding-top:50px; height:80vh;">
       <div v-if="this.items.length > 0" class="row" style="margin-bottom: 50px; margin-top: 20px;">
         <div class="div_style" v-for="item in this.items">
           <div class="in" v-if="item.sub_descript != null">
@@ -114,7 +114,6 @@ export default{
   margin-bottom: 20px;
 }
 .in {
-  width: 100%;
   text-align: center;
 }
 </style>
