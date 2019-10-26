@@ -65,7 +65,7 @@
             >
           </span>
           <span class="span_style">
-            {{item.price}} {{item.price_simbol}}
+            {{item.price}} {{item.price_symbol}}
           </span>
           <span v-if="i ==0" class="span_style_1">
             * 이미지출처
