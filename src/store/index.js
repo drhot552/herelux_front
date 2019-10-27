@@ -43,6 +43,13 @@ const store = new Vuex.Store({
     myList_category : 0,
     myList_category_type : 1,
 
+    /* 명품관 관련 Data*/
+    brandList:[],
+    brandList_idx : 0,
+    brandList_readFlag : false,
+    brandList_category : 0,
+    brandList_category_type : 1,
+    
     /* Loading */
     isLoading : false
   },
@@ -56,6 +63,9 @@ const store = new Vuex.Store({
     },
     MYLIST_IDX_INCREMENT(state){
       state.myList_idx++
+    },
+    BRAND_IDX_INCREMENT(state){
+      state.brandList_idx++
     },
     SET_INIT (state) {
       state.idx = 0
@@ -72,6 +82,10 @@ const store = new Vuex.Store({
     SET_MYLIST(state){
       state.myList = [],
       state.myList_idx = 0
+    },
+    SET_BRANDLIST_INIT(state){
+      state.brandList = [],
+      state.brandList_idx = 0
     },
     ISLOADING(state,isloading){
       state.isLoading = isloading;
@@ -158,6 +172,37 @@ const store = new Vuex.Store({
           commit('MYLIST_IDX_INCREMENT',1)
           state.myList.push(...data);
           state.myList_readFlag = true;
+        }
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
+    },
+    FETCH_BRANDLIST_READMORE({commit, state}, {brandid, category_type, category}){
+      var key = 0;
+      if(category == 0) {
+        key = 99;
+      }
+      else {
+        key = category;
+      }
+      console.log("FETCH_BRANDLIST_READMORE", brandid, category_type, category);
+      return api.search.brand(brandid, state.brandList_idx, category_type, key).then(data=>{
+        if(data.length == 0){
+          state.brandList_readFlag = false;
+        }
+        else if(data.length < 20){
+          commit('BRAND_IDX_INCREMENT',1)
+          state.brandList.push(...data);
+          state.brandList_readFlag = false;
+
+        }
+        else{
+          commit('BRAND_IDX_INCREMENT',1)
+          state.brandList.push(...data);
+          state.brandList_readFlag = true;
         }
           commit('ISLOADING', false);
       }).catch(error =>{

@@ -79,8 +79,8 @@ export default{
     });
   },
   methods:{
-    detail(){
-
+    detail(productId){
+      this.$router.push(this.$route.query.returnPath || '/brand/' + productId);
     }
   }
 }

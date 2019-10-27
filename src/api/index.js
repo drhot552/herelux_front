@@ -124,11 +124,20 @@ export const auth = {
   }
 }
 
+export const search = {
+  brand(brandid, page, category , major_key ){
+    return request('get', '/search/brand/' + brandid + '/' + page + '/' + category + '/' + major_key)
+  }
+}
+
 export const code = {
   category(major_key){
     return request('get', '/code/' + major_key)
   },
   forum(major_key){
     return request('get', '/code/forum/' + major_key)
+  },
+  brand(minor_key){
+    return request('get', '/code/brand/' + minor_key)
   }
 }

@@ -4,16 +4,16 @@
       <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh;">
 
         <ul class="tabs" ref="tabbar">
-           <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
+           <div class="tabitem" :class="index === brandlistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
              {{tab.descript}}
            </div>
-           <div class="slider" :style="'transform:translateX('+mylistActivetab*tabwidth+'px)'">
+           <div class="slider" :style="'transform:translateX('+brandlistActivetab*tabwidth+'px)'">
            </div>
          </ul>
-        <div v-hammer:swipe="mylistmoveTouch" ref="tcon" class="tabcontainer">
+        <div v-hammer:swipe="brandmoveTouch" ref="tcon" class="tabcontainer">
           <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
-            <h5 style="float:left;">
-                내가 선택한 상품 리스트
+            <h5 style="float:left;" >
+                {{this.brandList_name}}
             </h5>
             <h6 style="float:right; margin-top:15px; margin-right:15px;">
               <a v-if="this.category_middle.length > 0" v-on:click="popup()">
@@ -27,9 +27,9 @@
 
           </div>
           <transition :name="transition" v-for="(tab, index) in items" :key="index">
-             <div class="tabpane_mylist" v-if="index === mylistActivetab">
-               <MyListCard>
-               </MyListCard>
+             <div class="tabpane_mylist" v-if="index === brandlistActivetab">
+               <BrandCard>
+               </BrandCard>
              </div>
           </transition>
         </div>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import MyListCard from '../Card/MyListCard';
+import BrandCard from '../Card/BrandCard';
 import Modal from '../Component/Modal';
 import { code } from '../../api';
 import Loading from 'vue-loading-overlay';
@@ -63,14 +63,14 @@ export default{
     item:Array
   },
   components:{
-    MyListCard,
+    BrandCard,
     Modal,
     Loading
   },
   data() {
     return {
       transition: "slide-next",
-      mylistActivetab: 0,
+      brandlistActivetab: 0,
       tabwidth: 90,
       data: 0,
       items:[],
@@ -79,17 +79,15 @@ export default{
       modalShow: false,
       category_middle:[],
       subject : "전체",
-      userid : ""
+      brandId : 0,
+      brandList_name : ""
     }
   },
  created(){
 
-   this.$store.state.myList_category_type = 0;
-   this.$store.state.myList_category = 0;
-
-   this.userid = localStorage.getItem('id');
+   this.brandId = this.$route.params.brand_id;
    this.$store.commit('ISLOADING', true);
-   this.$store.commit('SET_MYLIST');
+   this.$store.commit('SET_BRANDLIST_INIT');
    //전체가져오기
    code.category(2).then(data=>{
      if(data.length == 0){
@@ -97,6 +95,7 @@ export default{
      }
      else{
        this.items = data;
+       this.brandName();
        this.fetch();
        this.categoryMiddle();
      }
@@ -122,28 +121,28 @@ export default{
     if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
        if(direction.deltaX < direction.deltaY){
          console.log("swiped left");
-         if(this.mylistActivetab == undefined)
+         if(this.brandlistActivetab == undefined)
          {
          }
-         else if(this.mylistActivetab >= 0 && this.mylistActivetab < this.items.length)
+         else if(this.brandlistActivetab >= 0 && this.brandlistActivetab < this.items.length)
          {
-           this.switchtab(this.mylistActivetab + 1);
-           console.log("switchTab", this.mylistActivetab);
-           if(this.mylistActivetab== 0){
+           this.switchtab(this.brandlistActivetab + 1);
+           console.log("switchTab", this.brandlistActivetab);
+           if(this.brandlistActivetab== 0){
            }
          }
          else{
          }
        }
        else if (direction.deltaX > direction.deltaY){
-         if(this.mylistActivetab == undefined)
+         if(this.brandlistActivetab == undefined)
          {
            this.switchtab(1);
          }
-         else if(this.mylistActivetab >= 1)
+         else if(this.brandlistActivetab >= 1)
          {
-           this.switchtab(this.mylistActivetab - 1);
-           if(this.mylistActivetab == 0){
+           this.switchtab(this.brandlistActivetab - 1);
+           if(this.brandlistActivetab == 0){
              //this.switchtab(0);
            }
          }
@@ -157,12 +156,12 @@ export default{
    switchtab(n){
       let scroll, scond
 
-      if(this.mylistActivetab > n){
+      if(this.brandlistActivetab > n){
         this.transition = "slide-prev"
          scroll = n-1
         if(scond && this.$refs.tab[scroll])
           this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
-      }else  if(this.mylistActivetab < n){
+      }else  if(this.brandlistActivetab < n){
          this.transition = "slide-next"
          scroll = n+1
       }
@@ -172,11 +171,11 @@ export default{
         this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
 
       this.$nextTick(function() {
-      	this.mylistActivetab = n
+      	this.brandlistActivetab = n
         this.subject = this.items[n].descript;
 
         this.data = n;
-        this.$store.state.myList_category = n;
+        this.$store.state.brandList_category = n;
 
         this.fetch();
         this.categoryMiddle();
@@ -184,20 +183,20 @@ export default{
     },
     fetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
-      this.$store.state.myList_category_type = 1;
-      this.$store.commit('SET_MYLIST');
+      this.$store.state.brandList_category_type = 1;
+      this.$store.commit('SET_BRANDLIST_INIT');
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+      this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
       // console.log(this.$store.state.readFlag)
     },
     categorySelect(key, descript){
       // 카테고리 타입이 2이면 부카테고리로 set한다
       this.subject = descript;
-      this.$store.state.myList_category_type = 2;
-      this.$store.state.myList_category = key;
-      this.$store.commit('SET_MYLIST');
+      this.$store.state.brandList_category_type = 2;
+      this.$store.state.brandList_category = key;
+      this.$store.commit('SET_BRANDLIST_INIT');
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+      this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
       this.modalShow = false;
     },
     categoryMiddle(){
@@ -222,6 +221,21 @@ export default{
         //  this.$refs['modal-category'].show()
         }
         this.$store.commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        //alert 후 페이지 이동
+        this.errorAlert();
+      });
+    },
+    brandName(){
+      this.$store.commit('ISLOADING', true);
+      //전체가져오기
+      code.brand(this.brandId).then(data=>{
+        if(data.length == 0){
+
+        } else {
+          this.brandList_name = data[0].descript;
+        }
       }).catch(error =>{
         console.log("error",error);
         //alert 후 페이지 이동

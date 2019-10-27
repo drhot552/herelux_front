@@ -42,7 +42,7 @@
             <Cauly v-bind:type="2">
             </Cauly>
           </div>
-          <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
+          <div style="margin-top:10px; margin-bottom:10px;height: 45vh;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">
               <h6 style="padding-left:15px; float:left;">
                 <b style="float:left; margin-right:11px;">{{item.name}}</b>
