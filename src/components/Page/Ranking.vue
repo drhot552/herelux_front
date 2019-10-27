@@ -95,6 +95,7 @@ export default{
      }
      else{
        this.items = data;
+       this.subject = this.items[this.activetab].descript;
        this.fetch();
        this.categoryMiddle();
      }
