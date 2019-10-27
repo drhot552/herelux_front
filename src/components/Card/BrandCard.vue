@@ -19,7 +19,7 @@
                   </div>
               </div>
           </div>
-          <div v-if="this.$store.state.myList_readFlag" style="text-align:center; height:100px;">
+          <div v-if="this.$store.state.brandList_readFlag" style="text-align:center; height:100px;">
             <a style="color:#000000;" v-on:click="readMore()">
               <span>더보기..</span>
             </a>

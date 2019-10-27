@@ -87,6 +87,8 @@ export default{
 
    this.brandId = this.$route.params.brand_id;
    this.$store.state.brandId = this.$route.params.brand_id;
+   this.brandlistActivetab = this.$store.state.brandList_category;
+
    this.$store.commit('ISLOADING', true);
    this.$store.commit('SET_BRANDLIST_INIT');
    //전체가져오기
@@ -125,7 +127,7 @@ export default{
          if(this.brandlistActivetab == undefined)
          {
          }
-         else if(this.brandlistActivetab >= 0 && this.brandlistActivetab < this.items.length)
+         else if(this.brandlistActivetab >= 0 && this.brandlistActivetab < this.items.length - 1)
          {
            this.switchtab(this.brandlistActivetab + 1);
            console.log("switchTab", this.brandlistActivetab);

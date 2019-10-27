@@ -85,7 +85,7 @@ export default{
  created(){
 
    this.$store.state.myList_category_type = 0;
-   this.$store.state.myList_category = 0;
+   this.mylistActivetab = this.$store.state.myList_category;
 
    this.userid = localStorage.getItem('id');
    this.$store.commit('ISLOADING', true);
@@ -125,7 +125,7 @@ export default{
          if(this.mylistActivetab == undefined)
          {
          }
-         else if(this.mylistActivetab >= 0 && this.mylistActivetab < this.items.length)
+         else if(this.mylistActivetab >= 0 && this.mylistActivetab < this.items.length - 1)
          {
            this.switchtab(this.mylistActivetab + 1);
            console.log("switchTab", this.mylistActivetab);

@@ -59,7 +59,7 @@ export default{
     this.fetchData()
   },
   methods:{
-    trackOutboundLink: function (title,subject, direct_url) {
+    trackOutboundLink: function (title,subject, url) {
       gtag('event','상품클릭',{'event_category':title,'event_label':subject});
       if(navigator.userAgent.match(/Android|Tablet/i)){
         if(navigator.userAgent.match(/herelux_app_and/i)){

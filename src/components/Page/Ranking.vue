@@ -87,7 +87,7 @@ export default{
    //Tab가져오기
    this.$store.commit('SET_INIT');
    this.$store.commit('ISLOADING', true);
-   this.$store.state.rankTabStatus = 0;
+   this.activetab = this.$store.state.rankTabStatus;
 
    code.category(2).then(data=>{
      if(data.length == 0){
@@ -124,7 +124,7 @@ export default{
          if(this.activetab == undefined)
          {
          }
-         else if(this.activetab >= 0 && this.activetab < this.items.length)
+         else if(this.activetab >= 0 && this.activetab < this.items.length - 1)
          {
            this.switchtab(this.activetab + 1);
            console.log("rank switchTab", this.activetab);
