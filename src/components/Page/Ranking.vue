@@ -190,7 +190,7 @@ export default{
       this.$store.commit('SET_INIT');
       this.$store.commit('ISLOADING', true);
       console.log("rank 패치데이터", this.data, this.category_type, this.$store.state.product.length);
-      this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.data});
+      this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
 
       //this.eventlistener();
       // console.log(this.$store.state.readFlag)
