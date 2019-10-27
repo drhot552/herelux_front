@@ -86,6 +86,7 @@ export default{
  created(){
 
    this.brandId = this.$route.params.brand_id;
+   this.$store.state.brandId = this.$route.params.brand_id;
    this.$store.commit('ISLOADING', true);
    this.$store.commit('SET_BRANDLIST_INIT');
    //전체가져오기

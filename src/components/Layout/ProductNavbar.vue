@@ -5,9 +5,12 @@
           <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist" style="margin:0">
                     이전
           </router-link>
-          <router-link v-else class="navbar-brand" to="/ranking" style="margin:0">
+          <router-link v-else-if="pageType=='ranking'" class="navbar-brand" to="/ranking" style="margin:0">
                     이전
           </router-link>
+          <div v-else class="navbar-brand" v-on:click="onClick()" style="margin:0; color:black;">
+                    이전
+          </div>
         </div>
         <div class="board_style_middle">
         </div>
@@ -22,11 +25,22 @@
     },
     data(){
       return{
-        pageType:''
+        pageType:String,
+        pageMove:String
       }
     },
     created(){
       this.pageType = this.$route.params.pagetype;
+      if(this.pageType.match(/brand/gi)){
+        this.pageMove = this.pageType.replace(/_/gi,'/');
+      }
+    },
+    methods:{
+      onClick(){
+
+        console.log(this.$route.query.returnPath);
+        this.$router.push("/"+this.pageMove);
+      }
     }
   }
 </script>

@@ -36,6 +36,7 @@ export default{
 
   created(){
     this.brandId = this.$route.params.brand_id;
+    this.returnPath = this.$route.query.returnPath || '/detail'
     //this.readMore();
   },
   data(){
@@ -50,8 +51,8 @@ export default{
       this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
     },
     detail(id){
-      this.$store.state.productDetail_name = 'mylist'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'mylist'
+      this.$store.state.productDetail_name = 'brand'
+      this.returnPath = this.returnPath +'/' + id + '/' + 'brand' + '_' +this.brandId
       this.$router.push(this.returnPath)
     }
   }

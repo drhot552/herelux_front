@@ -49,7 +49,8 @@ const store = new Vuex.Store({
     brandList_readFlag : false,
     brandList_category : 0,
     brandList_category_type : 1,
-    
+    brandId : 0,
+
     /* Loading */
     isLoading : false
   },
