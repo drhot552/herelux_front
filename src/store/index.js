@@ -90,6 +90,11 @@ const store = new Vuex.Store({
     },
     ISLOADING(state,isloading){
       state.isLoading = isloading;
+    },
+    CATEGORY_INIT(state){
+      state.brandList_category = 0;
+      state.myList_category = 0;
+      state.rankTabStatus = 0;
     }
   },
   //보드를 추가하는 액션 api 콜을 해서 보드 생성 -> 비동기 처리시 actions 사용

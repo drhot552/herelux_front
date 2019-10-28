@@ -74,6 +74,9 @@
         </a>
       </li>
     </ul>
+    <div style="height:50px; text-align:left;">
+      <span style="float: left; margin-left: 15px; margin-right: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 가격과 사이트 주소는 판매 사이트의 사정으로 변동이 생길 수 있습니다.</span>
+    </div>
     <div style="height:50px;">
 
     </div>

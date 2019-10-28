@@ -65,7 +65,7 @@
           </div>
           <div v-if="this.$store.state.board_readFlag" style="text-align:center; height: 7vh; padding-top: 15px;">
             <a style="color:#000000;" v-on:click="readMore()">
-              <span>더보기..</span>
+              <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 20px;"/>
             </a>
           </div>
           <router-link class="write_button" v-bind:to="`/write`">

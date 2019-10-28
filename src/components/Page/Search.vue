@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="container" style="padding-left:15px; padding-right:15px; padding-top:50px; height:80vh;">
-      <div v-if="this.items.length > 0" class="row" style="margin-bottom: 50px; margin-top: 20px;">
+      <div v-if="this.items.length > 0" class="row" style="margin-top: 20px;">
         <div class="div_style" v-for="item in this.items">
           <div class="in" v-if="item.sub_descript != null">
             <a style="color:#000000;" v-on:click="detail(item.minor_key)">
@@ -19,6 +19,9 @@
             </a>
           </div>
         </div>
+      </div>
+      <div style="height:50px;">
+        <span style="margin-left: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 이미지출처 - 각 브랜드 공식홈페이지 </span>
       </div>
       <!--  <tabs slot="raw-content">
               <tab-pane >

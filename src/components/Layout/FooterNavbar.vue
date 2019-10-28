@@ -1,42 +1,42 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-white fixed-bottom" style = "z-index:1010;">
     <div class="div_style_1">
-      <router-link v-if="pageName ==='Event'" to="/">
+      <router-link v-if="pageName ==='Event'" v-on:click.native="footerClick()" to="/">
         <img src="/public/img/bottom_home_select.png" style="height:20px;"/>
       </router-link>
-      <router-link v-else style="color:#000000;" to="/">
+      <router-link v-else style="color:#000000;" v-on:click.native="footerClick()" to="/">
         <img src="/public/img/bottom_home_default.png" style="height:20px;"/>
       </router-link>
     </div>
     <div class="div_style_1">
-      <router-link v-if="pageName==='Product'" style="color:#000000;" to="/product">
+      <router-link v-if="pageName==='Product'" style="color:#000000;" v-on:click.native="footerClick()" to="/product">
         <img src="/public/img/bottom_value_select.png" style="height:20px;"/>
       </router-link>
-      <router-link v-else style="color:#000000;" to="/product">
+      <router-link v-else style="color:#000000;" v-on:click.native="footerClick()" to="/product">
         <img src="/public/img/bottom_value_default.png" style="height:20px;"/>
       </router-link>
     </div>
     <div class="div_style_1">
-      <router-link v-if="pageName==='MyList'" style="color:#000000;" to="/mylist">
+      <router-link v-if="pageName==='MyList'" style="color:#000000;" v-on:click.native="footerClick()" to="/mylist">
         <img src="/public/img/bottom_mypage_select.png" style="height:20px;"/>
       </router-link>
-      <router-link v-else style="color:#000000;" to="/mylist">
+      <router-link v-else style="color:#000000;" v-on:click.native="footerClick()" to="/mylist">
         <img src="/public/img/bottom_mypage_default.png" style="height:20px;"/>
       </router-link>
     </div>
     <div class="div_style_1">
-      <router-link v-if="pageName==='Rank'" style="color:#000000;" to="/ranking">
+      <router-link v-if="pageName==='Rank'" style="color:#000000;" v-on:click.native="footerClick()" to="/ranking">
         <img src="/public/img/bottom_rank_select.png" style="height:20px;"/>
       </router-link>
-      <router-link v-else style="color:#000000;" to="/ranking">
+      <router-link v-else style="color:#000000;"  v-on:click.native="footerClick()" to="/ranking">
         <img src="/public/img/bottom_rank_default.png" style="height:20px;"/>
       </router-link>
     </div>
     <div class="div_style_1">
-      <router-link v-if="pageName==='Board'" style="color:#000000;" to="/board">
+      <router-link v-if="pageName==='Board'" style="color:#000000;" v-on:click.native="footerClick()" to="/board">
         <img src="/public/img/bottom_board_select.png" style="height:29px;"/>
       </router-link>
-      <router-link v-else style="color:#000000;" to="/board">
+      <router-link v-else style="color:#000000;" v-on:click.native="footerClick()" to="/board">
         <img src="/public/img/bottom_board_default.png" style="height:29px;"/>
       </router-link>
     </div>
@@ -52,6 +52,11 @@
     },
     components: {
       NavLink
+    },
+    methods:{
+      footerClick(){
+        this.$store.commit('CATEGORY_INIT');
+      }
     }
   }
 </script>

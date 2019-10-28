@@ -4,7 +4,7 @@
             <div class="navbar-translate">
                 <slot v-bind="slotData"></slot>
                 <div style="text-align:right; width:100%;">
-                  <router-link to="/search" style="margin-right:10px;">
+                  <router-link to="/search" v-on:click.native="searchClick()" style="margin-right:10px;">
                     <img src="/public/img/btn_search.png" style="height:20px;"/>
                   </router-link>
                   <a v-on:click="brandurl('http://www.shoponlyhere.com')" style="margin-right:5px;">
@@ -214,6 +214,9 @@
        //evt.preventDefault()
        this.flag = true;
      },
+     searchClick(){
+       this.$store.commit('CATEGORY_INIT');
+     },
      onClose(){
        this.modalShow=false;
      },
@@ -245,6 +248,7 @@
     beforeDestroy () {
       document.removeEventListener('scroll', this.scrollListener)
     }
+
   }
 </script>
 <style>
