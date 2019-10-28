@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div style="height:50px;">
+      <div style="height:20vh;">
         <span style="margin-left: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 이미지출처 - 각 브랜드 공식홈페이지 </span>
       </div>
       <!--  <tabs slot="raw-content">
