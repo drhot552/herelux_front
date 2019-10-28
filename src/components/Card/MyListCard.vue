@@ -24,7 +24,7 @@
           </div>
           <div v-if="this.$store.state.myList_readFlag" style="text-align:center; height:100px;">
             <a style="color:#000000;" v-on:click="readMore()">
-              <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 20px;"/>
+              <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
             </a>
           </div>
       </div>
