@@ -3,9 +3,9 @@
     <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%;">
       <div class="edit_div">
         <div class="container" style="padding-right:0px; padding-left:0px;">
-          <div class="search_textarea"  contenteditable="true" id="search" placeholder="검색어를 입력하세요." style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100;">
+          <textarea class="search_textarea"  contenteditable="true" id="search" placeholder="검색어를 입력하세요." style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100;">
 
-          </div>
+          </textarea>
         </div>
       </div>
     </div>

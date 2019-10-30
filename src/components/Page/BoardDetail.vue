@@ -206,8 +206,16 @@ export default{
 
     board.select(this.board_idx,this.$store.state.boardtype).then(data => {
       if(data.length > 0 ){
+        var url = data[0].descript.match(/(http(s)?:\/\/|www.)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}([\/a-z0-9-%#?&=\w])+(\.[a-z0-9]{2,4}(\?[\/a-z0-9-%#?&=\w]+)*)*/gi);
+        console.log(url);
         this.boardDetail = data;
         this.writer = this.boardDetail[0].userid;
+        if(url != null){
+          this.boardDetail[0].descript=this.boardDetail[0].descript.replace(url, url.toString().link(url));
+          console.log(this.boardDetail[0].descript.replace(url, url.toString().link(url)));
+        }
+        //this.boardDetail[0].descript += url.toString().link(url);
+
         //작성자 Id와 같은지 체크 같으면 댓글 시 같은 닉네임을 사용한다.
         if(this.userid == data[0].userid){
           this.nickName = data[0].name;
