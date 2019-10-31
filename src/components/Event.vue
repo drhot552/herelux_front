@@ -1,5 +1,5 @@
 <template>
-  <div class="section" style="padding:51px 0px; -webkit-overflow-scrolling: touch;">
+  <div class="section" style="padding:51px 0px; overflow:auto; -webkit-overflow-scrolling: touch;">
     <back-to-top bottom="20px" right="20px">
       <button type="button" class="goTop">
         <i class="fa fa-chevron-up"></i>
