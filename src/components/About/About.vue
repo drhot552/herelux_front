@@ -14,9 +14,16 @@
             </div>
         </div>
         <div class="section">
+          <div class="col-md-8 mr-auto ml-auto">
+              <img src="/public/img/apple_app_store_herelux_btn.png" style="width:50%; float:left;"/>
+              <img src="/public/img/google_play_store_herelux_btn.png" style="width:50%;"/>
+          </div>
             <div class="about-description text-center">
                 <div class="features-3">
                     <div class="container">
+                      <div class="row">
+
+                      </div>
                         <div class="row">
                             <div class="col-md-8 mr-auto ml-auto">
                                 <h2 class="title">E-commerce</h2>

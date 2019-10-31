@@ -37,6 +37,9 @@
          <h5>
              {{name}}
          </h5>
+         <!--<h5 style="float:right;" v-on:click="doCopy()">
+             공유
+         </h5> -->
        </div>
        <h6></h6>
        <h6 v-if="avg > 0">평균점수 {{avg}} 점 </h6>
@@ -131,7 +134,8 @@ export default {
        loading:false,
        productflag : true,
        avg : 0,
-       detailbrand : []
+       detailbrand : [],
+       message : "test"
      }
    },
    methods:{
@@ -179,7 +183,16 @@ export default {
      errorAlert(){
        alert("서버와의 통신 에러가 발생하였습니다.");
        this.$router.push(this.$route.query.returnPath || '/error');
-     }
+     },
+     doCopy() {
+        this.$copyText(this.message).then(function (e) {
+          alert('Copied')
+          console.log(e)
+        }, function (e) {
+          alert('Can not copy')
+          console.log(e)
+        })
+      }
    }
 
   }
