@@ -16,8 +16,13 @@
         </div>
         <div class="section">
           <div class="col-md-8 mr-auto ml-auto">
-              <img src="/public/img/apple_app_store_herelux_btn.png" style="width:50%; float:left;"/>
-              <img src="/public/img/google_play_store_herelux_btn.png" style="width:50%;"/>
+              <a v-on:click="appStore('https://apps.apple.com/kr/app/herelux/id1484441325')">
+                <img src="/public/img/apple_app_store_herelux_btn.png" style="width:50%; float:left;"/>
+              </a>
+              <a v-on:click="appStore('https://play.google.com/store/apps/details?id=com.nabak.herelux')">
+                <img src="/public/img/google_play_store_herelux_btn.png" style="width:50%;"/>
+              </a>
+
           </div>
             <div class="about-description text-center">
                 <div class="features-3" style="padding-top:0px;">
@@ -115,6 +120,29 @@
           firstName: '',
           email: '',
           speciality: ''
+        }
+      }
+    },
+    methods:{
+      appStore(url){
+        if(navigator.userAgent.match(/Android|Tablet/i)){
+          if(navigator.userAgent.match(/herelux_app_and/i)){
+            window.android.bridge(url);
+          }
+          else{
+            window.open(url, '_blank');
+          }
+        }
+        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+          if(navigator.userAgent.match(/herelux_app_ios/i)){
+            window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+          }
+          else{
+            window.open(url, '_blank');
+          }
+        }
+        else {
+          window.open(url, '_blank');
         }
       }
     }

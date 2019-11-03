@@ -3,8 +3,8 @@
     <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%;">
       <div class="edit_div">
         <div class="container" style="padding-right:0px; padding-left:0px;">
-          <textarea class="search_textarea"  contenteditable="true" id="search" placeholder="검색어를 입력하세요."
-                    style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100; pointer-events:none;">
+          <textarea class="search_textarea"  contenteditable="true" id="search" placeholder="검색기능은 만드는 중이며 현재 아래 브랜드관만 이용 가능합니다."
+                    style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100; pointer-events:none; font-size:12px;">
 
           </textarea>
         </div>
