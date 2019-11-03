@@ -60,7 +60,7 @@
                 <h6> {{item.comment}} </h6>
               </div> -->
             </div>
-            <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx" + "`/board`">
+            <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx + `/board`">
             </router-link>
           </div>
           <div v-if="this.$store.state.board_readFlag" style="text-align:center; height: 7vh; padding-top: 15px;">

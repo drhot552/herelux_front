@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" style="overflow:auto; -webkit-overflow-scrolling: touch; height:92vh;">
         <div class="page-header page-header-small">
             <parallax class="page-header-image"
                  style="background-image: url('/public/img/luxury.jpeg')">
