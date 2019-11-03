@@ -37,9 +37,9 @@
          <h5>
              {{name}}
          </h5>
-         <!--<h5 style="float:right;" v-on:click="doCopy()">
+         <h5 style="float:right;" v-on:click="doCopy()">
              공유
-         </h5> -->
+         </h5>
        </div>
        <h6></h6>
        <h6 v-if="avg > 0">평균점수 {{avg}} 점 </h6>
@@ -185,8 +185,9 @@ export default {
        this.$router.push(this.$route.query.returnPath || '/error');
      },
      doCopy() {
+       this.message = this.$route.query.returnPath
         this.$copyText(this.message).then(function (e) {
-          alert('Copied')
+          alert('클립보드 복사되었습니다.')
           console.log(e)
         }, function (e) {
           alert('Can not copy')

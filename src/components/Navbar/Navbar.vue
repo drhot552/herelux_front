@@ -215,7 +215,7 @@
        this.flag = true;
      },
      searchClick(){
-       this.$store.commit('CATEGORY_INIT');
+       this.$store.commit('SET_CATEGORY_INIT');
      },
      onClose(){
        this.modalShow=false;

@@ -2,7 +2,10 @@
     <nav class="navbar bg-white fixed-top">
       <div class="container" style="padding-right:0px; padding-left:0px;">
         <div class="board_style" style="text-align:left;">
-          <router-link class="navbar-brand" to="/board" style="margin:0">
+          <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist/1" style="margin:0">
+                    이전
+          </router-link>
+          <router-link v-else class="navbar-brand" to="/board" style="margin:0">
                     이전
           </router-link>
         </div>
@@ -49,11 +52,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         returnPath:'',
         modalShowBoard:false,
         title : '',
-        descript : ''
+        descript : '',
+        pageType : String
       }
     },
     created(){
       this.returnPath = this.$route.query.returnPath || '/board'
+      this.pageType = this.$route.params.pagetype;
     },
     methods:{
       deleteboard(){
@@ -64,7 +69,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
       handleOk(){
         this.$store.commit('ISLOADING', true);
-        
+
         board.delete(this.$route.params.board_idx).then(data => {
           console.log("delete", data);
           this.$router.push(this.returnPath);

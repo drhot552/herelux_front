@@ -2,36 +2,68 @@
   <div>
     <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
       <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh;">
-
-        <ul class="tabs" ref="tabbar">
-           <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
-             {{tab.descript}}
-           </div>
-           <div class="slider" :style="'transform:translateX('+mylistActivetab*tabwidth+'px)'">
-           </div>
-         </ul>
-        <div v-hammer:swipe="mylistmoveTouch" ref="tcon" class="tabcontainer">
-          <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
-            <h5 style="float:left;">
-                내가 선택한 상품 리스트
-            </h5>
-            <h6 style="float:right; margin-top:15px; margin-right:15px;">
-              <a v-if="this.category_middle.length > 0" v-on:click="popup()">
-                <img src="/public/img/btn_filter.png" style="height:18px;"/>
-                <b>필터링</b>
-              </a>
-            </h6>
-
+        <div style="position:fixed; background-color:white; z-index:1; width:100%; height:60px;">
+          <div v-if="listFlag" style="margin-top:15px;" v-on:click="listChange()">
+            <span class="board_span_style" style="color:black; text-decoration: underline;">내가 선택한 명품</span>
+            <span class="board_span_style">내가 작성한 글</span>
           </div>
-          <div style="text-align:right; margin-right:30px; margin-bottom:20px;">
-
+          <div v-else style="margin-top:13px;" v-on:click="listChange()">
+            <span class="board_span_style">내가 선택한 명품</span>
+            <span class="board_span_style" style="color:black; text-decoration: underline;">내가 작성한 글</span>
           </div>
-          <transition :name="transition" v-for="(tab, index) in items" :key="index">
-             <div class="tabpane_mylist" v-if="index === mylistActivetab">
-               <MyListCard>
-               </MyListCard>
+        </div>
+
+        <!-- mulist product 부분-->
+        <div v-if="listFlag" >
+          <ul class="tabs" ref="mylisttabbar" style="margin-top:60px;">
+             <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="mylisttab">
+               {{tab.descript}}
              </div>
-          </transition>
+             <div class="slider" :style="'transform:translateX('+mylistActivetab*tabwidth+'px)'">
+             </div>
+           </ul>
+           <div v-hammer:swipe="mylistmoveTouch" ref="tcon" class="tabcontainer">
+             <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
+               <h5 style="float:left;">
+                   내가 선택한 상품 리스트
+               </h5>
+               <h6 style="float:right; margin-top:15px; margin-right:15px;">
+                 <a v-if="this.category_middle.length > 0" v-on:click="popup()">
+                   <img src="/public/img/btn_filter.png" style="height:18px;"/>
+                   <b>필터링</b>
+                 </a>
+               </h6>
+
+             </div>
+             <div style="text-align:right; margin-right:30px; margin-bottom:20px;">
+
+             </div>
+             <transition :name="transition" v-for="(tab, index) in items" :key="index">
+                <div class="tabpane_mylist" v-if="index === mylistActivetab">
+                  <MyListCard>
+                  </MyListCard>
+                </div>
+             </transition>
+           </div>
+        </div>
+        <!--myListBoradCard -->
+        <div v-else>
+          <ul class="tabs" ref="mylisttabbar" style="margin-top:60px;">
+             <div class="tabitem" :class="index === mylistboardactivetab ? 'active' : ''"  v-for="(tab, index) in boarditems" @click="boardswitchtab(index)" :key="index" ref="boardtab">
+               {{tab.descript}}
+             </div>
+             <div class="slider" :style="'transform:translateX('+mylistboardactivetab*tabwidth+'px)'">
+             </div>
+           </ul>
+
+          <div v-hammer:swipe="mylistboardmoveTouch" ref="tcon" class="tabcontainer">
+            <transition :name="transition" v-for="(tab, index) in boarditems" :key="index">
+               <div class="tabpane_mylist" v-if="index === mylistboardactivetab">
+                 <MyListBoardCard>
+                 </MyListBoardCard>
+               </div>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +85,7 @@
 
 <script>
 import MyListCard from '../Card/MyListCard';
+import MyListBoardCard from '../Card/MyListBoardCard';
 import Modal from '../Component/Modal';
 import { code } from '../../api';
 import Loading from 'vue-loading-overlay';
@@ -65,21 +98,25 @@ export default{
   components:{
     MyListCard,
     Modal,
-    Loading
+    Loading,
+    MyListBoardCard
   },
   data() {
     return {
       transition: "slide-next",
       mylistActivetab: 0,
+      mylistboardactivetab : 0,
       tabwidth: 90,
       data: 0,
       items:[],
+      boarditems:[],
       initialX : null,
       initialY : null,
       modalShow: false,
       category_middle:[],
       subject : "전체",
-      userid : ""
+      userid : "",
+      listFlag:true
     }
   },
  created(){
@@ -89,7 +126,12 @@ export default{
 
    this.userid = localStorage.getItem('id');
    this.$store.commit('ISLOADING', true);
-   this.$store.commit('SET_MYLIST');
+   this.$store.commit('SET_MYLIST_INIT');
+   if(this.$route.params.pagetype == 0){
+     this.listFlag = true
+   } else {
+     this.listFlag = false
+   }
    //전체가져오기
    code.category(2).then(data=>{
      if(data.length == 0){
@@ -106,10 +148,25 @@ export default{
      //alert 후 페이지 이동
      this.errorAlert();
    });
+   //게시판전체가져오기
+   code.category(3).then(data=>{
+     if(data.length == 0){
+
+     }
+     else{
+       this.boarditems = data;
+       this.myboardFetch();
+     }
+     this.$store.commit('ISLOADING', false);
+   }).catch(error =>{
+     console.log("error",error);
+     //alert 후 페이지 이동
+     this.errorAlert();
+   });
  },
  mounted(){
-  this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
-
+  this.$refs.mylisttabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
+//  this.$refs.mylistboardtabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
  },
  computed:{
    pointer(){
@@ -154,22 +211,56 @@ export default{
        }
      }
   },
+  mylistboardmoveTouch(direction) {
+    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
+       if(direction.deltaX < direction.deltaY){
+         console.log("swiped left");
+         if(this.mylistboardactivetab == undefined)
+         {
+         }
+         else if(this.mylistboardactivetab >= 0 && this.mylistboardactivetab < this.items.length - 1)
+         {
+           this.boardswitchtab(this.mylistboardactivetab + 1);
+           if(this.mylistActivetab== 0){
+           }
+         }
+         else{
+         }
+       }
+       else if (direction.deltaX > direction.deltaY){
+         if(this.mylistboardactivetab == undefined)
+         {
+           this.boardswitchtab(1);
+         }
+         else if(this.mylistboardactivetab >= 1)
+         {
+           this.boardswitchtab(this.mylistboardactivetab - 1);
+           if(this.mylistboardactivetab == 0){
+             //this.switchtab(0);
+           }
+         }
+         else{
+           //this.switchtab(0);
+         }
+       }
+     }
+  },
    switchtab(n){
       let scroll, scond
 
       if(this.mylistActivetab > n){
         this.transition = "slide-prev"
          scroll = n-1
-        if(scond && this.$refs.tab[scroll])
-          this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
+        if(scond && this.$refs.mylisttab[scroll])
+          this.$refs.mylisttab[scroll].scrollIntoView({behavior:'smooth'})
       }else  if(this.mylistActivetab < n){
          this.transition = "slide-next"
          scroll = n+1
       }
       scond = scroll>=0 && scroll < this.items.length
 
-      if(scond && this.$refs.tab[scroll])
-        this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
+      if(scond && this.$refs.mylisttab[scroll])
+        this.$refs.mylisttab[scroll].scrollIntoView({behavior:'smooth'})
 
       this.$nextTick(function() {
       	this.mylistActivetab = n
@@ -182,12 +273,43 @@ export default{
         this.categoryMiddle();
       })
     },
+    boardswitchtab(n){
+      let scroll, scond
+
+      if(this.mylistboardactivetab > n){
+        this.transition = "slide-prev"
+         scroll = n-1
+        if(scond && this.$refs.boardtab[scroll])
+          this.$refs.boardtab[scroll].scrollIntoView({behavior:'smooth'})
+      } else  if(this.mylistboardactivetab < n){
+         this.transition = "slide-next"
+         scroll = n+1
+      }
+      scond = scroll>=0 && scroll < this.boarditems.length
+
+      if(scond && this.$refs.boardtab[scroll])
+        this.$refs.boardtab[scroll].scrollIntoView({behavior:'smooth'})
+
+      this.$nextTick(function() {
+      	this.mylistboardactivetab = n
+        this.$store.state.myboardList_type = n;
+
+        this.myboardFetch();
+      })
+    },
     fetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
       this.$store.state.myList_category_type = 1;
-      this.$store.commit('SET_MYLIST');
+      this.$store.commit('SET_MYLIST_INIT');
       this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+      // console.log(this.$store.state.readFlag)
+    },
+    myboardFetch(){
+      // 카테고리 타입이 1이면 대 카테고리로 set한다
+      this.$store.commit('SET_INIT_MYLIST_BOARD', this.mylistboardactivetab);
+      this.$store.commit('ISLOADING', true);
+      this.$store.dispatch('FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
       // console.log(this.$store.state.readFlag)
     },
     categorySelect(key, descript){
@@ -195,7 +317,7 @@ export default{
       this.subject = descript;
       this.$store.state.myList_category_type = 2;
       this.$store.state.myList_category = key;
-      this.$store.commit('SET_MYLIST');
+      this.$store.commit('SET_MYLIST_INIT');
       this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
       this.modalShow = false;
@@ -234,6 +356,14 @@ export default{
     },
     popup(){
         this.modalShow = true;
+    },
+    listChange(){
+      if(this.listFlag){
+        this.listFlag = false;
+      } else {
+        this.listFlag = true;
+
+      }
     }
  }
 }
@@ -270,7 +400,7 @@ height:0 !important;
   background:black;
   align-items:center;
   justify-content:center;
-  min-width:var(--tabwidth);
+  min-width:90px;
   cursor:pointer;
   font-size:14px;
 }
@@ -283,7 +413,7 @@ height:0 !important;
   position:absolute;
   bottom:0px;
   height:2px;
-  width:var(--tabwidth);
+  width:90px;
   background:white;
   transition:.5s ease;
 }
@@ -293,7 +423,7 @@ height:0 !important;
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 47px;
+  padding-top: 110px;
   touch-action: pan-y !important;
 }
 .tabpane_mylist{
@@ -306,5 +436,10 @@ height:0 !important;
   width: 100%;
   height: 200px;
   overflow-y: scroll;
+}
+.board_span_style{
+  font-size:1.5em;
+  margin-left: 10px;
+  color:rgb(136, 136, 136);
 }
 </style>

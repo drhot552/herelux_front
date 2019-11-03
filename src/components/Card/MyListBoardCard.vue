@@ -1,8 +1,8 @@
 <template>
     <div class="content">
-        <div class="container" style="margin-bottom:80px">
+        <div v-if="this.$store.state.myboardList.length > 0" class="container" style="margin-bottom:80px">
           <div class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
-                v-for="(item,i) in this.$store.state.board">
+                v-for="(item,i) in this.$store.state.myboardList">
             <div style="width:100%;">
               <div class="div_board_1" style="margin-left:10px; margin-right:10px;">
                 <!--순위대로 색을 다르게 check-->
@@ -48,9 +48,6 @@
                   <h6 class="h6_style"> {{`작성시간 : ` + item.reg_date}} </h6>
                   <h6 class="h6_style"> | </h6>
                   <h6 class="h6_style"> {{`조회수 : ` + item.views}} </h6>
-                  <h6 class="h6_style"> | </h6>
-                  <img src="/public/img/board_icon_reply.png" style="height: 20px;width: 15px; padding-bottom: 8px; margin-right: 5px; float: left;"/>
-                  <h6 class="h6_style"> {{item.comment}} </h6>
                 </div>
               </div>
             </div>
@@ -60,13 +57,23 @@
                 <h6> {{item.comment}} </h6>
               </div> -->
             </div>
-            <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx" + "`/board`">
+            <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx + `/mylist`">
             </router-link>
           </div>
-          <div v-if="this.$store.state.board_readFlag" style="text-align:center; height: 7vh; padding-top: 15px;">
+          <div v-if="this.$store.state.myboardList_flag" style="text-align:center; height: 7vh; padding-top: 15px;">
             <a style="color:#000000;" v-on:click="readMore()">
               <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
             </a>
+          </div>
+          <router-link class="write_button" v-bind:to="`/write`">
+            <img src="/public/img/btn_write3.png"/>
+          </router-link>
+        </div>
+        <div v-else class="container" style="margin-bottom:80px">
+          <div v-if="!this.$store.state.isLoading" class="row" >
+              <div class="col-md-8 ml-auto mr-auto text-center">
+                  <h4 class="title">내가 작성한 글이 없습니다.</h4>
+              </div>
           </div>
           <router-link class="write_button" v-bind:to="`/write`">
             <img src="/public/img/btn_write3.png"/>
@@ -84,17 +91,19 @@ export default {
   data(){
     return{
       descript:'',
-      title:''
+      title:'',
+      userid :''
     }
   },
   created(){
     //this.readMore();
+    this.userid = localStorage.getItem('id');
   },
   methods:{
     readMore(){
       //처음은 일단 0으로 set
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});
+      this.$store.dispatch('FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
 
     }
   }

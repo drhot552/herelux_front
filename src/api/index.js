@@ -112,6 +112,9 @@ export const board = {
   },
   delete(board_idx){
     return request('get', '/board/delete/' + board_idx)
+  },
+  mylist(user,myboardlist_type, page){
+    return request('get', '/board/mylist/' + user + '/' + myboardlist_type + '/' + page)
   }
 }
 

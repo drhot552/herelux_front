@@ -137,7 +137,7 @@ const router = new Router({
       }
     },
     {
-      path:'/mylist',
+      path:'/mylist/:pagetype',
       name:'MyList',
       components:{default:MyList, header:MainNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
@@ -175,7 +175,7 @@ const router = new Router({
       }
     },
     {
-      path:'/boarddetail/:board_idx',
+      path:'/boarddetail/:board_idx/:pagetype',
       name:'BoardDetail',
       components:{default:BoardDetail, header:BoardNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,

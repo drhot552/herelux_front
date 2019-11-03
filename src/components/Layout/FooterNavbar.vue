@@ -17,10 +17,10 @@
       </router-link>
     </div>
     <div class="div_style_1">
-      <router-link v-if="pageName==='MyList'" style="color:#000000;" v-on:click.native="footerClick()" to="/mylist">
+      <router-link v-if="pageName==='MyList'" style="color:#000000;" v-on:click.native="footerClick()" to="/mylist/0">
         <img src="/public/img/bottom_mypage_select.png" style="height:20px;"/>
       </router-link>
-      <router-link v-else style="color:#000000;" v-on:click.native="footerClick()" to="/mylist">
+      <router-link v-else style="color:#000000;" v-on:click.native="footerClick()" to="/mylist/0">
         <img src="/public/img/bottom_mypage_default.png" style="height:20px;"/>
       </router-link>
     </div>
@@ -55,7 +55,7 @@
     },
     methods:{
       footerClick(){
-        this.$store.commit('CATEGORY_INIT');
+        this.$store.commit('SET_CATEGORY_INIT');
       }
     }
   }

@@ -197,7 +197,7 @@ export default{
   created(){
     this.board_idx = this.$route.params.board_idx;
     //board_idx set
-    this.$store.commit('SET_BOARD_IDX', this.board_idx);
+    //this.$store.commit('SET_BOARD_IDX', this.board_idx);
     this.userid = localStorage.getItem('id');
     //댓글 상태변수 set
     this.$store.state.boardCommentFlag = false;

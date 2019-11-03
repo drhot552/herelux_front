@@ -8,7 +8,8 @@
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto">
                         <h1 class="title">HERELUX</h1>
-                        <h4>전 세계 모든 쇼핑몰들의 명품을 한곳에서 볼 수 있습니다.</h4>
+                        <h4>전 세계 모든 쇼핑몰들의 명품을 <p/>
+                          한 곳에서 볼 수 있습니다.</h4>
                     </div>
                 </div>
             </div>
@@ -19,7 +20,7 @@
               <img src="/public/img/google_play_store_herelux_btn.png" style="width:50%;"/>
           </div>
             <div class="about-description text-center">
-                <div class="features-3">
+                <div class="features-3" style="padding-top:0px;">
                     <div class="container">
                       <div class="row">
 
@@ -34,7 +35,7 @@
                             <div class="col-md-3" v-for="item in commerce">
                                 <div class="info info-hover">
                                     <div class="icon icon-circle">
-                                      <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised">
+                                      <img v-lazy="item.logoimgurl" alt="..." class="img-raised" style="border-radius: 50%; margin-right: 5px;">
                                     </div>
                                     <h4 class="info-title">{{item.brands_name}}</h4>
                                     <p class="description"></p>
@@ -49,7 +50,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8 ml-auto mr-auto text-center">
-                            <h4 class="title">지속적으로 전세계 쇼핑몰 명품 이벤트 또는 상품정보를 제공합니다.</h4>
+                            <h4 class="title">지속적으로 전세계 쇼핑몰 명품 이벤트와 상품정보를 제공합니다.</h4>
                             <h4 class="description"></h4>
                             <div class="section-space"></div>
                         </div>

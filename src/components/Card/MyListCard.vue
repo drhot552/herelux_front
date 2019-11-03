@@ -1,7 +1,7 @@
 <template>
   <div class="content">
         <div class="container">
-          <div style="color:#888; text-align:center; margin:20px;">
+          <div style="color:#888; text-align:center; margin:10px;">
             <span> 4점 이상 부여한 상품들 입니다.</span>
           </div>
           <div v-if="this.$store.state.myList.length > 0" class="row" style="margin-bottom: 50px;">

@@ -17,6 +17,9 @@ const store = new Vuex.Store({
     readFlag : false,
     /* Ranking Tab 변수 */
     rankTabStatus : 0,
+    /* 상품상세 클릭시 해당 플래그 set */
+    productDetail_name : '',
+
     /* Write 변수 */
     writeBoard_Category : 1,
     writeBoard_Forum : 0,
@@ -27,21 +30,25 @@ const store = new Vuex.Store({
     board:[],
     board_readFlag : false,
     boardtype : 0,
-    board_count : 0,
     board_idx : 0,
     /* Board 상세 변수 */
     boardDetail_name : '',
     /* Tab 상태 저장변수 및 댓글 수정가능 저장변수 */
     boardTabStatus : 0,
     boardCommentFlag : false,
-    /* 상품상세 클릭시 해당 플래그 set */
-    productDetail_name : '',
+
     /* Mylist 관련 Data*/
     myList:[],
     myList_idx: 0,
     myList_readFlag : false,
     myList_category : 0,
     myList_category_type : 1,
+
+    /* MyBoard List */
+    myboardList:[],
+    myboardList_idx : 0,
+    myboardList_type : 0,
+    myboardList_flag : false,
 
     /* 명품관 관련 Data*/
     brandList:[],
@@ -53,6 +60,7 @@ const store = new Vuex.Store({
 
     /* Loading */
     isLoading : false
+
   },
   //변수 set
   mutations: {
@@ -60,7 +68,8 @@ const store = new Vuex.Store({
       state.idx++
     },
     BOARD_IDX_INCREMENT (state) {
-      state.board_count++
+    //state.board_count++
+      state.board_idx++
     },
     MYLIST_IDX_INCREMENT(state){
       state.myList_idx++
@@ -68,19 +77,26 @@ const store = new Vuex.Store({
     BRAND_IDX_INCREMENT(state){
       state.brandList_idx++
     },
+    MYBOARDLIST_IDX_INCREMENT(state){
+      state.myboardList_idx++
+    },
+
     SET_INIT (state) {
       state.idx = 0
       state.product = []
     },
     SET_INIT_BOARD(state, boardtype){
-      state.board_count = 0
+    //  state.board_count = 0
+      state.board_idx = 0
       state.board = []
       state.boardtype = boardtype
     },
-    SET_BOARD_IDX(state, board_idx){
-      state.board_idx = board_idx
+    SET_INIT_MYLIST_BOARD(state, myboard_type){
+      state.myboardList_type = myboard_type
+      state.myboardList = []
+      state.myboardList_idx = 0
     },
-    SET_MYLIST(state){
+    SET_MYLIST_INIT(state){
       state.myList = [],
       state.myList_idx = 0
     },
@@ -88,13 +104,13 @@ const store = new Vuex.Store({
       state.brandList = [],
       state.brandList_idx = 0
     },
-    ISLOADING(state,isloading){
-      state.isLoading = isloading;
-    },
-    CATEGORY_INIT(state){
+    SET_CATEGORY_INIT(state){
       state.brandList_category = 0;
       state.myList_category = 0;
       state.rankTabStatus = 0;
+    },
+    ISLOADING(state,isloading){
+      state.isLoading = isloading;
     }
   },
   //보드를 추가하는 액션 api 콜을 해서 보드 생성 -> 비동기 처리시 actions 사용
@@ -134,7 +150,7 @@ const store = new Vuex.Store({
       });
     },
     FETCH_BOARD_READMORE({commit, state}, {boardtype}){
-      return api.board.fetch(boardtype, state.board_count).then(data=>{
+      return api.board.fetch(boardtype, state.board_idx).then(data=>{
         if(data.length == 0){
           state.board_readFlag = false;
         }
@@ -186,6 +202,31 @@ const store = new Vuex.Store({
         router.push('/error');
       });
     },
+    FETCH_MYBOARDLIST_READMORE({commit, state}, {userid, myboardlist_type}){
+
+      console.log("FETCH_MYBOARDLIST_READMORE", userid, myboardlist_type);
+      return api.board.mylist(userid, myboardlist_type, state.myboardList_idx).then(data=>{
+        if(data.length == 0){
+          state.myboardList_flag = false;
+        }
+        else if(data.length < 20){
+          commit('MYBOARDLIST_IDX_INCREMENT',1)
+          state.myboardList.push(...data);
+          state.myboardList_flag = false;
+        }
+        else{
+          commit('MYBOARDLIST_IDX_INCREMENT',1)
+          state.myboardList.push(...data);
+          state.myboardList_flag = true;
+        }
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
+    },
+    //브랜드관 출시
     FETCH_BRANDLIST_READMORE({commit, state}, {brandid, category_type, category}){
       var key = 0;
       if(category == 0) {

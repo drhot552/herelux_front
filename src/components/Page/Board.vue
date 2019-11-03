@@ -143,7 +143,7 @@ export default{
       })
     },
     fetch(){
-      // 카테고리 타입이 1이면 대 카테고리로 set한다
+      
       this.$store.commit('SET_INIT_BOARD', this.boardtype);
       this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.boardtype});

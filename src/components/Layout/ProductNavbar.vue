@@ -2,7 +2,7 @@
     <nav class="navbar bg-white fixed-top">
       <div class="container" style="padding-right:0px; padding-left:0px;">
         <div class="board_style" style="text-align:left;">
-          <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist" style="margin:0">
+          <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist/0" style="margin:0">
                     이전
           </router-link>
           <router-link v-else-if="pageType=='ranking'" class="navbar-brand" to="/ranking" style="margin:0">
