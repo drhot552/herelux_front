@@ -37,9 +37,9 @@
          <h5>
              {{name}}
          </h5>
-         <!--<h5 style="float:right;" v-on:click="doCopy()">
-             공유
-         </h5>  -->
+         <a style="margin-top:10px; float:right; width:6%;" v-on:click="doCopy()">
+           <img src="/public/img/btn_share.png"/>
+        </a>
        </div>
        <h6></h6>
        <h6 v-if="avg > 0">평균점수 {{avg}} 점 </h6>
@@ -85,6 +85,7 @@
     </div>
    </div>
  </div>
+ <notifications group="alert" position="top center" style="padding-top: 45vh;"/>
 </div>
 </template>
 <script>
@@ -185,14 +186,22 @@ export default {
        this.$router.push(this.$route.query.returnPath || '/error');
      },
      doCopy() {
-       this.message = this.$route.query.returnPath
-        this.$copyText(this.message).then(function (e) {
-          alert('클립보드 복사되었습니다.')
-          console.log(e)
-        }, function (e) {
-          alert('Can not copy')
-          console.log(e)
-        })
+       var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+       console.log(newURL);
+       console.log('여기는 들어오니??');
+       this.$notify({
+          group: 'alert',
+          title: '복사되었습니다.',
+          text: newURL,
+          duration: 500
+        });
+         this.$copyText(newURL).then(function (e) {
+
+           console.log(e)
+         }, function (e) {
+           alert('Can not copy')
+           console.log(e)
+         })
       }
    }
 
@@ -245,5 +254,30 @@ export default {
   text-align: right;
   float: right;
   font-size: 0.81em;
+}
+.vue-notification {
+  padding: 10px;
+  margin: 0 5px 5px;
+
+  font-size: 11px;
+
+  color: #ffffff;
+  background: black;
+  border-left: 5px solid black;
+
+  &.warn {
+    background: #ffb648;
+    border-left-color: #f48a06;
+  }
+
+  &.error {
+    background: #E54D42;
+    border-left-color: #B82E24;
+  }
+
+  &.success {
+    background: #68CD86;
+    border-left-color: #42A85F;
+  }
 }
 </style>

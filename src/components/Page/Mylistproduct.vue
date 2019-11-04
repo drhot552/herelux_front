@@ -2,7 +2,7 @@
   <div>
     <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling:touch;">
       <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
-        <ul class="tabs" ref="mylisttabbar">
+        <ul class="tabs" ref="mylisttabbar" style="margin-top:7px;">
            <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="mylisttab">
              {{tab.descript}}
            </div>

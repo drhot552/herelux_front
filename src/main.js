@@ -7,9 +7,11 @@ import VeeValidate from 'vee-validate'
 import VueUp from 'vueup'
 import store from './store'
 import VueClipboard from 'vue-clipboard2'
+import Notifications from 'vue-notification'
 
 VueClipboard.config.autoSetContainer = true // add this line
 
+Vue.use(Notifications)
 Vue.use(VueClipboard)
 Vue.use(VueUp)
 Vue.use(VeeValidate)

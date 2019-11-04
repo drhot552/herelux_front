@@ -1,0 +1,12 @@
+{
+  "protocol" : "sftp",
+  "host" : "ec2-54-180-153-54.ap-northeast-2.compute.amazonaws.com",
+  "port" : 22,
+  "user" : "ubuntu",
+  "promptForPass" : false,
+  "remote" : "/home/ubuntu/luxury_server”,
+  "connTimeout" : 10000,
+  "privatekey" : "/Users/yunminjae/aws/luxury_serverdev.pem",
+  "keepalive" : 10000,
+  "keyboardInteractive" : false
+}
