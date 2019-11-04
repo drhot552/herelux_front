@@ -1,6 +1,6 @@
 <template>
   <div class="section" style="padding: 49px 0 53px; overflow:auto; -webkit-overflow-scrolling: touch;">
-    <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%;">
+    <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%; z-index:1;">
       <div class="edit_div">
         <div class="container" style="padding-right:0px; padding-left:0px;">
           <textarea class="search_textarea"  contenteditable="true" id="search" placeholder="검색기능은 만드는 중이며 현재 아래 브랜드관만 이용 가능합니다."
@@ -10,38 +10,42 @@
         </div>
       </div>
     </div>
-    <div class="container" style="padding-left:15px; padding-right:15px; padding-top:50px; height:80vh;">
-      <div v-if="this.items.length > 0" class="row" style="margin-top: 20px;">
-        <div class="div_style" v-for="item in this.items">
-          <div class="in" v-if="item.sub_descript != null">
-            <a style="color:#000000;" v-on:click="detail(item.minor_key)">
-              <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="width: 130px; height: 130px;"alt="..." >
-              <div v-lazy:background-image="item.url"></div>
-            </a>
-          </div>
+    <div class="blogs-4" id="blogs-4">
+      <div class="container" style="padding-left:15px; padding-right:15px; padding-top:50px; height: 71vh;">
+        <div v-if="this.items.length > 0" class="row" style="margin-top: 20px;">
+          <article class="div_style" v-for="item in this.items">
+            <div class="in" v-if="item.sub_descript != null">
+              <a style="color:#000000;" v-on:click="detail(item.minor_key)">
+                <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="width: 130px; height: 130px;"alt="..." >
+                <div v-lazy:background-image="item.url"></div>
+              </a>
+            </div>
+          </article
+          >
         </div>
-      </div>
-      <div style="height:20vh;">
-        <span style="margin-left: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 이미지출처 - 각 브랜드 공식홈페이지 </span>
-      </div>
-      <!--  <tabs slot="raw-content">
-              <tab-pane >
-                  <template slot="label">
-                       상품
-                  </template>
-              </tab-pane>
-              <tab-pane >
-                  <template slot="l abel">
-                       브랜드
-                  </template>
-              </tab-pane>
-              <tab-pane >
-                  <template slot="label">
-                       게시판
-                  </template>
-              </tab-pane>
-        </tabs>-->
-      </div>
+        <div style="height:20vh;">
+          <span style="margin-left: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 이미지출처 - 각 브랜드 공식홈페이지 </span>
+        </div>
+        <!--  <tabs slot="raw-content">
+                <tab-pane >
+                    <template slot="label">
+                         상품
+                    </template>
+                </tab-pane>
+                <tab-pane >
+                    <template slot="l abel">
+                         브랜드
+                    </template>
+                </tab-pane>
+                <tab-pane >
+                    <template slot="label">
+                         게시판
+                    </template>
+                </tab-pane>
+          </tabs>-->
+        </div>
+    </div>
+
       <loading :active.sync="this.$store.state.isLoading"
                 :can-cancel="true"
                 :is-full-page="true"
@@ -116,6 +120,7 @@ export default{
 .div_style{
   width: 50%;
   margin-bottom: 20px;
+  position: relative;
 }
 .in {
   text-align: center;

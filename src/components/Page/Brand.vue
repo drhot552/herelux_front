@@ -10,7 +10,7 @@
            <div class="slider" :style="'transform:translateX('+brandlistActivetab*tabwidth+'px)'">
            </div>
          </ul>
-        <div v-hammer:swipe="brandmoveTouch" ref="tcon" class="tabcontainer">
+        <div ref="tcon" class="tabcontainer">
           <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
             <h5 style="float:left;" >
                 {{this.brandList_name}}
@@ -111,7 +111,12 @@ export default{
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
-
+  document.addEventListener('touchstart', this.startbrandTouch, false);
+  document.addEventListener("touchmove", this.movebrandTouch, false);
+ },
+ beforeDestroy () {
+   document.removeEventListener('touchstart', this.startbrandTouch, false);
+   document.removeEventListener("touchmove", this.movebrandTouch, false);
  },
  computed:{
    pointer(){
@@ -120,6 +125,74 @@ export default{
    }
  },
  methods: {
+  startbrandTouch(e) {
+   this.initialX = e.touches[0].clientX;
+   this.initialY = e.touches[0].clientY;
+  },
+  movebrandTouch(e) {
+    if (this.initialX === null) {
+      return;
+    }
+
+    if (this.initialY === null) {
+      return;
+    }
+
+    var currentX = e.touches[0].clientX;
+    var currentY = e.touches[0].clientY;
+
+    var diffX = this.initialX - currentX;
+    var diffY = this.initialY - currentY;
+
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      // sliding horizontally
+      if (diffX > 0) {
+        // swiped left
+        console.log("swiped left");
+        if(this.brandlistActivetab == undefined)
+        {
+        }
+        else if(this.brandlistActivetab >= 0 && this.brandlistActivetab < this.items.length - 1)
+        {
+          this.switchtab(this.brandlistActivetab + 1);
+          console.log("switchTab", this.brandlistActivetab);
+          if(this.brandlistActivetab == 0){
+          }
+        }
+        else{
+        }
+      } else {
+        // swiped right
+        if(this.brandlistActivetab == undefined)
+        {
+          this.switchtab(1);
+        }
+        else if(this.brandlistActivetab >= 1)
+        {
+          this.switchtab(this.brandlistActivetab - 1);
+          if(this.brandlistActivetab == 0){
+            //this.switchtab(0);
+          }
+        }
+        else{
+          //this.switchtab(0);
+        }
+        console.log("swiped right");
+      }
+    } else {
+      // sliding vertically
+      if (diffY > 0) {
+        // swiped up
+        console.log("swiped up");
+      } else {
+        // swiped down
+        console.log("swiped down");
+      }
+    }
+
+    this.initialX = null;
+    this.initialY = null;
+  },
   brandmoveTouch(direction) {
     if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
        if(direction.deltaX < direction.deltaY){

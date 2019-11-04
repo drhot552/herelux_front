@@ -26,21 +26,7 @@
                     <h6 v-html="item.descript" class="write_ellipsis" style="margin-top: 25px;">
                     </h6>
                   </div>
-
               </div>
-            <!--  <div class="div_board_2">
-                <div class="layer">
-
-                </div>
-
-              </div>
-              <div class="div_board_2">
-                <div class="layer" style="margin-left:10px; margin-bottom:35px;">
-                  <h6>
-                    {{item.descript}}
-                  </h6>
-                </div>
-              </div> -->
               <div class="div_board_1" style="margin-left:10px">
                 <div>
                   <h6 class="h6_style"> {{item.name}} </h6>
@@ -52,10 +38,7 @@
               </div>
             </div>
             <div style="margin-top:35px; position: relative;">
-              <!--<img src="/public/img/board_icon_reply.png" style="height:30px;"/>
-              <div class="board_view">
-                <h6> {{item.comment}} </h6>
-              </div> -->
+            
             </div>
             <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx + `/mylist`">
             </router-link>

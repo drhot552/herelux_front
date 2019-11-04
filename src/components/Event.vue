@@ -5,17 +5,17 @@
         <i class="fa fa-chevron-up"></i>
       </button>
     </back-to-top>
-    <EventComponent/>
+    <Event/>
     <div class="section-space"></div>
   </div>
 </template>
 
 <script>
-import EventComponent from './Event/Event.vue'
+import Event from './Event/Event.vue'
 import BackToTop from 'vue-backtotop'
 export default {
   components : {
-    EventComponent,
+    Event,
     BackToTop
   }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
+    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling:touch;">
     <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
 
       <ul class="tabs_board" ref="tabbar">
@@ -10,7 +10,7 @@
          </div>
        </ul>
 
-      <div v-hammer:swipe="boardmoveTouch" ref="tcon" class="tabcontainer_board">
+      <div ref="tcon" class="tabcontainer_board">
         <transition :name="transition" v-for="(tab, index) in items" :key="index">
            <div class="tabpane_board" v-if="index === boardactivetab">
              <BoardCard>
@@ -73,7 +73,12 @@ export default{
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
-
+  document.addEventListener('touchstart', this.startboardTouch, false);
+  document.addEventListener("touchmove", this.moveboardTouch, false);
+ },
+ beforeDestroy () {
+   document.removeEventListener('touchstart', this.startboardTouch, false);
+   document.removeEventListener("touchmove", this.moveboardTouch, false);
  },
  computed:{
    pointer(){
@@ -82,7 +87,75 @@ export default{
    }
  },
  methods: {
-   boardmoveTouch(direction) {
+   startboardTouch(e) {
+   this.initialX = e.touches[0].clientX;
+   this.initialY = e.touches[0].clientY;
+  },
+ moveboardTouch(e) {
+   if (this.initialX === null) {
+     return;
+   }
+
+   if (this.initialY === null) {
+     return;
+   }
+
+   var currentX = e.touches[0].clientX;
+   var currentY = e.touches[0].clientY;
+
+   var diffX = this.initialX - currentX;
+   var diffY = this.initialY - currentY;
+
+   if (Math.abs(diffX) > Math.abs(diffY)) {
+     // sliding horizontally
+     if (diffX > 0) {
+       // swiped left
+       console.log("swiped left");
+       if(this.boardactivetab == undefined)
+       {
+       }
+       else if(this.boardactivetab >= 0 && this.boardactivetab < 4)
+       {
+         this.switchtab(this.boardactivetab + 1);
+         console.log("switchTab", this.boardactivetab);
+         if(this.boardactivetab == 0){
+         }
+       }
+       else{
+       }
+     } else {
+       // swiped right
+       if(this.boardactivetab == undefined)
+       {
+         this.switchtab(1);
+       }
+       else if(this.boardactivetab >= 1)
+       {
+         this.switchtab(this.boardactivetab - 1);
+         if(this.boardactivetab == 0){
+           //this.switchtab(0);
+         }
+       }
+       else{
+         //this.switchtab(0);
+       }
+       console.log("swiped right");
+     }
+   } else {
+     // sliding vertically
+     if (diffY > 0) {
+       // swiped up
+       console.log("swiped up");
+     } else {
+       // swiped down
+       console.log("swiped down");
+     }
+   }
+
+   this.initialX = null;
+   this.initialY = null;
+ },
+  /* boardmoveTouch(direction) {
     if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
        if(direction.deltaX < direction.deltaY){
          console.log("board swiped left");
@@ -119,6 +192,7 @@ export default{
        }
      }
   },
+  */
    switchtab(n){
       let scroll, scond
 
@@ -143,7 +217,7 @@ export default{
       })
     },
     fetch(){
-      
+
       this.$store.commit('SET_INIT_BOARD', this.boardtype);
       this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.boardtype});

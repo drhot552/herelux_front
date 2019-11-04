@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" style="overflow:auto; -webkit-overflow-scrolling: touch; height:92vh;">
+    <div class="wrapper" style="overflow:auto; -webkit-overflow-scrolling: touch; height:90vh;">
         <div class="page-header page-header-small">
             <parallax class="page-header-image"
                  style="background-image: url('/public/img/luxury.jpeg')">
@@ -109,7 +109,7 @@
       [Option.name]: Option,
     },
     created(){
-      this.$http.get('http://54.180.145.103:4000/event').then((response)=>{
+      this.$http.get('http://54.180.120.131:4000/event').then((response)=>{
         this.commerce = response.data
       });
     },

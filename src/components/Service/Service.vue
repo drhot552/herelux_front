@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section" style="overflow:auto; -webkit-overflow-scrolling: touch; height:90vh;">
     <div class="disclaimer">
       <div class="disclaimer__title">
         <h6>

@@ -5,7 +5,7 @@
             <span> 4점 이상 부여한 상품들 입니다.</span>
           </div>
           <div v-if="this.$store.state.myList.length > 0" class="row" style="margin-bottom: 50px;">
-            <div class="div_style" v-for="item in this.$store.state.myList">
+            <article class="div_style" v-for="item in this.$store.state.myList">
               <div class="in">
                 <a style="color:#000000;" v-on:click="detail(item.id)">
                   <img v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
@@ -13,7 +13,7 @@
                   <h6> <br /> <b>{{item.name}}</b> </h6>
                 </a>
               </div>
-            </div>
+            </article>
           </div>
           <div v-else class="container">
               <div v-if="!this.$store.state.isLoading" class="row" >
@@ -66,6 +66,7 @@ export default{
 .div_style{
   width: 50%;
   margin-bottom: 20px;
+  position:relative;
 }
 .in {
   width: 100%;
