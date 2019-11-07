@@ -14,7 +14,7 @@ export default {
         Vue.use(globalDirectives);
         Vue.use(VueLazyload, {
           observer: true,
-          error: '../../public/img/herelux_white_background.png',
+          error: '../../public/img/HERELUX.png',
           loading: '../../public/img/white_background.png',
           // optional
           observerOptions: {

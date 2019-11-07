@@ -12,7 +12,7 @@
     </div>
     <div class="blogs-4" id="blogs-4">
       <div class="container" style="padding-left:15px; padding-right:15px; padding-top:50px; height: 71vh;">
-        <div v-if="this.brand_items.length > 0" class="row" style="margin-top: 20px; width:50%; float:left;">
+        <div v-if="this.brand_items.length > 0" class="row" style="margin-top: 20px;">
           <article class="div_style" v-for="item in this.brand_items">
             <div class="in" v-if="item.sub_descript != null">
               <a style="color:#000000;" v-on:click="detail(item.minor_key)">
@@ -23,19 +23,8 @@
           </article
           >
         </div>
-        <div v-if="this.category_items.length > 0" class="row" style="margin-top: 20px; width:50%; float:right;">
-          <article class="div_style" v-for="item in this.category_items">
-            <div class="in" v-if="item.sub_descript != null">
-              <a style="color:#000000;" v-on:click="detail(item.minor_key)">
-                {{item.descript}}
-                <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="width: 130px; height: 130px;"alt="..." >
-                <div v-lazy:background-image="item.url"></div>
-              </a>
-            </div>
-          </article>
-        </div>
-        <div>
-          <span style="margin-left: 15px; font-size:13px; color:rgb(136, 136, 136); float:left; height:20vh;"> * 이미지출처 - 각 브랜드 공식홈페이지 </span>
+        <div style="height:20vh;">
+          <span style="margin-left: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 이미지출처 - 각 브랜드 공식홈페이지 </span>
         </div>
         <!--  <tabs slot="raw-content">
                 <tab-pane >
@@ -145,7 +134,7 @@ export default{
   overflow: auto;
 }
 .div_style{
-  width: 100%;
+  width: 50%;
   margin-bottom: 20px;
   position: relative;
 }
