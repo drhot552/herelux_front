@@ -18,6 +18,7 @@
          </div>
          <div v-else>
            <img class="lazy-img-fadein" v-lazy="item.url" style="max-width:90%;"/>
+           <div class="lazy-img-fadein" v-lazy:background-image="item.imgurl"></div>
            <div style="width:100%;">
              <div style="display:inline-block;">
                <star-rating id="rating" :rating="ratingnum" class="star" :increment="0.5" :show-rating="false" @rating-selected="setRating"></star-rating>

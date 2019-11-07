@@ -1,24 +1,20 @@
 <template>
   <div>
-    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling:touch;">
-      <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
-        <ul class="tabs" ref="mylisttabbar" style="margin-top:7px;">
-           <div class="tabitem" :class="index === mylistboardactivetab ? 'active' : ''"  v-for="(tab, index) in boarditems" @click="boardswitchtab(index)" :key="index" ref="boardtab">
-             {{tab.descript}}
-           </div>
-           <div class="slider" :style="'transform:translateX('+mylistboardactivetab*tabwidth+'px)'">
-           </div>
-         </ul>
+    <ul class="tabs" ref="mylisttabbar" style="margin-top:50px;">
+       <div class="tabitem" :class="index === mylistboardactivetab ? 'active' : ''"  v-for="(tab, index) in boarditems" @click="boardswitchtab(index)" :key="index" ref="boardtab">
+         {{tab.descript}}
+       </div>
+       <div class="slider" :style="'transform:translateX('+mylistboardactivetab*tabwidth+'px)'">
+       </div>
+     </ul>
 
-        <div ref="tcon" class="tabcontainer_mylist">
-          <transition :name="transition" v-for="(tab, index) in boarditems" :key="index">
-             <div class="tabpane_mylist" v-if="index === mylistboardactivetab">
-               <MyListBoardCard>
-               </MyListBoardCard>
-             </div>
-          </transition>
-        </div>
-      </div>
+    <div ref="tcon" class="tabcontainer_mylist">
+      <transition :name="transition" v-for="(tab, index) in boarditems" :key="index">
+         <div class="tabpane_mylist" v-if="index === mylistboardactivetab">
+           <MyListBoardCard>
+           </MyListBoardCard>
+         </div>
+      </transition>
     </div>
     <loading :active.sync="this.$store.state.isLoading"
               :can-cancel="true"
@@ -331,7 +327,7 @@ height:0 !important;
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 58px;
+  padding-top: 110px;
   touch-action: pan-y !important;
 }
 .tabpane_mylist{

@@ -7,10 +7,6 @@
                   <router-link to="/search" v-on:click.native="searchClick()" style="margin-right:10px;">
                     <img src="/public/img/btn_search.png" style="height:20px;"/>
                   </router-link>
-                  <a v-on:click="brandurl('http://www.shoponlyhere.com')" style="margin-right:5px;">
-                    <img src="/public/img/instagram.png" style="height:20px;"/>
-                  </a>
-
                 </div>
                 <navbar-toggle-button :toggled="showMenu" @click.native.stop="toggle"></navbar-toggle-button>
             </div>

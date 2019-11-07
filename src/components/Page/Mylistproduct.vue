@@ -1,38 +1,37 @@
 <template>
   <div>
-    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling:touch;">
-      <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
-        <ul class="tabs" ref="mylisttabbar" style="margin-top:7px;">
-           <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="mylisttab">
-             {{tab.descript}}
-           </div>
-           <div class="slider" :style="'transform:translateX('+mylistActivetab*tabwidth+'px)'">
-           </div>
-         </ul>
-         <div  ref="tcon" class="tabcontainer_mylist">
-           <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
-             <h5 style="float:left;">
-                 내가 선택한 상품 리스트
-             </h5>
-             <h6 style="float:right; margin-top:15px; margin-right:15px;">
-               <a v-if="this.category_middle.length > 0" v-on:click="popup()">
-                 <img src="/public/img/btn_filter.png" style="height:18px;"/>
-                 <b>필터링</b>
-               </a>
-             </h6>
+    <ul class="tabs" ref="mylisttabbar" style="margin-top: 50px;">
+       <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="mylisttab">
+         {{tab.descript}}
+       </div>
+       <div class="slider" :style="'transform:translateX('+mylistActivetab*tabwidth+'px)'">
+       </div>
+     </ul>
+     <div  ref="tcon" class="tabcontainer_mylist">
+       <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
+         <h5 style="float:left;">
+             내가 선택한 상품 리스트
+         </h5>
+         <h6 style="float:right; margin-top:15px; margin-right:15px;">
+           <a v-if="this.category_middle.length > 0" v-on:click="popup()">
+             <img src="/public/img/btn_filter.png" style="height:18px;"/>
+             <b>필터링</b>
+           </a>
+         </h6>
 
-           </div>
-           <div style="text-align:right; margin-right:30px; margin-bottom:20px;">
+       </div>
+       <div style="text-align:right; margin-right:30px; margin-bottom:20px;">
 
-           </div>
-           <transition :name="transition" v-for="(tab, index) in items" :key="index">
-              <div class="tabpane_mylist" v-if="index === mylistActivetab">
-                <MyListCard>
-                </MyListCard>
-              </div>
-           </transition>
-      </div>
-    </div>
+       </div>
+       <transition :name="transition" v-for="(tab, index) in items" :key="index">
+          <div class="tabpane_mylist" v-if="index === mylistActivetab">
+            <MyListCard>
+            </MyListCard>
+          </div>
+       </transition>
+  </div>
+    <div class="section" style="padding:51px 0;">
+
 
        <modal :show.sync="modalShow" headerClasses="justify-content-center">
          <h4 slot="header" class="title title-up"></h4>
@@ -407,7 +406,7 @@ height:0 !important;
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 58px;
+  padding-top: 110px;
   touch-action: pan-y !important;
 }
 .tabpane_mylist{

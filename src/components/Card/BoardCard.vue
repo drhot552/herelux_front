@@ -22,6 +22,7 @@
                     </span>
                     <span v-if="item.img_cnt > 0" style="float:right;">
                       <img class="lazy-img-fadein" v-lazy ="item.imgurl" style="width:80px; height:80px;"/>
+                      <div class="lazy-img-fadein" v-lazy:background-image="item.imgurl"></div>
                     </span>
                     <h6 v-html="item.descript" class="write_ellipsis" style="margin-top: 25px;">
                     </h6>
@@ -176,5 +177,5 @@ export default {
     animation-fill-mode: both;
     -webkit-animation-name: fadeIn;
     animation-name: fadeIn;
-  }
+}
 </style>

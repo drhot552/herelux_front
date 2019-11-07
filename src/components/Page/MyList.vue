@@ -3,13 +3,13 @@
     <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
       <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh;">
         <div style="position:fixed; background-color:white; z-index:1; width:100%; height:60px;">
-          <div v-if="listFlag" style="margin-top:15px;" v-on:click="listChange(1)">
-            <span class="board_span_style" style="color:black;">내가 선택한 명품</span>
-            <span class="board_span_style">내가 작성한 글</span>
+          <div v-if="listFlag" style="margin-top:15px;" >
+            <span class="board_span_style" style="color:black;" v-on:click="listChange(true)">내가 선택한 명품</span>
+            <span class="board_span_style" v-on:click="listChange(false)">내가 작성한 글</span>
           </div>
-          <div v-else style="margin-top:13px;" v-on:click="listChange(2)">
-            <span class="board_span_style">내가 선택한 명품</span>
-            <span class="board_span_style" style="color:black;">내가 작성한 글</span>
+          <div v-else style="margin-top:13px;" >
+            <span class="board_span_style" v-on:click="listChange(false)">내가 선택한 명품</span>
+            <span class="board_span_style" style="color:black;" v-on:click="listChange(true)">내가 작성한 글</span>
           </div>
         </div>
 
@@ -52,10 +52,15 @@ export default{
    }
  },
  methods: {
-    listChange(type){
-      if(this.listFlag && type == 1){
+    listChange(listType){
+      //나를 눌렀을때 listFlag = true =>
+      //버튼상태 && 현재상태
+      console.log(listType, this.listFlag);
+      true, false
+      false, false
+      if(!listType && this.listFlag){
         this.listFlag = false;
-      } else {
+      } else if(!listType && !this.listFlag){
         this.listFlag = true;
 
       }
