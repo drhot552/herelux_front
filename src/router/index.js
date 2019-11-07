@@ -158,7 +158,6 @@ const router = new Router({
       path:'/ranking',
       name:'Ranking',
       components:{default:Ranking, header:MainNavbar, footer:FooterNavbar},
-      beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0, pageName:"Ranking"},
         footer:{pageName:"Rank"}
@@ -168,7 +167,6 @@ const router = new Router({
       path:'/board',
       name:'Board',
       components:{default:Board, header:MainNavbar, footer:FooterNavbar},
-      beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0, pageName:"Board"},
         footer:{pageName:"Board"}
@@ -178,7 +176,6 @@ const router = new Router({
       path:'/boarddetail/:board_idx/:pagetype',
       name:'BoardDetail',
       components:{default:BoardDetail, header:BoardNavbar, footer:FooterNavbar},
-      beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0, pageName:"BoardDetail"}
       }
@@ -196,7 +193,6 @@ const router = new Router({
       path:'/search',
       name:'Search',
       components:{default:Search, header:SearchNavbar, footer:FooterNavbar},
-      beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Search"}
       }
@@ -214,7 +210,6 @@ const router = new Router({
       path:'/error',
       name:'Error',
       components:{default:Error, header:MainNavbar, footer:FooterNavbar},
-      beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Error"}
       }
@@ -241,7 +236,6 @@ const router = new Router({
       path:'/brand/:brand_id',
       name:'Brand',
       components:{default:Brand, header:MainNavbar, footer:FooterNavbar},
-      beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Brand"}
       }

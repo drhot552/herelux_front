@@ -8,8 +8,8 @@
             <article class="div_style" v-for="item in this.$store.state.myList">
               <div class="in">
                 <a style="color:#000000;" v-on:click="detail(item.id)">
-                  <img v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
-                  <div v-lazy:background-image="item.url"></div>
+                  <img class="lazy-img-fadein" v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
+                  <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
                   <h6> <br /> <b>{{item.name}}</b> </h6>
                 </a>
               </div>
@@ -72,4 +72,12 @@ export default{
   width: 100%;
   text-align: center;
 }
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
 </style>

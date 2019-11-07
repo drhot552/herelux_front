@@ -64,7 +64,7 @@
     <ul v-for="(item,i) in detailbrand" class="brand ul_style">
       <li class="li_style" style="height: 60px;">
         <a v-on:click="detailClick(item.url)" >
-          <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised" style="float:left;">
+          <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised lazy-img-fadein" style="float:left;">
           <span class="span_style">
             >
           </span>
@@ -280,4 +280,12 @@ export default {
     border-left-color: #42A85F;
   }
 }
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
 </style>

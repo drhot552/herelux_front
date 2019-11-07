@@ -18,6 +18,14 @@
         </div>
       </div>
     </div>
+    <div style="margin-left:10px; margin-right:10px;">
+      <textarea class="url_box">
+      </textarea>
+    </div>
+    <div style="margin:10px; margin-right:10px;">
+      <textarea class="url_box">
+      </textarea>
+    </div>
     <div class="image_box">
       <div class="edit_div">
         <label class="edit_textarea" for="file_input_1" style="width: 46%; position: absolute;">
@@ -234,6 +242,10 @@ export default{
   width: 46%;
   float: left;
   margin-left:10px;
-
+}
+.url_box{
+  border: 1px solid rgba(0,0,0,.1);
+  height: inherit;
+  width:100%;
 }
 </style>

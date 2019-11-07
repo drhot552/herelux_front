@@ -280,7 +280,7 @@ export default{
         });
       }
       //modalFlag == 4 대댓글 삭제
-      else {
+      else if(this.modalFlag == 4){
         comment.commentDownDelete(this.commentdown_idx).then(data=>{
           console.log("commentdowndelete" ,this.commentdown_idx);
           this.commentDownSelect(); //대댓글조회
@@ -290,6 +290,9 @@ export default{
           console.log(error);
           this.errorAlert();
         });
+      }
+      else {
+        this.$router.push(this.$route.query.returnPath || '/login');
       }
 
     },
@@ -341,14 +344,21 @@ export default{
     },
     commentPopup(){
       //comment 등록
-      this.modalFlag = 1
+
       if($("#comment").text() == ""){
           alert("댓글을 입력하세요.");
+      }
+      if(this.userid == null){
+        this.modalShowComment =true;
+        this.title = "로그인"
+        this.descript = "로그인이 되어있지 않습니다. 로그인을 하시겠습니까?"
+        this.modalFlag = 5
       }
       else{
         this.title = "댓글등록";
         this.descript ="댓글을 등록하시겠습니까?";
         this.modalShowComment = true;
+        this.modalFlag = 1;
       }
     },
     commentDownPopup(){

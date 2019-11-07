@@ -21,7 +21,7 @@
                       <b>{{item.subject}}</b>
                     </span>
                     <span v-if="item.img_cnt > 0" style="float:right;">
-                      <img v-lazy ="item.imgurl" style="width:80px; height:80px;"/>
+                      <img class="lazy-img-fadein" v-lazy ="item.imgurl" style="width:80px; height:80px;"/>
                     </span>
                     <h6 v-html="item.descript" class="write_ellipsis" style="margin-top: 25px;">
                     </h6>
@@ -169,4 +169,12 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
 </style>

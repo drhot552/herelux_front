@@ -17,7 +17,7 @@
            </div>
          </div>
          <div v-else>
-           <img  v-lazy="item.url" style="max-width:90%;"/>
+           <img class="lazy-img-fadein" v-lazy="item.url" style="max-width:90%;"/>
            <div style="width:100%;">
              <div style="display:inline-block;">
                <star-rating id="rating" :rating="ratingnum" class="star" :increment="0.5" :show-rating="false" @rating-selected="setRating"></star-rating>
@@ -198,4 +198,13 @@ export default {
   }
 </script>
 <style>
+
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
 </style>

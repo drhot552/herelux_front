@@ -10,7 +10,7 @@
             </div>
           </div>
           <div v-else style="text-align: center;">
-            <img  v-lazy="img_url" />
+            <img class="lazy-img-fadein" v-lazy="img_url" />
             <div v-lazy:background-image="img_url"></div>
           </div>
           <h1></h1>
@@ -131,5 +131,13 @@ export default{
     position: absolute;
     right: 0;
     top: 0;
+}
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
 }
 </style>

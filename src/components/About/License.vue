@@ -160,6 +160,9 @@ The text of the npm License follows and the text of the additional terms follows
     <p class="license">
       <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a>
     </p>
+    <p class="license">
+      <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a>
+    </p>
   </div>
   </div>
 </template>

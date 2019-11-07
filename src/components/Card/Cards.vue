@@ -9,7 +9,7 @@
    <div class="author" align="left" style="padding:5px;">
      <h6></h6>
        <a v-on:click="trackOutboundLink(title, url)">
-         <img v-lazy="logoimgurl" alt="..." class="avatar img-raised">
+         <img  v-lazy="logoimgurl" alt="..." class="avatar img-raised lazy-img-fadein">
          <span>{{title}}</span>
        </a>
      <h6></h6>
@@ -229,4 +229,12 @@ export default {
 .div_effect:active{
   color: #888888;
 }
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
 </style>

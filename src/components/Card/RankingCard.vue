@@ -28,7 +28,7 @@
 
             </div>
             <div class="div_ranking_3" style="float:right;"v-if="i<99">
-              <img style="width:100%; float:right;" v-lazy="item.url"/>
+              <img class="lazy-img-fadein" style="width:100%; float:right;" v-lazy="item.url"/>
             </div>
             <a class="div_ranking_4" style="z-index:0;"  v-if="i<99" v-on:click="detail(item.id)">
             </a>
@@ -109,5 +109,13 @@ export default {
   position: absolute;
   z-index:0;
 }
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
 
 </style>

@@ -9,6 +9,7 @@ import store from './store'
 import VueClipboard from 'vue-clipboard2'
 import Notifications from 'vue-notification'
 
+
 VueClipboard.config.autoSetContainer = true // add this line
 
 Vue.use(Notifications)
@@ -17,7 +18,15 @@ Vue.use(VueUp)
 Vue.use(VeeValidate)
 Vue.use(NowUIKit)
 
-
+/*
+Vue.use(VueLazyload, {
+  preLoad: 10,
+  error: 'public/img/11st.png',
+  loading: 'public/img/11st.png',
+  attempt: 1,
+  listenEvents: [ 'scroll' ]
+})
+*/
 Vue.prototype.$http = axios
 new Vue({
   el: '#app',
