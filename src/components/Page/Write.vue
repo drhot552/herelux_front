@@ -33,6 +33,10 @@ export default{
   components:{
     Tabs,
     TabPane
+  },
+  created(){
+    this.$store.state.writeBoard_Category = 0;
+    this.$store.state.writeBoard_forum = 0;
   }
 
 }

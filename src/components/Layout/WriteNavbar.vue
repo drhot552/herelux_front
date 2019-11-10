@@ -61,10 +61,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
     data(){
       return{
         login : false,
-        email_id : '',
-        descript : '',
-        title : '',
-        returnPath:'',
+        email_id : String,
+        descript : String,
+        title : String,
+        returnPath:String,
         forum:[],
         modalShow:false,
         modalShowWrite:false
@@ -76,13 +76,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
       var token = localStorage.getItem('token');
       this.email_id = localStorage.getItem('id');
-      console.log(token, this.email_id);
       if(token){
         this.login = true;
       } else{
         this.login = false;
       }
-      console.log(this.login);
     },
     watch:{
       email_id: function(){
@@ -98,6 +96,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       select(){
         //탭 id 기억, 상단 포럼 및 카테고리 초기화
         var  i = this.$store.state.writeBoard_Category;
+
         if( i == 1 || i == 2 ) {
           this.$store.commit('ISLOADING', true);
           //major_key가 0이면 브랜드포럼 1이면 상품포럼
@@ -127,8 +126,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.modalShowWrite = false;
       },
       checklist(){
-        if(this.$store.state.writeBoard_Category == 0){
-          if(this.$store.state.writeBoard_name == "포럼선택"){
+        console.log(this.$store.state.writeBoard_forum,this.$store.state.writeBoard_Category);
+        if(this.$store.state.writeBoard_Category == 0 || this.$store.state.writeBoard_Category == 1){
+          if(this.$store.state.writeBoard_forum == 0){
             alert("포럼을 선택하세요.");
           }
           else if($("#subject").text() == ""){
@@ -141,8 +141,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.writeAlarm();
           }
         }
-        else if(this.$store.state.writeBoard_Category == 1){
-          if(this.$store.state.writeBoard_name == "카테고리선택"){
+        else if(this.$store.state.writeBoard_Category == 2){
+          if(this.$store.state.writeBoard_forum == 0){
             alert("카테고리을 선택하세요.");
           }
           else if($("#subject").text() == ""){
@@ -179,34 +179,46 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       write(){
         /* 글 전체를 저장 */
         var str = $('#descript').val();
-        console.log("db check1", str);
         str = str.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-        console.log("db check", str);
-        this.$store.state.formData.append('userid', this.email_id);
-        this.$store.state.formData.append('descript', str);
-        this.$store.state.formData.append('subject', $("#subject").text());
-        this.$store.state.formData.append('boardtype', this.$store.state.writeBoard_Category);
-        this.$store.state.formData.append('boardforum', this.$store.state.writeBoard_forum);
+        var check_flag = 0;
+        if(this.$store.state.writeBoard_Category == 1 || this.$store.state.writeBoard_Category == 2){
+          if(this.$store.state.writeBoard_forum == 0){
+            check_flag++;
+          }
+        } else if (this.$store.state.writeBoard_Category == 3 || this.$store.state.writeBoard_Category == 4){
+          if(this.$store.state.writeBoard_forum > 0){
+            check_flag++;
+          }
+        }
+        if(check_flag > 0){
+          alert("카테고리 및 포럼을 다시 선택해주세요.");
+        } else {
+          this.$store.state.formData.append('userid', this.email_id);
+          this.$store.state.formData.append('descript', str);
+          this.$store.state.formData.append('subject', $("#subject").text());
+          this.$store.state.formData.append('boardtype', this.$store.state.writeBoard_Category);
+          this.$store.state.formData.append('boardforum', this.$store.state.writeBoard_forum);
 
-        //Image server Set
-        this.$store.commit('ISLOADING', true);
-        let settings = { headers: { 'content-type': 'multipart/form-data' } }
-        axios.post( WRITEDOMAIN + '/board/write', this.$store.state.formData, settings)
-         .then(data => {
-          console.log(data)
-          this.$store.commit('ISLOADING', false);
-          this.modalShowWrite = false;
-          this.$router.push(this.returnPath);
+          //Image server Set
+          this.$store.commit('ISLOADING', true);
+          let settings = { headers: { 'content-type': 'multipart/form-data' } }
+          axios.post( WRITEDOMAIN + '/board/write', this.$store.state.formData, settings)
+           .then(data => {
+            this.$store.commit('ISLOADING', false);
+            this.modalShowWrite = false;
+            this.$router.push(this.returnPath);
 
-         }).catch(response => {
-          //error
-          console.log("error",response)
-          this.errorAlert();
-         })
-      },errorAlert(){
-        alert("서버와의 통신 에러가 발생하였습니다.");
-        this.$router.push(this.$route.query.returnPath || '/error');
-      }
+           }).catch(response => {
+            //error
+            console.log("error",response)
+            this.errorAlert();
+           })
+         }
+        },
+        errorAlert(){
+          alert("서버와의 통신 에러가 발생하였습니다.");
+          this.$router.push(this.$route.query.returnPath || '/error');
+        }
     }
   }
 </script>
