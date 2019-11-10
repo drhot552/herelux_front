@@ -7,7 +7,7 @@ const DOMAIN ='http://54.180.120.131:4000'
 export const WRITEDOMAIN = 'http://54.180.120.131:4000';
 
 /* 개발서버 */
-//const DOMAIN ='http://54.180.153.54:4000'
+//onst DOMAIN ='http://54.180.153.54:4000'
 //export const WRITEDOMAIN = 'http://54.180.153.54:4000';
 
 const UNAUTHORIZED = 401
@@ -124,6 +124,14 @@ export const auth = {
   },
   register(id,password){
     return request('post', '/register', {id, password});
+  }
+}
+export const info = {
+  board(userid){
+    return request('get', '/info/board/' + userid)
+  },
+  boardupdate(userid, board_id){
+    return request('get', '/info/boardcheck/' + userid + '/'+ board_id)
   }
 }
 

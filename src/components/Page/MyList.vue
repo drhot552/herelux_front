@@ -6,10 +6,12 @@
           <div v-if="listFlag" style="margin-top:15px;" >
             <span class="board_span_style" style="color:black;" v-on:click="listChange(true)">내가 선택한 명품</span>
             <span class="board_span_style" v-on:click="listChange(false)">내가 작성한 글</span>
+            <span style="font-size:10px; color:red;" v-if="this.$store.state.boardFlag">N</span>
           </div>
           <div v-else style="margin-top:13px;" >
             <span class="board_span_style" v-on:click="listChange(false)">내가 선택한 명품</span>
             <span class="board_span_style" style="color:black;" v-on:click="listChange(true)">내가 작성한 글</span>
+            <span style="font-size:10px; color:red;" v-if="this.$store.state.boardFlag">N</span>
           </div>
         </div>
 
@@ -53,11 +55,6 @@ export default{
  },
  methods: {
     listChange(listType){
-      //나를 눌렀을때 listFlag = true =>
-      //버튼상태 && 현재상태
-      console.log(listType, this.listFlag);
-      true, false
-      false, false
       if(!listType && this.listFlag){
         this.listFlag = false;
       } else if(!listType && !this.listFlag){

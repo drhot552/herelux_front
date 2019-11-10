@@ -2,10 +2,10 @@
     <nav class="navbar bg-white fixed-top">
       <div class="container" style="padding-right:0px; padding-left:0px;">
         <div class="board_style" style="text-align:left;">
-          <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist/1" style="margin:0">
+          <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist/1" v-on:click.native="boarderClick()" style="margin:0">
                     이전
           </router-link>
-          <router-link v-else class="navbar-brand" to="/board" style="margin:0">
+          <router-link v-else class="navbar-brand" to="/board" v-on:click.native="boarderClick()" style="margin:0">
                     이전
           </router-link>
         </div>
@@ -53,10 +53,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         modalShowBoard:false,
         title : '',
         descript : '',
+        userid : String,
         pageType : String
       }
     },
     created(){
+      this.userid = localStorage.getItem('id');
       this.returnPath = this.$route.query.returnPath || '/board'
       this.pageType = this.$route.params.pagetype;
     },
@@ -71,7 +73,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.$store.commit('ISLOADING', true);
 
         board.delete(this.$route.params.board_idx).then(data => {
-          console.log("delete", data);
           this.$router.push(this.returnPath);
           this.$store.commit('ISLOADING', false);
         }).catch(error =>{
@@ -84,6 +85,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       onClose(){
         this.modalShowBoard = false;
 
+      },
+      boarderClick(){
+        this.$store.commit('SET_BOARDINFO_INIT');
+        this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+        console.log(this.$store.state.boardFlag);
       }
     }
   }

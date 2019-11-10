@@ -23,6 +23,9 @@
       <router-link v-else style="color:#000000;" v-on:click.native="footerClick()" to="/mylist/0">
         <img src="/public/img/bottom_mypage_default.png" style="height:20px;"/>
       </router-link>
+      <span style="font-size:10px; color:red;" v-if="this.$store.state.boardFlag">
+        N
+      </span>
     </div>
     <div class="div_style_1">
       <router-link v-if="pageName==='Rank'" style="color:#000000;" v-on:click.native="footerClick()" to="/ranking">
@@ -45,6 +48,7 @@
 
 <script>
   import NavLink from '../Navbar/NavLink';
+  import { info } from '../../api';
   export default {
     name: 'footer-navbar',
     props: {
@@ -53,9 +57,23 @@
     components: {
       NavLink
     },
+    data(){
+      return{
+        userid : String
+      }
+    },
+    created(){
+      this.userid = localStorage.getItem('id');
+      this.$store.commit('SET_BOARDINFO_INIT');
+      this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+    },
     methods:{
       footerClick(){
         this.$store.commit('SET_CATEGORY_INIT');
+        this.$store.commit('SET_BOARDINFO_INIT');
+        this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+        console.log(this.$store.state.boardFlag);
+
       }
     }
   }

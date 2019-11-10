@@ -20,6 +20,13 @@
                     <span>
                       <b>{{item.subject}}</b>
                     </span>
+                    <span style="font-size:8px; color:red;" v-if="infoData.length > 0">
+                      <span v-for="infoitem in infoData">
+                        <span v-if="item.board_idx == infoitem.board_idx">
+                          <b>N</b>
+                        </span>
+                      </span>
+                    </span>
                     <span v-if="item.img_cnt > 0" style="float:right;">
                       <img v-lazy ="item.imgurl" style="width:80px; height:80px;"/>
                     </span>
@@ -38,7 +45,7 @@
               </div>
             </div>
             <div style="margin-top:35px; position: relative;">
-            
+
             </div>
             <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx + `/mylist`">
             </router-link>
@@ -73,13 +80,15 @@ export default {
   },
   data(){
     return{
-      descript:'',
-      title:'',
-      userid :''
+      descript:String,
+      title:String,
+      userid :String,
+      infoData :[]
     }
   },
   created(){
     //this.readMore();
+    this.infoData = this.$store.state.boardInfo;
     this.userid = localStorage.getItem('id');
   },
   methods:{

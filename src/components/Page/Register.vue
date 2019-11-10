@@ -85,6 +85,13 @@
         }
         else{
           //비밀번호 확인
+
+          if(this.email == ''){
+            alert("ID를 입력하세요");
+          }
+          if(this.password == ''){
+            alert("비밀번호를 입력하세요");
+          }
           if(this.password != this.password_check){
             alert("비밀번호가 일치하지 않습니다.");
           }

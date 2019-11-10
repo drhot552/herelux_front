@@ -18,12 +18,12 @@ const store = new Vuex.Store({
     /* Ranking Tab 변수 */
     rankTabStatus : 0,
     /* 상품상세 클릭시 해당 플래그 set */
-    productDetail_name : '',
+    productDetail_name : String,
 
     /* Write 변수 */
     writeBoard_Category : 1,
     writeBoard_Forum : 0,
-    writeBoard_name : '',
+    writeBoard_name : String,
     writeBoard_image : [],
     formData : Object,
     /* Board 변수 */
@@ -32,7 +32,7 @@ const store = new Vuex.Store({
     boardtype : 0,
     board_idx : 0,
     /* Board 상세 변수 */
-    boardDetail_name : '',
+    boardDetail_name : String,
     /* Tab 상태 저장변수 및 댓글 수정가능 저장변수 */
     boardTabStatus : 0,
     boardCommentFlag : false,
@@ -59,7 +59,11 @@ const store = new Vuex.Store({
     brandId : 0,
 
     /* Loading */
-    isLoading : false
+    isLoading : false,
+
+    /* 글 알림 */
+    boardInfo:[],
+    boardFlag:false
 
   },
   //변수 set
@@ -109,6 +113,9 @@ const store = new Vuex.Store({
       state.myList_category = 0;
       state.rankTabStatus = 0;
     },
+    SET_BOARDINFO_INIT(state){
+      state.boardInfo =[]
+    },
     ISLOADING(state,isloading){
       state.isLoading = isloading;
     }
@@ -123,7 +130,6 @@ const store = new Vuex.Store({
       else {
         key = category;
       }
-      console.log("FETCH_ranking_READMORE", key, category_type, state.idx);
 
       return api.product.ranking(category_type, key, state.idx).then(data=>{
         if(data.length == 0){
@@ -140,7 +146,6 @@ const store = new Vuex.Store({
           state.product.push(...data);
           state.readFlag = true;
         }
-        console.log("FETCH_ranking_READMORE_board", data.length);
 
           commit('ISLOADING', false);
       }).catch(error =>{
@@ -179,7 +184,6 @@ const store = new Vuex.Store({
       else {
         key = category;
       }
-      console.log("FETCH_MYLIST_READMORE", userid, category_type, category);
       return api.product.mylist(userid, state.myList_idx, category_type, key).then(data=>{
         if(data.length == 0){
           state.myList_readFlag = false;
@@ -204,7 +208,6 @@ const store = new Vuex.Store({
     },
     FETCH_MYBOARDLIST_READMORE({commit, state}, {userid, myboardlist_type}){
 
-      console.log("FETCH_MYBOARDLIST_READMORE", userid, myboardlist_type);
       return api.board.mylist(userid, myboardlist_type, state.myboardList_idx).then(data=>{
         if(data.length == 0){
           state.myboardList_flag = false;
@@ -235,7 +238,6 @@ const store = new Vuex.Store({
       else {
         key = category;
       }
-      console.log("FETCH_BRANDLIST_READMORE", brandid, category_type, category);
       return api.search.brand(brandid, state.brandList_idx, category_type, key).then(data=>{
         if(data.length == 0){
           state.brandList_readFlag = false;
@@ -253,6 +255,22 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
+    },
+    SELECT_BOARD_INFO_ALERT({commit, state}, {userid}){
+      return api.info.board(userid).then(data=>{
+        console.log("SELECT_BOARD_INFO_ALERT", userid)
+        if(data.length > 0){
+          state.boardInfo.push(...data);
+          state.boardFlag = true;
+          console.log(state.boardInfo);
+        } else {
+          state.boardFlag = false;
+        }
+      }).catch(error=>{
         console.log("error",error);
         alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');

@@ -161,7 +161,7 @@
   </div>
 </template>
 <script>
-import { comment, board } from '../../api'
+import { comment, board, info } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -176,19 +176,19 @@ export default{
   data(){
     return{
       board_idx : 0,
-      userid : '',
+      userid : String,
       boardDetail : [],
       comment : [],
-      title : '',
-      descript : '',
+      title : String,
+      descript : String,
       modalShowComment : false,
-      nickName : '',
-      writer : '',
+      nickName : String,
+      writer : String,
       modalFlag : 0,
       commentdownArry : [],
       commentdownFlag : false,
-      commentdownName:'',
-      commentdownDescript :'',
+      commentdownName :String,
+      commentdownDescript :String,
       comment_idx : 0,
       commentdown_idx : 0
       //comment변수 set
@@ -196,13 +196,24 @@ export default{
   },
   created(){
     this.board_idx = this.$route.params.board_idx;
-    //board_idx set
-    //this.$store.commit('SET_BOARD_IDX', this.board_idx);
     this.userid = localStorage.getItem('id');
+
     //댓글 상태변수 set
     this.$store.state.boardCommentFlag = false;
     //게시판 조회
     this.$store.commit('ISLOADING', true);
+
+    info.boardupdate(this.userid, this.board_idx).then(data=>{
+      if(data == 200){
+        this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+      } else {
+        alert("데이터베이스 SQL 오류입니다. [BoardDetail]");
+      }
+    }).catch(error =>{
+      console.log("error",error);
+      //alert 후 페이지 이동
+      this.errorAlert();
+    });
 
     board.select(this.board_idx,this.$store.state.boardtype).then(data => {
       if(data.length > 0 ){
