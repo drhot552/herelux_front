@@ -92,12 +92,16 @@
     },
     created() {
       this.returnPath = this.$route.query.returnPath || '/'
-      this.client_id = 'qb4UvpZbIcIPB7AeHsg5'
-      this.callbackUrl = 'http://52.79.240.238:8080/callback'
+      //개발
+      //this.client_id = 'qb4UvpZbIcIPB7AeHsg5'
+      //this.callbackUrl = 'http://52.79.240.238:8080/callback'
+      //운영
+      this.client_id = 'Vwg5qvZi4T3pagL1ZASv'
+      this.callbackUrl = 'http://hereluxury.com/callback'
 
     },
     mounted(){
-    
+
     },
     methods:{
       onSubmit() {
