@@ -20,7 +20,7 @@ export default {
           observerOptions: {
             rootMargin: '0px',
             threshold: 0.1,
-            preLoad: 1.3,
+            preLoad: 10,
           }
         });
     }

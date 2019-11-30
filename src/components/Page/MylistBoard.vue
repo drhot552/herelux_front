@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="tabs" ref="mylisttabbar" style="margin-top:50px;">
+    <ul class="mylisttabs" ref="mylisttabbar">
        <div class="tabitem" :class="index === mylistboardactivetab ? 'active' : ''"  v-for="(tab, index) in boarditems" @click="boardswitchtab(index)" :key="index" ref="boardtab">
          {{tab.descript}}
        </div>
@@ -160,77 +160,6 @@ beforeDestroy () {
     this.initialboardX = null;
     this.initialboardY = null;
   },
-/*  mylistmoveTouch(direction) {
-    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
-       if(direction.deltaX < direction.deltaY){
-         console.log("swiped left");
-         if(this.mylistActivetab == undefined)
-         {
-         }
-         else if(this.mylistActivetab >= 0 && this.mylistActivetab < this.items.length - 1)
-         {
-           this.switchtab(this.mylistActivetab + 1);
-           console.log("switchTab", this.mylistActivetab);
-           if(this.mylistActivetab== 0){
-           }
-         }
-         else{
-         }
-       }
-       else if (direction.deltaX > direction.deltaY){
-         if(this.mylistActivetab == undefined)
-         {
-           this.switchtab(1);
-         }
-         else if(this.mylistActivetab >= 1)
-         {
-           this.switchtab(this.mylistActivetab - 1);
-           if(this.mylistActivetab == 0){
-             //this.switchtab(0);
-           }
-         }
-         else{
-           //this.switchtab(0);
-         }
-         console.log("swiped right");
-       }
-     }
-  },
-  mylistboardmoveTouch(direction) {
-    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
-       if(direction.deltaX < direction.deltaY){
-         console.log("swiped left");
-         if(this.mylistboardactivetab == undefined)
-         {
-         }
-         else if(this.mylistboardactivetab >= 0 && this.mylistboardactivetab < this.items.length - 1)
-         {
-           this.boardswitchtab(this.mylistboardactivetab + 1);
-           if(this.mylistActivetab== 0){
-           }
-         }
-         else{
-         }
-       }
-       else if (direction.deltaX > direction.deltaY){
-         if(this.mylistboardactivetab == undefined)
-         {
-           this.boardswitchtab(1);
-         }
-         else if(this.mylistboardactivetab >= 1)
-         {
-           this.boardswitchtab(this.mylistboardactivetab - 1);
-           if(this.mylistboardactivetab == 0){
-             //this.switchtab(0);
-           }
-         }
-         else{
-           //this.switchtab(0);
-         }
-       }
-     }
-  },
-  */
     boardswitchtab(n){
       let scroll, scond
 
@@ -282,7 +211,7 @@ beforeDestroy () {
 
 .slide-next-leave-to, .slide-prev-enter, .slide-prev-leave {
 }
-.tabs{
+.mylisttabs{
   display:flex;
   color: #f1f1f1;
   height:48px;
@@ -292,7 +221,7 @@ beforeDestroy () {
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
   z-index: 1;
-  position:fixed;
+  position:relative;
   padding:0;
 }
 .tabs::-webkit-scrollbar  {
@@ -322,12 +251,11 @@ height:0 !important;
   transition:.5s ease;
 }
 .tabcontainer_mylist {
-  height:480px;
+  height:100vh;
   position: relative;
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 110px;
   touch-action: pan-y !important;
 }
 .tabpane_mylist{

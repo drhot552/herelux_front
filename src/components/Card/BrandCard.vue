@@ -3,12 +3,10 @@
         <div class="container">
           <div v-if="this.$store.state.brandList.length > 0" class="row" style="margin-bottom: 50px;">
             <div class="div_style" v-for="item in this.$store.state.brandList">
-              <div class="in">
-                <a style="color:#000000;" v-on:click="detail(item.id)">
-                  <img v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
-                  <div v-lazy:background-image="item.url"></div>
+              <div class="in" v-on:click="detail(item.id)">
+                <img class="lazy-img-fadein"  v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
+                  <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
                   <h6> <br /> <b>{{item.name}}</b> </h6>
-                </a>
               </div>
             </div>
           </div>
@@ -51,9 +49,14 @@ export default{
       this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
     },
     detail(id){
-      this.$store.state.productDetail_name = 'brand'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'brand' + '_' +this.brandId
-      this.$router.push(this.returnPath)
+      $('.ripple').addClass('animate');
+
+      setTimeout(function(){
+      	$('.ripple').removeClass('animate');
+      }, 650);
+    //  this.$store.state.productDetail_name = 'brand'
+    //  this.returnPath = this.returnPath +'/' + id + '/' + 'brand' + '_' +this.brandId
+    //  this.$router.push(this.returnPath)
     }
   }
 }
@@ -67,5 +70,13 @@ export default{
 .in {
   width: 100%;
   text-align: center;
+}
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
 }
 </style>

@@ -47,14 +47,6 @@ export default{
     InfoSection,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput
-  },
-  methods:{
-    onSend(){
-      // axios
-       this.$http.post('http://54.180.145.103:4000/contact/').then((response)=>{
-         this.eventvideo = response.data
-       });
-    }
   }
 }
 </script>

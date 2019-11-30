@@ -5,7 +5,7 @@
         <h6>
             <router-link class="a_tag" to="/service"> 서비스이용약관 </router-link>
             &nbsp; /  &nbsp;
-            <span> <b style="color:#333"> 개인정보취급방지 </b> </span>
+            <span> <b style="color:#333"> 개인정보취급방침 </b> </span>
             &nbsp; /  &nbsp;
             <router-link class="a_tag" to="/responsibilty"> 책임의 한계 </router-link>
         </h6>
@@ -143,7 +143,7 @@
           </p>
         </li>
       </ul>
-      <ul class="ul_style">>5. 개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항
+      <ul class="ul_style">5. 개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항
         <li class="li_style">
           <p class="p_style">
             회원님 개개인에게 개인화되고 맞춤화된 서비스를 제공하기 위해서 회원님의 정보를 저장하고 수시로 불러오는 '쿠키(cookie)'를 사용합니다. 쿠키는 웹사이트를 운영하는데 이용되는 서버가 이용자의 브라우저에게 보내는 조그마한 데이터 꾸러미로 회원님 컴퓨터의 하드디스크에 저장됩니다.
@@ -174,7 +174,7 @@
           </p>
         </li>
       </ul>
-      <ul class="ul_style">>5. 개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항
+      <ul class="ul_style">5. 개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항
         <li class="li_style">
           <p class="p_style">
             (1) 기술적인 대책

@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="container">
-          <div class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.product">
+          <div class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.product" v-on:click="onClick(item.id)">
             <div class="div_ranking_1" style="margin-left:10px;" v-if="i<99">
               <!--순위대로 색을 다르게 check-->
                 <div class="layer">
@@ -30,8 +30,6 @@
             <div class="div_ranking_3" style="float:right;"v-if="i<99">
               <img class="lazy-img-fadein" style="width:100%; float:right;" v-lazy="item.url"/>
             </div>
-            <a class="div_ranking_4" style="z-index:0;"  v-if="i<99" v-on:click="detail(item.id)">
-            </a>
           </div>
           <div v-if="this.$store.state.readFlag && this.$store.state.idx < 5" style="text-align:center; height:100px; z-index:1;">
             <a style="color:#000000;" v-on:click="readMore()">
@@ -66,7 +64,7 @@ export default {
       this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
     },
-    detail(id){
+    onClick(id){
       this.$store.state.productDetail_name = 'ranking'
       this.returnPath = this.returnPath +'/' + id + '/ranking'
       this.$router.push(this.returnPath)

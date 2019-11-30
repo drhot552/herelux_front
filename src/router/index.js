@@ -31,6 +31,10 @@ const Update = () => import('../components/Page/Update.vue');
 const Error = () => import('../components/Page/Error.vue');
 const Ready = () => import('../components/Page/Ready.vue');
 const Brand = () => import('../components/Page/Brand.vue');
+const Withdrawal = () => import('../components/About/Withdrawal.vue');
+const PasswordChg = () => import('../components/About/PasswordChg.vue');
+const Callback = () => import('../components/Page/Callback.vue');
+
 //테스트
 const Test = () => import('../components/Test.vue');
 
@@ -238,6 +242,32 @@ const router = new Router({
       components:{default:Brand, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Brand"}
+      }
+    },
+    {
+      path:'/withdrawal',
+      name:'Withdrawal',
+      components:{default:Withdrawal, header:MainNavbar, footer:FooterNavbar},
+      beforeEnter:requireAuth,
+      props:{
+        header:{colorOnScroll:0,pageName:"Withdrawal"}
+      }
+    },
+    {
+      path:'/passwordchg',
+      name:'PasswordChg',
+      components:{default:PasswordChg, header:MainNavbar, footer:FooterNavbar},
+      beforeEnter:requireAuth,
+      props:{
+        header:{colorOnScroll:0,pageName:"PasswordChg"}
+      }
+    },
+    {
+      path:'/callback',
+      name:'Callback',
+      components:{default:Callback, header:MainNavbar, footer:FooterNavbar},
+      props:{
+        header:{colorOnScroll:0,pageName:"Callback"}
       }
     }
   ],

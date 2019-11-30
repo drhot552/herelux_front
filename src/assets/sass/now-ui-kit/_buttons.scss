@@ -150,3 +150,16 @@
     margin-top: -1px;
     right: 8px;
 }
+
+.ripple.animate {
+  animation: ripple 0.65s linear;
+}
+
+@keyframes ripple {
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(7);
+    -ms-transform: scale(7);
+    transform: scale(7);
+  }
+}

@@ -164,8 +164,22 @@
         this.$emit(eventToTrigger)
       },
       toggle() {
-        console.log("toggle");
         this.userId = localStorage.getItem('id')
+        //별처리
+        if(this.userId){
+          var arrayId = this.userId.split("@");
+          var str = "";
+          var hideId = "";
+          if(arrayId.length == 2){
+            for(var j =0; j < arrayId[0].length / 2; j++){
+              str += "*";
+            }
+            hideId = arrayId[0].substr(0,arrayId[0].length/2) + str;
+            hideId = hideId + "@" + arrayId[1];
+            this.userId = hideId;
+          }
+        }
+
         this.setNav(!this.showMenu)
       },
       open(){

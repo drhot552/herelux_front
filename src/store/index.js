@@ -60,6 +60,8 @@ const store = new Vuex.Store({
 
     /* Loading */
     isLoading : false,
+    /* Datacheck */
+    dataCheck : false,
 
     /* 글 알림 */
     boardInfo:[],
@@ -272,7 +274,7 @@ const store = new Vuex.Store({
         }
       }).catch(error=>{
         console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
+    //    alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     }

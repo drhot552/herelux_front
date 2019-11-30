@@ -126,8 +126,41 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.modalShowWrite = false;
       },
       checklist(){
-        console.log(this.$store.state.writeBoard_forum,this.$store.state.writeBoard_Category);
-        if(this.$store.state.writeBoard_Category == 0 || this.$store.state.writeBoard_Category == 1){
+        //url 체크
+        var str_1 = $('#url_1').val();
+        var str_2 = $('#url_2').val();
+
+        var url_flag = true;
+
+        var http_pattern = /http|https/gi;
+        if(str_1 != ""){
+          if(!http_pattern.exec(str_1)){
+              alert("주소를 입력하세요.");
+              url_flag = false;
+          } else {
+            url_flag = true;
+          }
+        }
+        else if(str_2 != ""){
+          if(!http_pattern.exec(str_2)){
+              alert("주소를 입력하세요.");
+              url_flag = false;
+          } else {
+             url_flag = true;
+          }
+        }
+        //둘다 선택안했을 겨웅
+        else {
+          url_flag = true;
+        }
+
+        if(url_flag){
+          this.writecheck();
+        }
+      },
+      writecheck(){
+        //포럼 체크 및 해당 글 체크
+        if(this.$store.state.writeBoard_Category == 1){
           if(this.$store.state.writeBoard_forum == 0){
             alert("포럼을 선택하세요.");
           }
@@ -143,7 +176,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         }
         else if(this.$store.state.writeBoard_Category == 2){
           if(this.$store.state.writeBoard_forum == 0){
-            alert("카테고리을 선택하세요.");
+            alert("카테고리를 선택하세요.");
           }
           else if($("#subject").text() == ""){
             alert("제목을 적으세요.");
@@ -177,9 +210,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
        this.write();
     },
       write(){
-        /* 글 전체를 저장 */
+        //엔터키가 있으면 <br추가></br추가>
         var str = $('#descript').val();
         str = str.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+
+
         var check_flag = 0;
         if(this.$store.state.writeBoard_Category == 1 || this.$store.state.writeBoard_Category == 2){
           if(this.$store.state.writeBoard_forum == 0){
@@ -198,6 +233,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.$store.state.formData.append('subject', $("#subject").text());
           this.$store.state.formData.append('boardtype', this.$store.state.writeBoard_Category);
           this.$store.state.formData.append('boardforum', this.$store.state.writeBoard_forum);
+          this.$store.state.formData.append('url_1', $("#url_1").val());
+          this.$store.state.formData.append('url_2', $("#url_2").val());
 
           //Image server Set
           this.$store.commit('ISLOADING', true);
@@ -209,7 +246,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.$router.push(this.returnPath);
 
            }).catch(response => {
-            //error
             console.log("error",response)
             this.errorAlert();
            })

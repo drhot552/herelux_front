@@ -11,6 +11,9 @@
         "styleLibraryName": "theme-chalk"
       }
     ],
-    ["syntax-dynamic-import"]
+    ["syntax-dynamic-import"],
+    ["transform-runtime", {
+     "regenerator": true
+   }]
   ]
 }

@@ -5,7 +5,7 @@
         <h6>
             <span> <b style="color:#333">서비스이용약관 </b> </span>
             &nbsp; /  &nbsp;
-            <router-link class="a_tag" to="/privacy"> 개인정보취급방지 </router-link>
+            <router-link class="a_tag" to="/privacy"> 개인정보취급방침 </router-link>
             &nbsp; /  &nbsp;
             <router-link class="a_tag" to="/responsibilty"> 책임의 한계 </router-link>
         </h6>

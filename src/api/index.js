@@ -7,7 +7,7 @@ const DOMAIN ='http://54.180.120.131:4000'
 export const WRITEDOMAIN = 'http://54.180.120.131:4000';
 
 /* 개발서버 */
-//onst DOMAIN ='http://54.180.153.54:4000'
+//const DOMAIN ='http://54.180.153.54:4000'
 //export const WRITEDOMAIN = 'http://54.180.153.54:4000';
 
 const UNAUTHORIZED = 401
@@ -26,7 +26,7 @@ const request = (method, url, data, setting) =>{
   }).then(result => result.data)
     .catch(result => {
       //error 시 팝업 생성
-      alert("서버와의 통신 에러가 발생하였습니다.");
+      alert("서버와의 통신 에러가 발생하였습니다!");
       router.push('/error');
       if(status == UNAUTHORIZED) return onUnauthorized();
 
@@ -62,8 +62,12 @@ export const product = {
     return request('get', '/product/ranking/'+ category +'/' + major_key + '/' + page)
   },
   //상품상세 이커머스명
-  detailbrand(productid){
-    return request('get', '/product/detailbrand/' + productid);
+  detailbrand(product_id){
+    return request('get', '/product/detailbrand/' + product_id);
+  },
+  //상품 카운트
+  productcnt(userid, product_id){
+    return request('get', '/product/productcnt/' + userid + '/' + product_id);
   }
 }
 export const event = {
@@ -119,11 +123,23 @@ export const board = {
 }
 
 export const auth = {
-  login(id, password){
-    return request('post', '/login', {id, password})
+  login(id, password, type){
+    return request('post', '/login', {id, password, type})
+  },
+  loginchk(id, type){
+    return request('post', '/login/loginchk', {id, type})
   },
   register(id,password){
     return request('post', '/register', {id, password});
+  },
+  withdrawal(id, password){
+    return request('post', '/register/out', {id, password});
+  },
+  passwordchg(id, password){
+    return request('post', '/login/passwordchg', {id, password});
+  },
+  snslogin(id, type, token, access_token){
+    return request('post', '/login/snslogin', {id, type, token, access_token})
   }
 }
 export const info = {
@@ -132,6 +148,17 @@ export const info = {
   },
   boardupdate(userid, board_id){
     return request('get', '/info/boardcheck/' + userid + '/'+ board_id)
+  },
+  myinfo(userid){
+    return request('get', '/info/myinfo/' + userid)
+  }
+}
+export const callback = {
+  naver(code, state){
+    return request('post', '/callback', {code, state})
+  },
+  navermember(token){
+    return request('post', '/callback/member', {token})
   }
 }
 

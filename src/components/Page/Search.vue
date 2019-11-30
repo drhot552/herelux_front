@@ -3,8 +3,8 @@
     <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%; z-index:1;">
       <div class="edit_div">
         <div class="container" style="padding-right:0px; padding-left:0px;">
-          <textarea class="search_textarea"  contenteditable="true" id="search" placeholder="검색기능은 만드는 중이며 현재 아래 브랜드관만 이용 가능합니다."
-                    style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100; pointer-events:none; font-size:12px;">
+          <textarea class="search_textarea"  contenteditable="true" v-model="search" id="search" placeholder="검색"
+                    style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100; font-size:12px;">
 
           </textarea>
         </div>
@@ -13,15 +13,13 @@
     <div class="blogs-4" id="blogs-4">
       <div class="container" style="padding-left:15px; padding-right:15px; padding-top:50px; height: 71vh;">
         <div v-if="this.brand_items.length > 0" class="row" style="margin-top: 20px;">
-          <article class="div_style" v-for="item in this.brand_items">
+          <article class="div_style" v-for="item in filteredList">
             <div class="in" v-if="item.sub_descript != null">
               <a style="color:#000000;" v-on:click="detail(item.minor_key)">
-                <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="width: 130px; height: 130px;"alt="..." >
-                <div v-lazy:background-image="item.url"></div>
+                <img v-bind:src="`/public/img/brand/${item.sub_descript}.png`" style="width: 130px; height: 130px;"alt="..." >
               </a>
             </div>
-          </article
-          >
+          </article>
         </div>
         <div style="height:20vh;">
           <span style="margin-left: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 이미지출처 - 각 브랜드 공식홈페이지 </span>
@@ -67,9 +65,17 @@ export default{
   data(){
     return{
       brand_items:[],
-      category_items:[]
+      category_items:[],
+      search:''
 
     }
+  },
+  computed: {
+   filteredList() {
+     return this.brand_items.filter(item => {
+       return item.sub_descript.toLowerCase().includes(this.search.toLowerCase())
+     })
+   }
   },
   created(){
     //Brand name

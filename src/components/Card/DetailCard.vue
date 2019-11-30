@@ -116,6 +116,17 @@ export default {
     created(){
       this.avg = this.star / this.count;
       this.avg = this.avg.toFixed(2);
+      this.userId = localStorage.getItem('id');
+      //로그인한  경우 count 체크 
+      if(this.userId.length > 0){
+        product.productcnt(this.userId, this.id).then(data =>{
+          if(data == 500){
+            this.errorAlert();
+          }
+        }).catch(error =>{
+          this.errorAlert();
+        });
+      }
 
       this.$store.commit('ISLOADING', true);
       product.detailbrand(this.id)
@@ -136,7 +147,7 @@ export default {
        productflag : true,
        avg : 0,
        detailbrand : [],
-       message : "test"
+       userId : ""
      }
    },
    methods:{
@@ -187,8 +198,7 @@ export default {
      },
      doCopy() {
        var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
-       console.log(newURL);
-       console.log('여기는 들어오니??');
+
        this.$notify({
           group: 'alert',
           title: '복사되었습니다.',

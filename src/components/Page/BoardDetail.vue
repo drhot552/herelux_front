@@ -28,6 +28,21 @@
               <h6 class="h6_style"> {{`조회수 : ` + this.boardDetail[0].views}} </h6>
             </div>
           </div>
+          <!-- url 내용 set -->
+          <div style="margin-top:10px; padding-left:15px;" v-if="this.boardDetail.length > 0">
+            <div v-for="url in boardDetail">
+              <table v-if="url.boardurl" style="width:100%;">
+                <tbody>
+                 <tr>
+                   <th>관련링크</th>
+                   <td class="url_ellipsis"><a v-on:click="urlClick(url.boardurl)">{{url.boardurl}}</a></td>
+                 </tr>
+               </tbody>
+              </table>
+            </div>
+
+          </div>
+          <!-- 글 내용 set -->
           <div id="descript_board" v-html="this.boardDetail[0].descript" style="margin-top:10px; padding-left:15px; line-height: 2em; padding-right: 15px;" v-if="this.boardDetail.length > 0">
           </div>
           <!-- 사진 이미지 set -->
@@ -203,6 +218,7 @@ export default{
     //게시판 조회
     this.$store.commit('ISLOADING', true);
 
+    //해당 알림 확인 시
     info.boardupdate(this.userid, this.board_idx).then(data=>{
       if(data == 200){
         this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
@@ -223,7 +239,7 @@ export default{
         this.writer = this.boardDetail[0].userid;
         if(url != null){
           this.boardDetail[0].descript=this.boardDetail[0].descript.replace(url, url.toString().link(url));
-          console.log(this.boardDetail[0].descript.replace(url, url.toString().link(url)));
+
         }
         //this.boardDetail[0].descript += url.toString().link(url);
 
@@ -248,6 +264,28 @@ export default{
 
   },
   methods:{
+    urlClick(url){
+      //gtag('event','유투브상품클릭',{'event_category':title,'event_label':url});
+      if(navigator.userAgent.match(/Android|Tablet/i)){
+        if(navigator.userAgent.match(/herelux_app_and/i)){
+          window.android.bridge(url);
+        }
+        else{
+          window.open(url, '_blank');
+        }
+      }
+      else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+        if(navigator.userAgent.match(/herelux_app_ios/i)){
+          window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+        }
+        else{
+          window.open(url, '_blank');
+        }
+      }
+      else {
+        window.open(url, '_blank');
+      }
+    },
     onClose(){
     this.modalShowComment = false;
     },
@@ -358,19 +396,21 @@ export default{
 
       if($("#comment").text() == ""){
           alert("댓글을 입력하세요.");
+      } else {
+        if(this.userid == null){
+          this.modalShowComment =true;
+          this.title = "로그인"
+          this.descript = "로그인이 되어있지 않습니다. 로그인을 하시겠습니까?"
+          this.modalFlag = 5
+        }
+        else{
+          this.title = "댓글등록";
+          this.descript ="댓글을 등록하시겠습니까?";
+          this.modalShowComment = true;
+          this.modalFlag = 1;
+        }
       }
-      if(this.userid == null){
-        this.modalShowComment =true;
-        this.title = "로그인"
-        this.descript = "로그인이 되어있지 않습니다. 로그인을 하시겠습니까?"
-        this.modalFlag = 5
-      }
-      else{
-        this.title = "댓글등록";
-        this.descript ="댓글을 등록하시겠습니까?";
-        this.modalShowComment = true;
-        this.modalFlag = 1;
-      }
+
     },
     commentDownPopup(){
       //comment 등록
@@ -470,5 +510,20 @@ export default{
   padding-top: 10px;
   padding-bottom: 0;
   box-shadow: 0 0 20px 0 rgba(0,0,0,.15);
+}
+.url_ellipsis{
+  width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size:0.9em;
+  color:#17a2b8;
+  text-decoration:underline;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 </style>

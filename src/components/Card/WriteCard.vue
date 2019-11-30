@@ -19,11 +19,11 @@
       </div>
     </div>
     <div style="margin-left:10px; margin-right:10px;">
-      <textarea class="url_box">
+      <textarea class="edit_textarea" id="url_1" placeholder="관련 링크를 넣으세요. 꼭 http:// 혹은 https://가 들어가야 합니다.">
       </textarea>
     </div>
-    <div style="margin:10px; margin-right:10px;">
-      <textarea class="url_box">
+    <div style="margin-left:10px; margin-right:10px;">
+      <textarea class="edit_textarea" id="url_2" placeholder="관련 링크를 넣으세요. 꼭 http:// 혹은 https://가 들어가야 합니다.">
       </textarea>
     </div>
     <div class="image_box">
@@ -242,10 +242,5 @@ export default{
   width: 46%;
   float: left;
   margin-left:10px;
-}
-.url_box{
-  border: 1px solid rgba(0,0,0,.1);
-  height: inherit;
-  width:100%;
 }
 </style>

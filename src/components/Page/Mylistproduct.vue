@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="tabs" ref="mylisttabbar" style="margin-top: 50px;">
+    <ul class="mylisttabs" ref="mylisttabbar">
        <div class="tabitem" :class="index === mylistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="mylisttab">
          {{tab.descript}}
        </div>
@@ -49,7 +49,6 @@
 
 <script>
 import MyListCard from '../Card/MyListCard';
-import MyListBoardCard from '../Card/MyListBoardCard';
 import Modal from '../Component/Modal';
 import { code } from '../../api';
 import Loading from 'vue-loading-overlay';
@@ -62,8 +61,7 @@ export default{
   components:{
     MyListCard,
     Modal,
-    Loading,
-    MyListBoardCard
+    Loading
   },
   data() {
     return {
@@ -357,7 +355,8 @@ beforeDestroy () {
 
 .slide-next-leave-to, .slide-prev-enter, .slide-prev-leave {
 }
-.tabs{
+
+.mylisttabs{
   display:flex;
   color: #f1f1f1;
   height:48px;
@@ -367,8 +366,8 @@ beforeDestroy () {
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
   z-index: 1;
-  position:fixed;
   padding:0;
+  position: relative;
 }
 .tabs::-webkit-scrollbar  {
 width: 0 !important;
@@ -397,12 +396,11 @@ height:0 !important;
   transition:.5s ease;
 }
 .tabcontainer_mylist {
-  height:480px;
+  height:100vh;
   position: relative;
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 110px;
   touch-action: pan-y !important;
 }
 .tabpane_mylist{

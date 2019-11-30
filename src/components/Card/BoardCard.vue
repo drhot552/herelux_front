@@ -3,7 +3,7 @@
         <div class="container" style="margin-bottom:80px">
           <div class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
                 v-for="(item,i) in this.$store.state.board">
-            <div style="width:100%;">
+            <div style="width:100%;" v-on:click="onClick(item.board_idx)">
               <div class="div_board_1" style="margin-left:10px; margin-right:10px;">
                 <!--순위대로 색을 다르게 check-->
                   <div class="layer">
@@ -61,8 +61,6 @@
                 <h6> {{item.comment}} </h6>
               </div> -->
             </div>
-            <router-link class="div_board_4" v-bind:to="`/boarddetail/`+item.board_idx + `/board`">
-            </router-link>
           </div>
           <div v-if="this.$store.state.board_readFlag" style="text-align:center; height: 7vh; padding-top: 15px;">
             <a style="color:#000000;" v-on:click="readMore()">
@@ -88,15 +86,15 @@ export default {
       title:''
     }
   },
-  created(){
-    //this.readMore();
-  },
   methods:{
     readMore(){
       //처음은 일단 0으로 set
       this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});
 
+    },
+    onClick(board_idx){
+      this.$router.push(this.$route.query.returnPath || '/boarddetail/'+board_idx+ '/board');
     }
   }
 

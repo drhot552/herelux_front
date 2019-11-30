@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-        <div class="container">
+        <div class="container" style="padding-right:15px;">
           <div style="color:#888; text-align:center; margin:10px;">
             <span> 4점 이상 부여한 상품들 입니다.</span>
           </div>

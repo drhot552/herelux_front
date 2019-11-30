@@ -72,6 +72,27 @@
             </nav-link>
           </li>
         </template>
+        <template slot="navbar-menu">
+          <li class="nav-item">
+            <nav-link class="nav-link" v-on:click.native="onClick()" >
+                <span>1:1 문의</span>
+            </nav-link>
+          </li>
+        </template>
+        <template slot="navbar-menu">
+          <li class="nav-item">
+            <nav-link class="nav-link" to="/passwordchg">
+                <span>비밀번호 변경</span>
+            </nav-link>
+          </li>
+        </template>
+        <template slot="navbar-menu">
+          <li class="nav-item">
+            <nav-link class="nav-link" to="/withdrawal">
+                <span>회원탈퇴</span>
+            </nav-link>
+          </li>
+        </template>
     </navbar>
 </template>
 
@@ -110,6 +131,16 @@
     watch:{
       email_id: function(){
         this.email_id = localStorage.getItem('id');
+      }
+    },
+    methods:{
+      onClick(){
+        var email = 'hereluxury@gmail.com';
+        var subject = 'HERELUX 문의사항';
+
+        var mailto_link = 'mailto:' + email + '?subject=' + subject ;
+
+        window.location.href = mailto_link;
       }
     }
   }
