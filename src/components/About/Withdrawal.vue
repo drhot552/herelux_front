@@ -27,12 +27,16 @@
         <div style="text-align: center; padding-bottom:20px;">
           <span>{{this.userId}}</span>
         </div>
-        <div style="margin-left: 15px; margin-right: 15px; padding-bottom:25px;">
+        <div style="margin-left: 15px; margin-right: 15px; padding-bottom:10px;">
           <input class="password_textarea"
                     type="password"
                     v-model="password"
                     placeholder="비밀번호를 입력하세요.">
           </input>
+        </div>
+
+        <div>
+          <span style="margin-left: 15px; font-size: 13px; color: rgb(136, 136, 136);"> * sns 로그인 계정은 비밀번호 없이 탈퇴 </span>
         </div>
 
         <div style="text-align:center; padding-bottom: 15px;">
@@ -89,12 +93,14 @@ export default{
       userId : '',
       password : '',
       modalFlag : false,
-      modalErrorFlag : false
+      modalErrorFlag : false,
+      type : ''
     }
   },
   created(){
     this.userId = localStorage.getItem('id')
     this.userIdout = localStorage.getItem('id')
+    this.type = localStorage.getItem('type')
     this.returnPath = this.$route.query.returnPath || '/login'
     //별처리
     if(this.userId){
@@ -131,8 +137,16 @@ export default{
       this.modalFlag = false;
     },
     onDelete(){
-      auth.withdrawal(this.userIdout, this.password).then(data=>{
-        if(data == 200) {
+      auth.withdrawal(this.userIdout, this.password, this.type).then(data=>{
+        if(data == 301){
+          alert("아이디를 다시확인해주세요.");
+        }
+        //비밀번호가 틀리면
+        else if(data == 302){
+          alert("비밀번호를 다시확인해주세요.");
+        }
+        else if(data == 200){
+          localStorage.clear();
           this.$router.push(this.$route.query.returnPath || '/login');
         } else {
           console.log(error);
@@ -165,5 +179,30 @@ export default{
     outline: 0;
     overflow: auto;
     width: 100%;
+  }
+  .simple_login .button_naver {
+      border: 1px solid #27b219;
+      border-top-width: 0px;
+      border-left-width: 0px;
+      border-bottom-width: 0px;
+      background: #1ec800;
+      border-radius: 5px;
+      display: block;
+      height: 50px;
+      position: relative;
+      text-align: center;
+      color: #fff;
+      text-indent: 36px;
+      line-height: 36px;
+  }
+  .simple_login .button_naver:before {
+      width: 50px;
+      height: 48px;
+      background: url(/public/img/naver_login_btn.png) 0 0 no-repeat;
+      background-size: 50px;
+      position: absolute;
+      left: 0px;
+      top: 0;
+      content: '';
   }
 </style>

@@ -3,12 +3,12 @@ import axios from 'axios'
 import router from '../router'
 
 /* 운영서버 */
-const DOMAIN ='http://54.180.120.131:4000'
-export const WRITEDOMAIN = 'http://54.180.120.131:4000';
+//const DOMAIN ='http://54.180.120.131:4000'
+//export const WRITEDOMAIN = 'http://54.180.120.131:4000';
 
 /* 개발서버 */
-//const DOMAIN ='http://54.180.153.54:4000'
-//export const WRITEDOMAIN = 'http://54.180.153.54:4000';
+const DOMAIN ='http://54.180.153.54:4000'
+export const WRITEDOMAIN = 'http://54.180.153.54:4000';
 
 const UNAUTHORIZED = 401
 
@@ -129,11 +129,11 @@ export const auth = {
   loginchk(id, type){
     return request('post', '/login/loginchk', {id, type})
   },
-  register(id,password){
-    return request('post', '/register', {id, password});
+  register(id,password, type){
+    return request('post', '/register', {id, password, type});
   },
-  withdrawal(id, password){
-    return request('post', '/register/out', {id, password});
+  withdrawal(id, password, type){
+    return request('post', '/register/out', {id, password, type});
   },
   passwordchg(id, password){
     return request('post', '/login/passwordchg', {id, password});

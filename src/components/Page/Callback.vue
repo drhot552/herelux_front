@@ -110,6 +110,7 @@
           if(data==200 || data==201){
             localStorage.setItem('token', this.authArry.refresh_token)
             localStorage.setItem('id', this.loginArry.response.email)
+            localStorage.setItem('type', 'naver')
             setAuthInHeader(this.authArry.refresh_token) //token
             this.$router.push('/');
           } else {

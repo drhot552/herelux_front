@@ -23,7 +23,6 @@
                   </button>
 
                 </form>
-                <div id="naver_id_login"></div>
                 <div class="simple_login">
                   <div>
                     <a class="button_naver" :href="`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${this.client_id}&redirect_uri=${this.callbackUrl}&state=1234`" >
@@ -125,6 +124,7 @@
             else{
               localStorage.setItem('token', data.accessToken)
               localStorage.setItem('id', this.email)
+              localStorage.setItem('type', 'email')
               setAuthInHeader(data.accessToken) //token
               this.$router.push(this.returnPath);
             }

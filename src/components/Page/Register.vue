@@ -96,7 +96,7 @@
             alert("비밀번호가 일치하지 않습니다.");
           }
           else {
-            auth.register(this.email, this.password).then(data => {
+            auth.register(this.email, this.password, 'email').then(data => {
               //data code 300이면 중복체크
               if(data == 300){
                 this.descript="같은아이디가 존재합니다. 다른아이디를 사용하세요.";
