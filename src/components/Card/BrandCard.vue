@@ -49,14 +49,9 @@ export default{
       this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
     },
     detail(id){
-      $('.ripple').addClass('animate');
-
-      setTimeout(function(){
-      	$('.ripple').removeClass('animate');
-      }, 650);
-    //  this.$store.state.productDetail_name = 'brand'
-    //  this.returnPath = this.returnPath +'/' + id + '/' + 'brand' + '_' +this.brandId
-    //  this.$router.push(this.returnPath)
+      this.$store.state.productDetail_name = 'brand'
+      this.returnPath = this.returnPath +'/' + id + '/' + 'brand' + '_' +this.brandId
+      this.$router.push(this.returnPath)
     }
   }
 }
