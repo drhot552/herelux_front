@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="section" style="padding:51px 0;">
-      <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="container" style="padding-left:0px; padding-right:0px; padding-right:0px; overflow:auto; height:80vh;">
+      <div class="container" style="padding-left:0px; padding-right:0px; padding-right:0px; overflow:auto; height:80vh;">
         <ul class="tabs" ref="tabbar">
            <div class="tabitem" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
              {{tab.descript}}
@@ -267,12 +267,6 @@ export default{
     },
     popup(){
         this.modalShow = true;
-    },
-    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
-      if (scrollTop + clientHeight >= scrollHeight) {
-        this.$store.commit('ISLOADING', true);
-        this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
-      }
     }
  }
 }

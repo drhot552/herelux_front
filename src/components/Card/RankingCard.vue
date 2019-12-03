@@ -2,7 +2,7 @@
     <div class="content">
         <div class="container">
           <div class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.product" v-on:click="onClick(item.id)">
-            <div class="div_ranking_1" style="margin-left:10px;" v-if="i<99">
+            <div class="div_ranking_1" style="margin-left:10px;">
               <!--순위대로 색을 다르게 check-->
                 <div class="layer">
                   <h2 v-if="i+1==1" style="color:#ffd700; font-size:3em;">
@@ -20,23 +20,24 @@
                 </div>
 
             </div>
-            <div class="div_ranking_2" style="margin-right: 40px;" v-if="i<99">
+            <div class="div_ranking_2" style="margin-right: 40px;">
               <div class="layer" style="text-align: left; margin-left: 25px;">
                 <span style="font-size:0.81em;">{{item.name}}</span>
                 <h5 style="margin-left: 25px;">{{item.avg}}</h5>
               </div>
 
             </div>
-            <div class="div_ranking_3" style="float:right;"v-if="i<99">
+            <div class="div_ranking_3" style="float:right;">
               <img class="lazy-img-fadein" style="width:100%; float:right;" v-lazy="item.url"/>
             </div>
           </div>
+          <!--
           <div v-if="this.$store.state.readFlag && this.$store.state.idx < 5" style="text-align:center; height:100px; z-index:1;">
             <a style="color:#000000;" v-on:click="readMore()">
               <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
             </a>
           </div>
-
+          -->
         </div>
   </div>
 </template>
