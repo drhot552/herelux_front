@@ -324,6 +324,12 @@ export default{
     },
     popup(){
         this.modalShow = true;
+    },
+    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.$store.commit('ISLOADING', true);
+        this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
+      }
     }
  }
 }

@@ -10,13 +10,6 @@
               :navigation-prev-label="`<`" :pagination-position="`top-overlay`"	:navigation-enabled="true" :pagination-padding="2"
               :minSwipeDistance="30">
      <slide v-for="item in productimg">
-       <!--<div style="width:100%; padding-bottom:10px;">
-         <div style="display:inline-block;">
-           <h5>
-             평균점수 {{avg}} 점
-           </h5>
-         </div>
-      </div> -->
        <div v-if="loading" style="width:100%; height:100%; text-align: center;">
          <div style="display: inline-block; margin-top:150px;">
            <beat-loader :loading="loading" :color="'#888888'"></beat-loader>
@@ -51,8 +44,6 @@
      </div>
      <div align="left" style="margin-left:15px; margin-right:15px;">
        <div style="border-top: 3px solid rgb(0,0,0); padding-top : 10px">
-        <!-- <h5 style="font-weight:400"> 상품 글 적기 </h5>
-         <h5 style="font-weight:400"> 상품 관련 글 보기 </h5> -->
          <Cauly v-bind:type="2">
          </Cauly>
        </div>
@@ -117,8 +108,8 @@ export default {
       this.avg = this.star / this.count;
       this.avg = this.avg.toFixed(2);
       this.userId = localStorage.getItem('id');
-      //로그인한  경우 count 체크 
-      if(this.userId.length > 0){
+      //로그인한  경우 count 체크
+      if(this.userId){
         product.productcnt(this.userId, this.id).then(data =>{
           if(data == 500){
             this.errorAlert();
@@ -156,7 +147,6 @@ export default {
        product.select(this.id)
          .then(data => {
            this.productimg = data;
-           console.log(data);
            this.$store.commit('ISLOADING', false);
          })
          .catch(error =>{

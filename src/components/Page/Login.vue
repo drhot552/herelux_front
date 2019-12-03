@@ -33,8 +33,6 @@
               <!--  <a id="custom-login-btn" v-on:click="logincheck()">
                 <img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="300" style="width:100%; margin-bottom:15px; "/>
               </a>-->
-
-
                 <router-link style="text-align:right; color:#000000; " to="/register">
                   <h6 style="margin-top:10px;">회원가입 ></h6>
                 </router-link>
@@ -49,11 +47,6 @@
         <button class="btn btn-primary" v-on:click="onClose()">Ok</button>
       </template>
     </modal>
-    <!--
-    <b-modal id="modal-center" centered v-bind:title="title">
-      {{descript}}
-    </b-modal>
-    -->
   </div>
 </template>
 <script>

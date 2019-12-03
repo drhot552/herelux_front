@@ -40,6 +40,7 @@ export default{
   created(){
     this.returnPath = this.$route.query.returnPath || '/detail'
     this.userid = localStorage.getItem('id');
+    console.log("hi");
     //this.readMore();
   },
   data(){

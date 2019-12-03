@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;" id="test">
-      <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh; overflow:auto;">
+    <div class="section" style="padding:51px 0;">
+      <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh; overflow:auto;">
         <div style="margin-top:15px; border-bottom:1px solid;">
           <table style="width:95%; margin-left:15px; margin-bottom:15px;">
             <tbody>
@@ -88,7 +88,7 @@ export default{
      this.errorAlert();
    });
    //별처리
-   var arrayId = this.userId.split("@");
+   /*var arrayId = this.userId.split("@");
    var str = "";
    var hideId = "";
    if(arrayId.length == 2){
@@ -98,7 +98,7 @@ export default{
      hideId = arrayId[0].substr(0,arrayId[0].length/2) + str;
      hideId = hideId + "@" + arrayId[1];
      this.userId = hideId;
-   }
+   } */
    //게시판전체가져오기
    this.$store.commit('ISLOADING', true);
  },
@@ -114,9 +114,16 @@ export default{
       alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
     },
-    onScroll: function(e, position) {
-      this.position = position;
+    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.$store.commit('ISLOADING', true);
+        if(this.listFlag ==  1){
+          this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userId, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+        } else {
+          this.$store.dispatch('FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
+        }
 
+      }
     }
  }
 }

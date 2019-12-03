@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-white fixed-bottom" style = "z-index:1010;">
+  <nav class="navbar bg-white fixed-bottom" style = "z-index:1010; height:5vh;">
     <div class="div_style_1">
       <router-link v-if="pageName ==='Event'" v-on:click.native="footerClick()" to="/">
         <img src="/public/img/bottom_home_select.png" style="height:20px;"/>

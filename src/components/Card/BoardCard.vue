@@ -29,19 +29,6 @@
                   </div>
 
               </div>
-            <!--  <div class="div_board_2">
-                <div class="layer">
-
-                </div>
-
-              </div>
-              <div class="div_board_2">
-                <div class="layer" style="margin-left:10px; margin-bottom:35px;">
-                  <h6>
-                    {{item.descript}}
-                  </h6>
-                </div>
-              </div> -->
               <div class="div_board_1" style="margin-left:10px">
                 <div>
                   <h6 class="h6_style"> {{item.name}} </h6>
@@ -56,10 +43,6 @@
               </div>
             </div>
             <div style="margin-top:35px; position: relative;">
-              <!--<img src="/public/img/board_icon_reply.png" style="height:30px;"/>
-              <div class="board_view">
-                <h6> {{item.comment}} </h6>
-              </div> -->
             </div>
           </div>
           <div v-if="this.$store.state.board_readFlag" style="text-align:center; height: 7vh; padding-top: 15px;">
@@ -75,7 +58,6 @@
 </template>
 <script>
 import { board } from '../../api'
-//import InfiniteLoading from 'vue-infinite-loading';
 export default {
   props: {
     boardtype:Number

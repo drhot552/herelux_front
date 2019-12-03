@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
-      <div class="container" style="padding-left:0px; padding-right:0px; padding-right:0px; height:80vh;">
-
+    <div class="section" style="padding:51px 0;">
+      <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="container" style="padding-left:0px; padding-right:0px; padding-right:0px; overflow:auto; height:80vh;">
         <ul class="tabs" ref="tabbar">
            <div class="tabitem" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
              {{tab.descript}}
@@ -22,9 +21,6 @@
               </a>
             </h6>
           </div>
-          <!--<div style="text-align:right; margin-right:30px; margin-bottom:20px;">
-
-          </div> -->
           <transition :name="transition" v-for="(tab, index) in items" :key="index">
              <div class="tabpane" v-if="index === activetab">
                <RankingCard v-bind:category_type="category_type">
@@ -191,46 +187,7 @@ export default{
    this.initialX = null;
    this.initialY = null;
  },
- /*
-  rankmoveTouch(direction) {
-
-    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
-       if(direction.deltaX < direction.deltaY){
-         console.log("rank swiped left");
-         if(this.activetab == undefined)
-         {
-         }
-         else if(this.activetab >= 0 && this.activetab < this.items.length - 1)
-         {
-           this.switchtab(this.activetab + 1);
-           console.log("rank switchTab", this.activetab);
-           if(this.activetab == 0){
-           }
-         }
-         else{
-         }
-       } else if (direction.deltaX > direction.deltaY){
-         if(this.activetab == undefined)
-         {
-           this.switchtab(1);
-         }
-         else if(this.activetab >= 1)
-         {
-           this.switchtab(this.activetab - 1);
-           if(this.activetab == 0){
-             //this.switchtab(0);
-           }
-         }
-         else{
-           //this.switchtab(0);
-         }
-       }
-     }
-
-
-  },
-  */
-   switchtab(n){
+ switchtab(n){
       let scroll, scond
 
       if(this.activetab>n){
@@ -268,9 +225,6 @@ export default{
       this.$store.commit('ISLOADING', true);
       console.log("rank 패치데이터", this.data, this.category_type, this.$store.state.product.length);
       this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
-
-      //this.eventlistener();
-      // console.log(this.$store.state.readFlag)
     },
     categorySelect(key, descript){
       // 카테고리 타입이 2이면 부카테고리로 set한다
@@ -299,7 +253,6 @@ export default{
         }
         else{
           this.category_middle = result;
-        //  this.$refs['modal-category'].show()
         }
         this.$store.commit('ISLOADING', false);
       }).catch(error =>{
@@ -314,6 +267,12 @@ export default{
     },
     popup(){
         this.modalShow = true;
+    },
+    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.$store.commit('ISLOADING', true);
+        this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
+      }
     }
  }
 }
@@ -342,8 +301,8 @@ export default{
   padding:0;
 }
 .tabs::-webkit-scrollbar  {
-width: 0 !important;
-height:0 !important;
+  width: 0 !important;
+  height:0 !important;
 }
 .tabitem{
   display:flex;
@@ -377,11 +336,11 @@ height:0 !important;
   touch-action: pan-y !important;
 }
 .tabpane{
-    position: absolute;
-    width: 100%;
-    align-items:center;
-    justify-content:center;
-    margin-top:30px;
+  position: absolute;
+  width: 100%;
+  align-items:center;
+  justify-content:center;
+  margin-top:30px;
 }
 .modal-view{
   width: 100%;

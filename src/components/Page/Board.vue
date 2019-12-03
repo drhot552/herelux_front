@@ -1,6 +1,6 @@
 <template>
-    <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling:touch;">
-    <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
+    <div class="section" style="padding:51px 0;">
+    <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="container" style="padding-left:0px; padding-right:0px; overflow:auto; height:80vh;">
 
       <ul class="tabs_board" ref="tabbar">
          <div class="tabitem_board" :class="index === boardactivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
@@ -88,91 +88,42 @@ export default{
  },
  methods: {
    startboardTouch(e) {
-   this.initialX = e.touches[0].clientX;
-   this.initialY = e.touches[0].clientY;
-  },
- moveboardTouch(e) {
-   if (this.initialX === null) {
-     return;
-   }
-
-   if (this.initialY === null) {
-     return;
-   }
-
-   var currentX = e.touches[0].clientX;
-   var currentY = e.touches[0].clientY;
-
-   var diffX = this.initialX - currentX;
-   var diffY = this.initialY - currentY;
-
-   if (Math.abs(diffX) > Math.abs(diffY)) {
-     // sliding horizontally
-     if (diffX > 0) {
-       // swiped left
-       console.log("swiped left");
-       if(this.boardactivetab == undefined)
-       {
-       }
-       else if(this.boardactivetab >= 0 && this.boardactivetab < 4)
-       {
-         this.switchtab(this.boardactivetab + 1);
-         console.log("switchTab", this.boardactivetab);
-         if(this.boardactivetab == 0){
-         }
-       }
-       else{
-       }
-     } else {
-       // swiped right
-       if(this.boardactivetab == undefined)
-       {
-         this.switchtab(1);
-       }
-       else if(this.boardactivetab >= 1)
-       {
-         this.switchtab(this.boardactivetab - 1);
-         if(this.boardactivetab == 0){
-           //this.switchtab(0);
-         }
-       }
-       else{
-         //this.switchtab(0);
-       }
-       console.log("swiped right");
+     this.initialX = e.touches[0].clientX;
+     this.initialY = e.touches[0].clientY;
+    },
+   moveboardTouch(e) {
+     if (this.initialX === null) {
+       return;
      }
-   } else {
-     // sliding vertically
-     if (diffY > 0) {
-       // swiped up
-       console.log("swiped up");
-     } else {
-       // swiped down
-       console.log("swiped down");
-     }
-   }
 
-   this.initialX = null;
-   this.initialY = null;
- },
-  /* boardmoveTouch(direction) {
-    if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
-       if(direction.deltaX < direction.deltaY){
-         console.log("board swiped left");
+     if (this.initialY === null) {
+       return;
+     }
+
+     var currentX = e.touches[0].clientX;
+     var currentY = e.touches[0].clientY;
+
+     var diffX = this.initialX - currentX;
+     var diffY = this.initialY - currentY;
+
+     if (Math.abs(diffX) > Math.abs(diffY)) {
+       // sliding horizontally
+       if (diffX > 0) {
+         // swiped left
+         console.log("swiped left");
          if(this.boardactivetab == undefined)
          {
          }
          else if(this.boardactivetab >= 0 && this.boardactivetab < 4)
          {
            this.switchtab(this.boardactivetab + 1);
-           console.log("board switchTab", this.boardactivetab);
+           console.log("switchTab", this.boardactivetab);
            if(this.boardactivetab == 0){
            }
          }
          else{
          }
-       }
-       else if (direction.deltaX > direction.deltaY){
+       } else {
          // swiped right
          if(this.boardactivetab == undefined)
          {
@@ -188,11 +139,22 @@ export default{
          else{
            //this.switchtab(0);
          }
-         console.log("board swiped right");
+         console.log("swiped right");
+       }
+     } else {
+       // sliding vertically
+       if (diffY > 0) {
+         // swiped up
+         console.log("swiped up");
+       } else {
+         // swiped down
+         console.log("swiped down");
        }
      }
-  },
-  */
+
+     this.initialX = null;
+     this.initialY = null;
+   },
    switchtab(n){
       let scroll, scond
 
@@ -225,6 +187,12 @@ export default{
     errorAlert(){
       alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
+    },
+    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.$store.commit('ISLOADING', true);
+        this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});
+      }
     }
  }
 }
