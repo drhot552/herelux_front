@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="section" style="padding:51px 0;">
-      <div v-scroll:throttle="{fn: onBrandScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px; overflow:auto; height: 80vh;">
+      <div v-scroll:throttle="{fn: onBrandScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px; overflow:auto; height: 79vh;">
 
         <ul class="tabs" ref="tabbar">
            <div class="tabitem" :class="index === brandlistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
