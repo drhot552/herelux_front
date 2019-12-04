@@ -354,8 +354,10 @@ export default{
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
   z-index: 1;
+  position:sticky;
   position:fixed;
   padding:0;
+  top:0;
 }
 .tabs::-webkit-scrollbar  {
 width: 0 !important;
@@ -389,7 +391,6 @@ height:0 !important;
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 47px;
   touch-action: pan-y !important;
 }
 .tabpane_mylist{

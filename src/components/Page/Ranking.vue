@@ -291,8 +291,9 @@ export default{
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
   z-index: 1;
-  position:fixed;
+  position:sticky;
   padding:0;
+  top:0;
 }
 .tabs::-webkit-scrollbar  {
   width: 0 !important;
@@ -326,7 +327,6 @@ export default{
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 47px;
   touch-action: pan-y !important;
 }
 .tabpane{
