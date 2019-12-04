@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="section" style="padding:51px 0;">
-      <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px; overflow:auto; height: 80vh;">
+      <div v-scroll:throttle="{fn: onBrandScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px; overflow:auto; height: 80vh;">
 
         <ul class="tabs" ref="tabbar">
            <div class="tabitem" :class="index === brandlistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
@@ -325,9 +325,9 @@ export default{
     popup(){
         this.modalShow = true;
     },
-    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
-      if (scrollTop + clientHeight >= scrollHeight) {
-        this.$store.commit('ISLOADING', true);
+    onBrandScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (Math.round(scrollTop + clientHeight) >= scrollHeight) {
+	this.$store.commit('ISLOADING', true);
         this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
       }
     }
