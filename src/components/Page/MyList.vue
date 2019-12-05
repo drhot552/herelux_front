@@ -115,7 +115,7 @@ export default{
       this.$router.push(this.$route.query.returnPath || '/error');
     },
     onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
-      if (scrollTop + clientHeight >= scrollHeight) {
+      if (scrollTop + clientHeight >= scrollHeight && this.$store.state.myList_readFlag) {
         this.$store.commit('ISLOADING', true);
         if(this.listFlag ==  1){
           this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userId, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});

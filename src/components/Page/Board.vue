@@ -189,7 +189,7 @@ export default{
       this.$router.push(this.$route.query.returnPath || '/error');
     },
     onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
-      if (scrollTop + clientHeight >= scrollHeight) {
+      if (scrollTop + clientHeight >= scrollHeight && this.$store.state.board_readFlag) {
         this.$store.commit('ISLOADING', true);
         this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});
       }
