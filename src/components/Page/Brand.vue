@@ -355,7 +355,6 @@ export default{
   -ms-overflow-style: none;
   z-index: 1;
   position:sticky;
-  position:fixed;
   padding:0;
   top:0;
 }
