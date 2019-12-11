@@ -87,12 +87,13 @@
       //운영
       this.client_id = 'Vwg5qvZi4T3pagL1ZASv'
       this.callbackUrl = 'http://hereluxury.com/callback'
-      this.callbackUrl = 'http://54.180.120.131:4000/callback'
+
     },
     methods:{
       naverlogin(){
+        console.log(url);
         var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+this.client_id+'&redirect_uri='+this.callbackUrl+'&state=1234';
-        window.location = url;
+        window.location.href = url;
       },
       onSubmit() {
         if(this.email_flag){
