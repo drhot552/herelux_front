@@ -93,7 +93,7 @@
       naverlogin(){
         console.log(url);
         var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+this.client_id+'&redirect_uri='+this.callbackUrl+'&state=1234';
-        window.location.href = url;
+        window.location.replace = url;
       },
       onSubmit() {
         if(this.email_flag){
