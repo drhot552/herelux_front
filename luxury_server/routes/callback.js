@@ -10,10 +10,17 @@ module.exports = function(conn){
 
     var api_url = "";
     //카테고리 set
-    router.get('/',function(req,res){
-        console.log(req);
-        res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-        res.end(req);
+    router.get('/',function(req,res, body){
+
+        var body = [];
+        body.push(req.query.code);
+        body.push(req.query.state);
+        console.log(req.query.code,req.query.state);
+        res.writeHead(302, {
+          'Location': 'http://www.hereluxury.com/callback'
+
+        });
+        res.end();
     })
     router.post('/', function(req, res){
       var code = req.body.code;
