@@ -25,7 +25,7 @@
                 </form>
                 <div class="simple_login">
                   <div>
-                    <a class="button_naver" :href="`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${this.client_id}&redirect_uri=${this.callbackUrl}&state=1234`" >
+                    <a class="button_naver" v-on:click="naverlogin(`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${this.client_id}&redirect_uri=${this.callbackUrl}&state=1234`)">
                       <h5 style="color:white; margin-top:0px; padding-top:13px;">네이버 아이디로 로그인</h5>
                     </a>
                   </div>
@@ -79,9 +79,6 @@
           callbackUrl : ''
       }
     },
-    beforeCreate(){
-
-    },
     created() {
       this.returnPath = this.$route.query.returnPath || '/'
       //개발
@@ -92,10 +89,10 @@
       this.callbackUrl = 'http://hereluxury.com/callback'
 
     },
-    mounted(){
-
-    },
     methods:{
+      naverlogin(url){
+          window.location.href = url;
+      },
       onSubmit() {
         if(this.email_flag){
           alert("ID를 이메일형식으로 작성해주세요.");
