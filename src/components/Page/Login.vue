@@ -87,7 +87,7 @@
       //운영
       this.client_id = 'Vwg5qvZi4T3pagL1ZASv'
       this.callbackUrl = 'http://hereluxury.com/callback'
-
+      this.callbackUrl = 'http://54.180.120.131:4000/callback'
     },
     methods:{
       naverlogin(){
