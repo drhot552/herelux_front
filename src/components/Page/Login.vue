@@ -24,11 +24,19 @@
 
                 </form>
                 <div class="simple_login">
-                  <div>
+                  <!--<div>
                     <a class="button_naver" v-on:click="naverlogin()">
                       <h5 style="color:white; margin-top:0px; padding-top:13px;">네이버 아이디로 로그인</h5>
                     </a>
-                  </div>
+                  </div>-->
+                  <NaverLogin
+                    client-id="Vwg5qvZi4T3pagL1ZASv"
+                    callback-url="http://hereluxury.com/callback"
+                    v-bind:is-popup="true"
+                    v-bind:button-type="3"
+                    v-bind:button-height="50"
+                    button-color="green"
+                    :callbackFunction="callbackFunction"/>
                 </div>
               <!--  <a id="custom-login-btn" v-on:click="logincheck()">
                 <img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="300" style="width:100%; margin-bottom:15px; "/>
@@ -53,6 +61,7 @@
   import FormGroupInput from '../Component/formGroupInput';
   import { auth, setAuthInHeader } from '../../api'
   import Modal from '../Component/Modal'
+  import NaverLogin from 'vue-naver-login'
   export default {
     props: {
       onSuccess: {
@@ -64,7 +73,8 @@
     },
     components: {
       [FormGroupInput.name]: FormGroupInput,
-      Modal
+      Modal,
+      NaverLogin
     },
     data() {
       return {
@@ -90,6 +100,22 @@
 
     },
     methods:{
+      callbackFunction(){
+        if (status) {
+           /* (5) 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
+           var email = naverLogin.user.getEmail();
+           if( email == undefined || email == null) {
+             alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
+             /* (5-1) 사용자 정보 재동의를 위하여 다시 네아로 동의페이지로 이동함 */
+             naverLogin.reprompt();
+             return;
+           }
+
+           window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/");
+         } else {
+           console.log("callback 처리에 실패하였습니다.");
+         }
+      },
       naverlogin(){
         console.log(url);
         var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+this.client_id+'&redirect_uri='+this.callbackUrl+'&state=1234';
