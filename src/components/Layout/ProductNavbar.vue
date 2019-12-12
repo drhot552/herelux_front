@@ -1,16 +1,14 @@
 <template>
     <nav class="navbar bg-white fixed-top">
       <div class="container" style="padding-right:0px; padding-left:0px;">
-        <div class="board_style" style="text-align:left;">
-          <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist/0" style="margin:0">
-                    이전
-          </router-link>
-          <router-link v-else-if="pageType=='ranking'" class="navbar-brand" to="/ranking" style="margin:0">
-                    이전
-          </router-link>
-          <div v-else class="navbar-brand" v-on:click="onClick()" style="margin:0; color:black;">
-                    이전
-          </div>
+        <div v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="beforePage('/mylist/0')" style="text-align:left;">
+            이전
+        </div>
+        <div v-else-if="pageType=='ranking'" class="board_style navbar-brand" v-on:click="beforePage('/ranking')" style="text-align:left;">
+            이전
+        </div>
+        <div v-else class="board_style navbar-brand" v-on:click="onClick()" style="text-align:left; color:black;">
+            이전
         </div>
         <div class="board_style_middle">
         </div>
@@ -37,9 +35,10 @@
     },
     methods:{
       onClick(){
-
-        console.log(this.$route.query.returnPath);
         this.$router.push("/"+this.pageMove);
+      },
+      beforePage(path){
+        this.$router.push(this.$route.query.returnPath || path);
       }
     }
   }

@@ -1,13 +1,11 @@
 <template>
     <nav class="navbar bg-white fixed-top">
       <div class="container" style="padding-right:0px; padding-left:0px;">
-        <div class="board_style" style="text-align:left;">
-          <router-link v-if="pageType=='mylist'" class="navbar-brand" to="/mylist/1" v-on:click.native="boarderClick()" style="margin:0">
-                    이전
-          </router-link>
-          <router-link v-else class="navbar-brand" to="/board" v-on:click.native="boarderClick()" style="margin:0">
-                    이전
-          </router-link>
+        <div v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="boarderClick('/mylist/1')" style="text-align:left;">
+          이전
+        </div>
+        <div v-else class="board_style navbar-brand" v-on:click="boarderClick('/board')" style="text-align:left;">
+          이전
         </div>
         <div class="board_style_middle">
         </div>
@@ -53,7 +51,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         modalShowBoard:false,
         title : '',
         descript : '',
-        userid : String,
+        userid : '',
         pageType : String
       }
     },
@@ -86,10 +84,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.modalShowBoard = false;
 
       },
-      boarderClick(){
+      boarderClick(path){
         this.$store.commit('SET_BOARDINFO_INIT');
-        this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
-        console.log(this.$store.state.boardFlag);
+        if(this.userid != ''){
+          this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+        }
+        this.$router.push(this.$route.query.returnPath || path);
       }
     }
   }

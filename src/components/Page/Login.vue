@@ -4,7 +4,6 @@
         <div class="container">
             <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
                 <h4 class="card-title text-center">Login</h4>
-                <form @submit.prevent="onSubmit">
                   <fg-input addon-left-icon="now-ui-icons users_circle-08"
                             v-validate="'required|email'"
                             v-model="email"
@@ -18,11 +17,9 @@
                             placeholder="비밀번호">
                   </fg-input>
 
-                  <button class="btn btn-github btn-lg" style="width:100%;" type="submit">
+                  <button class="btn btn-github btn-lg" style="width:100%;" v-on:click="onSubmit()">
                     Login
                   </button>
-
-                </form>
                 <div class="simple_login">
                   <div>
                     <a class="button_naver" v-on:click="naverlogin()">
@@ -96,12 +93,14 @@
         window.location.replace(url);
       },
       onSubmit() {
-        if(this.email_flag){
+
+        if(this.email_flag || this.email == ''){
           alert("ID를 이메일형식으로 작성해주세요.");
         }
         else{
           auth.login(this.email, this.password, 'email').then(data => {
             //만약에 없으면 금일 상품을 모두 선택했다는 메시지로 변경
+
             if(data == 301){
               this.title = "로그인확인";
               this.descript ="아이디를 다시확인해주세요.";

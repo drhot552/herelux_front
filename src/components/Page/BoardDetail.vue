@@ -191,7 +191,7 @@ export default{
   data(){
     return{
       board_idx : 0,
-      userid : String,
+      userid : '',
       boardDetail : [],
       comment : [],
       title : String,
@@ -219,17 +219,20 @@ export default{
     this.$store.commit('ISLOADING', true);
 
     //해당 알림 확인 시
-    info.boardupdate(this.userid, this.board_idx).then(data=>{
-      if(data == 200){
-        this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
-      } else {
-        alert("데이터베이스 SQL 오류입니다. [BoardDetail]");
-      }
-    }).catch(error =>{
-      console.log("error",error);
-      //alert 후 페이지 이동
-      this.errorAlert();
-    });
+    if(this.userid != ''){
+      info.boardupdate(this.userid, this.board_idx).then(data=>{
+        if(data == 200){
+          this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+        } else {
+          alert("데이터베이스 SQL 오류입니다. [BoardDetail]");
+        }
+      }).catch(error =>{
+        console.log("error",error);
+        //alert 후 페이지 이동
+        this.errorAlert();
+      });
+    }
+
 
     board.select(this.board_idx,this.$store.state.boardtype).then(data => {
       if(data.length > 0 ){
