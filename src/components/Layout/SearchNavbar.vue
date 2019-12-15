@@ -1,7 +1,7 @@
 <template>
     <nav class="search_navbar navbar-expand-lg bg-white fixed-top">
       <div class="container">
-        <div class="search_style_middle">
+        <div class="search_style_middle" v-on:click="mainClick()">
           <h6 style="margin:20px;"> <b>HereLux</b></h6>
         </div>
       </div>
@@ -13,6 +13,11 @@
     props: {
       transparent: Boolean,
       colorOnScroll: Number,
+    },
+    methods:{
+      mainClick(){
+        this.$router.push(this.$route.query.returnPath || '/');
+      }
     }
   }
 </script>

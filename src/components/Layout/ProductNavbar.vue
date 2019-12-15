@@ -31,6 +31,8 @@
       this.pageType = this.$route.params.pagetype;
       if(this.pageType.match(/brand/gi)){
         this.pageMove = this.pageType.replace(/_/gi,'/');
+      } else if(this.pageType.match(/search/gi)){
+        this.pageMove = this.pageType.replace(/_/gi,'/');
       }
     },
     methods:{

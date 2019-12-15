@@ -3,7 +3,7 @@
     <div class="navbar navbar-expand-lg bg-white" style="position: fixed;width: 100%; z-index:1;">
       <div class="edit_div">
         <div class="container" style="padding-right:0px; padding-left:0px;">
-          <textarea class="search_textarea"  contenteditable="true" v-model="search" id="search" placeholder="검색"
+          <textarea class="search_textarea" v-on:click="searchClick()" placeholder="검색"
                     style="width: 100%; max-height: 35px; height: 30px; float:left; z-index:100; font-size:12px;">
 
           </textarea>
@@ -111,6 +111,9 @@ export default{
   methods:{
     detail(productId){
       this.$router.push(this.$route.query.returnPath || '/brand/' + productId);
+    },
+    searchClick(){
+      this.$router.push(this.$route.query.returnPath || '/searchpage');
     }
   }
 }

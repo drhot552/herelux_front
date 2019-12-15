@@ -165,6 +165,9 @@ export const callback = {
 export const search = {
   brand(brandid, page, category , major_key ){
     return request('get', '/search/brand/' + brandid + '/' + page + '/' + category + '/' + major_key)
+  },
+  product(word, page){
+    return request('get', '/search/product/' + word + '/' + page)
   }
 }
 

@@ -18,6 +18,7 @@ const BoardNavbar = () => import('../components/Layout/BoardNavbar.vue');
 const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
 const UpdateNavbar = () => import('../components/Layout/UpdateNavbar.vue');
 const ProductNavbar = () => import('../components/Layout/ProductNavbar.vue');
+const SearchPageNavbar = () => import('../components/Layout/SearchPageNavbar.vue');
 
 const MyList = () => import('../components/Page/MyList.vue');
 const Detail = () => import('../components/Detail.vue');
@@ -34,6 +35,7 @@ const Brand = () => import('../components/Page/Brand.vue');
 const Withdrawal = () => import('../components/About/Withdrawal.vue');
 const PasswordChg = () => import('../components/About/PasswordChg.vue');
 const Callback = () => import('../components/Page/Callback.vue');
+const SearchPage = () => import('../components/Page/SearchPage.vue');
 
 //테스트
 const Test = () => import('../components/Test.vue');
@@ -199,6 +201,14 @@ const router = new Router({
       components:{default:Search, header:SearchNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Search"}
+      }
+    },
+    {
+      path:'/searchpage',
+      name:'SearchPage',
+      components:{default:SearchPage, header:SearchPageNavbar, footer:FooterNavbar},
+      props:{
+        header:{colorOnScroll:0,pageName:"SearchPage"}
       }
     },
     {

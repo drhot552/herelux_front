@@ -58,6 +58,11 @@ const store = new Vuex.Store({
     brandList_category_type : 1,
     brandId : 0,
 
+    /* 검색 상품 List */
+    searchList:[],
+    searchList_idx : 0,
+    searchList_readFlag : false,
+    searchFlag : false,
     /* Loading */
     isLoading : false,
     /* Datacheck */
@@ -85,6 +90,9 @@ const store = new Vuex.Store({
     },
     MYBOARDLIST_IDX_INCREMENT(state){
       state.myboardList_idx++
+    },
+    SEARCHPRODUCTLIST_IDX_INCREMENT(state){
+      state.searchList_idx++
     },
 
     SET_INIT (state) {
@@ -114,6 +122,10 @@ const store = new Vuex.Store({
       state.brandList_category = 0;
       state.myList_category = 0;
       state.rankTabStatus = 0;
+    },
+    SET_SEARCHPRODUCT_INIT(state){
+      state.searchList = [],
+      state.searchList_idx = 0
     },
     SET_BOARDINFO_INIT(state){
       state.boardInfo =[]
@@ -223,6 +235,29 @@ const store = new Vuex.Store({
           commit('MYBOARDLIST_IDX_INCREMENT',1)
           state.myboardList.push(...data);
           state.myboardList_flag = true;
+        }
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
+    },
+    FETCH_SEARCHPRODUCTLIST_READMORE({commit, state}, {word}){
+      console.log(word);
+      return api.search.product(word, state.searchList_idx).then(data=>{
+        if(data.length == 0){
+          state.searchList_readFlag = false;
+        }
+        else if(data.length < 20){
+          commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
+          state.searchList.push(...data);
+          state.searchList_readFlag = false;
+        }
+        else{
+          commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
+          state.searchList.push(...data);
+          state.searchList_readFlag = true;
         }
           commit('ISLOADING', false);
       }).catch(error =>{
