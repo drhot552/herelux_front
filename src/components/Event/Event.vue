@@ -9,9 +9,6 @@
                   </card>
                   <br/>
                   <br/>
-                  <div id="ad_container">
-
-                  </div>
                 </div>
               </article>
 
@@ -23,23 +20,16 @@
                   <br/>
                   <br/>
                   <div v-if="i == 5">
-                    <div id="ad_container">
-
-                    </div>
                   </div>
                   <div v-if="i == 1">
-                    <div id="ad_container">
-
-                    </div>
                   </div>
                 </div>
 
               </article>
               <article class="col-md-8 ml-auto mr-auto" style="padding-bottom: 30px;">
-                <div id="ad_container">
-
-                </div>
-              </article>
+	       <div id="ad_container">
+	       </div>
+	       </article>
           </div>
 
       </div>
@@ -59,9 +49,8 @@ import { event } from '../../api'
      //ip 정보
       window.google_ad_client = "ca-pub-4141026730478876";
       window.google_ad_slot = "6033471797";
-      window.google_ad_width = 200;
-      window.google_ad_height = 200;
-
+      window.google_ad_width = 1024;
+      window.google_ad_height = 512;
       // container is where you want the ad to be inserted
       var container = document.getElementById('ad_container');
       var w = document.write;
