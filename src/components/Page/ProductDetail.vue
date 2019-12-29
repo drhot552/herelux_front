@@ -1,31 +1,34 @@
 <template>
-<div class="blogs-4">
-      <div class="container" style="height: 71vh;">
-        <div class="row" style="height: 71vh;">
-          <article class="col-md-8 ml-auto mr-auto">
-            <div v-if="productflag">
-              <DetailCard type="blog" plain v-if="this.product.length > 0"
-                v-bind:id="this.product[0].id"
-                v-bind:name="this.product[0].name"
-                v-bind:size="this.product[0].size"
-                v-bind:color="this.product[0].color"
-                v-bind:price="this.product[0].price"
-                v-bind:star="this.product[0].star"
-                v-bind:count="this.product[0].count"
-                v-bind:sub_name="this.product[0].sub_name">
-              </DetailCard>
-              <br/>
-              <br/>
+  <div class="section" style="padding:51px 0px; overflow:auto; -webkit-overflow-scrolling: touch;">
+    <div class="blogs-4">
+          <div class="container" style="height: 71vh;">
+            <div class="row" style="height: 71vh;">
+              <article class="col-md-8 ml-auto mr-auto">
+                <div v-if="productflag">
+                  <DetailCard type="blog" plain v-if="this.product.length > 0"
+                    v-bind:id="this.product[0].id"
+                    v-bind:name="this.product[0].name"
+                    v-bind:size="this.product[0].size"
+                    v-bind:color="this.product[0].color"
+                    v-bind:price="this.product[0].price"
+                    v-bind:star="this.product[0].star"
+                    v-bind:count="this.product[0].count"
+                    v-bind:sub_name="this.product[0].sub_name">
+                  </DetailCard>
+                  <br/>
+                  <br/>
+                </div>
+              </article>
             </div>
-          </article>
-        </div>
-      </div>
-      <loading :active.sync="this.$store.state.isLoading"
-                :can-cancel="true"
-                :is-full-page="true"
-                :z-index="1060">
-      </loading>
-</div>
+          </div>
+          <loading :active.sync="this.$store.state.isLoading"
+                    :can-cancel="true"
+                    :is-full-page="true"
+                    :z-index="1060">
+          </loading>
+    </div>
+    <div class="section-space"></div>
+  </div>
 </template>
 <script>
 import DetailCard from '../Card/DetailCard'

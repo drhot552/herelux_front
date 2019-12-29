@@ -171,6 +171,15 @@ export const search = {
   }
 }
 
+export const home ={
+  productrandom(){
+    return request('get', '/home/productrandom')
+  },
+  todaybrand(){
+    return request('get', '/home/todaybrand')
+  }
+}
+
 export const code = {
   category(major_key){
     return request('get', '/code/' + major_key)

@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VueAnalytics from 'vue-analytics'
 
-const Event = () => import('../components/Event.vue');
-const About = () => import('../components/About.vue');
-const License = () => import('../components/License.vue');
-const Service = () => import('../components/Service.vue');
-const Product = () => import('../components/Product.vue');
-const Contact = () => import('../components/Contact.vue');
+const Event = () => import('../components/Page/Event.vue');
+const About = () => import('../components/About/About.vue');
+const License = () => import('../components/About/License.vue');
+const Service = () => import('../components/Service/Service.vue');
+const Product = () => import('../components/Page/Product.vue');
+const Contact = () => import('../components/About/Contact.vue');
 const Responsibilty = () => import('../components/Service/Responsibilty.vue');
 const Privacy = () => import('../components/Service/Privacy.vue');
 const Login = () => import('../components/Page/Login.vue');
@@ -19,8 +19,9 @@ const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
 const ProductNavbar = () => import('../components/Layout/ProductNavbar.vue');
 const SearchPageNavbar = () => import('../components/Layout/SearchPageNavbar.vue');
 
+const Home =() => import('../components/Page/Home.vue');
 const MyList = () => import('../components/Page/MyList.vue');
-const Detail = () => import('../components/Detail.vue');
+const Detail = () => import('../components/Page/ProductDetail.vue');
 const Ranking = () => import('../components/Page/Ranking.vue');
 const Board = () => import('../components/Page/Board.vue');
 const Write = () => import('../components/Page/Write.vue');
@@ -267,6 +268,14 @@ const router = new Router({
       components:{default:Callback, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Callback"}
+      }
+    },
+    {
+      path:'/home',
+      name:'Home',
+      components:{default:Home, header:MainNavbar, footer:FooterNavbar},
+      props:{
+        header:{colorOnScroll:0,pageName:"Home"}
       }
     }
   ],
