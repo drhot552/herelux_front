@@ -52,16 +52,10 @@
   </div>
 </template>
 <script>
-import Tabs from '../Component/SearchTab';
-import TabPane from '../Component/Tab';
 import { code } from '../../api'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 export default{
-  components:{
-    Tabs,
-    TabPane
-  },
   data(){
     return{
       brand_items:[],

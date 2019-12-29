@@ -9,8 +9,9 @@
                   </card>
                   <br/>
                   <br/>
-                  <Cauly v-bind:type="1">
-                  </Cauly>
+                  <div id="ad_container">
+
+                  </div>
                 </div>
               </article>
 
@@ -22,21 +23,25 @@
                   <br/>
                   <br/>
                   <div v-if="i == 5">
-                    <Cauly v-bind:type="2">
-                    </Cauly>
+                    <div id="ad_container">
+
+                    </div>
                   </div>
                   <div v-if="i == 1">
-                    <Cauly v-bind:type="3">
-                    </Cauly>
+                    <div id="ad_container">
+
+                    </div>
                   </div>
                 </div>
 
               </article>
               <article class="col-md-8 ml-auto mr-auto" style="padding-bottom: 30px;">
-                <Cauly v-bind:type="0">
-                </Cauly>
+                <div id="ad_container">
+
+                </div>
               </article>
           </div>
+
       </div>
   </div>
 </template>
@@ -52,6 +57,24 @@ import { event } from '../../api'
    },
    mounted(){
      //ip 정보
+      window.google_ad_client = "ca-pub-4141026730478876";
+      window.google_ad_slot = "6033471797";
+      window.google_ad_width = 200;
+      window.google_ad_height = 200;
+
+      // container is where you want the ad to be inserted
+      var container = document.getElementById('ad_container');
+      var w = document.write;
+      document.write = function (content) {
+          container.innerHTML = content;
+          document.write = w;
+      };
+
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://pagead2.googlesyndication.com/pagead/show_ads.js';
+      document.body.appendChild(script);
+
      event.fetch().then(data => {
        this.event = data;
        this.random()  //random으로 섞기

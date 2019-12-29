@@ -16,7 +16,6 @@ const FooterNavbar = () => import('../components/Layout/FooterNavbar.vue');
 const WriteNavbar = () => import('../components/Layout/WriteNavbar.vue');
 const BoardNavbar = () => import('../components/Layout/BoardNavbar.vue');
 const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
-const UpdateNavbar = () => import('../components/Layout/UpdateNavbar.vue');
 const ProductNavbar = () => import('../components/Layout/ProductNavbar.vue');
 const SearchPageNavbar = () => import('../components/Layout/SearchPageNavbar.vue');
 
@@ -28,7 +27,6 @@ const Write = () => import('../components/Page/Write.vue');
 const Register = () => import('../components/Page/Register.vue');
 const Search = () => import('../components/Page/Search.vue');
 const BoardDetail = () => import('../components/Page/BoardDetail.vue');
-const Update = () => import('../components/Page/Update.vue');
 const Error = () => import('../components/Page/Error.vue');
 const Ready = () => import('../components/Page/Ready.vue');
 const Brand = () => import('../components/Page/Brand.vue');
@@ -209,15 +207,6 @@ const router = new Router({
       components:{default:SearchPage, header:SearchPageNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"SearchPage"}
-      }
-    },
-    {
-      path:'/update/:board_idx',
-      name:'Update',
-      components:{default:Update, header:UpdateNavbar, footer:FooterNavbar},
-      beforeEnter:requireAuth,
-      props:{
-        header:{colorOnScroll:0,pageName:"Update"}
       }
     },
     {
