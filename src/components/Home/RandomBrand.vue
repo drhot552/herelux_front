@@ -1,0 +1,167 @@
+<template>
+  <div>
+    <div style="padding-left: 50px; padding-right: 50px; text-align: center;">
+      <h4 style="margin-top: 0px; margin-bottom: 10px; font-weight: 700; font-size: 1.8em;">
+        Brand's Pick
+      </h4>
+    </div>
+    <div class="card card-plain">
+     <div class="author" align="left" style="padding:5px;" v-for="item in brandcard">
+       <h6></h6>
+         <a>
+           <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="height:60px; width:60px;" alt="..." class="avatar img-raised lazy-img-fadein">
+           <span style="float:right;color:black; padding-top:20px; font-size:13px; font-weight:700;" v-on:click="brandClick(item.minor_key)">명품 상품 보러가기 ></span>
+         </a>
+       <h6></h6>
+     </div>
+     <div v-if="loading" style="width:100%; height:360px; text-align: center;">
+       <div style="display: inline-block; margin-top:150px;">
+         <beat-loader :loading="loading" :color="'#888888'"></beat-loader>
+       </div>
+     </div>
+     <div v-else class="owl-carousel owl-theme">
+         <div style="display: block; margin: 0px auto; width:90%;" v-for="itembrand in brandrandom">
+           <a v-on:click="productClick(itembrand.id)">
+             <div>
+               <img class="lazy-img-fadein" v-lazy="itembrand.url"/>
+             </div>
+             <div style="text-align:center;">
+               <h6 style="margin-top:10px; font-weight:700;">
+                 {{itembrand.name}}
+               </h6>
+               <h6 style="font-weight:700;">
+                 {{itembrand.price}}
+               </h6>
+             </div>
+           </a>
+
+         </div>
+       </div>
+       <div class="author" align="left" style="padding:5px;" v-for="item in brandcard_Two">
+         <h6></h6>
+           <a>
+             <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="height:60px; width:60px;" alt="..." class="avatar img-raised lazy-img-fadein">
+             <span style="float:right;color:black; padding-top:20px;  font-size:13px; font-weight:700;" v-on:click="brandClick(item.minor_key)">명품 상품 보러가기 ></span>
+           </a>
+         <h6></h6>
+       </div>
+       <div v-if="loading" style="width:100%; height:360px; text-align: center;">
+         <div style="display: inline-block; margin-top:150px;">
+           <beat-loader :loading="loading" :color="'#888888'"></beat-loader>
+         </div>
+       </div>
+       <div v-else class="owl-carousel owl-theme">
+           <div style="display: block; margin: 0px auto; width:90%;" v-for="itembrand in brandrandom_Two">
+             <a v-on:click="productClick(itembrand.id)">
+               <div>
+                 <img class="lazy-img-fadein" v-lazy="itembrand.url"/>
+               </div>
+               <div style="text-align:center;">
+                 <h6 style="margin-top:10px; font-weight:700;">
+                   {{itembrand.name}}
+                 </h6>
+                 <h6 style="font-weight:700;">
+                   {{itembrand.price}}
+                 </h6>
+               </div>
+             </a>
+
+           </div>
+         </div>
+    </div>
+  </div>
+</template>
+<script>
+import { home } from '../../api'
+import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
+
+export default{
+  components:{
+    BeatLoader
+  },
+  data(){
+    return {
+      brandrandom:[],
+      brandrandom_Two:[],
+      brandcard:[],
+      brandcard_Two:[],
+      randomIdFirst : 0,
+      randomIdTwo : 0,
+      returnPath:'',
+      loading: false
+    }
+  },
+  mounted() {
+
+    this.returnPath = this.$route.query.returnPath || '/detail'
+    this.randomIdFirst = this.makeRandom(1,51);
+    this.randomIdTwo = this.makeRandom(1,51);
+    while( this.randomIdFirst == this.randomIdTwo){
+      this.randomIdFirst = this.makeRandom(1,51);
+      this.randomIdTwo = this.makeRandom(1,51);
+    }
+    this.brandrandomFunc(this.randomIdFirst);
+    this.brandrandomFunc_Two(this.randomIdTwo);
+    this.brandfetchFunc(this.randomIdFirst);
+    this.brandfetchFunc_Two(this.randomIdTwo);
+
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+        this.$nextTick(() => {
+          $(this.$el).find('.owl-carousel').owlCarousel({
+            stagePadding: 70,
+            margin:20,
+            items:1,
+            dots:false
+          });
+        });
+      }, 1500);
+  },
+  methods:{
+    brandrandomFunc(id){
+      home.brandrandom(id).then(data => {
+        this.brandcard = data;
+      }).catch(error=>{
+
+      })
+    },
+    brandrandomFunc_Two(id){
+      home.brandrandom(id).then(data => {
+        this.brandcard_Two = data;
+      }).catch(error=>{
+
+      })
+    },
+    brandfetchFunc(id){
+      home.brandfetch(id).then(data => {
+          this.brandrandom = data;
+      }).catch(error=>{
+
+      })
+    },
+    brandfetchFunc_Two(id){
+      home.brandfetch(id).then(data => {
+          this.brandrandom_Two = data;
+      }).catch(error=>{
+
+      })
+    },
+    makeRandom(min, max){
+      var RandVal = Math.floor(Math.random()*(max-min+1)) + min;
+      return RandVal;
+    },
+    productClick(id){
+      this.$store.state.productDetail_name = 'home'
+      this.returnPath = this.returnPath +'/' + id + '/home'
+      this.$router.push(this.returnPath)
+    },
+    brandClick(id){
+      this.returnPath = this.$route.query.returnPath || '/brand/' + id
+      this.$router.push(this.returnPath)
+    }
+  }
+}
+</script>
+<style>
+</style>

@@ -5,10 +5,7 @@ import router from '../router'
 
 Vue.use(Vuex)
 
-//store 객체
-
 const store = new Vuex.Store({
-  // counter 라는 state 속성을 추가
   state: {
     /* Ranking 변수 */
     product: [],
@@ -63,15 +60,25 @@ const store = new Vuex.Store({
     searchList_idx : 0,
     searchList_readFlag : false,
     searchFlag : false,
+    searchType : 0,
+    wordcatch : Object,
     /* Loading */
     isLoading : false,
     /* Datacheck */
     dataCheck : false,
 
-    /* 글 알림 */
+    /* 글 알림  boradinfo */
     boardInfo:[],
-    boardFlag:false
+    boardFlag:false,
 
+    /* homepage category(NewStyleProduct) */
+    categoryProduct:[],
+    /* homepage All Product list*/
+    productList:[],
+    productList_idx : 0,
+    productList_category : 0,
+    productList_category_type : 1,
+    productList_readFlag : false
   },
   //변수 set
   mutations: {
@@ -94,6 +101,9 @@ const store = new Vuex.Store({
     SEARCHPRODUCTLIST_IDX_INCREMENT(state){
       state.searchList_idx++
     },
+    ALLPRODUCTLIST_IDX_INCREMENT(state){
+      state.productList_idx++
+    },
 
     SET_INIT (state) {
       state.idx = 0
@@ -111,27 +121,34 @@ const store = new Vuex.Store({
       state.myboardList_idx = 0
     },
     SET_MYLIST_INIT(state){
-      state.myList = [],
+      state.myList = []
       state.myList_idx = 0
     },
     SET_BRANDLIST_INIT(state){
-      state.brandList = [],
+      state.brandList = []
       state.brandList_idx = 0
     },
     SET_CATEGORY_INIT(state){
-      state.brandList_category = 0;
-      state.myList_category = 0;
-      state.rankTabStatus = 0;
+      state.brandList_category = 0
+      state.myList_category = 0
+      state.rankTabStatus = 0
     },
     SET_SEARCHPRODUCT_INIT(state){
-      state.searchList = [],
+      state.searchList = []
       state.searchList_idx = 0
     },
     SET_BOARDINFO_INIT(state){
       state.boardInfo =[]
     },
+    SET_CATEGORYPRODUCT_INIT(state){
+      state.categoryProduct = []
+    },
+    SET_PRODUCTLIST_INIT(state){
+      state.productList = []
+      state.productList_idx = 0
+    },
     ISLOADING(state,isloading){
-      state.isLoading = isloading;
+      state.isLoading = isloading
     }
   },
   //보드를 추가하는 액션 api 콜을 해서 보드 생성 -> 비동기 처리시 actions 사용
@@ -266,6 +283,28 @@ const store = new Vuex.Store({
         router.push('/error');
       });
     },
+    FETCH_SEARCHCODELIST_READMORE({commit, state}, {wordcatch}){
+      return api.search.word(wordcatch, state.searchList_idx).then(data=>{
+        if(data.length == 0){
+          state.searchList_readFlag = false;
+        }
+        else if(data.length < 20){
+          commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
+          state.searchList.push(...data);
+          state.searchList_readFlag = false;
+        }
+        else{
+          commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
+          state.searchList.push(...data);
+          state.searchList_readFlag = true;
+        }
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
+    },
     //브랜드관 출시
     FETCH_BRANDLIST_READMORE({commit, state}, {brandid, category_type, category}){
       var key = 0;
@@ -309,7 +348,38 @@ const store = new Vuex.Store({
         }
       }).catch(error=>{
         console.log("error",error);
-    //    alert("서버와의 통신 에러가 발생하였습니다.");
+        router.push('/error');
+      });
+    },
+    FETCH_ALLPRODUCT_LIST_READMORE({commit, state}, {category_type, category}){
+      var key = 0;
+      if(category == 0) {
+        key = 99;
+      }
+      else {
+        key = category;
+      }
+      console.log("ALLPRODCT",state.productList_idx, category_type, key);
+      return api.product.allproduct(state.productList_idx, category_type, key).then(data=>{
+        console.log("ALLPRODCT",state.productList_idx, category_type, key);
+        if(data.length == 0){
+          state.productList_readFlag = false;
+        }
+        else if(data.length < 20){
+          commit('ALLPRODUCTLIST_IDX_INCREMENT',1)
+          state.productList.push(...data);
+          state.productList_readFlag = false;
+
+        }
+        else{
+          commit('ALLPRODUCTLIST_IDX_INCREMENT',1)
+          state.productList.push(...data);
+          state.productList_readFlag = true;
+        }
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     }

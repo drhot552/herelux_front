@@ -1,8 +1,8 @@
 <template>
-  <div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
+  <div class="section" style="padding:51px 0;">
     <div class="blogs-4">
-        <div class="container" style="height: 71vh;">
-          <div class="row" style="height: 71vh;">
+        <div class="container">
+          <div class="row">
             <article class="col-md-8 ml-auto mr-auto">
               <div v-if="productflag">
                 <FavoriteCard type="blog" plain v-if="this.product.length > 0"

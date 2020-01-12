@@ -1,20 +1,17 @@
 <template>
   <div>
     <div class="section" style="padding:51px 0;">
-      <div v-scroll:throttle="{fn: onBrandScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px;">
+      <div class="container" style="padding-left: 0px; padding-right: 0px;">
 
-        <ul class="tabs" ref="tabbar">
-           <div class="tabitem" :class="index === brandlistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
+        <ul class="product_tabs" ref="tabbar">
+           <div class="tabitem" :class="index === productlistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
              {{tab.descript}}
            </div>
-           <div class="slider" :style="'transform:translateX('+brandlistActivetab*tabwidth+'px)'">
+           <div class="slider" :style="'transform:translateX('+productlistActivetab*tabwidth+'px)'">
            </div>
          </ul>
         <div ref="tcon" class="tabcontainer">
           <div style="border-bottom: 3px solid rgb(0,0,0); height:50px; margin-left:15px; margin-right:15px;">
-            <h5 style="float:left;" >
-                {{this.brandList_name}}
-            </h5>
             <h6 style="float:right; margin-top:15px; margin-right:15px;">
               <a v-if="this.category_middle.length > 0" v-on:click="popup()">
                 <img src="/public/img/btn_filter.png" style="height:18px;"/>
@@ -27,9 +24,9 @@
 
           </div>
           <transition :name="transition" v-for="(tab, index) in items" :key="index">
-             <div class="tabpane_mylist" v-if="index === brandlistActivetab">
-               <BrandCard>
-               </BrandCard>
+             <div class="tabpane_product" v-if="index === productlistActivetab">
+               <AllProductCard>
+               </AllProductCard>
              </div>
           </transition>
         </div>
@@ -52,7 +49,7 @@
 </template>
 
 <script>
-import BrandCard from '../Card/BrandCard';
+import AllProductCard from '../Card/AllProductCard';
 import Modal from '../Component/Modal';
 import { code } from '../../api';
 import Loading from 'vue-loading-overlay';
@@ -63,14 +60,14 @@ export default{
     item:Array
   },
   components:{
-    BrandCard,
+    AllProductCard,
     Modal,
     Loading
   },
   data() {
     return {
       transition: "slide-next",
-      brandlistActivetab: 0,
+      productlistActivetab: 0,
       tabwidth: 90,
       data: 0,
       items:[],
@@ -78,19 +75,15 @@ export default{
       initialY : null,
       modalShow: false,
       category_middle:[],
-      subject : "전체",
-      brandId : 0,
-      brandList_name : ""
+      subject : "전체"
     }
   },
  created(){
 
-   this.brandId = this.$route.params.brand_id;
-   this.$store.state.brandId = this.$route.params.brand_id;
-   this.brandlistActivetab = this.$store.state.brandList_category;
-
+   this.productlistActivetab = this.$store.state.productList_category;
+   console.log('allproduct');
    this.$store.commit('ISLOADING', true);
-   this.$store.commit('SET_BRANDLIST_INIT');
+   this.$store.commit('SET_PRODUCTLIST_INIT');
    //전체가져오기
    code.category(2).then(data=>{
      if(data.length == 0){
@@ -98,7 +91,7 @@ export default{
      }
      else{
        this.items = data;
-       this.brandName();
+        console.log('allproduct123');
        this.fetch();
        this.categoryMiddle();
      }
@@ -111,13 +104,13 @@ export default{
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
-  document.addEventListener('touchstart', this.startbrandTouch, false);
-  document.addEventListener("touchmove", this.movebrandTouch, false);
+  document.addEventListener('touchstart', this.startproductTouch, false);
+  document.addEventListener('touchmove', this.moveproductTouch, false);
   document.addEventListener('scroll', this.onScroll);
  },
  beforeDestroy () {
-   document.removeEventListener('touchstart', this.startbrandTouch, false);
-   document.removeEventListener("touchmove", this.movebrandTouch, false);
+   document.removeEventListener('touchstart', this.startproductTouch, false);
+   document.removeEventListener('touchmove', this.moveproductTouch, false);
    document.removeEventListener('scroll', this.onScroll);
  },
  computed:{
@@ -127,11 +120,11 @@ export default{
    }
  },
  methods: {
-  startbrandTouch(e) {
+  startproductTouch(e) {
    this.initialX = e.touches[0].clientX;
    this.initialY = e.touches[0].clientY;
   },
-  movebrandTouch(e) {
+  moveproductTouch(e) {
     if (this.initialX === null) {
       return;
     }
@@ -150,96 +143,87 @@ export default{
       // sliding horizontally
       if (diffX > 0) {
         // swiped left
-        console.log("swiped left");
-        if(this.brandlistActivetab == undefined)
+        if(this.productlistActivetab == undefined)
         {
         }
-        else if(this.brandlistActivetab >= 0 && this.brandlistActivetab < this.items.length - 1)
+        else if(this.productlistActivetab >= 0 && this.productlistActivetab < this.items.length - 1)
         {
-          this.switchtab(this.brandlistActivetab + 1);
-          console.log("switchTab", this.brandlistActivetab);
-          if(this.brandlistActivetab == 0){
+          this.switchtab(this.productlistActivetab + 1);
+          if(this.productlistActivetab == 0){
           }
         }
         else{
         }
       } else {
         // swiped right
-        if(this.brandlistActivetab == undefined)
+        if(this.productlistActivetab == undefined)
         {
           this.switchtab(1);
         }
-        else if(this.brandlistActivetab >= 1)
+        else if(this.productlistActivetab >= 1)
         {
-          this.switchtab(this.brandlistActivetab - 1);
-          if(this.brandlistActivetab == 0){
+          this.switchtab(this.productlistActivetab - 1);
+          if(this.productlistActivetab == 0){
             //this.switchtab(0);
           }
         }
         else{
-          //this.switchtab(0);
         }
-        console.log("swiped right");
       }
     } else {
       // sliding vertically
       if (diffY > 0) {
         // swiped up
-        console.log("swiped up");
       } else {
         // swiped down
-        console.log("swiped down");
       }
     }
 
     this.initialX = null;
     this.initialY = null;
   },
-  brandmoveTouch(direction) {
+  productmoveTouch(direction) {
     if(Math.abs(direction.deltaX) >  Math.abs(direction.deltaY)) {
        if(direction.deltaX < direction.deltaY){
-         console.log("swiped left");
-         if(this.brandlistActivetab == undefined)
+         if(this.productlistActivetab == undefined)
          {
          }
-         else if(this.brandlistActivetab >= 0 && this.brandlistActivetab < this.items.length - 1)
+         else if(this.productlistActivetab >= 0 && this.productlistActivetab < this.items.length - 1)
          {
-           this.switchtab(this.brandlistActivetab + 1);
-           console.log("switchTab", this.brandlistActivetab);
-           if(this.brandlistActivetab== 0){
+           this.switchtab(this.productlistActivetab + 1);
+           if(this.productlistActivetab== 0){
            }
          }
          else{
          }
        }
        else if (direction.deltaX > direction.deltaY){
-         if(this.brandlistActivetab == undefined)
+         if(this.productlistActivetab == undefined)
          {
            this.switchtab(1);
          }
-         else if(this.brandlistActivetab >= 1)
+         else if(this.productlistActivetab >= 1)
          {
-           this.switchtab(this.brandlistActivetab - 1);
-           if(this.brandlistActivetab == 0){
+           this.switchtab(this.productlistActivetab - 1);
+           if(this.productlistActivetab == 0){
              //this.switchtab(0);
            }
          }
          else{
            //this.switchtab(0);
          }
-         console.log("swiped right");
        }
      }
   },
    switchtab(n){
       let scroll, scond
 
-      if(this.brandlistActivetab > n){
+      if(this.productlistActivetab > n){
         this.transition = "slide-prev"
          scroll = n-1
         if(scond && this.$refs.tab[scroll])
           this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
-      }else  if(this.brandlistActivetab < n){
+      }else  if(this.productlistActivetab < n){
          this.transition = "slide-next"
          scroll = n+1
       }
@@ -249,11 +233,11 @@ export default{
         this.$refs.tab[scroll].scrollIntoView({behavior:'smooth'})
 
       this.$nextTick(function() {
-      	this.brandlistActivetab = n
+      	this.productlistActivetab = n
         this.subject = this.items[n].descript;
 
         this.data = n;
-        this.$store.state.brandList_category = n;
+        this.$store.state.productList_category = n;
 
         this.fetch();
         this.categoryMiddle();
@@ -261,20 +245,22 @@ export default{
     },
     fetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
-      this.$store.state.brandList_category_type = 1;
-      this.$store.commit('SET_BRANDLIST_INIT');
+
+      this.$store.state.productList_category_type = 1;
+      console.log('fetchlist');
+      this.$store.commit('SET_PRODUCTLIST_INIT');
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
+      this.$store.dispatch('FETCH_ALLPRODUCT_LIST_READMORE',{category_type:this.$store.state.productList_category_type, category:this.$store.state.productList_category});
       // console.log(this.$store.state.readFlag)
     },
     categorySelect(key, descript){
       // 카테고리 타입이 2이면 부카테고리로 set한다
       this.subject = descript;
-      this.$store.state.brandList_category_type = 2;
-      this.$store.state.brandList_category = key;
-      this.$store.commit('SET_BRANDLIST_INIT');
+      this.$store.state.productList_category_type = 2;
+      this.$store.state.productList_category = key;
+      this.$store.commit('SET_PRODUCTLIST_INIT');
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
+      this.$store.dispatch('FETCH_ALLPRODUCT_LIST_READMORE',{category_type:this.$store.state.productList_category_type, category:this.$store.state.productList_category});
       this.modalShow = false;
     },
     categoryMiddle(){
@@ -305,21 +291,6 @@ export default{
         this.errorAlert();
       });
     },
-    brandName(){
-      this.$store.commit('ISLOADING', true);
-      //전체가져오기
-      code.brand(this.brandId).then(data=>{
-        if(data.length == 0){
-
-        } else {
-          this.brandList_name = data[0].descript;
-        }
-      }).catch(error =>{
-        console.log("error",error);
-        //alert 후 페이지 이동
-        this.errorAlert();
-      });
-    },
     errorAlert(){
       alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
@@ -327,10 +298,10 @@ export default{
     popup(){
         this.modalShow = true;
     },
-    onBrandScroll () {
-      if (Math.round(scrollTop + clientHeight) >= scrollHeight && this.$store.state.brandList_readFlag) {
-	      this.$store.commit('ISLOADING', true);
-        this.$store.dispatch('FETCH_BRANDLIST_READMORE',{brandid:this.brandId, category_type:this.$store.state.brandList_category_type, category:this.$store.state.brandList_category});
+    onScroll () {
+      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.productList_readFlag) {
+        this.$store.commit('ISLOADING', true);
+        this.$store.dispatch('FETCH_ALLPRODUCT_LIST_READMORE',{category_type:this.$store.state.productList_category_type, category:this.$store.state.productList_category});
       }
     }
  }
@@ -346,7 +317,7 @@ export default{
 
 .slide-next-leave-to, .slide-prev-enter, .slide-prev-leave {
 }
-.tabs{
+.product_tabs{
   display:flex;
   color: #f1f1f1;
   height:48px;
@@ -391,10 +362,10 @@ height:0 !important;
   min-height: 100%;
   width: 100%;
   z-index: 0;
-  padding-top: 47px;
+  padding-top:47px;
   touch-action: pan-y !important;
 }
-.tabpane_mylist{
+.tabpane_product{
     position: absolute;
     width: 100%;
     align-items:center;

@@ -5,7 +5,7 @@
           <img src="/public/img/btn_back.png" style="height:20px;">
           </img>
         </div>
-        <input class="searchpage_textarea"  contenteditable="true" v-model="search" id="search" ref="search" placeholder="검색"
+        <input class="searchpage_textarea"  contenteditable="true" v-model="searchpage" id="searchpage" ref="search" placeholder="검색"
                   style="width: 100%; max-height: 58px; height: 38px; float:left; z-index:100;" v-on:keyup.enter="searchEnter()">
 
         </input>
@@ -22,7 +22,7 @@
   export default {
     data(){
       return{
-        search:''
+        searchpage:''
       }
     },
     created(){
@@ -37,12 +37,12 @@
         this.$store.state.searchList_readFlag = false;
         this.$store.state.searchFlag = true;
         this.$store.commit('SET_SEARCHPRODUCT_INIT');
-        searchWord = this.search;
+        searchWord = this.searchpage;
         if(searchWord.trim() != ''){
           if(searchWord == '.' ||  searchWord == '#'){
             alert('검색어를 단어로 입력하세요.');
           } else {
-            this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.search});
+            //this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.search});
           }
         } else {
           alert('검색어를 한 단어 이상 입력하세요.');

@@ -1,5 +1,5 @@
 <template>
-  <div class="section" style="overflow:auto; -webkit-overflow-scrolling: touch; height:90vh;">
+  <div class="section">
     <p class="license_title">  # Node js 10.15.0</p>
     <p class="license">
       The original contents of the nodejs.org repo are licensed for use as follows:

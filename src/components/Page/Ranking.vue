@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="section" style="padding:51px 0;">
-      <div class="container" style="padding-left:0px; padding-right:0px; padding-right:0px; overflow:auto; height:80vh;">
+      <back-to-top bottom="20px" right="20px">
+        <button type="button" class="goTop">
+          <i class="fa fa-chevron-up"></i>
+        </button>
+      </back-to-top>
+      <div class="container" style="padding-left:0px; padding-right:0px; padding-right:0px;">
         <ul class="tabs" ref="tabbar">
            <div class="tabitem" :class="index === activetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
              {{tab.descript}}
@@ -10,7 +15,7 @@
            </div>
          </ul>
         <div ref="tcon" class="tabcontainer" >
-          <div style="border-bottom: 3px solid rgb(0, 0, 0); height: 50px; margin-left: 15px; margin-right: 15px;">
+          <div style="border-bottom: 3px solid rgb(0, 0, 0); height: 100px; margin-left: 15px; margin-right: 15px; padding-top: 50px;">
             <h5 style="float:left;">
               {{subject}}
             </h5>
@@ -53,6 +58,7 @@ import Modal from '../Component/Modal';
 import { code } from '../../api';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import BackToTop from 'vue-backtotop'
 
 export default{
   props:{
@@ -61,7 +67,8 @@ export default{
   components:{
     RankingCard,
     Modal,
-    Loading
+    Loading,
+    BackToTop
   },
   data() {
     return {
@@ -291,9 +298,8 @@ export default{
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
   z-index: 1;
-  position:sticky;
+  position:fixed;
   padding:0;
-  top:0;
 }
 .tabs::-webkit-scrollbar  {
   width: 0 !important;
@@ -340,5 +346,16 @@ export default{
   width: 100%;
   height: 200px;
   overflow-y: scroll;
+}
+.goTop {
+  border-radius: 50px;
+  background-color: rgba(31,45,61,.11);
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  display: block;
+  right: 20px;
+  bottom: 75px;
+  border: none;
 }
 </style>

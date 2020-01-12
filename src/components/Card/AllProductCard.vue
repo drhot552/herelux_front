@@ -1,8 +1,8 @@
 <template>
   <div class="content">
         <div class="container">
-          <div v-if="this.$store.state.searchList.length > 0" class="row" style="margin-bottom: 50px;">
-            <div class="div_style" v-for="item in this.$store.state.searchList">
+          <div v-if="this.$store.state.productList.length > 0" class="row" style="margin-bottom: 50px;">
+            <div class="div_style" v-for="item in this.$store.state.productList">
               <div class="in" v-on:click="detail(item.id)">
                 <img class="lazy-img-fadein"  v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
@@ -17,7 +17,7 @@
                   </div>
               </div>
           </div>
-          <div v-if="this.$store.state.searchList_readFlag" style="text-align:center; height:100px;">
+          <div v-if="this.$store.state.productList_readFlag" style="text-align:center; height:100px;">
             <a style="color:#000000;" v-on:click="readMore()">
               <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
             </a>
@@ -28,44 +28,28 @@
 
 
 <script>
+import { product } from '../../api'
+
 export default{
+
   created(){
     this.returnPath = this.$route.query.returnPath || '/detail'
-    this.$store.commit('SET_SEARCHPRODUCT_INIT');
     //this.readMore();
-  },
-  mounted(){
-    document.addEventListener('scroll', this.onScroll);
-  },
-  beforeDestroy(){
-    document.removeEventListener('scroll', this.onScroll);
   },
   data(){
     return{
-      returnPath : '',
-      brandId : 0
+      returnPath : ''
     }
   },
   methods:{
     readMore(){
-      let searchWord = $("#search").val();
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:searchWord});
+      this.$store.dispatch('FETCH_ALLPRODUCT_LIST_READMORE',{category_type:this.$store.state.productList_category_type, category:this.$store.state.productList_category});
     },
     detail(id){
-      this.$store.state.productDetail_name = 'search'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'search'
+      this.$store.state.productDetail_name = 'all'
+      this.returnPath = this.returnPath +'/' + id + '/all'
       this.$router.push(this.returnPath)
-    },
-    onScroll(){
-      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.searchList_readFlag) {
-        this.$store.commit('ISLOADING', true);
-        if(this.$store.state.searchType == 0){
-          this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:$("#search").val()});
-        } else {
-          this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch});
-        }
-      }
     }
   }
 }

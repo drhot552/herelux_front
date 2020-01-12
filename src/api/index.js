@@ -3,12 +3,12 @@ import axios from 'axios'
 import router from '../router'
 
 /* 운영서버 */
-const DOMAIN ='http://54.180.120.131:4000'
-export const WRITEDOMAIN = 'http://54.180.120.131:4000';
+//const DOMAIN ='http://54.180.120.131:4000';
+//export const WRITEDOMAIN = 'http://54.180.120.131:4000';
 
 /* 개발서버 */
-//const DOMAIN ='http://54.180.153.54:4000'
-//export const WRITEDOMAIN = 'http://54.180.153.54:4000';
+const DOMAIN ='http://54.180.153.54:4000'
+export const WRITEDOMAIN = 'http://54.180.153.54:4000';
 
 const UNAUTHORIZED = 401
 
@@ -68,6 +68,10 @@ export const product = {
   //상품 카운트
   productcnt(userid, product_id){
     return request('get', '/product/productcnt/' + userid + '/' + product_id);
+  },
+  //상품 카운트
+  allproduct(page, category , major_key){
+    return request('get', '/product/allproduct/' + page + '/' + category + '/' + major_key);
   }
 }
 export const event = {
@@ -103,11 +107,6 @@ export const comment = {
 }
 
 export const board = {
-  /*
-  write(formData, setting){
-    return request('post', '/board/write', {formData}, setting)
-  },
-  */
   fetch(boardtype, page){
     return request('get', '/board/list/' + boardtype + '/' + page)
   },
@@ -163,11 +162,23 @@ export const callback = {
 }
 
 export const search = {
-  brand(brandid, page, category , major_key ){
+  brand(brandid, page, category , major_key){
     return request('get', '/search/brand/' + brandid + '/' + page + '/' + category + '/' + major_key)
   },
   product(word, page){
     return request('get', '/search/product/' + word + '/' + page)
+  },
+  recommend(){
+    return request('get', '/search/recommend')
+  },
+  code(){
+    return request('get', '/search/code')
+  },
+  word(wordcatch,page){
+    return request('post','/search/word/' + page, {wordcatch})
+  },
+  category(){
+    return request('get', '/search/category')
   }
 }
 
@@ -175,8 +186,26 @@ export const home ={
   productrandom(){
     return request('get', '/home/productrandom')
   },
-  todaybrand(){
-    return request('get', '/home/todaybrand')
+  brandrandom(id){
+    return request('get', '/home/brandrandom/' + id)
+  },
+  hereluxcnt(){
+    return request('get', '/home/hereluxcnt')
+  },
+  brandfetch(id){
+    return request('get', '/home/brandfetch/' + id)
+  },
+  category(){
+    return request('get', '/home/category')
+  },
+  categoryfetch(id){
+    return request('get', '/home/categoryfetch/' + id)
+  },
+  newproduct(){
+    return request('get', '/home/newproduct')
+  },
+  eventday(){
+    return request('get', '/home/eventday')
   }
 }
 

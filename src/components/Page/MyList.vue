@@ -1,25 +1,19 @@
 <template>
   <div>
     <div class="section" style="padding:51px 0;">
-      <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh; overflow:auto;">
-        <div style="margin-top:15px; border-bottom:1px solid;">
-          <table style="width:95%; margin-left:15px; margin-bottom:15px;">
-            <tbody>
-              <tr>
-                <td v-for="item in myinfo">
-                  <div class="icon icon-circle" style="text-align:center;" v-if="item.type=='선호브랜드'">
-                    <img class="img-raised" style="border-radius:50%;" v-lazy="`/public/img/brand/${item.sub_name}.png`"/>
+      <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh; overflow:auto;">
+        <div style="margin-top:15px; border-bottom:1px solid; padding-bottom: 15px;">
+          <div v-for="item in myinfo" style="display:inline-block; width:33%; text-align:center;">
+            <div class="icon icon-circle" style="text-align:center; margin-left: 15px; display: block; margin: 0px auto;" v-if="item.type=='선호브랜드'">
+              <img class="img-raised" style="border-radius:50%;" v-lazy="`/public/img/brand/${item.sub_name}.png`"/>
 
-                  </div>
-                  <div v-else>
-                    <h5>{{item.cnt}}</h5>
+            </div>
+            <div v-else>
+              <h5>{{item.cnt}}</h5>
 
-                  </div>
-                  <h5>{{item.type}}</h5>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            </div>
+            <h5 style="margin-left:4px;">{{item.type}}</h5>
+          </div>
         </div>
         <div class="sticky">
           <div v-if="listFlag==1">
@@ -65,6 +59,12 @@ export default{
       position: { scrollTop: 0, scrollLeft: 0 }
     }
   },
+  mounted(){
+    document.addEventListener('scroll', this.onScroll);
+  },
+  beforeDestroy(){
+    document.removeEventListener('scroll', this.onScroll);
+  },
  created(){
    if(this.$route.params.pagetype == 0){
      this.listFlag = 1
@@ -87,18 +87,6 @@ export default{
      //alert 후 페이지 이동
      this.errorAlert();
    });
-   //별처리
-   /*var arrayId = this.userId.split("@");
-   var str = "";
-   var hideId = "";
-   if(arrayId.length == 2){
-     for(var j =0; j < arrayId[0].length / 2; j++){
-       str += "*";
-     }
-     hideId = arrayId[0].substr(0,arrayId[0].length/2) + str;
-     hideId = hideId + "@" + arrayId[1];
-     this.userId = hideId;
-   } */
    //게시판전체가져오기
    this.$store.commit('ISLOADING', true);
  },
@@ -114,15 +102,14 @@ export default{
       alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
     },
-    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
-      if (scrollTop + clientHeight >= scrollHeight && this.$store.state.myList_readFlag) {
+    onScroll () {
+      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.myList_readFlag) {
         this.$store.commit('ISLOADING', true);
         if(this.listFlag ==  1){
           this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userId, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
         } else {
           this.$store.dispatch('FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
         }
-
       }
     }
  }
@@ -137,8 +124,8 @@ export default{
 }
 .icon.icon-circle{
   max-width: 80px;
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     box-shadow: 0 9px 35px -6px rgba(0,0,0,.3);
     font-size: .7142em;

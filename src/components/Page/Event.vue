@@ -1,13 +1,13 @@
 <template>
-  <div class="section" style="padding:51px 0px; overflow:auto; -webkit-overflow-scrolling: touch;">
+  <div class="section" style="padding:51px 0px;">
     <back-to-top bottom="20px" right="20px">
       <button type="button" class="goTop">
         <i class="fa fa-chevron-up"></i>
       </button>
     </back-to-top>
     <div class="blogs-4" id="blogs-4">
-        <div class="container" style="height: 71vh;">
-          <div class="row" style="height: 71vh;">
+        <div class="container">
+          <div class="row">
                 <article class="col-md-8 ml-auto mr-auto" v-for="herelux in event">
                   <div v-if="herelux.brands_name=='Herelux'" style="padding-bottom: 30px;">
                     <card type="blog" plain v-bind:title="herelux.brands_name" v-bind:url="herelux.url"

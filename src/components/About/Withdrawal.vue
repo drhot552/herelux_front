@@ -1,6 +1,6 @@
 <template>
-<div class="section" style="padding:51px 0; overflow:auto; -webkit-overflow-scrolling:touch;">
-  <div class="container" style="padding-left:0px; padding-right:0px; height:80vh; overflow:auto;">
+<div class="section" style="padding:51px 0;">
+  <div class="container" style="padding-left:0px; padding-right:0px;">
     <div style="margin-left:15px; margin-right:15px;">
       <div style="border-bottom: 3px solid rgb(0, 0, 0); height: 50px;">
         <h5 style="padding-top: 13px; text-align: center;">

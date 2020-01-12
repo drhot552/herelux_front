@@ -1,10 +1,5 @@
 <template>
-  <div class="card"
-       :class="[
-         {'card-plain': plain},
-         {'card-raised': raised},
-         {[`card-${type}`]: type}
-       ]">
+  <div class="card card-plain">
   <div v-if="productflag">
    <carousel :per-page="1"  :mouse-drag="true"  :navigation-next-label="`>`"
               :navigation-prev-label="`<`" :pagination-position="`top-overlay`"	:navigation-enabled="true" :pagination-padding="2"
@@ -92,11 +87,9 @@ export default {
       size:String,
       color:String,
       price: String,
-      plain: Boolean,
       star : Number,
       count : Number,
-      sub_name : String,
-      raised: Boolean
+      sub_name : String
     },
     components:{
       Carousel,

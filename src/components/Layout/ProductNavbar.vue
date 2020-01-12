@@ -7,6 +7,9 @@
         <div v-else-if="pageType=='ranking'" class="board_style navbar-brand" v-on:click="beforePage('/ranking')" style="text-align:left;">
             이전
         </div>
+        <div v-else-if="pageType=='home'" class="board_style navbar-brand" v-on:click="beforePage('/')" style="text-align:left;">
+            이전
+        </div>
         <div v-else class="board_style navbar-brand" v-on:click="onClick()" style="text-align:left; color:black;">
             이전
         </div>

@@ -1,10 +1,5 @@
 <template>
-  <div class="card"
-       :class="[
-         {'card-plain': plain},
-         {'card-raised': raised},
-         {[`card-${type}`]: type}
-       ]"
+  <div class="card card-plain"
        :data-background-color="color">
    <div class="author" align="left" style="padding:5px;">
      <h6></h6>
@@ -97,9 +92,7 @@ export default {
       title: String,
       logoimgurl: String,
       url:String,
-      color: String,
-      plain: Boolean,
-      raised: Boolean
+      color: String
     },
     components:{
       Carousel,

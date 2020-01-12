@@ -1,6 +1,6 @@
 <template>
     <div class="section" style="padding:51px 0;">
-    <div v-scroll:throttle="{fn: onScroll, throttle: 500 }" class="container" style="padding-left:0px; padding-right:0px; overflow:auto; height:80vh;">
+    <div class="container" style="padding-left:0px; padding-right:0px;">
 
       <ul class="tabs_board" ref="tabbar">
          <div class="tabitem_board" :class="index === boardactivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
@@ -33,9 +33,6 @@ import { code } from '../../api';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 export default{
-  props:{
-    item:Array
-  },
   components:{
     BoardCard,
     Loading
@@ -55,6 +52,8 @@ export default{
  created(){
    //게시판 초기 세팅 ->
    //this.$store.commit('SET_INIT_BOARD', this.$store.state.boardtype);\
+
+
    this.$store.commit('ISLOADING', true);
    code.category(3).then(data=>{
      if(data.length == 0){
@@ -74,11 +73,13 @@ export default{
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
   document.addEventListener('touchstart', this.startboardTouch, false);
-  document.addEventListener("touchmove", this.moveboardTouch, false);
+  document.addEventListener('touchmove', this.moveboardTouch, false);
+  document.addEventListener('scroll', this.onScroll);
  },
  beforeDestroy () {
    document.removeEventListener('touchstart', this.startboardTouch, false);
-   document.removeEventListener("touchmove", this.moveboardTouch, false);
+   document.removeEventListener('touchmove', this.moveboardTouch, false);
+   document.removeEventListener('scroll', this.onScroll);
  },
  computed:{
    pointer(){
@@ -188,8 +189,8 @@ export default{
       alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
     },
-    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
-      if (scrollTop + clientHeight >= scrollHeight && this.$store.state.board_readFlag) {
+    onScroll () {
+      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.board_readFlag) {
         this.$store.commit('ISLOADING', true);
         this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});
       }

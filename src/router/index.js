@@ -17,10 +17,10 @@ const WriteNavbar = () => import('../components/Layout/WriteNavbar.vue');
 const BoardNavbar = () => import('../components/Layout/BoardNavbar.vue');
 const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
 const ProductNavbar = () => import('../components/Layout/ProductNavbar.vue');
-const SearchPageNavbar = () => import('../components/Layout/SearchPageNavbar.vue');
 
 const Home =() => import('../components/Page/Home.vue');
 const MyList = () => import('../components/Page/MyList.vue');
+const AllProduct = () => import('../components/Page/AllProduct.vue');
 const Detail = () => import('../components/Page/ProductDetail.vue');
 const Ranking = () => import('../components/Page/Ranking.vue');
 const Board = () => import('../components/Page/Board.vue');
@@ -34,7 +34,6 @@ const Brand = () => import('../components/Page/Brand.vue');
 const Withdrawal = () => import('../components/About/Withdrawal.vue');
 const PasswordChg = () => import('../components/About/PasswordChg.vue');
 const Callback = () => import('../components/Page/Callback.vue');
-const SearchPage = () => import('../components/Page/SearchPage.vue');
 
 //테스트
 const Test = () => import('../components/Test.vue');
@@ -59,12 +58,20 @@ const router = new Router({
   mode:'history',
   routes:[
     {
-      path: '/',
+      path:'/',
+      name:'Home',
+      components:{default:Home, header:MainNavbar, footer:FooterNavbar},
+      props:{
+        header:{colorOnScroll:0,pageName:"Home"},
+        footer:{pageName:"Home"}
+      }
+    },
+    {
+      path: '/event',
       name: 'Event',
       components: {default:Event, header:MainNavbar, footer:FooterNavbar},
       props:{
-        header:{colorOnScroll:0, pageName:"Event"},
-        footer:{pageName:"Event"}
+        header:{colorOnScroll:0, pageName:"Event"}
       }
     },
     {
@@ -203,14 +210,6 @@ const router = new Router({
       }
     },
     {
-      path:'/searchpage',
-      name:'SearchPage',
-      components:{default:SearchPage, header:SearchPageNavbar, footer:FooterNavbar},
-      props:{
-        header:{colorOnScroll:0,pageName:"SearchPage"}
-      }
-    },
-    {
       path:'/error',
       name:'Error',
       components:{default:Error, header:MainNavbar, footer:FooterNavbar},
@@ -271,11 +270,11 @@ const router = new Router({
       }
     },
     {
-      path:'/home',
-      name:'Home',
-      components:{default:Home, header:MainNavbar, footer:FooterNavbar},
+      path:'/allproduct/:pagetype',
+      name:'AllProduct',
+      components:{default:AllProduct, header:ProductNavbar, footer:FooterNavbar},
       props:{
-        header:{colorOnScroll:0,pageName:"Home"}
+        header:{colorOnScroll:0,pageName:"AllProduct"}
       }
     }
   ],

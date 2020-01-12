@@ -1,6 +1,6 @@
 <template>
-  <div class="section" style="padding:52px 0; overflow:auto; -webkit-overflow-scrolling: touch;">
-    <div class="container" style="padding-left:0px; padding-right:0px; height: 80vh;">
+  <div class="section" style="padding:52px 0;">
+    <div class="container">
         <tabs slot="raw-content">
               <tab-pane >
                   <template slot="label">

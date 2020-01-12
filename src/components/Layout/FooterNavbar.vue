@@ -1,6 +1,6 @@
 <template>
-  <footer class="navbar bg-white fixed-bottom" style = "z-index:1010; height:5vh; text-align: center;">
-    <div class="div_style_1" v-if="pageName ==='Event'" v-on:click="footerClick('/')">
+  <footer class="navbar bg-white fixed-bottom" :class="{'button-fixed-bottom': this.flag}" style = "z-index:1010; text-align: center;">
+    <div class="div_style_1" v-if="pageName ==='Home'" v-on:click="footerClick('/')">
      <img src="/public/img/bottom_home_select.png" style="height:20px;"/>
    </div>
    <div class="div_style_1" v-else style="color:#000000;" v-on:click="footerClick('/')">
@@ -57,7 +57,8 @@
     },
     data(){
       return{
-        userid :''
+        userid :'',
+        flag : false
       }
     },
     created(){
@@ -65,6 +66,11 @@
       this.$store.commit('SET_BOARDINFO_INIT');
       if(this.userid != ''){
         this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+      }
+      if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+        if(navigator.userAgent.match(/herelux_app_ios/i)){
+          this.flag = true;
+        }
       }
 
     },
@@ -92,5 +98,8 @@ ul li {
 .div_style_1{
   float: center;
   width: 20%;
+}
+.button-fixed-bottom  {
+
 }
 </style>

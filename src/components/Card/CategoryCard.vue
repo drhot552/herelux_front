@@ -1,8 +1,8 @@
 <template>
     <div class="content">
         <div class="container">
-          <div class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.product" v-on:click="onClick(item.id)">
-            <div class="div_ranking_1" style="margin-left:10px;">
+          <div class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.categoryProduct" v-on:click="onClick(item.id)">
+            <div class="div_category_1" style="margin-left:10px;">
               <!--순위대로 색을 다르게 check-->
                 <div class="layer">
                   <h2 v-if="i+1==1" style="color:#ffd700; font-size:3em;">
@@ -20,53 +20,36 @@
                 </div>
 
             </div>
-            <div class="div_ranking_2" style="margin-right: 40px;">
+            <div class="div_category_2" style="margin-right: 40px;">
               <div class="layer" style="text-align: left; margin-left: 25px;">
                 <span style="font-size:0.81em;">{{item.name}}</span>
                 <h5 style="margin-left: 25px;">{{item.avg}}</h5>
               </div>
 
             </div>
-            <div class="div_ranking_3" style="float:right;">
+            <div class="div_category_3" style="float:right;">
               <img class="lazy-img-fadein" style="width:100%; float:right;" v-lazy="item.url"/>
             </div>
           </div>
-          <!--
-          <div v-if="this.$store.state.readFlag && this.$store.state.idx < 5" style="text-align:center; height:100px; z-index:1;">
-            <a style="color:#000000;" v-on:click="readMore()">
-              <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
-            </a>
-          </div>
-          -->
         </div>
   </div>
 </template>
 <script>
 import { product } from '../../api'
 export default {
-  props: {
-    category_type:Number
-  },
   data(){
     return{
-      descript:'',
-      title:'',
       returnPath:''
     }
   },
   created(){
-
     this.returnPath = this.$route.query.returnPath || '/detail'
     //this.readMore();
   },
   methods:{
-    readMore(){
-      this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
-    },
     onClick(id){
-      this.$store.state.productDetail_name = 'ranking'
-      this.returnPath = this.returnPath +'/' + id + '/ranking'
+      this.$store.state.productDetail_name = 'home'
+      this.returnPath = this.returnPath +'/' + id + '/home'
       this.$router.push(this.returnPath)
     }
   }
@@ -74,11 +57,11 @@ export default {
 }
 </script>
 <style>
-.div_ranking_1{
+.div_category_1{
   width: 10%;
   text-align:center;
 }
-.div_ranking_1:before {
+.div_category_1:before {
    content: '';
    display: inline-block;
    width: 0;
@@ -86,11 +69,11 @@ export default {
    vertical-align: middle;
    margin-right: -4px;
 }
-.div_ranking_2{
+.div_category_2{
   width: 40%;
   text-align:center;
 }
-.div_ranking_2:before {
+.div_category_2:before {
    content: '';
    display: inline-block;
    width: 0;
@@ -98,10 +81,10 @@ export default {
    vertical-align: middle;
    margin-right: -4px;
 }
-.div_ranking_3{
+.div_category_3{
   width: 30%;
 }
-.div_ranking_4{
+.div_category_4{
   width: 100%;
   height:150px;
   position: absolute;

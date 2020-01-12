@@ -1,6 +1,6 @@
 <template>
-  <div class="section" style="padding-bottom:130px; overflow:auto; -webkit-overflow-scrolling: touch; height:85vh">
-    <div class="container" style="padding-left:0px; padding-right:0px; height:80vh;">
+  <div class="section" style="padding-bottom:130px;">
+    <div class="container" style="padding-left:0px; padding-right:0px;">
           <div style="height:70px; border-bottom:1px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
             <div style="padding-left:15px;">
               <h5 v-if="this.boardDetail[0].boardtype < 3" style="margin-top:0px;">

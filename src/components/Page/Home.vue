@@ -1,19 +1,31 @@
 <template>
   <div class="section">
-    <div class="container" style="padding-left:0px; padding-right:0px; overflow:auto; height:80vh;">
+    <div class="container" style="padding-left:0px; padding-right:0px;">
       <div>
-        <FamousProduct>
-        </FamousProduct>
+        <HereluxProduct>
+        </HereluxProduct>
       </div>
-      <div>
-        <TodayBrand>
-        </TodayBrand>
+      <div style="padding-bottom: 15px; border-bottom: 15px solid rgba(135, 135, 135, 0.1);">
       </div>
-      <div>
+      <div style="padding-top:20px;">
+        <RandomBrand>
+        </RandomBrand>
+      </div>
+      <div style="padding-bottom: 15px; border-bottom: 15px solid rgba(135, 135, 135, 0.1);">
+      </div>
+      <div style="padding-top:20px;">
+        <NewBrandEvent>
+        </NewBrandEvent>
+      </div>
+      <div style="padding-bottom: 15px; border-bottom: 15px solid rgba(135, 135, 135, 0.1);">
+      </div>
+      <div style="padding-top:20px;">
         <NewStyleProduct>
         </NewStyleProduct>
       </div>
-      <div>
+      <div style="padding-bottom: 15px; border-bottom: 15px solid rgba(135, 135, 135, 0.1);">
+      </div>
+      <div style="padding-top:20px;">
         <RandomProduct>
         </RandomProduct>
       </div>
@@ -21,16 +33,21 @@
   </div>
 </template>
 <script>
-import FamousProduct from '../Home/FamousProduct';
+import HereluxProduct from '../Home/HereluxProduct';
 import NewStyleProduct from '../Home/NewStyleProduct';
 import RandomProduct from '../Home/RandomProduct';
-import TodayBrand from '../Home/TodayBrand';
+import RandomBrand from '../Home/RandomBrand';
+import NewBrandEvent from '../Home/NewBrandEvent';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel';
+
 export default {
   components:{
-    FamousProduct,
+    HereluxProduct,
     NewStyleProduct,
     RandomProduct,
-    TodayBrand
+    RandomBrand,
+    NewBrandEvent
   }
 }
 </script>
