@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="section" style="padding:51px 0;">
-      <div v-scroll:throttle="{fn: onBrandScroll, throttle: 500 }" class="container" style="padding-left: 0px; padding-right: 0px;">
+      <div class="container" style="padding-left: 0px; padding-right: 0px;">
 
         <ul class="tabs" ref="tabbar">
            <div class="tabitem" :class="index === brandlistActivetab ? 'active' : ''"  v-for="(tab, index) in items" @click="switchtab(index)" :key="index" ref="tab">
@@ -113,12 +113,12 @@ export default{
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
   document.addEventListener('touchstart', this.startbrandTouch, false);
   document.addEventListener("touchmove", this.movebrandTouch, false);
-  document.addEventListener('scroll', this.onScroll);
+  document.addEventListener('scroll', this.onBrandScroll);
  },
  beforeDestroy () {
    document.removeEventListener('touchstart', this.startbrandTouch, false);
    document.removeEventListener("touchmove", this.movebrandTouch, false);
-   document.removeEventListener('scroll', this.onScroll);
+   document.removeEventListener('scroll', this.onBrandScroll);
  },
  computed:{
    pointer(){
