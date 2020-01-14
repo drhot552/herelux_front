@@ -61,16 +61,18 @@ import { search } from '../../api'
         this.$store.state.wordcatch = new Array();
         this.search = $("#search").val();
         var word = this.search;
+        word=word.replace(/ /gi, "");    // 모든 공백을 제거
         //단어 <- code에서 있는지 확인
         //샤넬 남성가방 <-
         for(var i=0; i<this.code.length; i++){
-            var re = new RegExp(this.code[i].descript);
-            if(word.indexOf(this.code[i].descript) != -1){
+            var descript = this.code[i].descript;
+            descript = descript.replace(/ /gi, "");
 
+            var re = new RegExp(descript);
+            if(word.indexOf(descript) != -1){
               var wordObj = new Object();
               word = word.replace(re,"");
               word = word.trim();
-              console.log(word);
               if(this.code[i].major_key == 1 || this.code[i].major_key == 7778){
                 wordObj.code = 'brand_name';
                 wordObj.minor_key = this.code[i].minor_key;
@@ -90,7 +92,9 @@ import { search } from '../../api'
         //코드 <- 단어에서 있는지 확인
         if(word.length > 0){
           for(var j=0; j<this.code.length; j++){
-            if(this.code[j].descript.indexOf(word) != -1){
+            var descript = this.code[j].descript;
+            descript = descript.replace(/ /gi, "");
+            if(descript.indexOf(word) != -1){
               var codeObj = new Object();
               if(this.code[j].major_key == 1 || this.code[j].major_key == 7778){
                 codeObj.code = 'brand_name';

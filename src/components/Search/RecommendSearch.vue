@@ -1,14 +1,36 @@
 <template>
-  <div style="margin-top:15px;">
-    <div v-for="item in recommend" style="display:inline-block; margin-right:10px;">
-      <button type="button" class="btn btn-default" style="margin:5px;" v-on:click="search(item.recommend)"> {{item.recommend}} </button>
+  <div>
+    <div style="margin-top:15px;">
+      <div v-for="item in recommend" style="display:inline-block; margin-right:10px;">
+        <button type="button" class="btn btn-default" style="margin:5px;" v-on:click="search(item.recommend)"> {{item.recommend}} </button>
+      </div>
     </div>
+    <div :class="{'ad_android': this.flag, 'ad_iphone': !this.flag}">
+      <adfit-banner
+      v-on:ad-loaded
+      v-on:ad-failed
+      data-ad-test="N"
+      data-ad-unit="DAN-u8b8wmb7vg38">
+      </adfit-banner>
+    </div>
+
   </div>
+
 </template>
 <script>
 import { search } from '../../api';
 export default{
   created(){
+
+    if(navigator.userAgent.match(/Android|Tablet/i)){
+      this.flag = true
+    }
+    else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+      this.flag = false
+    } else {
+      this.flag = true
+    }
+
     search.recommend().then(data=>{
       this.recommend = data;
     }).catch(error=>{
@@ -24,7 +46,8 @@ export default{
   data(){
     return{
       recommend:[],
-      code:[]
+      code:[],
+      flag: false
     }
   },
   methods:{
@@ -92,4 +115,16 @@ export default{
 }
 </script>
 <style>
+.ad_android{
+  position:absolute;
+  top: 64vh;
+  left:0;
+  right:0;
+}
+.ad_iphone{
+  position:absolute;
+  top: 70vh;
+  left:0;
+  right:0;
+}
 </style>

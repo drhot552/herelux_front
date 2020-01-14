@@ -54,8 +54,12 @@
           </div>
           <!-- 댓글 단 -->
           <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);">
-            <Cauly v-bind:type="2">
-            </Cauly>
+            <adfit-banner
+            v-on:ad-loaded
+            v-on:ad-failed
+            data-ad-test="N"
+            data-ad-unit="DAN-vf47k1eg1js3">
+            </adfit-banner>
           </div>
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">

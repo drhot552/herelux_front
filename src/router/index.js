@@ -202,7 +202,7 @@ const router = new Router({
       }
     },
     {
-      path:'/search',
+      path:'/search/:word',
       name:'Search',
       components:{default:Search, header:SearchNavbar, footer:FooterNavbar},
       props:{

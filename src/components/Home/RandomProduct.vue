@@ -2,7 +2,7 @@
   <div>
     <div style="padding-left: 50px; padding-right: 50px; text-align: center;">
       <h4 style="margin-top: 0px; margin-bottom: 10px; font-weight: 700; font-size: 1.8em;">
-        현재 입고되는 <br /> HERELUX의 <br />새로운 스타일!
+        현재 입고된 <br /> HERELUX의 <br />새로운 스타일!
       </h4>
       <a v-on:click="pageMove('/allproduct/home')" style="color:black; font-weight:700;">
         전체 상품 보러가기 >

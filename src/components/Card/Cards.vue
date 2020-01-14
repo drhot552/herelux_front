@@ -140,7 +140,7 @@ export default {
        }
        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
          if(navigator.userAgent.match(/herelux_app_ios/i)){
-           window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+           window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
          }
          else{
            window.open(url, '_blank');
@@ -162,7 +162,7 @@ export default {
        }
        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
          if(navigator.userAgent.match(/herelux_app_ios/i)){
-           window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+           window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
          }
          else{
            window.open(url, '_blank');

@@ -7,6 +7,10 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    /* localstorage User ID */
+    userId : String,
+    token : String,
+    type : String,
     /* Ranking 변수 */
     product: [],
     idx : 0,
@@ -61,6 +65,7 @@ const store = new Vuex.Store({
     searchList_readFlag : false,
     searchFlag : false,
     searchType : 0,
+    searchPageType : 0,
     wordcatch : Object,
     /* Loading */
     isLoading : false,

@@ -139,7 +139,7 @@ export default {
   transition:.5s ease;
 }
 .tabcontainer_category {
-  height:480px;
+  height:95vh;
   position: relative;
   min-height: 100%;
   width: 100%;

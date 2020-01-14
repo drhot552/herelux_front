@@ -146,6 +146,17 @@ export default{
           alert("비밀번호를 다시확인해주세요.");
         }
         else if(data == 200){
+          //
+          if(navigator.userAgent.match(/Android|Tablet/i)){
+            if(navigator.userAgent.match(/herelux_app_and/i)){
+              window.android.logout();
+            }
+          }
+          else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+            if(navigator.userAgent.match(/herelux_app_ios/i)){
+              window.webkit.messageHandlers.YOURMETHOD.postMessage('logout');
+            }
+          }
           localStorage.clear();
           this.$router.push(this.$route.query.returnPath || '/login');
         } else {

@@ -47,6 +47,9 @@ export default{
       initialY : null
     }
   },
+  created(){
+    this.searchactivetab = this.$store.state.searchPageType;
+  },
   mounted(){
     document.addEventListener('touchstart', this.startTouch, false);
     document.addEventListener('touchmove', this.moveTouch, false);
@@ -137,6 +140,7 @@ export default{
 
        this.$nextTick(function() {
          this.searchactivetab = n;
+         this.$store.state.searchPageType = n;
        })
      }
   }

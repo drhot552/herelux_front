@@ -9,9 +9,12 @@ import store from './store'
 import VueClipboard from 'vue-clipboard2'
 import Notifications from 'vue-notification'
 import VueScroll from 'vue-scroll'
+import AdFit from 'vue-adfit-component'
+
 
 VueClipboard.config.autoSetContainer = true // add this line
 
+Vue.use(AdFit.Banner)
 Vue.use(Notifications)
 Vue.use(VueClipboard)
 Vue.use(VueUp)

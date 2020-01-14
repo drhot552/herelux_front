@@ -39,8 +39,12 @@
      </div>
      <div align="left" style="margin-left:15px; margin-right:15px;">
        <div style="border-top: 3px solid rgb(0,0,0); padding-top : 10px">
-         <Cauly v-bind:type="2">
-         </Cauly>
+         <adfit-banner
+         v-on:ad-loaded
+         v-on:ad-failed
+         data-ad-test="N"
+         data-ad-unit="DAN-u88h76y8h7w2">
+         </adfit-banner>
        </div>
      </div>
      <div align="left" style="margin-left:15px; margin-right:15px;">
@@ -165,7 +169,7 @@ export default {
        }
        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
          if(navigator.userAgent.match(/herelux_app_ios/i)){
-           window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+           window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
          }
          else{
            window.open(url, '_blank');

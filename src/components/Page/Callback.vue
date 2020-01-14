@@ -73,7 +73,7 @@
         await callback.naver(this.$route.query.code, this.$route.query.state).then(data=>{
           this.authArry = data;
         }).catch(error => {
-          this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
+          this.descript="이용에 불편을 드려 죄송합니다.333 빠른 조치중에 있습니다.";
           this.title = "서버에러";
           this.modalShow = true;
         });
@@ -81,7 +81,7 @@
         await callback.navermember(this.authArry.access_token).then(data=>{
           this.loginArry = data;
         }).catch(error => {
-          this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
+          this.descript="이용에 불편을 드려 죄송합니다.222 빠른 조치중에 있습니다.";
           this.title = "서버에러";
           this.modalShow = true;
         });
@@ -96,7 +96,7 @@
           }
         }).catch(error => {
           console.log(error);
-          this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
+          this.descript="이용에 불편을 드려 죄송합니다. 111빠른 조치중에 있습니다.";
           this.title = "서버에러";
           this.modalShow = true;
         });
@@ -108,6 +108,22 @@
         auth.snslogin(this.loginArry.response.email, 'naver', this.authArry.refresh_token, this.authArry.access_token).then(data=>{
           console.log(data);
           if(data==200 || data==201){
+            //
+            if(navigator.userAgent.match(/Android|Tablet/i)){
+              if(navigator.userAgent.match(/herelux_app_and/i)){
+                window.android.token(this.authArry.refresh_token);
+                window.android.id(this.loginArry.response.email);
+                window.android.type('naver');
+              }
+
+            }
+            else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+              if(navigator.userAgent.match(/herelux_app_ios/i)){
+                window.webkit.messageHandlers.YOURMETHOD.postMessage('token_herelux|'+this.authArry.refresh_token);
+                window.webkit.messageHandlers.YOURMETHOD.postMessage('id_herelux|'+this.loginArry.response.email);
+                window.webkit.messageHandlers.YOURMETHOD.postMessage('type_herelux|'+'naver');
+              }
+            }
             localStorage.setItem('token', this.authArry.refresh_token)
             localStorage.setItem('id', this.loginArry.response.email)
             localStorage.setItem('type', 'naver')
@@ -117,7 +133,7 @@
 
           }
         }).catch(error => {
-          this.descript="이용에 불편을 드려 죄송합니다. 빠른 조치중에 있습니다.";
+          this.descript="이용에 불편을 드려 죄송합니다. 123 빠른 조치중에 있습니다." + error;
           this.title = "서버에러";
           this.modalShow = true;
         });

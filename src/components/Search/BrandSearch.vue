@@ -41,27 +41,10 @@ export default{
       //alert 후 페이지 이동
       this.errorAlert();
     });
-    this.$store.commit('ISLOADING', true);
-    code.forum(2).then(data=>{
-      if(data.length == 0){
-
-      }
-      else{
-        this.category_items = data;
-      }
-      this.$store.commit('ISLOADING', false);
-    }).catch(error =>{
-      console.log("error",error);
-      //alert 후 페이지 이동
-      this.errorAlert();
-    });
   },
   methods:{
     detail(productId){
       this.$router.push(this.$route.query.returnPath || '/brand/' + productId);
-    },
-    searchClick(){
-      this.$router.push(this.$route.query.returnPath || '/searchpage');
     }
   }
 }

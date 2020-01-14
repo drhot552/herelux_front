@@ -2,7 +2,7 @@
   <div>
     <div style="padding-left: 50px; padding-right: 50px; text-align: center;">
       <h4 style="margin-top: 0px; margin-bottom: 10px; font-weight: 700; font-size: 1.8em;">
-        Brand's Pick
+        HERELUX 추천 <br /> 명품 브랜드
       </h4>
     </div>
     <div class="card card-plain">
@@ -10,7 +10,7 @@
        <h6></h6>
          <a>
            <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="height:60px; width:60px;" alt="..." class="avatar img-raised lazy-img-fadein">
-           <span style="float:right;color:black; padding-top:20px; font-size:13px; font-weight:700;" v-on:click="brandClick(item.minor_key)">명품 상품 보러가기 ></span>
+           <span style="float:right;color:black; padding-top:20px; font-size:13px; font-weight:700;" v-on:click="brandClick(item.minor_key)">전체 상품 보러가기 ></span>
          </a>
        <h6></h6>
      </div>
@@ -41,7 +41,7 @@
          <h6></h6>
            <a>
              <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" style="height:60px; width:60px;" alt="..." class="avatar img-raised lazy-img-fadein">
-             <span style="float:right;color:black; padding-top:20px;  font-size:13px; font-weight:700;" v-on:click="brandClick(item.minor_key)">명품 상품 보러가기 ></span>
+             <span style="float:right;color:black; padding-top:20px;  font-size:13px; font-weight:700;" v-on:click="brandClick(item.minor_key)">전체 상품 보러가기 ></span>
            </a>
          <h6></h6>
        </div>

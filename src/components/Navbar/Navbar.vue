@@ -4,7 +4,7 @@
             <div class="navbar-translate">
                 <slot v-bind="slotData"></slot>
                 <div style="text-align:right; width:100%;">
-                  <router-link to="/search" v-on:click.native="searchClick()" style="margin-right:10px;">
+                  <router-link to="/search/page_" v-on:click.native="searchClick()" style="margin-right:10px;">
                     <img src="/public/img/btn_search.png" style="height:20px;"/>
                   </router-link>
                 </div>
@@ -164,7 +164,9 @@
         this.$emit(eventToTrigger)
       },
       toggle() {
+        //userid check
         this.userId = localStorage.getItem('id')
+        //this.userId = this.$store.state.userId;
         //별처리
         if(this.userId){
           var arrayId = this.userId.split("@");
@@ -191,6 +193,16 @@
         //로그아웃 플래그
         if(this.flag){
           //this.$root.$emit('bv::hide::modal','modal-logout', '#btnShow')
+          if(navigator.userAgent.match(/Android|Tablet/i)){
+            if(navigator.userAgent.match(/herelux_app_and/i)){
+              window.android.logout();
+            }
+          }
+          else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+            if(navigator.userAgent.match(/herelux_app_ios/i)){
+              window.webkit.messageHandlers.YOURMETHOD.postMessage('logout');
+            }
+          }
           localStorage.clear();
           this.$router.push(this.$route.query.returnPath || '/login')
           this.flag = false
@@ -229,27 +241,6 @@
      },
      onClose(){
        this.modalShow=false;
-     },
-     brandurl(url){
-       if(navigator.userAgent.match(/Android|Tablet/i)){
-         if(navigator.userAgent.match(/herelux_app_and/i)){
-           window.android.bridge(url);
-         }
-         else{
-           window.open(url, '_blank');
-         }
-       }
-       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-         if(navigator.userAgent.match(/herelux_app_ios/i)){
-           window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
-         }
-         else{
-           window.open(url, '_blank');
-         }
-       }
-       else {
-         window.open(url, '_blank');
-       }
      }
     },
     mounted () {

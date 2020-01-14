@@ -75,13 +75,21 @@ export default{
       initialY : null,
       modalShow: false,
       category_middle:[],
-      subject : "전체"
+      subject : "전체",
+      categoryId : 0,
+      pageType : ''
     }
   },
  created(){
 
    this.productlistActivetab = this.$store.state.productList_category;
-   console.log('allproduct');
+   this.pageType = this.$route.params.pagetype;
+   this.categoryId = this.$route.params.id;
+   if(this.pageType == 'search'){
+     this.$store.state.productList_category = this.categoryId;
+     this.productlistActivetab = this.$store.state.productList_category;
+   }
+
    this.$store.commit('ISLOADING', true);
    this.$store.commit('SET_PRODUCTLIST_INIT');
    //전체가져오기
@@ -91,7 +99,6 @@ export default{
      }
      else{
        this.items = data;
-        console.log('allproduct123');
        this.fetch();
        this.categoryMiddle();
      }
@@ -247,7 +254,6 @@ export default{
       // 카테고리 타입이 1이면 대 카테고리로 set한다
 
       this.$store.state.productList_category_type = 1;
-      console.log('fetchlist');
       this.$store.commit('SET_PRODUCTLIST_INIT');
       this.$store.commit('ISLOADING', true);
       this.$store.dispatch('FETCH_ALLPRODUCT_LIST_READMORE',{category_type:this.$store.state.productList_category_type, category:this.$store.state.productList_category});

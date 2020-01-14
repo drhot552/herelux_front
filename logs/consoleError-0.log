@@ -68,3 +68,31 @@ npm ERR! Exit status 1
 npm ERR! 
 npm ERR! Failed at the luxury_front@1.0.0 dev script.
 npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! luxury_front@1.0.0 dev: `cross-env NODE_ENV=development webpack-dev-server --open --hot --host 0.0.0.0 --disableHostCheck true`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the luxury_front@1.0.0 dev script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! luxury_front@1.0.0 dev: `cross-env NODE_ENV=development webpack-dev-server --open --hot --host 0.0.0.0 --disableHostCheck true`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the luxury_front@1.0.0 dev script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! luxury_front@1.0.0 dev: `cross-env NODE_ENV=development webpack-dev-server --open --hot --host 0.0.0.0 --disableHostCheck true`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the luxury_front@1.0.0 dev script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! luxury_front@1.0.0 dev: `cross-env NODE_ENV=development webpack-dev-server --open --hot --host 0.0.0.0 --disableHostCheck true`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the luxury_front@1.0.0 dev script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
