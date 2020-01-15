@@ -75,13 +75,11 @@
     mounted(){
       var token = localStorage.getItem('token');
       this.email_id = localStorage.getItem('id');
-      console.log(token, this.email_id);
       if(token){
         this.login = true;
       } else{
         this.login = false;
       }
-      console.log(this.login);
     },
     watch:{
       email_id: function(){
