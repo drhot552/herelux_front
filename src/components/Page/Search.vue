@@ -51,13 +51,13 @@ export default{
     //검색에 관련된 전역변수 초기화
     //word
     this.word = this.$route.params.word;
-    if(this.word == "page_"){
+    if(this.word == "page-"){
       this.$store.state.searchPageType = 0;
       this.$store.state.searchFlag = false;
     } else {
       search.code().then(data=>{
         this.code = data
-        this.word = this.word.replace(/page_/gi,'');
+        this.word = this.word.replace(/page-/gi,'');
         $("#search").val(this.word);
         this.$store.state.searchPageType = 2;
         this.$store.state.searchFlag = true;

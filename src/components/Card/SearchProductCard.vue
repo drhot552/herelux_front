@@ -54,7 +54,7 @@ export default{
     },
     detail(id){
       this.$store.state.productDetail_name = 'search'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'search'
+      this.returnPath = this.returnPath +'/' + id + '/' + 'search_page-'
       this.$router.push(this.returnPath)
     },
     onScroll(){

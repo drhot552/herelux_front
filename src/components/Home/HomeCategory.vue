@@ -39,7 +39,7 @@ export default{
   },
   methods:{
     detail(searchWord){
-      this.$router.push(this.$route.query.returnPath || '/search/page_' + searchWord);
+      this.$router.push(this.$route.query.returnPath || '/search/page-' + searchWord);
     }
   }
 }
