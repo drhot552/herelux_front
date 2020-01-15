@@ -15,11 +15,11 @@
           </div>
           <h1></h1>
           <div style="border-bottom: 1px solid rgba(136, 136, 136, 0.3);">
-            <div align="left" style="margin-left:15px; margin-bottom:7px;">
+            <div v-if="type=='event'" align="left" style="margin-left:15px; margin-bottom:7px;">
               지금 보러가기 >
             </div>
           </div>
-          <!--<a v-if="type=='event'" v-on:click="trackOutboundLink(title, subject, direct_url)">
+          <!--<a v-on:click="trackOutboundLink(title, subject, direct_url)">
           </a> -->
            <div align="left" style="margin-left:15px;">
              <h5>
