@@ -3,7 +3,7 @@
   <div class="NgKI_">
     <div class="qqm6D" align="left">
       <ul class="YlNGR" style="padding-left:0px; padding-right:0px;">
-        <li class="_-1_m6" style="opacity:1; list-style-type:none;">
+        <li class="_-1_m6" style="opacity:1; list-style-type:none;" v-on:click="trackOutboundLink(title, subject, direct_url)">
           <div v-if="loading" style="width:100%; height:360px; text-align: center;">
             <div style="display: inline-block; margin-top:150px;">
               <beat-loader :loading="loading" :color="'#888888'"></beat-loader>
@@ -71,7 +71,7 @@ export default{
       }
       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
         if(navigator.userAgent.match(/herelux_app_ios/i)){
-          window.webkit.messageHandlers.YOURMETHOD.postMessage(url.trim());
+          window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
         }
         else{
           window.open(url, '_blank');
