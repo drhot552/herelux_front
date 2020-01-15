@@ -11,6 +11,8 @@
                   <img class="lazy-img-fadein" v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
                   <h6> <br /> <b>{{item.name}}</b> </h6>
+                  <h6> <b>{{item.price}}</b> </h6>
+
                 </a>
               </div>
             </article>
