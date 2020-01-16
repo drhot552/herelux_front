@@ -14,8 +14,8 @@
             <div v-lazy:background-image="img_url"></div>
           </div>
           <h1></h1>
-          <div style="border-bottom: 1px solid rgba(136, 136, 136, 0.3);">
-            <div v-if="type=='event'" align="left" style="margin-left:15px; margin-bottom:7px;">
+          <div v-if="type=='event'" style="border-bottom: 1px solid rgba(136, 136, 136, 0.3);">
+            <div  align="left" style="margin-left:15px; margin-bottom:7px;">
               지금 보러가기 >
             </div>
           </div>
