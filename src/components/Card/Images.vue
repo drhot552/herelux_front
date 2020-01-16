@@ -14,7 +14,7 @@
             <div v-lazy:background-image="img_url"></div>
           </div>
           <h1></h1>
-          <div style="border-bottom: 1px solid rgba(136, 136, 136, 0.3);">
+          <div v-if="type=='event'" style="border-bottom: 1px solid rgba(136, 136, 136, 0.3);">
           </div>
           <!--<a v-on:click="trackOutboundLink(title, subject, direct_url)">
           </a> -->
