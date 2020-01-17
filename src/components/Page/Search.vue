@@ -51,6 +51,7 @@ export default{
     //검색에 관련된 전역변수 초기화
     //word
     this.word = this.$route.params.word;
+    this.$store.commit('SET_SEARCHPRODUCT_INIT');
     if(this.word == "page-"){
       this.$store.state.searchPageType = 0;
       this.$store.state.searchFlag = false;
