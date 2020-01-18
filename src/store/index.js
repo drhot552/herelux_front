@@ -141,6 +141,7 @@ const store = new Vuex.Store({
     SET_SEARCHPRODUCT_INIT(state){
       state.searchList = []
       state.searchList_idx = 0
+      state.searchList_readFlag = false
     },
     SET_BOARDINFO_INIT(state){
       state.boardInfo =[]
@@ -266,7 +267,6 @@ const store = new Vuex.Store({
       });
     },
     FETCH_SEARCHPRODUCTLIST_READMORE({commit, state}, {word}){
-      console.log(word);
       return api.search.product(word, state.searchList_idx).then(data=>{
         if(data.length == 0){
           state.searchList_readFlag = false;
@@ -297,6 +297,7 @@ const store = new Vuex.Store({
           commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
           state.searchList.push(...data);
           state.searchList_readFlag = false;
+
         }
         else{
           commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)

@@ -60,6 +60,7 @@ import { search } from '../../api'
       searchEnter(){
         this.$store.state.wordcatch = new Array();
         this.search = $("#search").val();
+        
         var word = this.search;
         word=word.replace(/ /gi, "");    // 모든 공백을 제거
         //단어 <- code에서 있는지 확인

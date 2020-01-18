@@ -147,8 +147,6 @@
                success: function(res) {
                  //로그인 체크
                  //로그인
-                // console.log(JSON.stringify(authObj.refresh_token));
-                // console.log(JSON.stringify(res.kakao_account));
                  // 로그인 창을 띄웁니다.
                  auth.snslogin(res.kakao_account.email, 'kakao', authObj.refresh_token, authObj.access_token).then(data=>{
                    console.log(data);

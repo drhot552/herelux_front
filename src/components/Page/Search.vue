@@ -158,8 +158,8 @@ export default{
       //하나만 있으면 검색에 포함 x
       if(this.$store.state.wordcatch.length > 0){
         this.$store.state.searchType = 1;
-        this.$store.state.searchList_readFlag = false;
         this.$store.state.searchFlag = true;
+
         this.$store.commit('SET_SEARCHPRODUCT_INIT');
         this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch});
       }
