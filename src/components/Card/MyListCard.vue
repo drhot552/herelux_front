@@ -7,13 +7,12 @@
           <div v-if="this.$store.state.myList.length > 0" class="row" style="margin-bottom: 50px;">
             <article class="div_style" v-for="item in this.$store.state.myList">
               <div class="in">
-                <a style="color:#000000;" v-on:click="detail(item.id)">
+                <div v-ripple style="color:#000000;" v-on:click="detail(item.id)">
                   <img class="lazy-img-fadein" v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
-                  <h6> <br /> <b>{{item.name}}</b> </h6>
+                  <h6> <br /> {{item.name}} </h6>
                   <h6> <b>{{item.price}}</b> </h6>
-
-                </a>
+                </div>
               </div>
             </article>
           </div>
@@ -59,7 +58,10 @@ export default{
     detail(id){
       this.$store.state.productDetail_name = 'mylist'
       this.returnPath = this.returnPath +'/' + id + '/' + 'mylist'
-      this.$router.push(this.returnPath)
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      },300)
+
     }
   }
 }

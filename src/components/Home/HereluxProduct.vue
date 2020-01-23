@@ -7,9 +7,9 @@
       <h5 style="font-weight: 400; font-size: 1em;">
         현재 모든 쇼핑몰의 {{this.productcnt}} 개의 상품과 <br />{{this.brandcnt}} 개의 브랜드관이 전시되는 중입니다.
       </h5>
-      <a v-on:click="pageMove('/allproduct/home')" style="color:black; font-weight:700;">
+      <div v-ripple v-on:click="pageMove('/allproduct/home')" style="color:black; font-weight:700;">
         전체 상품 보러가기 >
-      </a>
+      </div>
     </div>
     <div style="margin-top:20px;">
       <div v-if="loading" style="width:100%; height:360px; text-align: center;">
@@ -19,7 +19,7 @@
       </div>
       <div v-else class="owl-carousel owl-theme">
         <div style="display: block; margin: 0px auto; width:90%;" v-for="item in image">
-          <a v-on:click="productClick(item.id)">
+          <div v-ripple v-on:click="productClick(item.id)">
             <div>
               <img class="lazy-img-fadein" v-lazy="item.url"/>
             </div>
@@ -31,7 +31,7 @@
                 {{item.price}}
               </h6>
             </div>
-          </a>
+          </div>
         </div>
 
       </div>
@@ -93,7 +93,10 @@ export default {
     productClick(id){
       this.$store.state.productDetail_name = 'home'
       this.returnPath = this.returnPath +'/' + id + '/home'
-      this.$router.push(this.returnPath)
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      }, 300);
+
     },
     pageMove(page){
       this.returnPath = this.$route.query.returnPath || page

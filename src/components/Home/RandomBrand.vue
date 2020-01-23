@@ -21,7 +21,7 @@
      </div>
      <div v-else class="owl-carousel owl-theme">
          <div style="display: block; margin: 0px auto; width:90%;" v-for="itembrand in brandrandom">
-           <a v-on:click="productClick(itembrand.id)">
+           <div v-ripple v-on:click="productClick(itembrand.id)">
              <div>
                <img class="lazy-img-fadein" v-lazy="itembrand.url"/>
              </div>
@@ -33,8 +33,7 @@
                  {{itembrand.price}}
                </h6>
              </div>
-           </a>
-
+           </div>
          </div>
        </div>
        <div class="author" align="left" style="padding:5px;" v-for="item in brandcard_Two">
@@ -52,7 +51,7 @@
        </div>
        <div v-else class="owl-carousel owl-theme">
            <div style="display: block; margin: 0px auto; width:90%;" v-for="itembrand in brandrandom_Two">
-             <a v-on:click="productClick(itembrand.id)">
+             <div v-ripple v-on:click="productClick(itembrand.id)">
                <div>
                  <img class="lazy-img-fadein" v-lazy="itembrand.url"/>
                </div>
@@ -64,7 +63,7 @@
                    {{itembrand.price}}
                  </h6>
                </div>
-             </a>
+             </div>
 
            </div>
          </div>
@@ -154,11 +153,15 @@ export default{
     productClick(id){
       this.$store.state.productDetail_name = 'home'
       this.returnPath = this.returnPath +'/' + id + '/home'
-      this.$router.push(this.returnPath)
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      }, 300);
     },
     brandClick(id){
       this.returnPath = this.$route.query.returnPath || '/brand/' + id
-      this.$router.push(this.returnPath)
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      }, 300);
     }
   }
 }

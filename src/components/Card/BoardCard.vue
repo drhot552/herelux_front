@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="container" style="margin-bottom:80px">
-          <div class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
+          <div v-ripple class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
                 v-for="(item,i) in this.$store.state.board">
             <div style="width:100%;" v-on:click="onClick(item.board_idx)">
               <div class="div_board_1" style="margin-left:10px; margin-right:10px;">
@@ -76,7 +76,10 @@ export default {
 
     },
     onClick(board_idx){
-      this.$router.push(this.$route.query.returnPath || '/boarddetail/'+board_idx+ '/board');
+      setTimeout(() => {
+        this.$router.push(this.$route.query.returnPath || '/boarddetail/'+board_idx+ '/board');
+      },300)
+
     }
   }
 

@@ -53,8 +53,8 @@
     </div>
     <!-- -->
     <ul v-for="(item,i) in detailbrand" class="brand ul_style">
-      <li class="li_style" style="height: 60px;">
-        <a v-on:click="detailClick(item.url)" >
+      <li v-ripple class="li_style" style="height: 60px;" v-on:click="detailClick(item.url)" >
+        <div>
           <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised lazy-img-fadein" style="float:left;">
           <span class="span_style">
             >
@@ -65,7 +65,7 @@
           <span v-if="i ==0" class="span_style_1">
             * 이미지출처
           </span>
-        </a>
+        </div>
       </li>
     </ul>
     <div style="height:50px; text-align:left;">
@@ -160,26 +160,27 @@ export default {
        }, 500)
      },
      detailClick(url){
-
-       if(navigator.userAgent.match(/Android|Tablet/i)){
-         if(navigator.userAgent.match(/herelux_app_and/i)){
-           window.android.bridge(url);
+       setTimeout(() => {
+         if(navigator.userAgent.match(/Android|Tablet/i)){
+           if(navigator.userAgent.match(/herelux_app_and/i)){
+             window.android.bridge(url);
+           }
+           else{
+             window.open(url, '_blank');
+           }
          }
-         else{
+         else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+           if(navigator.userAgent.match(/herelux_app_ios/i)){
+             window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
+           }
+           else{
+             window.open(url, '_blank');
+           }
+         }
+         else {
            window.open(url, '_blank');
          }
-       }
-       else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-         if(navigator.userAgent.match(/herelux_app_ios/i)){
-           window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
-         }
-         else{
-           window.open(url, '_blank');
-         }
-       }
-       else {
-         window.open(url, '_blank');
-       }
+       }, 300);
      },
      errorAlert(){
        alert("서버와의 통신 에러가 발생하였습니다.");

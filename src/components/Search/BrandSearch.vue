@@ -3,9 +3,9 @@
     <div v-if="this.brand_items.length > 0" class="row" style="margin-top: 20px;">
       <article class="div_style" v-for="item in brand_items">
         <div class="in" v-if="item.sub_descript != null">
-          <a style="color:#000000;" v-on:click="detail(item.minor_key)">
+          <div v-ripple style="color:#000000;" v-on:click="detail(item.minor_key)">
             <img v-lazy="`/public/img/brand/${item.sub_descript}.png`" class="lazy-img-fadein"  style="width: 130px; height: 130px;"alt="..." >
-          </a>
+          </div>
         </div>
       </article>
       <div style="height:20vh;">
@@ -44,7 +44,9 @@ export default{
   },
   methods:{
     detail(productId){
-      this.$router.push(this.$route.query.returnPath || '/brand/' + productId);
+      setTimeout(() => {
+        this.$router.push(this.$route.query.returnPath || '/brand/' + productId);
+      }, 300);
     }
   }
 }

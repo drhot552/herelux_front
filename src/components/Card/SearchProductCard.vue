@@ -3,7 +3,7 @@
         <div class="container">
           <div v-if="this.$store.state.searchList.length > 0" class="row" style="margin-bottom: 50px;">
             <div class="div_style" v-for="item in this.$store.state.searchList">
-              <div class="in" v-on:click="detail(item.id)">
+              <div v-ripple class="in" v-on:click="detail(item.id)">
                 <img class="lazy-img-fadein"  v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
                   <h6> <br /> {{item.name}} </h6>
@@ -58,7 +58,9 @@ export default{
       this.searchWord = $("#search").val();
       this.$store.state.productDetail_name = 'search'
       this.returnPath = this.returnPath +'/' + id + '/' + 'search'
-      this.$router.push(this.returnPath)
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      }, 300);
     },
     onScroll(){
       if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.searchList_readFlag) {

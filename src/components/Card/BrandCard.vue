@@ -3,7 +3,7 @@
         <div class="container">
           <div v-if="this.$store.state.brandList.length > 0" class="row" style="margin-bottom: 50px;">
             <div class="div_style" v-for="item in this.$store.state.brandList">
-              <div class="in" v-on:click="detail(item.id)">
+              <div v-ripple class="in" v-on:click="detail(item.id)">
                 <img class="lazy-img-fadein"  v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
                   <h6> <br /> <b>{{item.name}}</b> </h6>
@@ -52,7 +52,10 @@ export default{
     detail(id){
       this.$store.state.productDetail_name = 'brand'
       this.returnPath = this.returnPath +'/' + id + '/' + 'brand' + '_' +this.brandId
-      this.$router.push(this.returnPath)
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      },300)
+
     }
   }
 }

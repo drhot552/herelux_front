@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="container">
-          <div class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.categoryProduct" v-on:click="onClick(item.id)">
+          <div v-ripple class="row" style="margin-bottom: 50px;" v-for="(item,i) in this.$store.state.categoryProduct" v-on:click="onClick(item.id)">
             <div class="div_category_1" style="margin-left:10px;">
               <!--순위대로 색을 다르게 check-->
                 <div class="layer">
@@ -50,7 +50,9 @@ export default {
     onClick(id){
       this.$store.state.productDetail_name = 'home'
       this.returnPath = this.returnPath +'/' + id + '/home'
-      this.$router.push(this.returnPath)
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      }, 300);
     }
   }
 

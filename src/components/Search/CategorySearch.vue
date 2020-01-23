@@ -3,10 +3,10 @@
       <div v-if="this.category.length > 0" class="row" style="margin-top: 20px; margin-bottom:60px;">
         <article class="div_style" v-for="item in category">
           <div class="in">
-            <a style="color:#000000;" v-on:click="detail(item.descript)">
+            <div v-ripple style="color:#000000;" v-on:click="detail(item.descript)">
               <img v-lazy="item.url" class="lazy-img-fadein"  style="width: 100px; height: 100px;" alt="..." />
               <h6 style="font-weight:700; margin-top:10px;">{{item.descript}}</h6>
-            </a>
+            </div>
           </div>
         </article>
       </div>
