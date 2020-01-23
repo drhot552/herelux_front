@@ -54,6 +54,7 @@ export default{
     search(searchWord){
       this.$store.state.wordcatch = new Array();
       var word = searchWord;
+      this.$store.state.searchWord = word
       $("#search").val(searchWord);
       //단어 <- code에서 있는지 확인
       //샤넬 남성가방 <-

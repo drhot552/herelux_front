@@ -18,7 +18,7 @@
       </div>
       <div v-else class="owl-carousel owl-theme">
         <div style="display: block; margin: 0px auto; width:90%;" v-for="item in newproduct">
-          <a v-on:click="productClick(item.id)">
+          <div v-on:click="productClick(item.id)">
             <div>
               <img class="lazy-img-fadein" v-lazy="item.url"/>
             </div>
@@ -30,7 +30,7 @@
                 {{item.price}}
               </h6>
             </div>
-          </a>
+          </div>
         </div>
         <div>
 

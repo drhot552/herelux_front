@@ -49,8 +49,13 @@ export default{
   created(){
 
     //검색에 관련된 전역변수 초기화
-    //word
-    this.word = this.$route.params.word;
+    //기억된 단어가 있을경우에는 word
+    if(this.$store.state.searchWord != ''){
+      this.word = "page-" + this.$store.state.searchWord
+    } else {
+      this.word = "page-";
+    }
+
     this.$store.commit('SET_SEARCHPRODUCT_INIT');
     if(this.word == "page-"){
       this.$store.state.searchPageType = 0;

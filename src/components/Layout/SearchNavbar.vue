@@ -53,6 +53,7 @@ import { search } from '../../api'
           this.$store.commit('SET_SEARCHPRODUCT_INIT');
           this.$store.state.searchFlag = false;
           $("#search").val("");
+          this.$store.state.searchWord = '';
         } else {
           this.$router.push(this.$route.query.returnPath || '/');
         }
@@ -60,7 +61,8 @@ import { search } from '../../api'
       searchEnter(){
         this.$store.state.wordcatch = new Array();
         this.search = $("#search").val();
-        
+        this.$store.state.searchWord = this.search; // 검색어 임시저장
+
         var word = this.search;
         word=word.replace(/ /gi, "");    // 모든 공백을 제거
         //단어 <- code에서 있는지 확인

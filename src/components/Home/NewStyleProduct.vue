@@ -81,6 +81,7 @@ export default {
        })
      },
      fetch(){
+       //카테고리별 상품 초기화..
        this.$store.commit('SET_CATEGORYPRODUCT_INIT');
        home.categoryfetch(this.category_id).then(data=>{
          this.$store.state.categoryProduct = data;

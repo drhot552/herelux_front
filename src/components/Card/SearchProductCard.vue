@@ -44,18 +44,20 @@ export default{
   data(){
     return{
       returnPath : '',
-      brandId : 0
+      brandId : 0,
+      searchWord : ''
     }
   },
   methods:{
     readMore(){
-      let searchWord = $("#search").val();
+      this.searchWord = $("#search").val();
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:searchWord});
+      this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.searchWord});
     },
     detail(id){
+      this.searchWord = $("#search").val();
       this.$store.state.productDetail_name = 'search'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'search_page-'
+      this.returnPath = this.returnPath +'/' + id + '/' + 'search'
       this.$router.push(this.returnPath)
     },
     onScroll(){

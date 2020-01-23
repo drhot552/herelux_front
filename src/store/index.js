@@ -67,6 +67,7 @@ const store = new Vuex.Store({
     searchType : 0,
     searchPageType : 0,
     wordcatch : Object,
+    searchWord : '', /* 검색어 저장 설정 */
     /* Loading */
     isLoading : false,
     /* Datacheck */
@@ -137,6 +138,7 @@ const store = new Vuex.Store({
       state.brandList_category = 0
       state.myList_category = 0
       state.rankTabStatus = 0
+      state.searchWord = ''
     },
     SET_SEARCHPRODUCT_INIT(state){
       state.searchList = []

@@ -39,7 +39,8 @@ export default{
   },
   methods:{
     detail(searchWord){
-      this.$router.push(this.$route.query.returnPath || '/search/page-' + searchWord);
+      this.$store.state.searchWord = searchWord;
+      this.$router.push(this.$route.query.returnPath || '/search');
     }
   }
 }
