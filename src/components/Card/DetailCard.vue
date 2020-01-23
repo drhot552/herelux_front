@@ -35,6 +35,7 @@
        <h6>크기 : {{size}}</h6>
        <h6>색상 : {{color}}</h6>
        <h6>모델/상품번호 : {{sub_name}}</h6>
+       <h6>상품 등록일 : {{reg_dttm}}</h6>
        <h5 style="margin-bottom: 15px;">가격 : {{price}}</h5>
      </div>
      <div align="left" style="margin-left:15px; margin-right:15px;">
@@ -93,7 +94,8 @@ export default {
       price: String,
       star : Number,
       count : Number,
-      sub_name : String
+      sub_name : String,
+      reg_dttm : String
     },
     components:{
       Carousel,

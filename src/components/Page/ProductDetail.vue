@@ -13,7 +13,8 @@
                     v-bind:price="this.product[0].price"
                     v-bind:star="this.product[0].star"
                     v-bind:count="this.product[0].count"
-                    v-bind:sub_name="this.product[0].sub_name">
+                    v-bind:sub_name="this.product[0].sub_name"
+                    v-bind:reg_dttm="this.product[0].reg_dttm">
                   </DetailCard>
                   <br/>
                   <br/>
