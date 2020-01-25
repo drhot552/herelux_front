@@ -4,9 +4,9 @@
       <h4 style="margin-top: 0px; margin-bottom: 10px; font-weight: 700; font-size: 1.8em;">
         현재 HERELUX에서 <br />가장 인기있는 스타일!
       </h4>
-      <a href="/ranking" style="color:black; font-weight:700;">
+      <div v-on:click="pageMove('/ranking')" style="color:black; font-weight:700;">
         전체 랭킹 보러가기 >
-      </a>
+      </div>
     </div>
     <div style="margin-top:20px;">
     </div>
@@ -87,6 +87,10 @@ export default {
        }).catch(error=>{
 
        })
+     },
+     pageMove(page){
+       this.returnPath = this.$route.query.returnPath || page
+       this.$router.push(this.returnPath)
      }
   }
 }

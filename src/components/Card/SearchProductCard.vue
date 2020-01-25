@@ -6,7 +6,7 @@
               <div v-ripple class="in" v-on:click="detail(item.id)">
                 <img class="lazy-img-fadein"  v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
-                  <h6> <br /> {{item.name}} </h6>
+                  <h6 class="product_name"> <br /> {{item.name}} </h6>
                   <h6> <b>{{item.price}}</b> </h6>
               </div>
             </div>
@@ -92,5 +92,12 @@ export default{
     animation-fill-mode: both;
     -webkit-animation-name: fadeIn;
     animation-name: fadeIn;
+}
+.product_name {
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

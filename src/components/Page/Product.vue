@@ -77,7 +77,6 @@ export default {
       }).catch(error =>{
         console.log("error",error);
         //alert 후 페이지 이동
-        alert("서버와의 통신 에러가 발생하였습니다.");
         this.$router.push(this.$route.query.returnPath || '/error');
       });
     }

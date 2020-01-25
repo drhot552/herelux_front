@@ -26,7 +26,6 @@ const request = (method, url, data, setting) =>{
   }).then(result => result.data)
     .catch(result => {
       //error 시 팝업 생성
-      alert("서버와의 통신 에러가 발생하였습니다!");
       router.push('/error');
       if(status == UNAUTHORIZED) return onUnauthorized();
 
