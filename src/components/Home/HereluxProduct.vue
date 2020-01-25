@@ -24,7 +24,7 @@
               <img class="lazy-img-fadein" v-lazy="item.url"/>
             </div>
             <div style="text-align:center;">
-              <h6 class="product_name" style="margin-top:10px;">
+              <h6 class="home_product_name" style="margin-top:10px;">
                 {{item.name}}
               </h6>
               <h6 style="font-weight:700;">
@@ -114,7 +114,7 @@ export default {
     -webkit-animation-name: fadeIn;
     animation-name: fadeIn;
 }
-.product_name {
+.home_product_name {
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;

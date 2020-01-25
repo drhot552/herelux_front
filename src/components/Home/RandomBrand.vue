@@ -26,7 +26,7 @@
                <img class="lazy-img-fadein" v-lazy="itembrand.url"/>
              </div>
              <div style="text-align:center;">
-               <h6 class="product_name" style="margin-top:10px;">
+               <h6 class="home_product_name" style="margin-top:10px;">
                  {{itembrand.name}}
                </h6>
                <h6 style="font-weight:700;">
@@ -56,7 +56,7 @@
                  <img class="lazy-img-fadein" v-lazy="itembrand.url"/>
                </div>
                <div style="text-align:center;">
-                 <h6 class="product_name" style="margin-top:10px;">
+                 <h6 class="home_product_name" style="margin-top:10px;">
                    {{itembrand.name}}
                  </h6>
                  <h6 style="font-weight:700;">
@@ -167,7 +167,7 @@ export default{
 }
 </script>
 <style>
-.product_name {
+.home_product_name {
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;
