@@ -39,7 +39,6 @@ export default{
     }).catch(error =>{
       console.log("error",error);
       //alert 후 페이지 이동
-      this.errorAlert();
     });
   },
   methods:{

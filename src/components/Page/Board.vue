@@ -65,7 +65,6 @@ export default{
      }
      this.$store.commit('ISLOADING', false);
    }).catch(error =>{
-     console.log("error",error);
      //alert 후 페이지 이동
      this.errorAlert();
    });
@@ -186,7 +185,6 @@ export default{
       this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.boardtype});
     },
     errorAlert(){
-      alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
     },
     onScroll () {

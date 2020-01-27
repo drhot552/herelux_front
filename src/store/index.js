@@ -188,8 +188,6 @@ const store = new Vuex.Store({
 
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     },
@@ -210,8 +208,6 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     },
@@ -240,8 +236,6 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     },
@@ -263,8 +257,6 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     },
@@ -285,8 +277,6 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     },
@@ -308,8 +298,6 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     },
@@ -339,8 +327,6 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     },
@@ -386,8 +372,6 @@ const store = new Vuex.Store({
         }
           commit('ISLOADING', false);
       }).catch(error =>{
-        console.log("error",error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
         router.push('/error');
       });
     }

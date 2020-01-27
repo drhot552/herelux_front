@@ -84,7 +84,6 @@ export default{
     }).catch(error =>{
       console.log("error",error);
       //alert 후 페이지 이동
-      this.errorAlert();
     });
     this.$store.commit('ISLOADING', true);
     code.forum(2).then(data=>{
@@ -98,7 +97,6 @@ export default{
     }).catch(error =>{
       console.log("error",error);
       //alert 후 페이지 이동
-      this.errorAlert();
     });
   },
   methods:{

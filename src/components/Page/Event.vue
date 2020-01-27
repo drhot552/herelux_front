@@ -82,7 +82,6 @@ import BackToTop from 'vue-backtotop'
        document.head.appendChild(recaptchaScript);
      }).catch(error =>{
        console.log(error)
-       this.errorAlert();
      });
 
      //cauly

@@ -455,7 +455,6 @@ export default{
       this.commentdownFlag = false;
     },
     errorAlert(){
-      alert("서버와의 통신 에러가 발생하였습니다.");
       this.$router.push(this.$route.query.returnPath || '/error');
     }
   }
