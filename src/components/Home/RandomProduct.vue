@@ -17,7 +17,7 @@
         </div>
       </div>
       <div v-else class="owl-carousel owl-theme">
-        <div style="display: block; margin: 0px auto; width:90%;" v-for="item in newproduct">
+        <div style="margin: 0px auto; width:90%;" v-for="item in newproduct">
           <div v-ripple v-on:click="productClick(item.id)">
             <div>
               <img class="lazy-img-fadein" v-lazy="item.url"/>
@@ -79,8 +79,10 @@ export default {
   },
   methods:{
     productClick(id){
+
       this.$store.state.productDetail_name = 'home'
       this.returnPath = this.returnPath +'/' + id + '/home'
+      console.log("check" + this.returnPath);
       setTimeout(() => {
         this.$router.push(this.returnPath)
       }, 300);
