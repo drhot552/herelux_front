@@ -180,7 +180,7 @@ export default {
          else {
            window.open(url, '_blank');
          }
-       }, 300);
+       }, 200);
      },
      errorAlert(){
        alert("서버와의 통신 에러가 발생하였습니다.");
