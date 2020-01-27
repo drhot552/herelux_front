@@ -142,6 +142,8 @@ export default{
       //코드 <- 단어에서 있는지 확인
       if(word.length > 0){
         for(var j=0; j<this.code.length; j++){
+          var descript = this.code[j].descript;
+          descript = descript.replace(/ /gi, "");
           if(this.code[j].descript.indexOf(word) != -1){
             var codeObj = new Object();
             if(this.code[j].major_key == 1 || this.code[j].major_key == 7778){

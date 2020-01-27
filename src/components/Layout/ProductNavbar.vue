@@ -54,6 +54,7 @@ nav {
 }
 .board_style{
   color: rgb(136, 136, 136);
+  width: 100%;
 }
 
 .board_style_middle{
