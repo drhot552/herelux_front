@@ -332,11 +332,9 @@ const store = new Vuex.Store({
     },
     SELECT_BOARD_INFO_ALERT({commit, state}, {userid}){
       return api.info.board(userid).then(data=>{
-        console.log("SELECT_BOARD_INFO_ALERT", userid)
         if(data.length > 0){
           state.boardInfo.push(...data);
           state.boardFlag = true;
-          console.log(state.boardInfo);
         } else {
           state.boardFlag = false;
         }
@@ -353,9 +351,7 @@ const store = new Vuex.Store({
       else {
         key = category;
       }
-      console.log("ALLPRODCT",state.productList_idx, category_type, key);
       return api.product.allproduct(state.productList_idx, category_type, key).then(data=>{
-        console.log("ALLPRODCT",state.productList_idx, category_type, key);
         if(data.length == 0){
           state.productList_readFlag = false;
         }
