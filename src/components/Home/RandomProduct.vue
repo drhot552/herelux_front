@@ -57,7 +57,6 @@ export default {
   mounted() {
     home.newproduct().then(data =>{
       this.newproduct = data;
-      console.log(this.newproduct.length);
       this.loading=true
       setTimeout(() => {
         this.loading=false

@@ -55,7 +55,6 @@ export default{
     } else {
       this.word = "page-";
     }
-
     this.$store.commit('SET_SEARCHPRODUCT_INIT');
     if(this.word == "page-"){
       this.$store.state.searchPageType = 0;
@@ -112,11 +111,16 @@ export default{
     searchWord(searchWord){
       this.$store.state.wordcatch = new Array();
       var word = searchWord;
-      $("#search").val(searchWord);
       //단어 <- code에서 있는지 확인
       //샤넬 남성가방 <-
+      word=word.replace(/ /gi, "");    // 모든 공백을 제거
+
       for(var i=0; i<this.code.length; i++){
-          var re = new RegExp(this.code[i].descript);
+          var descript = this.code[i].descript;
+          descript = descript.replace(/ /gi, "");
+
+          var re = new RegExp(descript);
+
           if(word.indexOf(this.code[i].descript) != -1){
 
             var wordObj = new Object();
