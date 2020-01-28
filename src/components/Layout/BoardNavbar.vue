@@ -71,8 +71,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.$store.commit('ISLOADING', true);
 
         board.delete(this.$route.params.board_idx).then(data => {
-          this.$router.push(this.returnPath);
-          this.$store.commit('ISLOADING', false);
+          this.modalShowBoard = false;
+          setTimeout(() => {
+            this.$store.commit('ISLOADING', false);
+            this.$router.push(this.returnPath);
+          }, 300);
         }).catch(error =>{
           console.log("error",error);
           //alert 후 페이지 이동
