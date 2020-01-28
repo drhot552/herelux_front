@@ -241,7 +241,6 @@ export default{
     board.select(this.board_idx,this.$store.state.boardtype).then(data => {
       if(data.length > 0 ){
         var url = data[0].descript.match(/(http(s)?:\/\/|www.)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}([\/a-z0-9-%#?&=\w])+(\.[a-z0-9]{2,4}(\?[\/a-z0-9-%#?&=\w]+)*)*/gi);
-        console.log(url);
         this.boardDetail = data;
         this.writer = this.boardDetail[0].userid;
         if(url != null){
@@ -338,7 +337,6 @@ export default{
       //modalFlag == 4 대댓글 삭제
       else if(this.modalFlag == 4){
         comment.commentDownDelete(this.commentdown_idx).then(data=>{
-          console.log("commentdowndelete" ,this.commentdown_idx);
           this.commentDownSelect(); //대댓글조회
           this.commentSelect();
           this.$store.commit('ISLOADING', false);
@@ -381,7 +379,6 @@ export default{
 
       comment.commentDownSelect(this.board_idx).then(data =>{
         if(data.length > 0){
-          console.log(data[0].comment_idx);
           this.commentdownArry = data;
 
           //댓글리스트에 내 아이디가 있는지 체크 && 글 작성자가 아닌지 체크 -> 없으면 랜덤으로 아이디 부여

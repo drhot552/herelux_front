@@ -1,6 +1,6 @@
 <template>
   <div class="section" style="padding:52px 0;">
-    <div class="container">
+    <div class="container" style="padding-right:0px; padding-left:0px;">
         <tabs slot="raw-content">
               <tab-pane >
                   <template slot="label">

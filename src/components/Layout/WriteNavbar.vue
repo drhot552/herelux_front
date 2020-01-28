@@ -11,7 +11,7 @@
           <i v-if="this.$store.state.writeBoard_name != ''" class="now-ui-icons arrows-1_minimal-down" style="font-size:10px;"></i>
         </div>
         <div class="write_style" style="text-align:right;">
-           <a style="color:#888; font-size:1.2em;" v-on:click="checklist()"> 등록 </a>
+           <div style="color:#888; font-size:1.2em;" v-on:click="checklist()"> 등록 </div>
         </div>
 
       </div>
@@ -241,9 +241,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let settings = { headers: { 'content-type': 'multipart/form-data' } }
           axios.post( WRITEDOMAIN + '/board/write', this.$store.state.formData, settings)
            .then(data => {
-            this.$store.commit('ISLOADING', false);
             this.modalShowWrite = false;
-            this.$router.push(this.returnPath);
+
+            setTimeout(() => {
+              this.$store.commit('ISLOADING', false);
+              this.$router.push(this.returnPath);
+            }, 300);
 
            }).catch(response => {
             console.log("error",response)
