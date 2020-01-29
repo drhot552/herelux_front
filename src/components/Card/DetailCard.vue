@@ -53,7 +53,7 @@
     </div>
     <!-- -->
     <ul v-for="(item,i) in detailbrand" class="brand ul_style">
-      <li v-ripple class="li_style" style="height: 60px; position: relative;" v-on:click="detailClick(item.url)" >
+      <li v-ripple class="li_style" style="height: 60px;" v-on:click="detailClick(item.url)" >
         <div>
           <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised lazy-img-fadein" style="float:left;">
           <span class="span_style">
@@ -70,7 +70,7 @@
           </span>
         </div>
       </li>
-      <div v-if="item.stock=='N'" style="height: 60px; width:100%; top:-60px; position: relative; background-color:rgba(0,0,0,0.1)">
+      <div v-if="item.stock=='N'" style="height: 60px; width:100%; top:-60px; position: relative; background-color:rgba(0,0,0,0.1);">
 
       </div>
     </ul>
@@ -84,7 +84,7 @@
     </div>
    </div>
  </div>
- <notifications group="alert" position="top center" style="padding-top: 45vh;"/>
+ <notifications group="alert" position="top center" style="padding-top: 40vh;"/>
 </div>
 </template>
 <script>
@@ -168,6 +168,7 @@ export default {
        }, 500)
      },
      detailClick(url){
+       console.log(url);
        setTimeout(() => {
          if(navigator.userAgent.match(/Android|Tablet/i)){
            if(navigator.userAgent.match(/herelux_app_and/i)){
