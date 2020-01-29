@@ -53,13 +53,16 @@
     </div>
     <!-- -->
     <ul v-for="(item,i) in detailbrand" class="brand ul_style">
-      <li v-ripple class="li_style" style="height: 60px;" v-on:click="detailClick(item.url)" >
+      <li v-ripple class="li_style" style="height: 60px; position: relative;" v-on:click="detailClick(item.url)" >
         <div>
           <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised lazy-img-fadein" style="float:left;">
           <span class="span_style">
             >
           </span>
-          <span class="span_style">
+          <span v-if="item.stock=='Y'" class="span_style">
+            {{item.price}} {{item.price_symbol}}
+          </span>
+          <span v-else class="span_style" style="color:#808080;">
             {{item.price}} {{item.price_symbol}}
           </span>
           <span v-if="i ==0" class="span_style_1">
@@ -67,9 +70,14 @@
           </span>
         </div>
       </li>
+      <div v-if="item.stock=='N'" style="height: 60px; width:100%; top:-60px; position: relative; background-color:rgba(0,0,0,0.1)">
+
+      </div>
     </ul>
     <div style="height:50px; text-align:left;">
       <span style="float: left; margin-left: 15px; margin-right: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 가격과 사이트 주소는 판매 사이트의 사정으로 변동이 생길 수 있습니다.</span>
+      <br />
+      <span style="float: left; margin-left: 15px; margin-right: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 음영 처리된 상품은 일시 품절 상품입니다.</span>
     </div>
     <div style="height:50px;">
 
@@ -201,6 +209,9 @@ export default {
            alert('Can not copy')
            console.log(e)
          })
+      },
+      stockalert(){
+
       }
    }
 
@@ -224,7 +235,8 @@ export default {
     list-style: none;
     padding: 0;
     max-width: 100%;
-    margin: 10px auto;
+    margin: 0;
+    height: 60px;
 }
 .li_style{
   color: #888;
