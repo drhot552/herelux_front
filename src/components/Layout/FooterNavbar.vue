@@ -1,5 +1,5 @@
 <template>
-  <footer class="navbar bg-white fixed-bottom" :class="{'button-fixed-bottom': this.flag}" style = "z-index:1010; text-align: center;">
+  <footer class="navbar bg-white fixed-bottom" :class="{'button-fixed-bottom': this.flag}" style = "z-index:5003; text-align: center;">
     <div class="div_style_1" v-if="pageName ==='Home'" v-on:click="footerClick('/')">
      <img src="/public/img/bottom_home_select.png" style="height:20px;"/>
    </div>

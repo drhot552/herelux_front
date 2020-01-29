@@ -40,12 +40,12 @@
     },
     methods:{
       onClick(){
-        this.$router.go(-1);
-        //this.$router.push("/"+this.pageMove);
+        //this.$router.go(-1);
+        this.$router.push("/"+this.pageMove);
       },
       beforePage(path){
-        this.$router.go(-1);
-        //this.$router.push(this.$route.query.returnPath || path);
+        //this.$router.go(-1);
+        this.$router.push(this.$route.query.returnPath || path);
       }
     }
   }
