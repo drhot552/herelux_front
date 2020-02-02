@@ -68,9 +68,22 @@ export const product = {
   productcnt(userid, product_id){
     return request('get', '/product/productcnt/' + userid + '/' + product_id);
   },
-  //상품 카운트
+  //모든상품 리스트
   allproduct(page, category , major_key){
     return request('get', '/product/allproduct/' + page + '/' + category + '/' + major_key);
+  },
+  productout(brand){
+    return request('get', '/product/samebrand/' + brand);
+  },
+  productout(id,user,url,shoppingmall,descript){
+    return request('post', '/product/productout', {id,user,url,shoppingmall,descript})
+  },
+  //상품품절신고
+  samebrand(brand){
+    return request('get', '/product/samebrand/' + brand);
+  },
+  samecategory(category, category_type){
+    return request('get', '/product/samecategory/' + category + '/' + category_type);
   }
 }
 export const event = {

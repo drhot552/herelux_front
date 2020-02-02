@@ -79,7 +79,6 @@ export default {
   },
   methods:{
     productClick(id){
-
       this.$store.state.productDetail_name = 'home'
       this.returnPath = this.returnPath +'/' + id + '/home'
       console.log("check" + this.returnPath);

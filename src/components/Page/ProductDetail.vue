@@ -7,6 +7,9 @@
                 <div v-if="productflag">
                   <DetailCard type="blog" plain v-if="this.product.length > 0"
                     v-bind:id="this.product[0].id"
+                    v-bind:brand="this.product[0].brand_name"
+                    v-bind:category_large="this.product[0].category_large"
+                    v-bind:category_middle="this.product[0].category_middle"
                     v-bind:name="this.product[0].name"
                     v-bind:size="this.product[0].size"
                     v-bind:color="this.product[0].color"
@@ -48,6 +51,16 @@ export default {
       productflag : true,
       productId : 0
     }
+  },
+  watch: {
+      '$route' (to, from) {
+
+        if(to.path !== from.path ) {
+          this.product = []
+          this.productId = to.params.id;
+          this.listProduct();
+        }
+      }
   },
   created(){
     this.productId = this.$route.params.id;

@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar bg-white fixed-top">
+    <nav class="navbar bg-white fixed-top" style="z-index:5003;">
       <div class="container" style="padding-right:0px; padding-left:0px;">
         <div v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="beforePage('/mylist/0')" style="text-align:left;">
             이전
