@@ -209,7 +209,8 @@ export default {
       Images,
       Cauly,
       Collapse,
-      CollapseItem
+      CollapseItem,
+      Modal
     },
     created(){
       this.avg = this.star / this.count;
@@ -279,7 +280,6 @@ export default {
        }, 500)
      },
      detailClick(url){
-       console.log(url);
        setTimeout(() => {
          if(navigator.userAgent.match(/Android|Tablet/i)){
            if(navigator.userAgent.match(/herelux_app_and/i)){
@@ -326,8 +326,7 @@ export default {
         this.productId = id
         this.url = url
         this.shopping_mall = shopping_mall
-
-        if(this.userId != ''){
+        if(this.userId){
           product.productout(this.productId, this.userId, this.url, this.shopping_mall, "품절").then(data =>{
             if(data == 300){
               this.$notify({
@@ -350,7 +349,7 @@ export default {
         } else {
           //로그인 유도
           this.title = "로그인 확인"
-          this.descript = "로그인 되어있지 않습니다. 로그인 하시겠습니까?"
+          this.descript = "로그인 후 신고가능합니다. 로그인 하시겠습니까?"
           this.modalShow = true;
         }
       },
