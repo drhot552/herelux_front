@@ -346,7 +346,11 @@ export default{
         });
       }
       else {
-        this.$router.push(this.$route.query.returnPath || '/login');
+        this.modalShowComment = false;
+        setTimeout(() => {
+          this.$store.commit('ISLOADING', false);
+          this.$router.push(this.$route.query.returnPath || '/login');
+        }, 300);
       }
 
     },
@@ -423,9 +427,16 @@ export default{
           alert("댓글을 입력하세요.");
       }
       else{
-        this.title = "대댓글등록";
-        this.descript ="대댓글을 등록하시겠습니까?";
-        this.modalShowComment = true;
+        if(this.userid == null){
+          this.modalShowComment =true;
+          this.title = "로그인"
+          this.descript = "로그인이 되어있지 않습니다. 로그인을 하시겠습니까?"
+          this.modalFlag = 5
+        } else {
+          this.title = "대댓글등록";
+          this.descript ="대댓글을 등록하시겠습니까?";
+          this.modalShowComment = true;
+        }
       }
     },
     commentDelete(comment_idx){

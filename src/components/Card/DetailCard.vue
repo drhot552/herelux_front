@@ -326,35 +326,47 @@ export default {
         this.productId = id
         this.url = url
         this.shopping_mall = shopping_mall
-        if(this.userId){
-          product.productout(this.productId, this.userId, this.url, this.shopping_mall, "품절").then(data =>{
-            if(data == 300){
-              this.$notify({
-                 group: 'alert',
-                 title: '이미 신고하셨습니다.',
-                 duration: 500
-               });
-            } else if(data == 200){
-              this.$notify({
-                 group: 'alert',
-                 title: '품절 신고되었습니다.',
-                 duration: 500
-               });
-            } else {
 
-            }
-          }).catch(error =>{
+        this.title = "신고확인"
+        this.descript = "신고하시겠습니까?"
+        this.modalFlag = 0
+        this.modalShow = true;
 
-          });
-        } else {
-          //로그인 유도
-          this.title = "로그인 확인"
-          this.descript = "로그인 후 신고가능합니다. 로그인 하시겠습니까?"
-          this.modalShow = true;
-        }
       },
       handleOk(){
-        this.$router.push(this.$route.query.returnPath || '/login')
+        if(this.modalFlag == 0){
+          if(this.userId){
+            this.modalShow = false;
+            product.productout(this.productId, this.userId, this.url, this.shopping_mall, "품절").then(data =>{
+              if(data == 300){
+                this.$notify({
+                   group: 'alert',
+                   title: '이미 신고하셨습니다.',
+                   duration: 500
+                 });
+              } else if(data == 200){
+                this.$notify({
+                   group: 'alert',
+                   title: '품절 신고되었습니다.',
+                   duration: 500
+                 });
+              } else {
+
+              }
+            }).catch(error =>{
+
+            });
+          } else {
+            //로그인 유도
+            this.title = "로그인 확인"
+            this.descript = "로그인 후 신고가능합니다. 로그인 하시겠습니까?"
+            this.modalShow = true;
+          }
+        } else {
+          this.modalShow = false;
+          this.$router.push(this.$route.query.returnPath || '/login')
+        }
+
       },
       onClose(){
         this.modalShow = false;
