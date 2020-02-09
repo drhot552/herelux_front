@@ -35,7 +35,6 @@ export default{
 
   created(){
     this.brandId = this.$route.params.brand_id;
-    this.returnPath = this.$route.query.returnPath || '/detail'
     //this.readMore();
   },
   data(){
@@ -51,7 +50,7 @@ export default{
     },
     detail(id){
       this.$store.state.productDetail_name = 'brand'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'brand' + '_' +this.brandId
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/' + 'brand' + '_' +this.brandId
       setTimeout(() => {
         this.$router.push(this.returnPath)
       },300)

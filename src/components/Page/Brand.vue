@@ -83,31 +83,30 @@ export default{
       brandList_name : ""
     }
   },
+  watch: {
+      '$route' (to, from) {
+        if(to.path !== from.path) {
+          console.log(to.path, from.path);
+          if(from.path.match(/detail/gi)){
+
+          } else if(from.path.match(/brand/gi)){
+
+          } else {
+            this.brandlistActivetab = 0
+            this.tabwidth = 90
+            this.brandId = to.params.brand_id;
+            this.subject ='전체'
+            this.data = 0
+            this.items = []
+            this.brandInit()
+            //this.rankfetch();
+          }
+        }
+      }
+  },
  created(){
-
    this.brandId = this.$route.params.brand_id;
-   this.$store.state.brandId = this.$route.params.brand_id;
-   this.brandlistActivetab = this.$store.state.brandList_category;
-
-   this.$store.commit('ISLOADING', true);
-   this.$store.commit('SET_BRANDLIST_INIT');
-   //전체가져오기
-   code.category(2).then(data=>{
-     if(data.length == 0){
-
-     }
-     else{
-       this.items = data;
-       this.brandName();
-       this.fetch();
-       this.categoryMiddle();
-     }
-     this.$store.commit('ISLOADING', false);
-   }).catch(error =>{
-     console.log("error",error);
-     //alert 후 페이지 이동
-     this.errorAlert();
-   });
+   this.brandInit();
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
@@ -127,6 +126,30 @@ export default{
    }
  },
  methods: {
+  brandInit(){
+    this.$store.state.brandId = this.$route.params.brand_id;
+    this.brandlistActivetab = this.$store.state.brandList_category;
+
+    this.$store.commit('ISLOADING', true);
+    this.$store.commit('SET_BRANDLIST_INIT');
+    //전체가져오기
+    code.category(2).then(data=>{
+      if(data.length == 0){
+
+      }
+      else{
+        this.items = data;
+        this.brandName();
+        this.fetch();
+        this.categoryMiddle();
+      }
+      this.$store.commit('ISLOADING', false);
+    }).catch(error =>{
+      console.log("error",error);
+      //alert 후 페이지 이동
+      this.errorAlert();
+    });
+  },
   startbrandTouch(e) {
    this.initialX = e.touches[0].clientX;
    this.initialY = e.touches[0].clientY;

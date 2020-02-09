@@ -84,7 +84,10 @@ const store = new Vuex.Store({
     productList_idx : 0,
     productList_category : 0,
     productList_category_type : 1,
-    productList_readFlag : false
+    productList_readFlag : false,
+
+    /* page keepAlive */
+    pageKeepAlive : false
   },
   //변수 set
   mutations: {

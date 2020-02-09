@@ -31,7 +31,6 @@
 <script>
 export default{
   created(){
-    this.returnPath = this.$route.query.returnPath || '/detail'
     this.$store.commit('SET_SEARCHPRODUCT_INIT');
     //this.readMore();
   },
@@ -39,6 +38,12 @@ export default{
     document.addEventListener('scroll', this.onScroll);
   },
   beforeDestroy(){
+    document.removeEventListener('scroll', this.onScroll);
+  },
+  activated(){
+    document.addEventListener('scroll', this.onScroll);
+  },
+  deactivated(){
     document.removeEventListener('scroll', this.onScroll);
   },
   data(){
@@ -57,7 +62,7 @@ export default{
     detail(id){
       this.searchWord = $("#search").val();
       this.$store.state.productDetail_name = 'search'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'search'
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/' + 'search'
       setTimeout(() => {
         this.$router.push(this.returnPath)
       }, 300);

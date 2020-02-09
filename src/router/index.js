@@ -156,6 +156,9 @@ const router = new Router({
       props:{
         header:{colorOnScroll:0, pageName:"MyList"},
         footer:{pageName:"MyList"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
     },
     {
@@ -173,7 +176,11 @@ const router = new Router({
       props:{
         header:{colorOnScroll:0, pageName:"Ranking"},
         footer:{pageName:"Rank"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
+
     },
     {
       path:'/board',
@@ -182,6 +189,9 @@ const router = new Router({
       props:{
         header:{colorOnScroll:0, pageName:"Board"},
         footer:{pageName:"Board"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
     },
     {
@@ -207,6 +217,9 @@ const router = new Router({
       components:{default:Search, header:SearchNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Search"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
     },
     {
@@ -241,6 +254,9 @@ const router = new Router({
       components:{default:Brand, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Brand"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
     },
     {
@@ -275,6 +291,9 @@ const router = new Router({
       components:{default:AllProduct, header:ProductNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"AllProduct"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
     }
   ],

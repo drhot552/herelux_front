@@ -91,8 +91,6 @@ export default{
     }
   },
   mounted() {
-
-    this.returnPath = this.$route.query.returnPath || '/detail'
     this.randomIdFirst = this.makeRandom(1,51);
     this.randomIdTwo = this.makeRandom(1,51);
     while( this.randomIdFirst == this.randomIdTwo){
@@ -152,7 +150,7 @@ export default{
     },
     productClick(id){
       this.$store.state.productDetail_name = 'home'
-      this.returnPath = this.returnPath +'/' + id + '/home'
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/home'
       setTimeout(() => {
         this.$router.push(this.returnPath)
       }, 300);

@@ -49,7 +49,7 @@ export default {
   methods:{
     onClick(id){
       this.$store.state.productDetail_name = 'home'
-      this.returnPath = this.returnPath +'/' + id + '/home'
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/home'
       setTimeout(() => {
         this.$router.push(this.returnPath)
       }, 300);

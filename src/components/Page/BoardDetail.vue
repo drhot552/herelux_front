@@ -213,63 +213,77 @@ export default{
       //comment변수 set
     }
   },
+  watch: {
+      '$route' (to, from) {
+
+        if(to.path !== from.path ) {
+          this.boardDetail = []
+          this.comment = []
+          this.commentdownArry = []
+          this.board_idx = to.params.board_idx;
+          this.listBoardDetail();
+        }
+      }
+  },
   created(){
     this.board_idx = this.$route.params.board_idx;
-    this.userid = localStorage.getItem('id');
+    this.listBoardDetail()
+  },
+  methods:{
+    listBoardDetail(){
+      this.userid = localStorage.getItem('id');
 
-    //댓글 상태변수 set
-    this.$store.state.boardCommentFlag = false;
-    //게시판 조회
-    this.$store.commit('ISLOADING', true);
+      //댓글 상태변수 set
+      this.$store.state.boardCommentFlag = false;
+      //게시판 조회
+      this.$store.commit('ISLOADING', true);
 
-    //해당 알림 확인 시
-    if(this.userid != ''){
-      info.boardupdate(this.userid, this.board_idx).then(data=>{
-        if(data == 200){
-          this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
-        } else {
-          alert("데이터베이스 SQL 오류입니다. [BoardDetail]");
+      //해당 알림 확인 시
+      if(this.userid != ''){
+        info.boardupdate(this.userid, this.board_idx).then(data=>{
+          if(data == 200){
+            this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+          } else {
+            alert("데이터베이스 SQL 오류입니다. [BoardDetail]");
+          }
+        }).catch(error =>{
+          console.log("error",error);
+          //alert 후 페이지 이동
+          this.errorAlert();
+        });
+      }
+
+
+      board.select(this.board_idx,this.$store.state.boardtype).then(data => {
+        if(data.length > 0 ){
+          var url = data[0].descript.match(/(http(s)?:\/\/|www.)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}([\/a-z0-9-%#?&=\w])+(\.[a-z0-9]{2,4}(\?[\/a-z0-9-%#?&=\w]+)*)*/gi);
+          this.boardDetail = data;
+          this.writer = this.boardDetail[0].userid;
+          if(url != null){
+            this.boardDetail[0].descript=this.boardDetail[0].descript.replace(url, url.toString().link(url));
+
+          }
+          //this.boardDetail[0].descript += url.toString().link(url);
+
+          //작성자 Id와 같은지 체크 같으면 댓글 시 같은 닉네임을 사용한다.
+          if(this.userid == data[0].userid){
+            this.nickName = data[0].name;
+            this.$store.state.boardCommentFlag = true;
+          }
+          else {
+            this.$store.state.boardCommentFlag = false;
+          }
+
+          this.commentDownSelect();
+          this.commentSelect();
         }
+        this.$store.commit('ISLOADING', false);
       }).catch(error =>{
         console.log("error",error);
         //alert 후 페이지 이동
         this.errorAlert();
       });
-    }
-
-
-    board.select(this.board_idx,this.$store.state.boardtype).then(data => {
-      if(data.length > 0 ){
-        var url = data[0].descript.match(/(http(s)?:\/\/|www.)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}([\/a-z0-9-%#?&=\w])+(\.[a-z0-9]{2,4}(\?[\/a-z0-9-%#?&=\w]+)*)*/gi);
-        this.boardDetail = data;
-        this.writer = this.boardDetail[0].userid;
-        if(url != null){
-          this.boardDetail[0].descript=this.boardDetail[0].descript.replace(url, url.toString().link(url));
-
-        }
-        //this.boardDetail[0].descript += url.toString().link(url);
-
-        //작성자 Id와 같은지 체크 같으면 댓글 시 같은 닉네임을 사용한다.
-        if(this.userid == data[0].userid){
-          this.nickName = data[0].name;
-          this.$store.state.boardCommentFlag = true;
-        }
-        else {
-          this.$store.state.boardCommentFlag = false;
-        }
-
-        this.commentDownSelect();
-        this.commentSelect();
-      }
-      this.$store.commit('ISLOADING', false);
-    }).catch(error =>{
-      console.log("error",error);
-      //alert 후 페이지 이동
-      this.errorAlert();
-    });
-
-  },
-  methods:{
+    },
     urlClick(url){
       //gtag('event','유투브상품클릭',{'event_category':title,'event_label':url});
       if(navigator.userAgent.match(/Android|Tablet/i)){

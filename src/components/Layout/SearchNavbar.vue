@@ -48,6 +48,7 @@ import { search } from '../../api'
     },
     methods:{
       serachBefore(){
+        this.$store.state.pageKeepAlive = false;
         if(this.$store.state.searchFlag){
           //초기화
           this.$store.commit('SET_SEARCHPRODUCT_INIT');
@@ -59,6 +60,7 @@ import { search } from '../../api'
         }
       },
       searchEnter(){
+        this.$store.state.pageKeepAlive = true;
         this.$store.state.wordcatch = new Array();
         this.search = $("#search").val();
         this.$store.state.searchWord = this.search; // 검색어 임시저장

@@ -50,11 +50,11 @@ export default{
   created(){
     this.searchactivetab = this.$store.state.searchPageType;
   },
-  mounted(){
+  activated(){
     document.addEventListener('touchstart', this.startTouch, false);
     document.addEventListener('touchmove', this.moveTouch, false);
   },
-  beforeDestroy () {
+  deactivated () {
     document.removeEventListener('touchstart', this.startTouch, false);
     document.removeEventListener('touchmove', this.moveTouch, false);
   },

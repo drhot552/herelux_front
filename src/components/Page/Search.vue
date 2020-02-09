@@ -39,6 +39,20 @@ export default{
 
     }
   },
+  watch: {
+      '$route' (to, from) {
+        if(to.path !== from.path) {
+          console.log(to.path, from.path);
+          if(from.path.match(/detail/gi)){
+
+          } else if(from.path.match(/search/gi)){
+
+          } else {
+            this.searchCheck();
+          }
+        }
+      }
+  },
   computed: {
    filteredList() {
      return this.brand_items.filter(item => {
@@ -48,58 +62,63 @@ export default{
   },
   created(){
 
-    //검색에 관련된 전역변수 초기화
-    //기억된 단어가 있을경우에는 word
-    if(this.$store.state.searchWord != ''){
-      this.word = "page-" + this.$store.state.searchWord
-    } else {
-      this.word = "page-";
-    }
-    this.$store.commit('SET_SEARCHPRODUCT_INIT');
-    if(this.word == "page-"){
-      this.$store.state.searchPageType = 0;
-      this.$store.state.searchFlag = false;
-    } else {
-      search.code().then(data=>{
-        this.code = data
-        this.word = this.word.replace(/page-/gi,'');
-        $("#search").val(this.word);
-        this.$store.state.searchPageType = 2;
-        this.$store.state.searchFlag = true;
-        this.searchWord(this.word);
-      }).catch(error=>{
-        console.log(error);
-      })
-
-    }
-    this.$store.commit('ISLOADING', true);
-    code.forum(1).then(data=>{
-      if(data.length == 0){
-
-      }
-      else{
-        this.brand_items = data;
-      }
-      this.$store.commit('ISLOADING', false);
-    }).catch(error =>{
-      console.log("error",error);
-      //alert 후 페이지 이동
-    });
-    this.$store.commit('ISLOADING', true);
-    code.forum(2).then(data=>{
-      if(data.length == 0){
-
-      }
-      else{
-        this.category_items = data;
-      }
-      this.$store.commit('ISLOADING', false);
-    }).catch(error =>{
-      console.log("error",error);
-      //alert 후 페이지 이동
-    });
+    this.searchCheck();
   },
   methods:{
+    searchCheck(){
+      //검색에 관련된 전역변수 초기화
+      //기억된 단어가 있을경우에는 word
+      console.log('searchCheck');
+      this.$store.state.pageKeepAlive = true
+      if(this.$store.state.searchWord != ''){
+        this.word = "page-" + this.$store.state.searchWord
+      } else {
+        this.word = "page-";
+      }
+      this.$store.commit('SET_SEARCHPRODUCT_INIT');
+      if(this.word == "page-"){
+        this.$store.state.searchPageType = 0;
+        this.$store.state.searchFlag = false;
+      } else {
+        search.code().then(data=>{
+          this.code = data
+          this.word = this.word.replace(/page-/gi,'');
+          $("#search").val(this.word);
+          this.$store.state.searchPageType = 2;
+          this.$store.state.searchFlag = true;
+          this.searchWord(this.word);
+        }).catch(error=>{
+          console.log(error);
+        })
+
+      }
+      this.$store.commit('ISLOADING', true);
+      code.forum(1).then(data=>{
+        if(data.length == 0){
+
+        }
+        else{
+          this.brand_items = data;
+        }
+        this.$store.commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        //alert 후 페이지 이동
+      });
+      this.$store.commit('ISLOADING', true);
+      code.forum(2).then(data=>{
+        if(data.length == 0){
+
+        }
+        else{
+          this.category_items = data;
+        }
+        this.$store.commit('ISLOADING', false);
+      }).catch(error =>{
+        console.log("error",error);
+        //alert 후 페이지 이동
+      });
+    },
     detail(productId){
       this.$router.push(this.$route.query.returnPath || '/brand/' + productId);
     },

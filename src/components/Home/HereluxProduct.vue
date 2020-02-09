@@ -79,7 +79,6 @@ export default {
     });
   },
   created(){
-    this.returnPath = this.$route.query.returnPath || '/detail'
     home.hereluxcnt().then(data=>{
       this.productcnt = data[0].cnt
       this.brandcnt = data[1].cnt
@@ -92,7 +91,7 @@ export default {
   methods:{
     productClick(id){
       this.$store.state.productDetail_name = 'home'
-      this.returnPath = this.returnPath +'/' + id + '/home'
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/home'
       setTimeout(() => {
         this.$router.push(this.returnPath)
       }, 300);

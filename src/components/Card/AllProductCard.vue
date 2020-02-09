@@ -34,8 +34,6 @@ import { product } from '../../api'
 export default{
 
   created(){
-    this.returnPath = this.$route.query.returnPath || '/detail'
-    //this.readMore();
   },
   data(){
     return{
@@ -49,7 +47,7 @@ export default{
     },
     detail(id){
       this.$store.state.productDetail_name = 'all'
-      this.returnPath = this.returnPath +'/' + id + '/all'
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/all'
       this.$router.push(this.returnPath)
     }
   }

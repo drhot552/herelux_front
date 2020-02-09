@@ -37,12 +37,8 @@
 import { product } from '../../api'
 
 export default{
-
   created(){
-    this.returnPath = this.$route.query.returnPath || '/detail'
     this.userid = localStorage.getItem('id');
-    console.log("hi");
-    //this.readMore();
   },
   data(){
     return{
@@ -57,7 +53,7 @@ export default{
     },
     detail(id){
       this.$store.state.productDetail_name = 'mylist'
-      this.returnPath = this.returnPath +'/' + id + '/' + 'mylist'
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/' + 'mylist'
       setTimeout(() => {
         this.$router.push(this.returnPath)
       },300)

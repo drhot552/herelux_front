@@ -41,6 +41,7 @@
         }
     },
     created(){
+      
       this.pageType = this.$route.params.pagetype;
       if(this.pageType.match(/brand/gi)){
         this.pageMove = this.pageType.replace(/_/gi,'/');
@@ -50,11 +51,19 @@
     },
     methods:{
       onClick(){
-        this.$router.push("/"+this.pageMove);
+        window.history.length > 1
+       ? this.$router.go(-1)
+       : this.$router.push("/"+this.pageMove)
+
+
       },
       beforePage(path){
         //this.$router.go(-1);
-        this.$router.push(this.$route.query.returnPath || path);
+        window.history.length > 1
+       ? this.$router.go(-1)
+       : this.$router.push(this.$route.query.returnPath || path)
+
+
       }
     }
   }

@@ -2,7 +2,16 @@
   <div id="app">
     <router-view name="header"></router-view>
     <div>
-        <router-view/>
+      <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+      <!--<keeap-alive v-if="this.$store.state.pageKeepAlive">
+        <router-view></router-view>
+      </keeap-alive>
+      <div v-else>
+        <router-view></router-view>
+      </div> -->
     </div>
     <router-view name="footer"></router-view>
   </div>

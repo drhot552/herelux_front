@@ -80,34 +80,45 @@ export default{
       pageType : ''
     }
   },
- created(){
+  watch: {
+      '$route' (to, from) {
+        if(to.path !== from.path) {
+          console.log(to.path, from.path);
+          if(from.path.match(/detail/gi)){
 
-   this.productlistActivetab = this.$store.state.productList_category;
+          } else if(from.path.match(/allproduct/gi)){
+
+          } else {
+            console.log('allproduct');
+            this.tabwidth = 90
+            this.data = 0
+            this.productlistActivetab = 0
+            this.subject ='전체'
+            this.categoryId = 0
+            this.items = []
+            this.pageType = to.params.pagetype
+            this.categoryId = to.params.id
+            this.allproductInit()
+            //this.rankfetch();
+          }
+        }
+      }
+  },
+ created(){
    this.pageType = this.$route.params.pagetype;
    this.categoryId = this.$route.params.id;
-   if(this.pageType == 'search'){
-     this.$store.state.productList_category = this.categoryId;
-     this.productlistActivetab = this.$store.state.productList_category;
-   }
-
-   this.$store.commit('ISLOADING', true);
-   this.$store.commit('SET_PRODUCTLIST_INIT');
-   //전체가져오기
-   code.category(2).then(data=>{
-     if(data.length == 0){
-
-     }
-     else{
-       this.items = data;
-       this.fetch();
-       this.categoryMiddle();
-     }
-     this.$store.commit('ISLOADING', false);
-   }).catch(error =>{
-     console.log("error",error);
-     //alert 후 페이지 이동
-     this.errorAlert();
-   });
+   this.allproductInit();
+ },
+ activated(){
+  this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
+  document.addEventListener('touchstart', this.startproductTouch, false);
+  document.addEventListener('touchmove', this.moveproductTouch, false);
+  document.addEventListener('scroll', this.onScroll);
+ },
+ deactivated() {
+   document.removeEventListener('touchstart', this.startproductTouch, false);
+   document.removeEventListener('touchmove', this.moveproductTouch, false);
+   document.removeEventListener('scroll', this.onScroll);
  },
  mounted(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
@@ -127,6 +138,32 @@ export default{
    }
  },
  methods: {
+   allproductInit(){
+     this.productlistActivetab = this.$store.state.productList_category;
+     if(this.pageType == 'search'){
+       this.$store.state.productList_category = this.categoryId;
+       this.productlistActivetab = this.$store.state.productList_category;
+     }
+
+     this.$store.commit('ISLOADING', true);
+     this.$store.commit('SET_PRODUCTLIST_INIT');
+     //전체가져오기
+     code.category(2).then(data=>{
+       if(data.length == 0){
+
+       }
+       else{
+         this.items = data;
+         this.fetch();
+         this.categoryMiddle();
+       }
+       this.$store.commit('ISLOADING', false);
+     }).catch(error =>{
+       console.log("error",error);
+       //alert 후 페이지 이동
+       this.errorAlert();
+     });
+   },
   startproductTouch(e) {
    this.initialX = e.touches[0].clientX;
    this.initialY = e.touches[0].clientY;

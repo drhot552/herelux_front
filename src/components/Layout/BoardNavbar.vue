@@ -91,7 +91,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         if(this.userid != ''){
           this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
         }
-        this.$router.push(this.$route.query.returnPath || path);
+        //
+        window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push(this.$route.query.returnPath || path)
       }
     }
   }

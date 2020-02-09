@@ -76,8 +76,11 @@
     },
     methods:{
       footerClick(path){
+        //page Refresh
+        this.$store.state.pageKeepAlive = false
         this.$store.commit('SET_CATEGORY_INIT');
         this.$store.commit('SET_BOARDINFO_INIT');
+        
         if(this.userid != ''){
           this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
         }

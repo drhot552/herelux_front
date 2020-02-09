@@ -237,6 +237,7 @@
        this.flag = true;
      },
      searchClick(){
+       this.$store.state.pageKeepAlive = false;
        this.$store.commit('SET_CATEGORY_INIT');
      },
      onClose(){

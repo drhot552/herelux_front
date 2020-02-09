@@ -55,9 +55,6 @@ export default {
     }
   },
   created(){
-
-    this.returnPath = this.$route.query.returnPath || '/detail'
-    //this.readMore();
   },
   methods:{
     readMore(){
@@ -66,7 +63,7 @@ export default {
     },
     onClick(id){
       this.$store.state.productDetail_name = 'ranking'
-      this.returnPath = this.returnPath +'/' + id + '/ranking'
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/ranking'
       setTimeout(() => {
         this.$router.push(this.returnPath)
       },300)

@@ -141,7 +141,6 @@ export default {
                 this.product_price = data[0].price;
                 this.productimg[0].source = data[0].source;
                 this.productimg[0].url = data[0].url;
-                console.log("fetchdata",this.id, this.name, this.size, this.color, this.price);
                 this.ratingnum = 0;
                 this.productflag = true;
                 this.fetchData();

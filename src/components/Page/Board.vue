@@ -49,33 +49,50 @@ export default{
       category_middle:[]
     }
   },
+  watch: {
+      '$route' (to, from) {
+        if(to.path !== from.path) {
+          console.log(to.path, from.path);
+          if(from.path.match(/boarddetail/gi)){
+
+          } else if(from.path.match(/board/gi)){
+
+          } else {
+            this.boardactivetab = 0
+            this.tabwidth = 90
+            this.subject ='전체'
+            this.boardtype = 0
+            this.items = []
+            this.boardInit()
+            //this.rankfetch();
+          }
+        }
+      }
+  },
  created(){
    //게시판 초기 세팅 ->
    //this.$store.commit('SET_INIT_BOARD', this.$store.state.boardtype);\
+   this.boardInit();
 
-
-   this.$store.commit('ISLOADING', true);
-   code.category(3).then(data=>{
-     if(data.length == 0){
-
-     }
-     else{
-       this.items = data;
-       this.fetch();
-     }
-     this.$store.commit('ISLOADING', false);
-   }).catch(error =>{
-     //alert 후 페이지 이동
-     this.errorAlert();
-   });
  },
  mounted(){
+   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
+   document.addEventListener('touchstart', this.startboardTouch, false);
+   document.addEventListener('touchmove', this.moveboardTouch, false);
+   document.addEventListener('scroll', this.onScroll);
+ },
+ beforeDestroy(){
+   document.removeEventListener('touchstart', this.startboardTouch, false);
+   document.removeEventListener('touchmove', this.moveboardTouch, false);
+   document.removeEventListener('scroll', this.onScroll);
+ },
+ activated(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
   document.addEventListener('touchstart', this.startboardTouch, false);
   document.addEventListener('touchmove', this.moveboardTouch, false);
   document.addEventListener('scroll', this.onScroll);
  },
- beforeDestroy () {
+ deactivated () {
    document.removeEventListener('touchstart', this.startboardTouch, false);
    document.removeEventListener('touchmove', this.moveboardTouch, false);
    document.removeEventListener('scroll', this.onScroll);
@@ -87,6 +104,22 @@ export default{
    }
  },
  methods: {
+   boardInit(){
+     this.$store.commit('ISLOADING', true);
+     code.category(3).then(data=>{
+       if(data.length == 0){
+
+       }
+       else{
+         this.items = data;
+         this.fetch();
+       }
+       this.$store.commit('ISLOADING', false);
+     }).catch(error =>{
+       //alert 후 페이지 이동
+       this.errorAlert();
+     });
+   },
    startboardTouch(e) {
      this.initialX = e.touches[0].clientX;
      this.initialY = e.touches[0].clientY;
@@ -182,12 +215,14 @@ export default{
 
       this.$store.commit('SET_INIT_BOARD', this.boardtype);
       this.$store.commit('ISLOADING', true);
+      console.log('boardfetch');
       this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.boardtype});
     },
     errorAlert(){
       this.$router.push(this.$route.query.returnPath || '/error');
     },
     onScroll () {
+
       if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.board_readFlag) {
         this.$store.commit('ISLOADING', true);
         this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});

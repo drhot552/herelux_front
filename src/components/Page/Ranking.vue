@@ -86,36 +86,48 @@ export default{
       flag : true
     }
   },
+  watch: {
+      '$route' (to, from) {
+        if(to.path !== from.path) {
+          console.log(to.path, from.path);
+          if(from.path.match(/detail/gi)){
+
+          } else if(from.path.match(/ranking/gi)){
+
+          } else {
+            this.$store.commit('SET_INIT');
+            this.activetab = 0
+            this.tabwidth = 90
+            this.category_type = 1
+            this.subject ='전체'
+            this.data = 0
+            this.$store.state.rankTabStatus = 0
+            this.items = []
+            this.rankingInit()
+            //this.rankfetch();
+          }
+        }
+      }
+  },
  created(){
-   //Tab가져오기
-   this.$store.commit('SET_INIT');
-   this.$store.commit('ISLOADING', true);
-   this.activetab = this.$store.state.rankTabStatus;
-
-   code.category(2).then(data=>{
-     if(data.length == 0){
-
-     }
-     else{
-       this.items = data;
-       this.subject = this.items[this.activetab].descript;
-       this.fetch();
-       this.categoryMiddle();
-     }
-     this.$store.commit('ISLOADING', false);
-   }).catch(error =>{
-     console.log("error",error);
-     //alert 후 페이지 이동
-     this.errorAlert();
-   });
+   this.rankingInit()
  },
  mounted(){
+   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
+   document.addEventListener('touchstart', this.startTouch, false);
+   document.addEventListener('touchmove', this.moveTouch, false);
+ },
+ beforeDestroy(){
+   document.removeEventListener('touchstart', this.startTouch, false);
+   document.removeEventListener('touchmove', this.moveTouch, false);
+ },
+ activated(){
   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
   document.addEventListener('touchstart', this.startTouch, false);
   document.addEventListener('touchmove', this.moveTouch, false);
 
  },
- beforeDestroy () {
+ deactivated() {
    document.removeEventListener('touchstart', this.startTouch, false);
    document.removeEventListener('touchmove', this.moveTouch, false);
  },
@@ -126,6 +138,31 @@ export default{
    }
  },
  methods: {
+   rankingInit(){
+     //Tab가져오기
+     //this.$store.state.pageKeepAlive = true
+     this.$store.commit('SET_INIT');
+     this.$store.commit('ISLOADING', true);
+     this.activetab = this.$store.state.rankTabStatus;
+
+     code.category(2).then(data=>{
+       if(data.length == 0){
+
+       }
+       else{
+         this.items = data;
+         this.subject = this.items[this.activetab].descript;
+         console.log('check');
+         this.rankfetch();
+         this.categoryMiddle();
+       }
+       this.$store.commit('ISLOADING', false);
+     }).catch(error =>{
+       console.log("error",error);
+       //alert 후 페이지 이동
+       this.errorAlert();
+     });
+   },
    startTouch(e) {
    this.initialX = e.touches[0].clientX;
    this.initialY = e.touches[0].clientY;
@@ -216,21 +253,20 @@ export default{
       this.$nextTick(function() {
       	this.activetab = n
         this.subject = this.items[n].descript;
-        console.log("rank this.activetab12",this.$store.state.rankActivetab, n, this.$store.state.rankActivetab*this.$store.state.rankTabwidth);
         this.data = n;
         this.$store.state.rankTabStatus = n;
 
-        this.fetch();
+        this.rankfetch();
         this.categoryMiddle();
       //  this.eventstartlistener();
       })
     },
-    fetch(){
+    rankfetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
       this.category_type  = 1;
       this.$store.commit('SET_INIT');
       this.$store.commit('ISLOADING', true);
-      console.log("rank 패치데이터", this.data, this.category_type, this.$store.state.product.length);
+      console.log("rank 패치데이터", this.data, this.category_type, this.$store.state.product.length, this.$store.state.rankTabStatus);
       this.$store.dispatch('FETCH_RANK_READMORE',{category_type:this.category_type, category:this.$store.state.rankTabStatus});
     },
     categorySelect(key, descript){
