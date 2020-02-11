@@ -83,13 +83,11 @@ export default{
   watch: {
       '$route' (to, from) {
         if(to.path !== from.path) {
-          console.log(to.path, from.path);
           if(from.path.match(/detail/gi)){
 
           } else if(from.path.match(/allproduct/gi)){
 
           } else {
-            console.log('allproduct');
             this.tabwidth = 90
             this.data = 0
             this.productlistActivetab = 0
