@@ -11,17 +11,13 @@ import Notifications from 'vue-notification'
 import VueScroll from 'vue-scroll'
 import AdFit from 'vue-adfit-component'
 import Ripple from 'vue-ripple-directive'
-import Ads from 'vue-google-adsense'
+
 
 VueClipboard.config.autoSetContainer = true // add this line
 
 Ripple.color = 'rgba(0, 0, 0, 0.1)';
 Vue.directive('ripple', Ripple);
 
-Vue.use(require('vue-script2')) 
-Vue.use(Ads.Adsense)
-Vue.use(Ads.InArticleAdsense)
-Vue.use(Ads.InFeedAdsense)
 Vue.use(AdFit.Banner)
 Vue.use(Notifications)
 Vue.use(VueClipboard)
