@@ -130,6 +130,9 @@ export const board = {
   },
   mylist(user,myboardlist_type, page){
     return request('get', '/board/mylist/' + user + '/' + myboardlist_type + '/' + page)
+  },
+  etc(board_idx, etc_type){
+    return request('get', '/board/etc/' + board_idx + '/' + etc_type)
   }
 }
 

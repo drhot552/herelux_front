@@ -30,7 +30,7 @@
           </div>
           <!-- url 내용 set -->
           <div style="margin-top:10px; padding-left:15px;" v-if="this.boardDetail.length > 0">
-            <div v-for="url in boardDetail">
+            <div v-for="url in boardUrl">
               <table v-if="url.boardurl" style="width:100%;">
                 <tbody>
                  <tr>
@@ -47,7 +47,7 @@
           </div>
           <!-- 사진 이미지 set -->
           <div style="margin-top:10px; text-align:center;" v-if="this.boardDetail.length > 0">
-            <div v-for="board in boardDetail">
+            <div v-for="board in boardImg">
               <img v-if="board.imgurl" v-lazy ="board.imgurl"/>
               <div style="margin:10px;"></div>
             </div>
@@ -197,6 +197,8 @@ export default{
       board_idx : 0,
       userid : '',
       boardDetail : [],
+      boardImg : [],
+      boardUrl : [],
       comment : [],
       title : String,
       descript : String,
@@ -244,7 +246,7 @@ export default{
           if(data == 200){
             this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
           } else {
-            alert("데이터베이스 SQL 오류입니다. [BoardDetail]");
+            this.errorAlert();
           }
         }).catch(error =>{
           console.log("error",error);
@@ -252,8 +254,26 @@ export default{
           this.errorAlert();
         });
       }
-
-
+      // boardimg
+      board.etc(this.board_idx, 1).then(data=>{
+        if(data.length > 0){
+          this.boardImg = data
+        }
+      }).catch(error =>{
+        console.log("error",error);
+        //alert 후 페이지 이동
+        this.errorAlert();
+      });
+      // boardurl
+      board.etc(this.board_idx, 2).then(data=>{
+        if(data.length > 0){
+          this.boardUrl = data
+        }
+      }).catch(error =>{
+        console.log("error",error);
+        //alert 후 페이지 이동
+        this.errorAlert();
+      });
       board.select(this.board_idx,this.$store.state.boardtype).then(data => {
         if(data.length > 0 ){
           var url = data[0].descript.match(/(http(s)?:\/\/|www.)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}([\/a-z0-9-%#?&=\w])+(\.[a-z0-9]{2,4}(\?[\/a-z0-9-%#?&=\w]+)*)*/gi);
