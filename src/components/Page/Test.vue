@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-top:100px;">
     <ins class="adsbygoogle"
      style="display:block"
      data-ad-format="fluid"
