@@ -6,12 +6,7 @@
       </div>
     </div>
     <div :class="{'ad_android': this.flag, 'ad_iphone': !this.flag}">
-      <adfit-banner
-      v-on:ad-loaded
-      v-on:ad-failed
-      data-ad-test="N"
-      data-ad-unit="DAN-u8b8wmb7vg38">
-      </adfit-banner>
+      <Adsense></Adsense>
     </div>
 
   </div>
@@ -19,7 +14,11 @@
 </template>
 <script>
 import { search } from '../../api';
+import Adsense from '../Component/Adsense'
 export default{
+  components:{
+    Adsense
+  },
   created(){
 
     if(navigator.userAgent.match(/Android|Tablet/i)){
