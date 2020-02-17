@@ -56,10 +56,12 @@
       </ul>
       <div align="left" style="border-bottom: 3px solid rgb(0,0,0);">
         <div style="padding-top : 10px">
-          <Adsense
-              data-ad-client="ca-pub-4141026730478876"
-              data-ad-slot="6033471797">
-          </Adsense>
+          <adfit-banner
+          v-on:ad-loaded
+          v-on:ad-failed
+          data-ad-test="N"
+          data-ad-unit="DAN-u88h76y8h7w2">
+          </adfit-banner>
         </div>
       </div>
       <div id="collapse">

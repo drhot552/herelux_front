@@ -1,6 +1,14 @@
 <template>
   <div class="section" style="padding-bottom:130px;">
     <div class="container" style="padding-left:0px; padding-right:0px;">
+          <div style="padding-bottom:15px;">
+            <adfit-banner
+            v-on:ad-loaded
+            v-on:ad-failed
+            data-ad-test="N"
+            data-ad-unit="DAN-vf47k1eg1js3">
+            </adfit-banner>
+          </div>
           <div style="height:70px; border-bottom:1px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
             <div style="padding-left:15px;">
               <h5 v-if="this.boardDetail[0].boardtype < 3" style="margin-top:0px;">
@@ -54,12 +62,7 @@
           </div>
           <!-- 댓글 단 -->
           <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);">
-            <adfit-banner
-            v-on:ad-loaded
-            v-on:ad-failed
-            data-ad-test="N"
-            data-ad-unit="DAN-vf47k1eg1js3">
-            </adfit-banner>
+
           </div>
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">
