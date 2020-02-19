@@ -2,12 +2,9 @@
   <div class="section" style="padding-bottom:130px;">
     <div class="container" style="padding-left:0px; padding-right:0px;">
           <div style="padding-bottom:15px;">
-            <adfit-banner
-            v-on:ad-loaded
-            v-on:ad-failed
-            data-ad-test="N"
-            data-ad-unit="DAN-vf47k1eg1js3">
-            </adfit-banner>
+            <Adsense
+            v-on:slot="6873918356">
+            </Adsense>
           </div>
           <div style="height:70px; border-bottom:1px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
             <div style="padding-left:15px;">
@@ -62,7 +59,9 @@
           </div>
           <!-- 댓글 단 -->
           <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);">
-
+            <Adsense
+            v-on:slot="9616165567">
+            </Adsense>
           </div>
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">
@@ -186,6 +185,7 @@
 import { comment, board, info } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
+import Adsense from '../Component/Adsense'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Cauly from '../Card/Cauly'
 
@@ -193,7 +193,8 @@ export default{
   components:{
     Modal,
     Loading,
-    Cauly
+    Cauly,
+    Adsense
   },
   data(){
     return{

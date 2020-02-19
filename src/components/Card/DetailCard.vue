@@ -56,12 +56,7 @@
       </ul>
       <div align="left" style="border-bottom: 3px solid rgb(0,0,0);">
         <div style="padding-top : 10px">
-          <adfit-banner
-          v-on:ad-loaded
-          v-on:ad-failed
-          data-ad-test="N"
-          data-ad-unit="DAN-u88h76y8h7w2">
-          </adfit-banner>
+          <Adsense v-bind:slot="7644074545"></Adsense>
         </div>
       </div>
       <div id="collapse">
@@ -165,7 +160,8 @@ import { Carousel, Slide } from 'vue-carousel'
 import Collapse from '../Component/Collapse'
 import CollapseItem from '../Component/CollapseItem'
 import Images from './Images'
-import Modal from '../Component/Modal';
+import Modal from '../Component/Modal'
+import Adsense from '../Component/Adsense'
 import { product } from '../../api'
 import Cauly from '../Card/Cauly'
 
@@ -210,7 +206,8 @@ export default {
       Cauly,
       Collapse,
       CollapseItem,
-      Modal
+      Modal,
+      Adsense
     },
     created(){
       this.avg = this.star / this.count;

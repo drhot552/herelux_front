@@ -6,7 +6,7 @@
       </div>
     </div>
     <div :class="{'ad_android': this.flag, 'ad_iphone': !this.flag}">
-      <Adsense></Adsense>
+      <Adsense v-bind:slot="7644074545"></Adsense>
     </div>
 
   </div>
