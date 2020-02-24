@@ -69,9 +69,7 @@
           </div>
           <!-- 댓글 단 -->
           <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
-
-            <AdsenseAuto></AdsenseAuto>
-            <!--<div v-if="this.boardDetail[0].boardtype < 3">
+            <div v-if="this.boardDetail[0].boardtype < 3">
               <Adsense v-bind:slot="5203305505">
               </Adsense>
             </div>
@@ -82,7 +80,7 @@
             <div v-else-if="this.boardDetail[0].boardtype == 4">
               <Adsense v-bind:slot="9477608349">
               </Adsense>
-            </div>-->
+            </div>
           </div>
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">
@@ -207,7 +205,6 @@ import { comment, board, info } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
 import Adsense from '../Component/Adsense'
-import AdsenseAuto from '../Component/AdsenseAuto'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Cauly from '../Card/Cauly'
 
@@ -216,8 +213,7 @@ export default{
     Modal,
     Loading,
     Cauly,
-    Adsense,
-    AdsenseAuto
+    Adsense
   },
   props:{
     board_idx : Number
