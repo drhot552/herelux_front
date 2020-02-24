@@ -139,6 +139,7 @@
 
             </div>
           </div>
+          <AdsenseAuto></AdsenseAuto>
           <div style="height:40vh;">
 
           </div>
@@ -205,6 +206,7 @@ import { comment, board, info } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
 import Adsense from '../Component/Adsense'
+import AdsenseAuto from '../Component/AdsenseAuto'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Cauly from '../Card/Cauly'
 
@@ -213,7 +215,8 @@ export default{
     Modal,
     Loading,
     Cauly,
-    Adsense
+    Adsense,
+    AdsenseAuto
   },
   props:{
     board_idx : Number
