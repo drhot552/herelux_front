@@ -4,7 +4,7 @@
     <div class="container" style="padding-left:0px; padding-right:0px;">
           <div style="padding-bottom:15px;">
             <Adsense
-            v-on:slot="6873918356">
+            v-bind:slot="6873918356">
             </Adsense>
           </div>
           <div style="height:70px; border-bottom:1px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
@@ -61,7 +61,7 @@
           <!-- 댓글 단 -->
           <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);">
             <Adsense
-            v-on:slot="9616165567">
+            v-bind:slot="9616165567">
             </Adsense>
           </div>
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
