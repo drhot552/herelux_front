@@ -2,8 +2,19 @@
 <template>
   <div class="section" style="padding-bottom:130px;">
     <div class="container" style="padding-left:0px; padding-right:0px;">
-          <div style="padding-top : 10px">
-            <Adsense v-bind:slot="7644074545"></Adsense>
+          <div style="padding-bottom:15px;" v-if="this.boardDetail.length > 0">
+            <div v-if="this.boardDetail[0].boardtype < 3">
+              <Adsense v-bind:slot="6659873318">
+              </Adsense>
+            </div>
+            <div v-else-if="this.boardDetail[0].boardtype == 3">
+              <Adsense v-bind:slot="2337484924">
+              </Adsense>
+            </div>
+            <div v-else-if="this.boardDetail[0].boardtype == 4">
+              <Adsense v-bind:slot="7043016693">
+              </Adsense>
+            </div>
           </div>
           <div style="height:70px; border-bottom:1px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
             <div style="padding-left:15px;">
@@ -57,8 +68,19 @@
             </div>
           </div>
           <!-- 댓글 단 -->
-          <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);">
-            <Adsense v-bind:slot="7644074545"></Adsense>
+          <div style="margin-top:20px; border:10px solid rgba(135, 135, 135, 0.3);" v-if="this.boardDetail.length > 0">
+            <div v-if="this.boardDetail[0].boardtype < 3">
+              <Adsense v-bind:slot="5203305505">
+              </Adsense>
+            </div>
+            <div v-else-if="this.boardDetail[0].boardtype == 3">
+              <Adsense v-bind:slot="2529056619">
+              </Adsense>
+            </div>
+            <div v-else-if="this.boardDetail[0].boardtype == 4">
+              <Adsense v-bind:slot="9477608349">
+              </Adsense>
+            </div>
           </div>
           <div style="margin-top:10px; margin-bottom:10px;" v-for="item in comment">
             <div style="padding-bottom:5px; padding-top:15px;">

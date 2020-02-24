@@ -1,6 +1,6 @@
 <template>
   <div class="card card-plain">
-  <div v-if="productflag">
+  <div>
    <carousel :per-page="1"  :mouse-drag="true"  :navigation-next-label="`>`"
               :navigation-prev-label="`<`" :pagination-position="`top-overlay`"	:navigation-enabled="true" :pagination-padding="2"
               :minSwipeDistance="30">
@@ -186,7 +186,6 @@ export default {
         sameBrand:[],
         sameCategory:[],
         loading:false,
-        productflag : true,
         avg : 0,
         detailbrand : [],
         userId : '',
