@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="test()">
+  <div style="padding:100px;" v-on:click="test()">
     test
   </div>
 </template>
