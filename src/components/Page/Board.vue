@@ -92,7 +92,7 @@ export default{
   document.addEventListener('touchmove', this.moveboardTouch, false);
   document.addEventListener('scroll', this.onScroll);
  },
- deactivated () {
+ deactivated() {
    document.removeEventListener('touchstart', this.startboardTouch, false);
    document.removeEventListener('touchmove', this.moveboardTouch, false);
    document.removeEventListener('scroll', this.onScroll);

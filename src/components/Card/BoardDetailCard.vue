@@ -12,7 +12,7 @@
                   <h6 class="detail_product_name" style="margin-top:10px;">
                     {{item.name}}
                   </h6>
-                  <h6 style="font-weight:700;">
+                  <h6 class="detail_product_name" style="font-weight:700;">
                     {{item.price}}
                   </h6>
                 </div>
