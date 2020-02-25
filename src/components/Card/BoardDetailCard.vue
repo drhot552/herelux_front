@@ -2,7 +2,7 @@
 <template>
   <div class="section" style="padding-bottom:130px;">
     <div class="container" style="padding-left:0px; padding-right:0px;">
-          <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex;">
+          <div style="padding-left:15px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
             <div style="display: block; margin: 0px auto; width:90%;" v-for="item in productrandom">
               <div style="width:100px; margin-right:15px;" v-ripple v-on:click="productClick(item.id)">
                 <div>
