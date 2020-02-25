@@ -2,6 +2,23 @@
 <template>
   <div class="section" style="padding-bottom:130px;">
     <div class="container" style="padding-left:0px; padding-right:0px;">
+          <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex;">
+            <div style="display: block; margin: 0px auto; width:90%;" v-for="item in productrandom">
+              <div style="width:100px; margin-right:15px;" v-ripple v-on:click="productClick(item.id)">
+                <div>
+                  <img class="lazy-img-fadein" v-lazy="item.url"/>
+                </div>
+                <div style="text-align:center;">
+                  <h6 class="detail_product_name" style="margin-top:10px;">
+                    {{item.name}}
+                  </h6>
+                  <h6 style="font-weight:700;">
+                    {{item.price}}
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
           <div style="padding-bottom:15px;" v-if="this.boardDetail.length > 0">
             <div v-if="this.boardDetail[0].boardtype < 3">
               <Adsense v-bind:slot="6659873318">
@@ -201,7 +218,7 @@
   </div>
 </template>
 <script>
-import { comment, board, info } from '../../api'
+import { comment, board, info, home } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
 import Adsense from '../Component/Adsense'
@@ -225,6 +242,7 @@ export default{
       boardImg : [],
       boardUrl : [],
       comment : [],
+      productrandom :[],
       title : String,
       descript : String,
       modalShowComment : false,
@@ -242,9 +260,25 @@ export default{
   },
   created(){
     this.board_idx = this.$route.params.board_idx;
+    //랜덤으로 표시
+    home.productrandom().then(data=>{
+      this.productrandom = data;
+    }).catch(error =>{
+      console.log("error",error);
+      //alert 후 페이지 이동
+      this.errorAlert();
+    });
     this.listBoardDetail()
   },
   methods:{
+    productClick(id){
+      this.returnPath = this.$route.query.returnPath || '/detail'
+      this.$store.state.productDetail_name = 'board'
+      this.returnPath = this.returnPath +'/' + id + '/board'
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      }, 300);
+    },
     listBoardDetail(){
       this.userid = localStorage.getItem('id');
 
@@ -586,5 +620,12 @@ export default{
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+.detail_product_name {
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
