@@ -18,7 +18,7 @@
       </div>
       <div v-else class="owl-carousel owl-theme">
         <div style="margin: 0px auto; width:90%;" v-for="item in newproduct">
-          <div v-ripple v-on:click="productClick(item.id)">
+          <div v-on:click="productClick(item.id)">
             <div>
               <img class="lazy-img-fadein" v-lazy="item.url"/>
             </div>
