@@ -31,25 +31,23 @@
        </div>
        <h5 style="margin-bottom: 15px;">가격 : {{price}}</h5>
        <ul v-for="(item,i) in detailbrand" class="brand ul_style">
-        <li v-ripple class="li_style" style="height: 60px; position:relative; z-index:1001;" >
-          <div v-on:click="detailClick(item.url)" >
-            <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised lazy-img-fadein" style="float:left;">
-            <span class="span_style">
-              >
-            </span>
-            <span v-if="item.stock=='Y'" class="span_style">
-              {{item.price}} {{item.price_symbol}}
-            </span>
-            <span v-else class="span_style" style="color:#808080;">
-              {{item.price}} {{item.price_symbol}}
-            </span>
-
-          </div>
-          <img src="/public/img/information.png" alt="..." class="info_avatar img-raised lazy-img-fadein" style="float:right; z-index:5002;" v-on:click="stockalert(item.product_id, item.url, item.shopping_mall)">
+        <li v-ripple class="li_style" v-on:click="detailClick(item.url)" style="height: 60px; position:relative; z-index:1001;" >
+          <img v-lazy="item.logoimgurl" alt="..." class="avatar img-raised lazy-img-fadein" style="float:left;">
+          <span class="span_style">
+            >
+          </span>
+          <span v-if="item.stock=='Y'" class="span_style">
+            {{item.price}} {{item.price_symbol}}
+          </span>
+          <span v-else class="span_style" style="color:#808080;">
+            {{item.price}} {{item.price_symbol}}
+          </span>
           <span v-if="i ==0" class="span_style_1">
             * 이미지출처
           </span>
         </li>
+        <img src="/public/img/information.png" alt="..." class="info_avatar img-raised lazy-img-fadein" style="float:right; z-index:1002; position:relative; top:-45px;" v-on:click="stockalert(item.product_id, item.url, item.shopping_mall)">
+
         <div v-if="item.stock=='N'" style="height: 60px; width:100%; top:-60px; position: relative; background-color:rgba(0,0,0,0.1); z-index:5003;">
 
         </div>
