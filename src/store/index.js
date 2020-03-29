@@ -79,6 +79,15 @@ const store = new Vuex.Store({
 
     /* homepage category(NewStyleProduct) */
     categoryProduct:[],
+
+    brandcategoryproduct :[],
+    brandcategory_idx : 0,
+    brandcategory_readFlag : false,
+    brandcategory_descript : '',
+    brandcategory_category : 0,
+    brandcateogry_brand : 0,
+    brandcateogry_category_type : 0,
+    /**/
     /* homepage All Product list*/
     productList:[],
     productList_idx : 0,
@@ -112,6 +121,9 @@ const store = new Vuex.Store({
     },
     ALLPRODUCTLIST_IDX_INCREMENT(state){
       state.productList_idx++
+    },
+    BRANDCATEGORYPRODUCT_IDX_INCREMENT(state){
+      state.brandcategory_idx++
     },
 
     SET_INIT (state) {
@@ -153,6 +165,11 @@ const store = new Vuex.Store({
     },
     SET_CATEGORYPRODUCT_INIT(state){
       state.categoryProduct = []
+    },
+    SET_BRANDCATEGORYPRODUCT_INIT(state){
+      state.brandcategoryproduct = []
+      state.brandcategory_idx = 0
+      state.brandcategory_readFlag = false
     },
     SET_PRODUCTLIST_INIT(state){
       state.productList = []
@@ -298,6 +315,28 @@ const store = new Vuex.Store({
           commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
           state.searchList.push(...data);
           state.searchList_readFlag = true;
+        }
+          commit('ISLOADING', false);
+      }).catch(error =>{
+        router.push('/error');
+      });
+    },
+    FETCH_BRANDCATEGORYLIST_READMORE({commit, state},{brand,category, category_type, sex}){
+
+      return api.home.brandproduct(brand, category,  state.brandcategory_idx, category_type, sex).then(data=>{
+        if(data.length == 0){
+          state.brandList_readFlag = false;
+        }
+        else if(data.length < 20){
+          commit('BRANDCATEGORYPRODUCT_IDX_INCREMENT',1)
+          state.brandcategoryproduct.push(...data);
+          state.brandcategory_readFlag = false;
+
+        }
+        else{
+          commit('BRANDCATEGORYPRODUCT_IDX_INCREMENT',1)
+          state.brandcategoryproduct.push(...data);
+          state.brandcategory_readFlag = true;
         }
           commit('ISLOADING', false);
       }).catch(error =>{

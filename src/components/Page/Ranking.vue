@@ -61,9 +61,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import BackToTop from 'vue-backtotop'
 
 export default{
-  props:{
-    item:Array
-  },
   components:{
     RankingCard,
     Modal,

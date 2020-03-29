@@ -19,6 +19,7 @@ const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
 const ProductNavbar = () => import('../components/Layout/ProductNavbar.vue');
 
 const Home =() => import('../components/Page/Home.vue');
+const Introduce =() => import('../components/Page/Introduce.vue');
 const MyList = () => import('../components/Page/MyList.vue');
 const AllProduct = () => import('../components/Page/AllProduct.vue');
 const Detail = () => import('../components/Page/ProductDetail.vue');
@@ -64,6 +65,9 @@ const router = new Router({
       props:{
         header:{colorOnScroll:0,pageName:"Home"},
         footer:{pageName:"Home"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
     },
     {
@@ -294,6 +298,18 @@ const router = new Router({
       },
       meta: {
         keepAlive: true // Need to be cached
+      }
+    },
+    {
+      path:'/introduce',
+      name:'Introduce',
+      components:{default:Introduce, header:MainNavbar, footer:FooterNavbar},
+      props:{
+        header:{colorOnScroll:0,pageName:"Introduce"}
+      },
+      props:{
+        header:{colorOnScroll:0,pageName:"Introduce"},
+        footer:{pageName:"Introduce"}
       }
     }
   ],

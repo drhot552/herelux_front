@@ -68,7 +68,6 @@ export default{
     searchCheck(){
       //검색에 관련된 전역변수 초기화
       //기억된 단어가 있을경우에는 word
-      console.log('searchCheck');
       this.$store.state.pageKeepAlive = true
       if(this.$store.state.searchWord != ''){
         this.word = "page-" + this.$store.state.searchWord

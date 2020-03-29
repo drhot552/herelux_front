@@ -1,4 +1,3 @@
-
 <template>
   <div class="section" style="padding-bottom:130px;">
     <div class="container" style="padding-left:0px; padding-right:0px;">
@@ -221,7 +220,7 @@
 import { comment, board, info, home } from '../../api'
 import Modal from '../Component/Modal';
 import Loading from 'vue-loading-overlay';
-import Adsense from '../Component/Adsense'
+import Adsense from '../Component/Adsense';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Cauly from '../Card/Cauly'
 

@@ -32,7 +32,6 @@
 import { product } from '../../api'
 
 export default{
-
   created(){
   },
   data(){

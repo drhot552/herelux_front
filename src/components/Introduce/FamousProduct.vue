@@ -96,14 +96,6 @@ export default {
 }
 </script>
 <style>
-.slide-next-leave-active, .slide-next-enter-active, .slide-prev-enter-active, .slide-prev-leave-active {
-}
-.slide-next-enter,.slide-next-leave, .slide-prev-leave-to
-{
-}
-
-.slide-next-leave-to, .slide-prev-enter, .slide-prev-leave {
-}
 .tabs_category{
   display:flex;
   color: black;
