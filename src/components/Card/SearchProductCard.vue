@@ -14,7 +14,7 @@
           <div v-else class="container">
               <div v-if="!this.$store.state.isLoading" class="row" >
                   <div class="col-md-8 ml-auto mr-auto text-center">
-                      <h4 class="title">해당 명품상품이 없습니다.</h4>
+                      <h4 class="title">명품상품이 없습니다.</h4>
                   </div>
               </div>
           </div>

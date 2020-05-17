@@ -225,8 +225,8 @@ export const home ={
   categoryproduct(middlecategory){
     return request('get', '/home/categoryproduct/' + middlecategory)
   },
-  brandproduct(brand,category,page, category_type, sex){
-    return request('get', '/home/brandproduct/' + brand + '/' + category + '/' + page + '/' + category_type + '/' + sex)
+  brandproduct(brand,category,page, category_type, sex, filter){
+    return request('get', '/home/brandproduct/' + brand + '/' + category + '/' + page + '/' + category_type + '/' + sex + '/' + filter)
   }
 }
 
@@ -248,5 +248,16 @@ export const code = {
   },
   homebrand(major_key){
     return request('get', '/code/homebrand/' + major_key)
+  },
+  filter(major_key){
+    return request('get', '/code/filter/' + major_key)
+  }
+}
+export const plan = {
+  plan(){
+    return request('post', '/plan')
+  },
+  product(event_id){
+    return request('get', '/plan/product/' + event_id )
   }
 }

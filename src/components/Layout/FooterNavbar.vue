@@ -26,6 +26,13 @@
        N
      </span>
    </div>
+
+   <div class="div_style_1" v-if="pageName==='Page'" style="color:#000000;" v-on:click="footerClick('/page')">
+     <img src="/public/img/document_select.png" style="height:20px;"/>
+   </div>
+   <div class="div_style_1" v-else style="color:#000000;" v-on:click="footerClick('/page')">
+     <img src="/public/img/document.jpg" style="height:20px;"/>
+   </div>
    <!--
    <div class="div_style_1" v-if="pageName==='Rank'" style="color:#000000;" v-on:click="footerClick('/ranking')">
      <img src="/public/img/bottom_rank_select.png" style="height:20px;"/>

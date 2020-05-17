@@ -1,8 +1,8 @@
 <template>
-  <div class="section">
+  <div style="padding: 70px 0 53px; background: #fff;">
     <div class="container" style="padding-left:0; padding-right:0">
-      <div style="padding-left:10px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
-        <div style="display: block; margin: 0px auto; width:90%;" v-for="item in category">
+      <div style="padding-left:10px; width:100%; display: flex;">
+        <div v-for="item in category">
           <div v-if= "item.minor_key <5 " style="width:80px; margin-right:10px;" v-ripple v-on:click="detail(item.descript)">
             <img v-lazy="item.url" class="lazy-img-fadein"  style="border-radius: 10px; width: 80px; height: 80px;" alt="..." />
             <h6 style="font-weight:700; text-align:center; margin-top:10px;">{{item.descript}}</h6>

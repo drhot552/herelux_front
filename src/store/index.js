@@ -87,6 +87,7 @@ const store = new Vuex.Store({
     brandcategory_category : 0,
     brandcateogry_brand : 0,
     brandcateogry_category_type : 0,
+    brandcategory_filter : 0,
     /**/
     /* homepage All Product list*/
     productList:[],
@@ -321,9 +322,9 @@ const store = new Vuex.Store({
         router.push('/error');
       });
     },
-    FETCH_BRANDCATEGORYLIST_READMORE({commit, state},{brand,category, category_type, sex}){
+    FETCH_BRANDCATEGORYLIST_READMORE({commit, state},{brand,category, category_type, sex, filter}){
 
-      return api.home.brandproduct(brand, category,  state.brandcategory_idx, category_type, sex).then(data=>{
+      return api.home.brandproduct(brand, category,  state.brandcategory_idx, category_type, sex, filter).then(data=>{
         if(data.length == 0){
           state.brandList_readFlag = false;
         }

@@ -35,6 +35,7 @@ const Brand = () => import('../components/Page/Brand.vue');
 const Withdrawal = () => import('../components/About/Withdrawal.vue');
 const PasswordChg = () => import('../components/About/PasswordChg.vue');
 const Callback = () => import('../components/Page/Callback.vue');
+const Page = () => import('../components/Page/Page.vue');
 
 //테스트
 const Test = () => import('../components/Test.vue');
@@ -306,10 +307,15 @@ const router = new Router({
       components:{default:Introduce, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Introduce"}
-      },
+      }
+    },
+    {
+      path:'/page',
+      name:'Page',
+      components:{default:Page, header:MainNavbar, footer:FooterNavbar},
       props:{
-        header:{colorOnScroll:0,pageName:"Introduce"},
-        footer:{pageName:"Introduce"}
+        header:{colorOnScroll:0,pageName:"Page"},
+        footer:{pageName:"Page"}
       }
     }
   ],

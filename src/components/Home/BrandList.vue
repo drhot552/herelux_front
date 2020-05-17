@@ -124,34 +124,34 @@ export default {
 
         //전체
         if(this.categoryactivetab == 0){
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:50, category_type:0, sex:this.sex});
+          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:50, category_type:0, sex:this.sex, filter:0});
           this.$store.state.brandcategory_category = 50;
         }
         //가방
         else if(this.categoryactivetab == 2){
           if(this.sex == 0){
-            this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:21, category_type:0, sex:this.sex});
+            this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:21, category_type:0, sex:this.sex, filter:0});
             this.$store.state.brandcategory_category = 21;
           } else {
-            this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:31, category_type:0, sex:this.sex});
+            this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:31, category_type:0, sex:this.sex, filter:0});
             this.$store.state.brandcategory_category = 31;
           }
         }
         //신발
         else if(this.categoryactivetab == 3){
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:41, category_type:0, sex:this.sex});
+          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:41, category_type:0, sex:this.sex, filter:0});
           this.$store.state.brandcategory_category = 41;
         }
         //지갑
         else {
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:11, category_type:0, sex:this.sex});
+          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:11, category_type:0, sex:this.sex, filter:0});
           this.$store.state.brandcategory_category = 11;
         }
       },
       onScroll(){
         if (Math.round( $(window).scrollTop()) >= $(document).height() - $(window).height() && this.$store.state.brandcategory_readFlag) {
           this.$store.commit('ISLOADING', true);
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:this.$store.state.brandcategory_category, category_type:this.$store.state.brandcateogry_category_type, sex:this.sex});
+          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:this.$store.state.brandcategory_category, category_type:this.$store.state.brandcateogry_category_type, sex:this.sex, filter:this.$store.state.brandcategory_filter});
         }
       }
     }
