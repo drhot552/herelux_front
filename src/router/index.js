@@ -316,6 +316,9 @@ const router = new Router({
       props:{
         header:{colorOnScroll:0,pageName:"Page"},
         footer:{pageName:"Page"}
+      },
+      meta: {
+        keepAlive: true // Need to be cached
       }
     }
   ],

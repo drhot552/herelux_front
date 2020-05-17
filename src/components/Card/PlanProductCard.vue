@@ -32,6 +32,14 @@ export default{
     }).catch(error=>{
         console.log(error);
     })
+  },
+  methods:{
+    productClick(id){
+      this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/page'
+      setTimeout(() => {
+        this.$router.push(this.returnPath)
+      }, 300)
+    }
   }
 }
 </script>
