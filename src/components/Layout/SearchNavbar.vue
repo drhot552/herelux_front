@@ -157,9 +157,6 @@ import { search,code } from '../../api'
   }
 </script>
 <style scoped>
-@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
-@import "../../..//node_modules/@syncfusion/ej2-inputs/styles/material.css";
-@import "../../..//node_modules/@syncfusion/ej2-vue-dropdowns/styles/material.css";
 nav {
   text-align: center;
 }

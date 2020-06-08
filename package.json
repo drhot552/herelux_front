@@ -10,7 +10,6 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "@syncfusion/ej2-vue-dropdowns": "^18.1.53",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.15",
     "element-ui": "^2.4.11",

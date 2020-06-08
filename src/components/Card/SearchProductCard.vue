@@ -4,7 +4,7 @@
           <div v-if="this.$store.state.searchList.length > 0" class="row" style="margin-bottom: 50px;">
             <div class="div_style" v-for="item in this.$store.state.searchList">
               <div v-ripple class="in" v-on:click="detail(item.id)">
-                <img class="lazy-img-fadein"  v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
+                <img class="lazy-img-fadein"  v-lazy="item.url" alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
                   <h6 class="product_name"> <br /> {{item.name}} </h6>
                   <h6> <b>{{item.price}}</b> </h6>

@@ -11,11 +11,9 @@ import Notifications from 'vue-notification'
 import VueScroll from 'vue-scroll'
 import AdFit from 'vue-adfit-component'
 import Ripple from 'vue-ripple-directive'
-import { AutoCompletePlugin } from '@syncfusion/ej2-vue-dropdowns';
 import Vue2TouchEvents from 'vue2-touch-events'
 
 Vue.use(Vue2TouchEvents)
-Vue.use(AutoCompletePlugin);
 VueClipboard.config.autoSetContainer = true // add this line
 
 Ripple.color = 'rgba(0, 0, 0, 0.1)';
