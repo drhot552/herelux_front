@@ -26,7 +26,7 @@
           </div>
             <div class="about-description text-center">
                 <div class="features-3" style="padding-top:0px;">
-                    <div class="container">
+                  <!--  <div class="container">
                       <div class="row">
 
                       </div>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="separator-line separator-primary"></div>

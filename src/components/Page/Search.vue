@@ -1,10 +1,10 @@
 <template>
   <div class="section" style="padding: 49px 0 53px;">
     <div class="blogs-4" id="blogs-4">
-      <div class="container" style="padding-left:15px; padding-right:15px;">
+      <div>
         <div v-if="!this.$store.state.searchFlag">
-          <SearchPage>
-          </SearchPage>
+          <SearchMain>
+          </SearchMain>
         </div>
         <div v-else>
           <SearchProductCard></SearchProductCard>
@@ -23,11 +23,13 @@ import { code,search } from '../../api'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import SearchPage from '../Search/SearchPage.vue'
+import SearchMain from '../Search/SearchMain.vue'
 import SearchProductCard from '../Card/SearchProductCard.vue';
 export default{
   components:{
     SearchProductCard,
-    SearchPage
+    SearchPage,
+    SearchMain
   },
   data(){
     return{

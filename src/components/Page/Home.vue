@@ -1,6 +1,8 @@
 <template>
   <div style="padding: 70px 0 53px; background: #fff;">
     <div class="container" style="padding-left:0; padding-right:0">
+      <RandomEvent></RandomEvent>
+      
       <div style="padding-left:10px; width:100%; display: flex;">
         <div v-for="item in category">
           <div v-if= "item.minor_key <5 " style="width:80px; margin-right:10px;" v-ripple v-on:click="detail(item.descript)">
@@ -35,7 +37,6 @@
               <div class="tabpane_sex" v-if="index === sexactivetab">
                 <div v-if="isLoading">
                   <CategoryList v-bind:sex="index"></CategoryList>
-                  <RandomEvent></RandomEvent>
                   <AdsenseHome v-bind:slot="2567075860"></AdsenseHome>
                   <BrandList v-bind:sex="index"></BrandList>
                 </div>

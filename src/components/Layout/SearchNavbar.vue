@@ -1,31 +1,30 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-white fixed-top">
-      <div class="container">
-        <div class="search_before" v-on:click="serachBefore()">
-          <img src="/public/img/btn_back.png" style="height:20px;">
-          </img>
-        </div>
-        <input class="searchpage_textarea"  contenteditable="true" v-model="search" id="search" ref="search" placeholder="검색"
-                  style="width: 100%; max-height: 58px; height: 38px; float:left; z-index:100;" v-on:keyup.enter="searchEnter()">
+      <div class="search_btn" v-on:click="searchEnter()">
+        <img src="/public/img/btn_search.png" style="height:20px;">
+        </img>
+      </div>
+      <input class="searchpage_textarea"  contenteditable="true" v-model="search" id="search" ref="search" placeholder="검색어를 입력하세요."
+                style="width: 100%; max-height: 58px; height: 38px; float:left; z-index:100;" v-on:keyup.enter="searchEnter()">
 
-        </input>
-        <div class="search_btn" v-on:click="searchEnter()">
-          <img src="/public/img/btn_search.png" style="height:20px;">
-          </img>
-        </div>
+      </input>
 
+      <div class="search_before" v-on:click="serachBefore()">
+        <img src="/public/img/btn_close.png" style="height:20px;">
+        </img>
       </div>
     </nav>
 </template>
 
 <script>
-import { search } from '../../api'
+import { search,code } from '../../api'
   export default {
     data(){
       return{
         search:'',
         code : [],
-        obj : Object
+        obj : Object,
+        searchTable:[]
       }
     },
     created(){
@@ -35,6 +34,14 @@ import { search } from '../../api'
       }).catch(error=>{
         console.log(error)
       })
+      code.search().then(data=>{
+        for(var i = 0; i < data.length; i++){
+          this.searchTable.push(data[i].descript)
+        }
+      }).catch(error=>{
+        console.log(error)
+      })
+
     },
     watch: {
       // 질문이 변경될 때 마다 이 기능이 실행됩니다.
@@ -60,6 +67,7 @@ import { search } from '../../api'
         }
       },
       searchEnter(){
+        console.log("serach Enter");
         this.$store.state.pageKeepAlive = true;
         this.$store.state.wordcatch = new Array();
         this.search = $("#search").val();
@@ -149,6 +157,9 @@ import { search } from '../../api'
   }
 </script>
 <style scoped>
+@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../..//node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../..//node_modules/@syncfusion/ej2-vue-dropdowns/styles/material.css";
 nav {
   text-align: center;
 }
@@ -157,7 +168,7 @@ nav {
   color: rgb(136, 136, 136);
 }
 .search_before{
-  left: 0;
+  right: 10px;
   position: absolute;
   z-index: 103;
   padding-left: 10px;
@@ -165,11 +176,9 @@ nav {
 }
 .search_btn{
   position: absolute;
-  right: 0;
   z-index: 1032;
   margin: 5px;
   height: 34px;
-  width: 50px;
   margin-right: 15px;
 }
 .searchpage_textarea{
@@ -178,9 +187,9 @@ nav {
   outline: 0;
   padding-left: 8px;
   margin-left:40px;
+  width: 75%;
   border:none;
   border-radius: 10px;
-  background-color: #E2E2E2;
 }
 .search_navbar {
   padding-top: 0;

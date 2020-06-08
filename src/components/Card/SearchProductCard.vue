@@ -32,7 +32,6 @@
 export default{
   created(){
     this.$store.commit('SET_SEARCHPRODUCT_INIT');
-    //this.readMore();
   },
   mounted(){
     document.addEventListener('scroll', this.onScroll);

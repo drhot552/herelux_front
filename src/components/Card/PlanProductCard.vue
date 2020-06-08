@@ -1,5 +1,5 @@
 <template>
-  <div class="card card-plain" >
+  <div class="card card-plain">
     <div style="padding-bottom:50px; padding-left:15px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
       <div style="display: height:210px; block; margin: 0px auto; width:90%;" v-for="item in productplan">
         <div style="width:150px; margin-right:15px;" v-ripple v-on:click="productClick(item.id)">

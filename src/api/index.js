@@ -3,12 +3,12 @@ import axios from 'axios'
 import router from '../router'
 
 /* 운영서버 */
-const DOMAIN ='http://54.180.120.131:4000';
-export const WRITEDOMAIN = 'http://54.180.120.131:4000';
+//const DOMAIN ='http://54.180.120.131:4000';
+//export const WRITEDOMAIN = 'http://54.180.120.131:4000';
 
 /* 개발서버 */
-//const DOMAIN ='http://54.180.153.54:4000'
-//export const WRITEDOMAIN = 'http://54.180.153.54:4000';
+const DOMAIN ='http://54.180.153.54:4000'
+export const WRITEDOMAIN = 'http://54.180.153.54:4000';
 
 const UNAUTHORIZED = 401
 
@@ -227,6 +227,9 @@ export const home ={
   },
   brandproduct(brand,category,page, category_type, sex, filter){
     return request('get', '/home/brandproduct/' + brand + '/' + category + '/' + page + '/' + category_type + '/' + sex + '/' + filter)
+  },
+  eventproduct(event_id){
+    return request('get', '/home/eventproduct/' + event_id)
   }
 }
 
@@ -251,6 +254,9 @@ export const code = {
   },
   filter(major_key){
     return request('get', '/code/filter/' + major_key)
+  },
+  search(){
+    return request('post', '/code/search')
   }
 }
 export const plan = {
