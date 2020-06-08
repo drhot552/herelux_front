@@ -2,7 +2,7 @@
   <div style="padding: 70px 0 53px; background: #fff;">
     <div class="container" style="padding-left:0; padding-right:0">
       <RandomEvent></RandomEvent>
-      
+      <AdsenseHome v-bind:slot="8582528687"></AdsenseHome>
       <div style="padding-left:10px; width:100%; display: flex;">
         <div v-for="item in category">
           <div v-if= "item.minor_key <5 " style="width:80px; margin-right:10px;" v-ripple v-on:click="detail(item.descript)">
@@ -25,7 +25,6 @@
            <div class="tabitem_sex" :class="index === sexactivetab ? 'active' : ''"  v-for="(tab, index) in sexarry" @click="switchTab(index)" :key="index" ref="tab">
              {{tab}}
            </div>
-
          </ul>
          <div style="margin-right: auto; margin-left: auto;">
            <div class="slider_sex" :style="'transform:translateX('+sexactivetab*tabwidth+'%)'">

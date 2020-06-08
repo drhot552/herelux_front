@@ -12,7 +12,7 @@
         </div>
         <div style="height:280px; width:100%;">
           <div style="text-align: center;">
-            <img style="height:280px; width:100%;" class="lazy-img-fadein" v-lazy="item.img_url" />
+            <img v-on:click="handleClickSlide(item.direct_url)" style="height:280px; width:100%;" class="lazy-img-fadein" v-lazy="item.img_url" />
             <div v-lazy:background-image="item.img_url"></div>
           </div>
         </div>
@@ -32,7 +32,7 @@
 
         </div>
         <div style="display: height:210px; block; margin: 0px auto; width:90%;" v-for="item in eventproduct">
-          <div style="width:150px; margin-right:15px;" v-ripple v-on:click="productClick(item.url)">
+          <div style="width:150px; margin-right:15px;" v-ripple v-on:click="handleClickSlide(item.url)">
             <img v-lazy="item.source" class="lazy-img-fadein"  style="border-radius: 10px; width: 150px; height: 150px;" alt="..." />
             <h6 class="category_product_name" style="margin-top:10px;">
               {{item.name}}
@@ -105,7 +105,8 @@ export default {
         console.log(error);
       })
     },
-    productClick(url){
+    handleClickSlide(url){
+      console.log(url);
       gtag('event','이벤트상품클릭',{'event_label':url});
       if(navigator.userAgent.match(/Android|Tablet/i)){
         if(navigator.userAgent.match(/herelux_app_and/i)){
