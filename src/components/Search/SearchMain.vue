@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="lstbx">
+    <div class="lstbx" style="height:300px;">
       <strong class="tit">추천검색어</strong>
       <ul class="srch_lst">
         <li v-ripple v-on:click="search(item.recommend)" class="search_result" style="border-bottom: 1px solid #eee;" v-for="(item,i) in recommend_left">
@@ -15,6 +15,21 @@
         </li>
       </ul>
     </div>
+    <div class="lstbx" style="height:300px;">
+      <strong class="tit">추천명품</strong>
+      <ul class="srch_lst">
+        <li v-ripple v-on:click="search(item.descript)" class="search_result" style="border-bottom: 1px solid #eee;" v-for="(item,i) in brandrecommend_left">
+          <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 1 }} . </span>
+          {{item.descript}}
+        </li>
+      </ul>
+      <ul class="srch_lst">
+        <li  v-ripple v-on:click="search(item.descript)" class="search_result" style="border-bottom: 1px solid #eee; border-left: 1px solid #eee;" v-for="(item,i) in brandrecommend_right">
+          <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 6 }} . </span>
+          {{item.descript}}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
@@ -22,7 +37,10 @@ import { search } from '../../api'
 export default{
   data(){
     return{
-        recommend :[],
+        recommend : [],
+        brandrecommend : [],
+        brandrecommend_left : [],
+        brandrecommend_right : [],
         recommend_left : [],
         recommend_right : [],
         code : []
@@ -40,7 +58,17 @@ export default{
         }
       }
     }).catch(error=>{
-
+      console.log(error);
+    })
+    search.randombrands().then(data=>{
+      this.brandrecommend = data;
+      for(var i = 0; i < this.brandrecommend.length; i++){
+        if(i > 4){
+          this.brandrecommend_right.push(this.brandrecommend[i]);
+        } else {
+          this.brandrecommend_left.push(this.brandrecommend[i]);
+        }
+      }
     })
     search.code().then(data=>{
       this.code = data
@@ -66,14 +94,17 @@ export default{
             if(this.code[i].major_key == 1 || this.code[i].major_key == 7778){
               wordObj.code = 'brand_name';
               wordObj.minor_key = this.code[i].minor_key;
+              wordObj.descript = this.code[i].descript;
               this.$store.state.wordcatch.push(wordObj);
             } else if(this.code[i].major_key == 2){
               wordObj.code = 'category_large';
               wordObj.minor_key = this.code[i].minor_key;
+              wordObj.descript = this.code[i].descript;
               this.$store.state.wordcatch.push(wordObj);
             } else {
               wordObj.code = 'category_middle';
               wordObj.minor_key = this.code[i].minor_key;
+              wordObj.descript = this.code[i].descript;
               this.$store.state.wordcatch.push(wordObj);
             }
           }
@@ -86,14 +117,18 @@ export default{
             if(this.code[j].major_key == 1 || this.code[j].major_key == 7778){
               codeObj.code = 'brand_name';
               codeObj.minor_key = this.code[j].minor_key;
+              codeObj.descript = this.code[j].descript;
               this.$store.state.wordcatch.push(codeObj);
             } else if(this.code[j].major_key == 2){
               codeObj.code = 'category_large';
               codeObj.minor_key = this.code[j].minor_key;
+              codeObj.descript = this.code[j].descript;
               this.$store.state.wordcatch.push(codeObj);
             } else {
               codeObj.code = 'category_middle';
               codeObj.minor_key = this.code[j].minor_key;
+              codeObj.descript = this.code[j].descript;
+
               this.$store.state.wordcatch.push(codeObj);
             }
           }
@@ -107,7 +142,8 @@ export default{
         this.$store.state.searchList_readFlag = false;
         this.$store.state.searchFlag = true;
         this.$store.commit('SET_SEARCHPRODUCT_INIT');
-        this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch});
+        this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:99, category:0, type:0, filter:0, brand:0});
+        this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:0, brand:0});
       }
     }
   }

@@ -27,7 +27,13 @@
          </h5>
          <a style="margin-top:10px; float:right; width:6%;" v-on:click="doCopy()">
            <img src="/public/img/btn_share.png"/>
-        </a>
+         </a>
+         <a v-if="!this.likeFlag" style="margin-top:10px; margin-right:10px; float:right; width:6%;" v-on:click="doLove()">
+          <img src="/public/img/btn_heart_default.png"/>
+         </a>
+         <a v-else style="margin-top:10px; margin-right:10px; float:right; width:6%;" v-on:click="doLove()">
+          <img src="/public/img/btn_heart_over.png"/>
+         </a>
        </div>
        <h5 style="margin-bottom: 15px;">가격 : {{price}}</h5>
        <ul v-for="(item,i) in detailbrand" class="brand ul_style">
@@ -161,7 +167,6 @@ import Images from './Images'
 import Modal from '../Component/Modal'
 import Adsense from '../Component/Adsense'
 import { product } from '../../api'
-import Cauly from '../Card/Cauly'
 
 export default {
     props: {
@@ -193,14 +198,14 @@ export default {
         title : "",
         descript:"",
         modalShow: false,
-        returnPath : ''
+        returnPath : '',
+        likeFlag : false
       }
     },
     components:{
       Carousel,
       Slide,
       Images,
-      Cauly,
       Collapse,
       CollapseItem,
       Modal,
@@ -210,11 +215,28 @@ export default {
       this.avg = this.star / this.count;
       this.avg = this.avg.toFixed(2);
       this.userId = localStorage.getItem('id');
-      //로그인한  경우 count 체크
+
+      //상품의 view를 증가시킨다
+      product.productview(this.id).then(data=>{
+        if(data == 500){
+          this.errorAlert();
+        }
+      }).catch(error=>{
+        this.errorAlert();
+      })
       if(this.userId){
         product.productcnt(this.userId, this.id).then(data =>{
           if(data == 500){
             this.errorAlert();
+          }
+        }).catch(error =>{
+          this.errorAlert();
+        });
+        product.productlovechk(this.userId, this.id).then(data =>{
+          if(data == 500){
+            this.errorAlert();
+          } else if(data.length > 0){
+            this.likeFlag = true;
           }
         }).catch(error =>{
           this.errorAlert();
@@ -298,6 +320,25 @@ export default {
      },
      errorAlert(){
        this.$router.push(this.$route.query.returnPath || '/error');
+     },
+     doLove(){
+       if(this.userId){
+         product.productlove(this.id, this.userId).then(data=>{
+           if(data == 200){
+             this.$notify({
+                group: 'alert',
+                title: '상품을 위시리스트에 담았습니다.',
+                duration: 500
+              });
+              this.likeFlag = true;
+           }
+         })
+       } else{
+         this.title = "로그인 확인"
+         this.descript = "로그인 후 위시리스트에 담을 수 있습니다. 로그인 하시겠습니까?"
+         this.modalShow = true;
+       }
+
      },
      doCopy() {
        var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;

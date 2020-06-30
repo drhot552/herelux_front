@@ -132,7 +132,6 @@ export default{
       //단어 <- code에서 있는지 확인
       //샤넬 남성가방 <-
       word=word.replace(/ /gi, "");    // 모든 공백을 제거
-
       for(var i=0; i<this.code.length; i++){
           var descript = this.code[i].descript;
           descript = descript.replace(/ /gi, "");
@@ -140,21 +139,24 @@ export default{
           var re = new RegExp(descript);
 
           if(word.indexOf(this.code[i].descript) != -1){
-
+            console.log(this.code[i].descript);
             var wordObj = new Object();
             word = word.replace(re,"");
             word = word.trim();
             if(this.code[i].major_key == 1 || this.code[i].major_key == 7778){
               wordObj.code = 'brand_name';
               wordObj.minor_key = this.code[i].minor_key;
+              wordObj.descript = this.code[i].descript;
               this.$store.state.wordcatch.push(wordObj);
             } else if(this.code[i].major_key == 2){
               wordObj.code = 'category_large';
               wordObj.minor_key = this.code[i].minor_key;
+              wordObj.descript = this.code[i].descript;
               this.$store.state.wordcatch.push(wordObj);
             } else {
               wordObj.code = 'category_middle';
               wordObj.minor_key = this.code[i].minor_key;
+              wordObj.descript = this.code[i].descript;
               this.$store.state.wordcatch.push(wordObj);
             }
           }
@@ -169,14 +171,17 @@ export default{
             if(this.code[j].major_key == 1 || this.code[j].major_key == 7778){
               codeObj.code = 'brand_name';
               codeObj.minor_key = this.code[j].minor_key;
+              codeObj.descript = this.code[j].descript;
               this.$store.state.wordcatch.push(codeObj);
             } else if(this.code[j].major_key == 2){
               codeObj.code = 'category_large';
               codeObj.minor_key = this.code[j].minor_key;
+              codeObj.descript = this.code[j].descript;
               this.$store.state.wordcatch.push(codeObj);
             } else {
               codeObj.code = 'category_middle';
               codeObj.minor_key = this.code[j].minor_key;
+              codeObj.descript = this.code[j].descript;
               this.$store.state.wordcatch.push(codeObj);
             }
           }
@@ -188,9 +193,9 @@ export default{
       if(this.$store.state.wordcatch.length > 0){
         this.$store.state.searchType = 1;
         this.$store.state.searchFlag = true;
-
         this.$store.commit('SET_SEARCHPRODUCT_INIT');
-        this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch});
+        this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:99, category:0, type:0, filter:0, brand:0});
+        this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:0, brand:0});
       }
     }
   }

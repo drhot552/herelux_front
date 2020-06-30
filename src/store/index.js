@@ -67,6 +67,7 @@ const store = new Vuex.Store({
     searchType : 0,
     searchPageType : 0,
     wordcatch : Object,
+    searchList_cnt : 0,
     searchWord : '', /* 검색어 저장 설정 */
     /* Loading */
     isLoading : false,
@@ -159,7 +160,9 @@ const store = new Vuex.Store({
     SET_SEARCHPRODUCT_INIT(state){
       state.searchList = []
       state.searchList_idx = 0
-      state.searchList_readFlag = false
+      state.searchType = 0
+      state.searchList_readFlag = false,
+      state.searchList_cnt = 0
     },
     SET_BOARDINFO_INIT(state){
       state.boardInfo =[]
@@ -182,6 +185,14 @@ const store = new Vuex.Store({
   },
   //보드를 추가하는 액션 api 콜을 해서 보드 생성 -> 비동기 처리시 actions 사용
   actions:{
+    SEARCHLIST_CNT({commit, state}, {wordcatch, category, brand}){
+        return api.search.wordcnt(wordcatch, category, brand).then(data=>{
+          state.searchList_cnt = data[0].cnt;
+          console.log(data[0].cnt);
+        }).catch(error =>{
+          router.push('/error');
+        });
+    },
     FETCH_RANK_READMORE({commit, state} , {category_type, category}){
       var key = 0;
       if(category == 0) {
@@ -301,8 +312,8 @@ const store = new Vuex.Store({
         router.push('/error');
       });
     },
-    FETCH_SEARCHCODELIST_READMORE({commit, state}, {wordcatch}){
-      return api.search.word(wordcatch, state.searchList_idx).then(data=>{
+    FETCH_SEARCHCODELIST_READMORE({commit, state}, {wordcatch, sex, category, type, filter, brand}){
+      return api.search.word(wordcatch, sex, category, state.searchList_idx, type, filter, brand).then(data=>{
         if(data.length == 0){
           state.searchList_readFlag = false;
         }
@@ -310,14 +321,13 @@ const store = new Vuex.Store({
           commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
           state.searchList.push(...data);
           state.searchList_readFlag = false;
-
         }
         else{
           commit('SEARCHPRODUCTLIST_IDX_INCREMENT',1)
           state.searchList.push(...data);
           state.searchList_readFlag = true;
         }
-          commit('ISLOADING', false);
+        commit('ISLOADING', false);
       }).catch(error =>{
         router.push('/error');
       });

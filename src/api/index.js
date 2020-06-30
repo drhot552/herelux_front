@@ -84,6 +84,15 @@ export const product = {
   },
   samecategory(category, category_type){
     return request('get', '/product/samecategory/' + category + '/' + category_type);
+  },
+  productview(product_id){
+    return request('get', '/product/productview/' + product_id);
+  },
+  productlove(product_id, user_id){
+    return request('get', '/product/productlove/' +  user_id + '/' + product_id);
+  },
+  productlovechk(product_id, user_id){
+    return request('get', '/product/productlovechk/' +  user_id + '/' + product_id);
   }
 }
 export const event = {
@@ -189,11 +198,18 @@ export const search = {
   code(){
     return request('get', '/search/code')
   },
-  word(wordcatch,page){
-    return request('post','/search/word/' + page, {wordcatch})
+  // word/:sex/:category/:page/:type/:filter
+  word(wordcatch,sex, category, page, type, filter, brand){
+    return request('post','/search/word/' + sex + '/' + category + '/' + page +'/' + type + '/' + filter + '/' + brand , {wordcatch})
   },
   category(){
     return request('get', '/search/category')
+  },
+  wordcnt(wordcatch, category, brand){
+    return request('post', '/search/wordcnt/' + category + '/' + brand, {wordcatch})
+  },
+  randombrands(){
+    return request('get', '/search/randombrands')
   }
 }
 
@@ -257,6 +273,12 @@ export const code = {
   },
   search(){
     return request('post', '/code/search')
+  },
+  searchcode(category_large,sex){
+    return request('post', '/code/searchcode/' + sex, {category_large} )
+  },
+  searchbrands(){
+    return request('post', '/code/searchbrands');
   }
 }
 export const plan = {

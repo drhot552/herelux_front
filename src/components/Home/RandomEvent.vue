@@ -26,7 +26,7 @@
       </swiper-slide>
       <div style="position:relative" class="swiper-pagination" slot="pagination"></div>
     </swiper>
-    <div class="card card-plain">
+    <div class="card card-plain" style="margin-bottom:15px;">
       <div style="padding-bottom:50px; padding-left:15px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
         <div style="display: block; height:210px; margin: 0px auto; width:90%;" v-if="eventproduct.length == 0">
 

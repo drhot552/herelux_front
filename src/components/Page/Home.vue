@@ -3,7 +3,7 @@
     <div class="container" style="padding-left:0; padding-right:0">
       <RandomEvent></RandomEvent>
       <AdsenseHome v-bind:slot="8582528687"></AdsenseHome>
-      <div style="padding-left:10px; width:100%; display: flex;">
+      <div style="padding-left:10px; width:100%; display: flex; padding-top:15px;">
         <div v-for="item in category">
           <div v-if= "item.minor_key <5 " style="width:80px; margin-right:10px;" v-ripple v-on:click="detail(item.descript)">
             <img v-lazy="item.url" class="lazy-img-fadein"  style="border-radius: 10px; width: 80px; height: 80px;" alt="..." />
@@ -11,14 +11,6 @@
           </div>
         </div>
       </div>
-      <div style="padding-left:5px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
-        <div style="display: block; margin: 0px auto; width:90%;" v-for="item in test">
-          <div v-if= "item.minor_key <5 " style="width:150px; margin-right:10px;" v-ripple v-on:click="detail(item.descript)">
-            <h6 style="font-weight:700; text-align:center; margin-top:10px;">{{item.descript}}</h6>
-          </div>
-        </div>
-      </div>
-
       <!-- 남 여 탭 구분 -->
       <div style="padding-top:15px;">
         <ul class="tabs_sex" ref="tabbar">
