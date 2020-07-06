@@ -133,8 +133,7 @@
             <img class="lazy-img-fadein" v-lazy="item.url"/>
           </div>
           <div style="text-align:center;">
-            <h6 class="detail_product_name" style="margin-top:10px;">
-              {{item.name}}
+            <h6 v-html="item.name" class="detail_product_name" style="margin-top:10px;">
             </h6>
             <h6 style="font-weight:700;">
               {{item.price}}
@@ -142,6 +141,36 @@
           </div>
         </div>
       </div>
+    </div>
+    <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px;">
+      <h5>
+        네이버 명품 쇼핑 어때요
+      </h5>
+    </div>
+    <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex;">
+      <div style="display: block; margin: 0px auto; width:90%;" v-for="item in navershop">
+        <div style="width:150px; margin-right:15px;" v-ripple v-on:click="navershopClick(item.link)">
+          <div>
+            <img class="lazy-img-fadein" v-lazy="item.image"/>
+          </div>
+          <div style="text-align:center;">
+            <h6 v-html="item.title" class="detail_product_name" style="margin-top:10px;">
+            </h6>
+            <h6 style="font-weight:700;">
+              {{item.lprice}} 원
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px;">
+      <h5>
+        더많은 정보를 얻어보세요
+      </h5>
+    </div>
+    <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex;">
+      <BlogCard v-bind:blogSearch="this.name"></BlogCard>
     </div>
     <div style="height:50px;">
 
@@ -162,11 +191,12 @@
 <script>
 import { Carousel, Slide } from 'vue-carousel'
 import Collapse from '../Component/Collapse'
+import BlogCard from '../Card/BlogCard'
 import CollapseItem from '../Component/CollapseItem'
 import Images from './Images'
 import Modal from '../Component/Modal'
 import Adsense from '../Component/Adsense'
-import { product } from '../../api'
+import { product, callback } from '../../api'
 
 export default {
     props: {
@@ -199,7 +229,8 @@ export default {
         descript:"",
         modalShow: false,
         returnPath : '',
-        likeFlag : false
+        likeFlag : false,
+        navershop : []
       }
     },
     components:{
@@ -209,7 +240,8 @@ export default {
       Collapse,
       CollapseItem,
       Modal,
-      Adsense
+      Adsense,
+      BlogCard
     },
     created(){
       this.avg = this.star / this.count;
@@ -242,6 +274,12 @@ export default {
           this.errorAlert();
         });
       }
+      callback.navershop(this.name).then(data=>{
+        this.navershop  = data.items;
+      }).catch(error =>{
+        console.log(error)
+        this.errorAlert();
+      });
 
       this.$store.commit('ISLOADING', true);
       product.detailbrand(this.id)
@@ -413,6 +451,28 @@ export default {
         setTimeout(() => {
           this.$router.push(this.returnPath)
         }, 300);
+      },
+      navershopClick(url){
+        gtag('event','네이버상품클릭',{'event_label':url});
+        if(navigator.userAgent.match(/Android|Tablet/i)){
+          if(navigator.userAgent.match(/herelux_app_and/i)){
+            window.android.bridge(url);
+          }
+          else{
+            window.open(url, '_blank');
+          }
+        }
+        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+          if(navigator.userAgent.match(/herelux_app_ios/i)){
+            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
+          }
+          else{
+            window.open(url, '_blank');
+          }
+        }
+        else {
+          window.open(url, '_blank');
+        }
       }
    }
 

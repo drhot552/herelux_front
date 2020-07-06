@@ -106,7 +106,6 @@ export default {
       })
     },
     handleClickSlide(url){
-      console.log(url);
       gtag('event','이벤트상품클릭',{'event_label':url});
       if(navigator.userAgent.match(/Android|Tablet/i)){
         if(navigator.userAgent.match(/herelux_app_and/i)){

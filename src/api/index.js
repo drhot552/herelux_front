@@ -3,12 +3,12 @@ import axios from 'axios'
 import router from '../router'
 
 /* 운영서버 */
-const DOMAIN ='http://54.180.120.131:4000';
-export const WRITEDOMAIN = 'http://54.180.120.131:4000';
+//const DOMAIN ='http://54.180.120.131:4000';
+//export const WRITEDOMAIN = 'http://54.180.120.131:4000';
 
 /* 개발서버 */
-//const DOMAIN ='http://54.180.153.54:4000'
-//export const WRITEDOMAIN = 'http://54.180.153.54:4000';
+const DOMAIN ='http://54.180.153.54:4000'
+export const WRITEDOMAIN = 'http://54.180.153.54:4000';
 
 const UNAUTHORIZED = 401
 
@@ -182,6 +182,12 @@ export const callback = {
   },
   navermember(token){
     return request('post', '/callback/member', {token})
+  },
+  navershop(product){
+    return request('post', '/callback/shop', {product})
+  },
+  naverblog(product){
+    return request('post', '/callback/blog', {product})
   }
 }
 
