@@ -6,14 +6,14 @@
         <b style="color:red;"> 11번가 쇼핑 </b>에서 판매중
       </h5>
     </div>
-    <div style="margin-bottom:20px; color:rgb(136, 136, 136);">
-      <span style="margin-right:10px;">
+    <div style="margin-bottom:20px; color:rgb(136, 136, 136); text-decoration: underline;">
+      <span style="margin-right:10px;" v-on:click="searchProduct(elevenshopbrand_name)">
         #{{this.elevenshopbrand_name}}
       </span>
-      <span style="margin-right:10px;">
+      <span style="margin-right:10px; text-decoration: underline;" v-on:click="searchProduct(elevenshopcategory_large)">
         #{{this.elevenshopcategory_large}}
       </span>
-      <span>
+      <span style="text-decoration: underline;" v-on:click="searchProduct(elevenshopcategory_middle)">
         #{{this.elevenshopcategory_middle}}
       </span>
     </div>
@@ -110,6 +110,12 @@ export default{
       else {
         window.open(url, '_blank');
       }
+    },
+    searchProduct(searchWord){
+      this.$store.state.searchWord = searchWord;
+      setTimeout(() => {
+        this.$router.push(this.$route.query.returnPath || '/search');
+      }, 300);
     }
   }
 
