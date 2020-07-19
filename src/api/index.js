@@ -188,6 +188,9 @@ export const callback = {
   },
   naverblog(product){
     return request('post', '/callback/blog', {product})
+  },
+  elevenstore(product){
+    return request('post', '/callback/elevenstore', {product})
   }
 }
 

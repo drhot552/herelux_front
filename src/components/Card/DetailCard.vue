@@ -81,21 +81,24 @@
       </div>
        <h6></h6>
      </div>
-     <div align="left" style="margin-left:15px; margin-right:15px; border-top: 3px solid rgb(0,0,0); padding-top:10px;"></div>
-  <!--   <div align="left" style="margin-left:15px; margin-right:15px;">
-       <div style="border-top: 3px solid rgb(0,0,0); padding-top : 10px">
-         <adfit-banner
-         v-on:ad-loaded
-         v-on:ad-failed
-         data-ad-test="N"
-         data-ad-unit="DAN-u88h76y8h7w2">
-         </adfit-banner>
-       </div>
-     </div>-->
+    <div align="left" style="margin-left:15px; margin-right:15px; border-top: 3px solid rgb(0,0,0); padding-top:10px;"></div>
     <div style="height:50px; text-align:left;">
       <span style="float: left; margin-left: 15px; margin-right: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 가격과 사이트 주소는 판매 사이트의 사정으로 변동이 생길 수 있습니다.</span>
       <br />
       <span style="float: left; margin-left: 15px; margin-right: 15px; font-size:13px; color:rgb(136, 136, 136);"> * 음영 처리된 상품은 일시 품절 상품입니다.</span>
+    </div>
+
+    <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px; margin-bottom: 15px; text-align: center;">
+      <NaverShopCard v-bind:navershopserach="this.sub_name"
+                     v-bind:navershopcategory_large="this.category_large_name"
+                     v-bind:navershopbrand_name="this.brand_name"
+                     v-bind:navershopcategory_middle="this.category_middle_name"></NaverShopCard>
+    </div>
+    <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px; margin-bottom: 15px; text-align: center;">
+      <ElevenShopCard v-bind:elevenshopserach="this.sub_name"
+                     v-bind:elevenshopcategory_large="this.category_large_name"
+                     v-bind:elevenshopbrand_name="this.brand_name"
+                     v-bind:elevenshopcategory_middle="this.category_middle_name"></ElevenShopCard>
     </div>
     <!-- 관련 카테고리 상품 select -->
     <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px;">
@@ -142,35 +145,27 @@
         </div>
       </div>
     </div>
-    <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px;">
-      <h5>
-        네이버 명품 쇼핑 어때요
-      </h5>
-    </div>
-    <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex;">
-      <div style="display: block; margin: 0px auto; width:90%;" v-for="item in navershop">
-        <div style="width:150px; margin-right:15px;" v-ripple v-on:click="navershopClick(item.link)">
-          <div>
-            <img class="lazy-img-fadein" v-lazy="item.image"/>
-          </div>
-          <div style="text-align:center;">
-            <h6 v-html="item.title" class="detail_product_name" style="margin-top:10px;">
-            </h6>
-            <h6 style="font-weight:700;">
-              {{item.lprice}} 원
-            </h6>
-          </div>
-        </div>
+    <div>
+      <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px; margin-bottom:10px;">
+        <img src="/public/img/naver_logo.png" style="width:70px; margin-bottom: 3px;">
+        <img src="/public/img/kakao_logo.jpg" style="width:80px; margin-bottom: 10px; margin-left:5px;">
+        <h5 style="display:inline-block; margin-left:5px;">
+          검색 정보
+        </h5>
       </div>
-    </div>
-
-    <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px;">
-      <h5>
-        더많은 정보를 얻어보세요
-      </h5>
-    </div>
-    <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex;">
+      <div align="left" style="margin-bottom:10px; margin-left:15px; margin-right:15px; ">
+        <span style="margin-right:10px;">
+          #{{this.brand_name}}
+        </span>
+        <span style="margin-right:10px;">
+          #{{this.category_large_name}}
+        </span>
+        <h5 style="font-size:1.1em; font-weight:550;">
+          #{{this.name}}
+        </h5>
+      </div>
       <BlogCard v-bind:blogSearch="this.name"></BlogCard>
+      <KaKaoCard v-bind:kakaoSearch="this.name"></KaKaoCard>
     </div>
     <div style="height:50px;">
 
@@ -192,11 +187,14 @@
 import { Carousel, Slide } from 'vue-carousel'
 import Collapse from '../Component/Collapse'
 import BlogCard from '../Card/BlogCard'
+import KaKaoCard from '../Card/KaKaoCard'
+import NaverShopCard from '../Card/NaverShopCard'
+import ElevenShopCard from '../Card/ElevenShopCard'
 import CollapseItem from '../Component/CollapseItem'
 import Images from './Images'
 import Modal from '../Component/Modal'
 import Adsense from '../Component/Adsense'
-import { product, callback } from '../../api'
+import { product,callback } from '../../api'
 
 export default {
     props: {
@@ -211,7 +209,10 @@ export default {
       reg_dttm : String,
       category_large : Number,
       category_middle : Number,
-      brand : Number
+      brand : Number,
+      brand_name : String,
+      category_middle_name : String,
+      category_large_name : String
     },
     data(){
       return{
@@ -229,8 +230,8 @@ export default {
         descript:"",
         modalShow: false,
         returnPath : '',
-        likeFlag : false,
-        navershop : []
+        likeFlag : false
+
       }
     },
     components:{
@@ -241,7 +242,10 @@ export default {
       CollapseItem,
       Modal,
       Adsense,
-      BlogCard
+      BlogCard,
+      KaKaoCard,
+      NaverShopCard,
+      ElevenShopCard
     },
     created(){
       this.avg = this.star / this.count;
@@ -256,6 +260,8 @@ export default {
       }).catch(error=>{
         this.errorAlert();
       })
+
+      //로그인인지 아닌지 판별
       if(this.userId){
         product.productcnt(this.userId, this.id).then(data =>{
           if(data == 500){
@@ -274,14 +280,8 @@ export default {
           this.errorAlert();
         });
       }
-      callback.navershop(this.name).then(data=>{
-        this.navershop  = data.items;
-      }).catch(error =>{
-        console.log(error)
-        this.errorAlert();
-      });
-
       this.$store.commit('ISLOADING', true);
+      //상품상세 조회
       product.detailbrand(this.id)
         .then(data => {
           this.detailbrand = data;
@@ -293,12 +293,14 @@ export default {
         });
       this.listImage();
 
+      //같은 브랜드 검색
       product.samebrand(this.brand).then(data=>{
         this.sameBrand = data
       }).catch(error =>{
         this.errorAlert()
       })
-      //large
+
+      //카테고리별 분류
       if(this.category_middle == -1){
         product.samecategory(this.category_large, 1).then(data=>{
           this.sameCategory = data

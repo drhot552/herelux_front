@@ -1,6 +1,6 @@
 <template>
   <div class="card card-plain">
-    <swiper ref="mySwiper" @slideChangeTransitionStart="onSwiperSlideChangeTransitionStart">
+    <swiper ref="mySwiper" @slideChangeTransitionStart="onSwiperSlideChangeTransitionStart" :options="swiperOptions">
       <swiper-slide v-for="item in eventhome">
         <div class="author" align="left" style="padding:5px;">
           <h6></h6>
@@ -23,8 +23,9 @@
            </h5>
            <h6>{{item.subtitle}}</h6>
          </div>
+
       </swiper-slide>
-      <div style="position:relative" class="swiper-pagination" slot="pagination"></div>
+      <div style="margin-top:15px; position:relative" class="swiper-pagination" slot="pagination"></div>
     </swiper>
     <div class="card card-plain" style="margin-bottom:15px;">
       <div style="padding-bottom:50px; padding-left:15px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
@@ -51,8 +52,8 @@ import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 import Images from '../Card/Images'
 import { home } from '../../api'
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-import PlanProductCard from '../Card/PlanProductCard';
 import 'swiper/css/swiper.css'
+import PlanProductCard from '../Card/PlanProductCard';
 
 export default {
   components:{
@@ -133,5 +134,8 @@ export default {
 <style>
 .swiper-pagination-bullet-active{
   background:black;
+}
+.swiper-pagination-current{
+
 }
 </style>
