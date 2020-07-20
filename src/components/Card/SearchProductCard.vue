@@ -123,7 +123,8 @@ export default{
       this.searchWord = $("#search").val();
       this.$store.commit('ISLOADING', true);
       if(this.$store.state.searchType == 0){
-        this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:$("#search").val()});
+        console.log($("#search").val());
+        this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.$store.state.searchWord});
       } else {
         this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
         this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
@@ -141,7 +142,8 @@ export default{
       if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.searchList_readFlag) {
         this.$store.commit('ISLOADING', true);
         if(this.$store.state.searchType == 0){
-          this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:$("#search").val()});
+          console.log($("#search").val());
+          this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.$store.state.searchWord});
         } else {
           this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
           this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
