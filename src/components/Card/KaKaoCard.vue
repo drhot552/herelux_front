@@ -41,7 +41,6 @@ export default {
     axios.get( 'https://dapi.kakao.com/v2/search/web?query=' + this.kakaoSearch, settings)
      .then(data => {
       this.kakaosearchArry = data.data.documents;
-      console.log(this.kakaosearchArry);
      }).catch(response => {
       console.log("error",response)
      })

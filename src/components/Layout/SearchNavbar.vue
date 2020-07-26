@@ -140,6 +140,7 @@ import { search,code } from '../../api'
         //두개 존재하면 검색에 포함
         //둘중 하나도 없으면
         //하나만 있으면 검색에 포함 x
+
         if(this.$store.state.wordcatch.length > 0){
           this.$store.state.searchType = 1;
           this.$store.state.searchList_readFlag = false;

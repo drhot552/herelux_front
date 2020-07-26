@@ -160,7 +160,6 @@ const store = new Vuex.Store({
     SET_SEARCHPRODUCT_INIT(state){
       state.searchList = []
       state.searchList_idx = 0
-      state.searchType = 0
       state.searchList_readFlag = false,
       state.searchList_cnt = 0
     },
@@ -188,7 +187,6 @@ const store = new Vuex.Store({
     SEARCHLIST_CNT({commit, state}, {wordcatch, category, brand}){
         return api.search.wordcnt(wordcatch, category, brand).then(data=>{
           state.searchList_cnt = data[0].cnt;
-          console.log(data[0].cnt);
         }).catch(error =>{
           router.push('/error');
         });
