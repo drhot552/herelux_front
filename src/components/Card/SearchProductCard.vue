@@ -7,7 +7,7 @@
                총 {{this.$store.state.searchList_cnt}} 개 상품
              </b>
              <a v-on:click="popup(2)">
-               <b>브랜드검색</b>
+               <b>{{brand_name_descript}}</b>
                <img src="/public/img/btn_arrow_down.png" style="height:10px; margin-right:10px;"/>
              </a>
              <a v-on:click="popup(0)">
@@ -16,7 +16,7 @@
              </a>
              <a v-on:click="popup(1)">
                <img src="/public/img/btn_filter.png" style="height:18px;"/>
-               <b>필터링</b>
+               <b>{{category_middle_descript}}</b>
              </a>
            </h6>
         <h6></h6>
@@ -55,19 +55,33 @@
       </modal>
       <!-- 부 카테고리 팝업 -->
       <modal :show.sync="modalShow" headerClasses="justify-content-center">
-        <h4 slot="header" class="title title-up"></h4>
+        <div class="searchmodal_btn">
+          <img src="/public/img/btn_search.png" style="height:20px;">
+          </img>
+        </div>
+        <input class="searchmodal_textarea"  contenteditable="true" v-model="categorysearch" id="categorysearch" ref="categorysearch" placeholder="검색어를 입력하세요."
+                  style="max-height: 58px; height: 38px; float:left; z-index:100;">
+
+        </input>
         <div class="modal-view">
-          <div style="text-align:center; border-bottom:1px solid hsla(0,0%,53%,.3); padding:5px;" v-for="item in category_middle">
-            <a v-on:click="categorySelect(item.minor_key)">{{item.descript}}</a>
+          <div style="text-align:center; border-bottom:1px solid hsla(0,0%,53%,.3); padding:5px;" v-for="item in filteredList">
+            <a v-on:click="categorySelect(item.minor_key, item.descript)">{{item.descript}}</a>
           </div>
         </div>
       </modal>
       <!-- 부 카테고리 팝업 -->
       <modal :show.sync="modalBrandShow" headerClasses="justify-content-center">
-        <h4 slot="header" class="title title-up"></h4>
+        <div class="searchmodal_btn">
+          <img src="/public/img/btn_search.png" style="height:20px;">
+          </img>
+        </div>
+        <input class="searchmodal_textarea"  contenteditable="true" v-model="brandsearch" id="brandsearch" ref="brandsearch" placeholder="검색어를 입력하세요."
+                  style="max-height: 58px; height: 38px; float:left; z-index:100;">
+
+        </input>
         <div class="modal-view">
-          <div style="text-align:center; border-bottom:1px solid hsla(0,0%,53%,.3); padding:5px;" v-for="item in brands_name">
-            <a v-on:click="brandSelect(item.minor_key)">{{item.descript}}</a>
+          <div style="text-align:center; border-bottom:1px solid hsla(0,0%,53%,.3); padding:5px;" v-for="item in brandfilteredList">
+            <a v-on:click="brandSelect(item.minor_key, item.descript)">{{item.descript}}</a>
           </div>
         </div>
       </modal>
@@ -81,6 +95,7 @@ import Modal from '../Component/Modal';
 export default{
   created(){
     this.$store.commit('SET_SEARCHPRODUCT_INIT');
+    this.$nextTick(() => this.$refs.categorysearch.focus())
   },
   mounted(){
     document.addEventListener('scroll', this.onScroll);
@@ -93,6 +108,18 @@ export default{
   },
   deactivated(){
     document.removeEventListener('scroll', this.onScroll);
+  },
+  computed: {
+    filteredList() {
+      return this.category_middle.filter(post => {
+        return post.descript.toLowerCase().includes(this.categorysearch.toLowerCase())
+      })
+    },
+    brandfilteredList() {
+      return this.brands_name.filter(post => {
+        return post.descript.toLowerCase().includes(this.brandsearch.toLowerCase())
+      })
+    }
   },
   components:{
     Modal
@@ -115,7 +142,10 @@ export default{
       category_large_type : [],
       category_middle_type : [],
       brands_name : [],
-      category_middle_descript : ''
+      category_middle_descript : '필터링',
+      brand_name_descript : '브랜드검색',
+      categorysearch : '',
+      brandsearch:''
     }
   },
   methods:{
@@ -230,8 +260,9 @@ export default{
         }
       }
     },
-    brandSelect(key){
+    brandSelect(key,descript){
       this.brand_key = key;
+      this.brand_name_descript = descript;
       this.$store.commit('SET_SEARCHPRODUCT_INIT');
       this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
       this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
@@ -246,9 +277,10 @@ export default{
       this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
       this.modalFilterShow = false;
     },
-    categorySelect(key){
+    categorySelect(key,descript){
       // 카테고리 타입이 2이면 부카테고리로 set한다
       this.category_key = key;
+      this.category_middle_descript = descript;
       this.$store.commit('SET_SEARCHPRODUCT_INIT');
       this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
       this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
@@ -286,5 +318,22 @@ export default{
   width: 100%;
   height: 200px;
   overflow-y: scroll;
+}
+.searchmodal_textarea{
+  margin: 0;
+  height: inherit;
+  outline: 0;
+  padding-left: 8px;
+  margin-left:40px;
+  width: 75%;
+  border:none;
+  border-radius: 10px;
+}
+.searchmodal_btn{
+  position: absolute;
+  z-index: 1032;
+  margin: 5px;
+  height: 34px;
+  margin-right: 15px;
 }
 </style>
