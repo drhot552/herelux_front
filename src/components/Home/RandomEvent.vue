@@ -11,8 +11,8 @@
           <h6></h6>
         </div>
         <div style="height:280px; width:100%;">
-          <div style="text-align: center;">
-            <img v-on:click="handleClickSlide(item.direct_url)" style="height:280px; width:100%;" class="lazy-img-fadein" v-lazy="item.img_url" />
+          <div v-ripple v-on:click="handleClickSlide(item.direct_url)" style="text-align: center;">
+            <img style="height:280px; width:100%;" class="lazy-img-fadein" v-lazy="item.img_url" />
             <div v-lazy:background-image="item.img_url"></div>
           </div>
         </div>
@@ -108,25 +108,27 @@ export default {
     },
     handleClickSlide(url){
       gtag('event','이벤트상품클릭',{'event_label':url});
-      if(navigator.userAgent.match(/Android|Tablet/i)){
-        if(navigator.userAgent.match(/herelux_app_and/i)){
-          window.android.bridge(url);
+      setTimeout(() => {
+        if(navigator.userAgent.match(/Android|Tablet/i)){
+          if(navigator.userAgent.match(/herelux_app_and/i)){
+            window.android.bridge(url);
+          }
+          else{
+            window.open(url, '_blank');
+          }
         }
-        else{
+        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+          if(navigator.userAgent.match(/herelux_app_ios/i)){
+            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
+          }
+          else{
+            window.open(url, '_blank');
+          }
+        }
+        else {
           window.open(url, '_blank');
         }
-      }
-      else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-        if(navigator.userAgent.match(/herelux_app_ios/i)){
-          window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
-        }
-        else{
-          window.open(url, '_blank');
-        }
-      }
-      else {
-        window.open(url, '_blank');
-      }
+      }, 300);
     }
   }
 }

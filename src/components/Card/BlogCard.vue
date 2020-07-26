@@ -6,7 +6,7 @@
           </div>
           <div v-ripple class="row" style="backgroud-color:white; padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
                 v-for="item in naverblog">
-            <div style="width:100%;" v-on:click="onClick(item.link)">
+            <div style="width:100%;" v-ripple v-on:click="onClick(item.link)">
               <div class="div_board_1" style="margin-left:10px; margin-right:10px;">
                 <!--순위대로 색을 다르게 check-->
                   <div class="layer">
@@ -58,25 +58,27 @@ export default {
     },
     onClick(url){
       gtag('event','네이버블로그클릭',{'event_label':url});
-      if(navigator.userAgent.match(/Android|Tablet/i)){
-        if(navigator.userAgent.match(/herelux_app_and/i)){
-          window.android.bridge(url);
+      setTimeout(() => {
+        if(navigator.userAgent.match(/Android|Tablet/i)){
+          if(navigator.userAgent.match(/herelux_app_and/i)){
+            window.android.bridge(url);
+          }
+          else{
+            window.open(url, '_blank');
+          }
         }
-        else{
+        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+          if(navigator.userAgent.match(/herelux_app_ios/i)){
+            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
+          }
+          else{
+            window.open(url, '_blank');
+          }
+        }
+        else {
           window.open(url, '_blank');
         }
-      }
-      else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-        if(navigator.userAgent.match(/herelux_app_ios/i)){
-          window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
-        }
-        else{
-          window.open(url, '_blank');
-        }
-      }
-      else {
-        window.open(url, '_blank');
-      }
+      }, 300);
     }
   }
 
