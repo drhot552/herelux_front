@@ -101,6 +101,7 @@
           this.modalShow = true;
         });
       }
+      callbackFuc();
     },
     methods:{
       onNaverOk(){
