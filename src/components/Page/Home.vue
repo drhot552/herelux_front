@@ -1,6 +1,11 @@
 <template>
   <div style="padding: 70px 0 53px; background: #fff;">
-    <div class="container" style="padding-left:0; padding-right:0">
+    <div v-if="loading" style="width:100%; height:1024px; text-align: center;">
+      <div style="display: inline-block; margin-top:150px;">
+        <clip-loader :loading="loading" :color="'black'" :size="'50px'"></clip-loader>
+      </div>
+    </div>
+    <div v-else class="container" style="padding-left:0; padding-right:0">
       <RandomEvent></RandomEvent>
       <AdsenseHome v-bind:slot="8582528687"></AdsenseHome>
       <div style="padding-left:10px; width:100%; display: flex; padding-top:15px;">
@@ -44,6 +49,8 @@ import CategoryList from '../Home/CategoryList';
 import BrandList from '../Home/BrandList';
 import AdsenseHome from '../Component/AdsenseHome';
 import RandomEvent from '../Home/RandomEvent'
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
+
 export default{
   data(){
     return {
@@ -54,25 +61,26 @@ export default{
       tabwidth: 400,
       middlecategory_wallet : 0,
       middlecategory_shoes : 0,
-      isLoading : true
+      isLoading : true,
+      loading : false
     }
   },
   components:{
     CategoryList,
     BrandList,
     RandomEvent,
-    AdsenseHome
+    AdsenseHome,
+    ClipLoader
   },
   created(){
-    search.category().then(data=>{
-      this.category = data;
-    }).catch(error=>{
-
-    })
-
-  },
-  mounted(){
-   this.$refs.tabbar.style.setProperty('--tabwidth', this.tabwidth+'px')
+    this.loading = true
+    setTimeout(() => {
+      search.category().then(data=>{
+        this.category = data;
+        this.loading = false;
+      }).catch(error=>{
+      })
+    }, 800)
   },
   methods:{
     detail(searchWord){

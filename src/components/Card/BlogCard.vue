@@ -1,9 +1,6 @@
 <template>
     <div class="content">
         <div class="container" style="margin-bottom:10px">
-          <div class="row" style="backgroud-color:white; padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);">
-
-          </div>
           <div v-ripple class="row" style="backgroud-color:white; padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
                 v-for="item in naverblog">
             <div style="width:100%;" v-ripple v-on:click="onClick(item.link)">
@@ -20,9 +17,9 @@
               <div class="div_board_1" style="margin-left:10px">
                 <div>
                   <img class="h6_style" src="/public/img/naver_login_btn.png" style="width:15px;">
-                  <h6 class="h6_style"> {{item.bloggername}} </h6>
+                  <h6 class="h6_style" style="font-weight: 600;"> {{item.bloggername}} </h6>
                   <h6 class="h6_style"> | </h6>
-                  <h6 class="h6_style"> {{`작성시간 : ` + item.postdate}} </h6>
+                  <h6 class="h6_style" style="font-weight: 600;"> {{`작성시간 : ` + item.postdate}} </h6>
                   <h6 class="h6_style"> | </h6>
                 </div>
               </div>

@@ -164,6 +164,7 @@
           #{{this.name}}
         </h5>
       </div>
+      <CafeCard v-bind:cafeSearch="this.name"></CafeCard>
       <BlogCard v-bind:blogSearch="this.name"></BlogCard>
       <KaKaoCard v-bind:kakaoSearch="this.name"></KaKaoCard>
     </div>
@@ -190,6 +191,7 @@ import BlogCard from '../Card/BlogCard'
 import KaKaoCard from '../Card/KaKaoCard'
 import NaverShopCard from '../Card/NaverShopCard'
 import ElevenShopCard from '../Card/ElevenShopCard'
+import CafeCard from '../Card/CafeCard'
 import CollapseItem from '../Component/CollapseItem'
 import Images from './Images'
 import Modal from '../Component/Modal'
@@ -245,7 +247,8 @@ export default {
       BlogCard,
       KaKaoCard,
       NaverShopCard,
-      ElevenShopCard
+      ElevenShopCard,
+      CafeCard
     },
     created(){
       this.avg = this.star / this.count;

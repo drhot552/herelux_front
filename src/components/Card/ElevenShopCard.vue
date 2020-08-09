@@ -75,7 +75,6 @@ export default{
   },
   created(){
     callback.elevenstore(this.elevenshopserach).then(data=>{
-      console.log(data.ProductSearchResponse.Products[0].Product);
       for(var i = 0; i < data.ProductSearchResponse.Products[0].Product.length; i++){
         if(i % 3 == 0 && i != 0){
           this.elevenshopArray.push(this.elevenshop)

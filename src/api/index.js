@@ -189,6 +189,9 @@ export const callback = {
   naverblog(product){
     return request('post', '/callback/blog', {product})
   },
+  navercafe(product){
+    return request('post', '/callback/cafe', {product})
+  },
   elevenstore(product){
     return request('post', '/callback/elevenstore', {product})
   }

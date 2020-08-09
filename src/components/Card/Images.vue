@@ -4,12 +4,7 @@
     <div class="qqm6D" align="left">
       <ul class="YlNGR" style="padding-left:0px; padding-right:0px;">
         <li class="_-1_m6" style="opacity:1; list-style-type:none;" v-ripple v-on:click="trackOutboundLink(title, subject, direct_url)">
-          <div v-if="loading" style="width:100%; height:360px; text-align: center;">
-            <div style="display: inline-block; margin-top:150px;">
-              <beat-loader :loading="loading" :color="'#888888'"></beat-loader>
-            </div>
-          </div>
-          <div v-else style="text-align: center;">
+          <div style="text-align: center;">
             <img class="lazy-img-fadein" v-lazy="img_url" />
             <div v-lazy:background-image="img_url"></div>
           </div>
@@ -35,13 +30,9 @@
 </template>
 
 <script>
-import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 
 export default{
   name : 'images',
-  components:{
-    BeatLoader
-  },
   props: {
     subject: String,
     subtitle: String,
@@ -54,9 +45,6 @@ export default{
     return{
       loading: false
     }
-  },
-  created(){
-    this.fetchData()
   },
   methods:{
     trackOutboundLink: function (title,subject, url) {
@@ -83,12 +71,6 @@ export default{
         }
       }, 300);
 
-    },
-    fetchData(){
-        this.loading = true
-        setTimeout(() => {
-          this.loading=false
-        }, 1000)
     }
 
   }

@@ -1,7 +1,12 @@
 <template>
   <div class="section">
     <div class="blogs-4">
-          <div class="container">
+        <div v-if="loading" style="width:100%; height:1024px; text-align: center;">
+          <div style="display: inline-block; margin-top:150px;">
+            <clip-loader :loading="loading" :color="'black'" :size="'50px'"></clip-loader>
+          </div>
+        </div>
+          <div v-else class="container">
             <div class="row">
               <article class="col-md-8 ml-auto mr-auto">
                 <div v-if="productflag">
@@ -28,31 +33,26 @@
               </article>
             </div>
           </div>
-          <loading :active.sync="this.$store.state.isLoading"
-                    :can-cancel="true"
-                    :is-full-page="true"
-                    :z-index="1060">
-          </loading>
     </div>
     <div class="section-space"></div>
   </div>
 </template>
 <script>
 import DetailCard from '../Card/DetailCard'
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 import { product } from '../../api'
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   components: {
     DetailCard,
-    Loading
+    ClipLoader
   },
   data(){
     return{
       product:[],
       productflag : true,
-      productId : 0
+      productId : 0,
+      loading : false
     }
   },
   watch: {
@@ -72,22 +72,27 @@ export default {
   methods:{
     listProduct(){
       this.$store.commit('ISLOADING', true);
-      product.detail(this.productId).then(data => {
-        //만약에 없으면 금일 상품을 모두 선택했다는 메시지로 변경
-        if(data.length > 0){
-          this.product = data;
-          this.productflag = true;
-        }
-        else{
-          this.productflag = false;
-        }
-        this.$store.commit('ISLOADING', false);
-      })
-      .catch(error =>{
-        console.log(error);
-        alert("서버와의 통신 에러가 발생하였습니다.");
-        this.$router.push(this.$route.query.returnPath || '/error');
-      });
+      this.loading = true
+      setTimeout(() => {
+        product.detail(this.productId).then(data => {
+          //만약에 없으면 금일 상품을 모두 선택했다는 메시지로 변경
+          if(data.length > 0){
+            this.product = data;
+            this.productflag = true;
+          }
+          else{
+            this.productflag = false;
+          }
+          this.loading = false;
+          this.$store.commit('ISLOADING', false);
+        })
+        .catch(error =>{
+          console.log(error);
+          alert("서버와의 통신 에러가 발생하였습니다.");
+          this.$router.push(this.$route.query.returnPath || '/error');
+        });
+      }, 800)
+
     }
   }
 }
