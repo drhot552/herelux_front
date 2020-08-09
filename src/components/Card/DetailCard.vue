@@ -339,26 +339,11 @@ export default {
        }, 500)
      },
      detailClick(url){
+       gtag('event','상품상세클릭',{'event_label':url});
+       url = url.replace(/\//gi,'!!');
+       url = url.replace(/\?/gi,'@@');
        setTimeout(() => {
-         if(navigator.userAgent.match(/Android|Tablet/i)){
-           if(navigator.userAgent.match(/herelux_app_and/i)){
-             window.android.bridge(url);
-           }
-           else{
-             window.open(url, '_blank');
-           }
-         }
-         else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-           if(navigator.userAgent.match(/herelux_app_ios/i)){
-             window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
-           }
-           else{
-             window.open(url, '_blank');
-           }
-         }
-         else {
-           window.open(url, '_blank');
-         }
+         this.$router.push(this.$route.query.returnPath || '/pagemove/' + url);
        }, 200);
      },
      errorAlert(){
@@ -456,28 +441,6 @@ export default {
         setTimeout(() => {
           this.$router.push(this.returnPath)
         }, 300);
-      },
-      navershopClick(url){
-        gtag('event','네이버상품클릭',{'event_label':url});
-        if(navigator.userAgent.match(/Android|Tablet/i)){
-          if(navigator.userAgent.match(/herelux_app_and/i)){
-            window.android.bridge(url);
-          }
-          else{
-            window.open(url, '_blank');
-          }
-        }
-        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-          if(navigator.userAgent.match(/herelux_app_ios/i)){
-            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
-          }
-          else{
-            window.open(url, '_blank');
-          }
-        }
-        else {
-          window.open(url, '_blank');
-        }
       }
    }
 

@@ -90,26 +90,12 @@ export default{
   },
   methods:{
     onClick(url){
-      gtag('event','카카오블로그클릭',{'event_label':url});
-      if(navigator.userAgent.match(/Android|Tablet/i)){
-        if(navigator.userAgent.match(/herelux_app_and/i)){
-          window.android.bridge(url);
-        }
-        else{
-          window.open(url, '_blank');
-        }
-      }
-      else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-        if(navigator.userAgent.match(/herelux_app_ios/i)){
-          window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
-        }
-        else{
-          window.open(url, '_blank');
-        }
-      }
-      else {
-        window.open(url, '_blank');
-      }
+      gtag('event','네이버쇼핑클릭',{'event_label':url});
+      url = url.replace(/\//gi,'!!');
+      url = url.replace(/\?/gi,'@@');
+      setTimeout(() => {
+        this.$router.push(this.$route.query.returnPath || '/pagemove/' + url);
+      }, 200);
     },
     searchProduct(searchWord){
       this.$store.state.searchWord = searchWord;

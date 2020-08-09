@@ -108,27 +108,11 @@ export default {
     },
     handleClickSlide(url){
       gtag('event','이벤트상품클릭',{'event_label':url});
+      url = url.replace(/\//gi,'!!');
+      url = url.replace(/\?/gi,'@@');
       setTimeout(() => {
-        if(navigator.userAgent.match(/Android|Tablet/i)){
-          if(navigator.userAgent.match(/herelux_app_and/i)){
-            window.android.bridge(url);
-          }
-          else{
-            window.open(url, '_blank');
-          }
-        }
-        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-          if(navigator.userAgent.match(/herelux_app_ios/i)){
-            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+url.trim());
-          }
-          else{
-            window.open(url, '_blank');
-          }
-        }
-        else {
-          window.open(url, '_blank');
-        }
-      }, 300);
+        this.$router.push(this.$route.query.returnPath || '/pagemove/' + url);
+      }, 200);
     }
   }
 }

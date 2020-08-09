@@ -36,6 +36,7 @@ const Withdrawal = () => import('../components/About/Withdrawal.vue');
 const PasswordChg = () => import('../components/About/PasswordChg.vue');
 const Callback = () => import('../components/Page/Callback.vue');
 const Page = () => import('../components/Page/Page.vue');
+const PageMove = () => import('../components/Page/PageMove.vue')
 
 //테스트
 const Test = () => import('../components/Test.vue');
@@ -319,6 +320,14 @@ const router = new Router({
       },
       meta: {
         keepAlive: true // Need to be cached
+      }
+    },
+    {
+      path:'/pagemove/:url',
+      name:'PageMove',
+      components:{default:PageMove, header:MainNavbar, footer:FooterNavbar},
+      props:{
+        header:{colorOnScroll:0,pageName:"PageMove"}
       }
     }
   ],
