@@ -49,7 +49,7 @@ export default {
         window.open(this.$route.params.url, '_blank');
       }
       this.$router.go(-1)
-    }, 2000);
+    }, 1700);
   }
 }
 </script>
