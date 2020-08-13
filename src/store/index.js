@@ -71,6 +71,7 @@ const store = new Vuex.Store({
     searchWord : '', /* 검색어 저장 설정 */
     /* Loading */
     isLoading : false,
+    isLoadingSearch : false,
     /* Datacheck */
     dataCheck : false,
 

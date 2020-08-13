@@ -1,40 +1,52 @@
 <template>
   <div>
-    <div class="lstbx" style="height:300px;">
-      <strong class="tit">추천검색어</strong>
-      <ul class="srch_lst">
-        <li v-ripple v-on:click="search(item.recommend)" class="search_result" style="border-bottom: 1px solid #eee;" v-for="(item,i) in recommend_left">
-          <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 1 }} . </span>
-          {{item.recommend}}
-        </li>
-      </ul>
-      <ul class="srch_lst">
-        <li  v-ripple v-on:click="search(item.recommend)" class="search_result" style="border-bottom: 1px solid #eee; border-left: 1px solid #eee;" v-for="(item,i) in recommend_right">
-          <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 6 }} . </span>
-          {{item.recommend}}
-        </li>
-      </ul>
+    <div v-if="loading" style="width:100%; height:1024px; text-align: center;">
+      <div style="display: inline-block; margin-top:150px;">
+        <clip-loader :loading="loading" :color="'black'" :size="'50px'"></clip-loader>
+      </div>
     </div>
-    <div class="lstbx" style="height:300px;">
-      <strong class="tit">추천명품</strong>
-      <ul class="srch_lst">
-        <li v-ripple v-on:click="search(item.descript)" class="search_result" style="border-bottom: 1px solid #eee;" v-for="(item,i) in brandrecommend_left">
-          <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 1 }} . </span>
-          {{item.descript}}
-        </li>
-      </ul>
-      <ul class="srch_lst">
-        <li  v-ripple v-on:click="search(item.descript)" class="search_result" style="border-bottom: 1px solid #eee; border-left: 1px solid #eee;" v-for="(item,i) in brandrecommend_right">
-          <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 6 }} . </span>
-          {{item.descript}}
-        </li>
-      </ul>
+    <div v-else>
+      <div class="lstbx" style="height:300px;">
+        <strong class="tit">추천검색어</strong>
+        <ul class="srch_lst">
+          <li v-ripple v-on:click="search(item.recommend)" class="search_result" style="border-bottom: 1px solid #eee;" v-for="(item,i) in recommend_left">
+            <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 1 }} . </span>
+            {{item.recommend}}
+          </li>
+        </ul>
+        <ul class="srch_lst">
+          <li  v-ripple v-on:click="search(item.recommend)" class="search_result" style="border-bottom: 1px solid #eee; border-left: 1px solid #eee;" v-for="(item,i) in recommend_right">
+            <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 6 }} . </span>
+            {{item.recommend}}
+          </li>
+        </ul>
+      </div>
+      <div class="lstbx" style="height:300px;">
+        <strong class="tit">추천명품</strong>
+        <ul class="srch_lst">
+          <li v-ripple v-on:click="search(item.descript)" class="search_result" style="border-bottom: 1px solid #eee;" v-for="(item,i) in brandrecommend_left">
+            <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 1 }} . </span>
+            {{item.descript}}
+          </li>
+        </ul>
+        <ul class="srch_lst">
+          <li  v-ripple v-on:click="search(item.descript)" class="search_result" style="border-bottom: 1px solid #eee; border-left: 1px solid #eee;" v-for="(item,i) in brandrecommend_right">
+            <span style="color:red;font-weight: 450;font-size: 13px;">{{i + 6 }} . </span>
+            {{item.descript}}
+          </li>
+        </ul>
+      </div>
     </div>
+
   </div>
 </template>
 <script>
 import { search } from '../../api'
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 export default{
+  components:{
+    ClipLoader
+  },
   data(){
     return{
         recommend : [],
@@ -43,38 +55,50 @@ export default{
         brandrecommend_right : [],
         recommend_left : [],
         recommend_right : [],
-        code : []
+        code : [],
+        loading: false
     }
   },
+  activated(){
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 500)
+  },
   created(){
-    search.recommend().then(data=>{
-      this.recommend = data;
-      //2개로 나눠서 저장
-      for(var i = 0; i < this.recommend.length; i++){
-        if(i > 4){
-          this.recommend_right.push(this.recommend[i]);
-        } else {
-          this.recommend_left.push(this.recommend[i]);
+    this.loading = true;
+    setTimeout(() => {
+      search.recommend().then(data=>{
+        this.recommend = data;
+        //2개로 나눠서 저장
+        for(var i = 0; i < this.recommend.length; i++){
+          if(i > 4){
+            this.recommend_right.push(this.recommend[i]);
+          } else {
+            this.recommend_left.push(this.recommend[i]);
+          }
         }
-      }
-    }).catch(error=>{
-      console.log(error);
-    })
-    search.randombrands().then(data=>{
-      this.brandrecommend = data;
-      for(var i = 0; i < this.brandrecommend.length; i++){
-        if(i > 4){
-          this.brandrecommend_right.push(this.brandrecommend[i]);
-        } else {
-          this.brandrecommend_left.push(this.brandrecommend[i]);
+        this.loading = false;
+      }).catch(error=>{
+        console.log(error);
+      })
+      search.randombrands().then(data=>{
+        this.brandrecommend = data;
+        for(var i = 0; i < this.brandrecommend.length; i++){
+          if(i > 4){
+            this.brandrecommend_right.push(this.brandrecommend[i]);
+          } else {
+            this.brandrecommend_left.push(this.brandrecommend[i]);
+          }
         }
-      }
-    })
-    search.code().then(data=>{
-      this.code = data
-    }).catch(error=>{
-      console.log(error);
-    })
+      })
+      search.code().then(data=>{
+        this.code = data
+      }).catch(error=>{
+        console.log(error);
+      })
+    }, 500)
+
   },
   methods:{
     search(searchWord){
@@ -84,6 +108,11 @@ export default{
       $("#search").val(searchWord);
       //단어 <- code에서 있는지 확인
       //샤넬 남성가방 <-
+      this.$store.state.isLoadingSearch=false;
+      setTimeout(() => {
+        this.$store.state.isLoadingSearch = true;
+      }, 700)
+
       for(var i=0; i<this.code.length; i++){
           var re = new RegExp(this.code[i].descript);
           if(word.indexOf(this.code[i].descript) != -1){
@@ -145,6 +174,7 @@ export default{
         this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:99, category:0, type:0, filter:0, brand:0});
         this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:0, brand:0});
       }
+
     }
   }
 }

@@ -1,5 +1,11 @@
 <template>
   <div class="content">
+    <div v-if="!this.$store.state.isLoadingSearch" style="width:100%; height:1024px; text-align: center;">
+      <div style="display: inline-block; margin-top:150px;">
+        <clip-loader :loading="!this.$store.state.isLoadingSearch" :color="'black'" :size="'50px'"></clip-loader>
+      </div>
+    </div>
+    <div v-else>
       <div>
         <h6></h6>
            <h6 style="margin-top: 30px; margin-right:10px; text-align:right;">
@@ -33,7 +39,7 @@
             </div>
           </div>
           <div v-else class="container">
-              <div v-if="!this.$store.state.isLoading" class="row" >
+              <div class="row" >
                   <div class="col-md-8 ml-auto mr-auto text-center">
                       <h4 class="title">명품상품이 없습니다.</h4>
                   </div>
@@ -45,6 +51,8 @@
             </a>
           </div>
       </div>
+    </div>
+
       <modal :show.sync="modalFilterShow" headerClasses="justify-content-center">
         <h4 slot="header" class="title title-up"></h4>
         <div class="modal-view">
@@ -92,6 +100,7 @@
 <script>
 import { code, search } from '../../api'
 import Modal from '../Component/Modal';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 export default{
   created(){
     this.$store.commit('SET_SEARCHPRODUCT_INIT');
@@ -122,7 +131,8 @@ export default{
     }
   },
   components:{
-    Modal
+    Modal,
+    ClipLoader
   },
   data(){
     return{

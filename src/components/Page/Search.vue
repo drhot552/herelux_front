@@ -11,17 +11,10 @@
         </div>
       </div>
     </div>
-    <loading :active.sync="this.$store.state.isLoading"
-              :can-cancel="true"
-              :is-full-page="true"
-              :z-index="1060">
-    </loading>
   </div>
 </template>
 <script>
 import { code,search } from '../../api'
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 import SearchPage from '../Search/SearchPage.vue'
 import SearchMain from '../Search/SearchMain.vue'
 import SearchProductCard from '../Card/SearchProductCard.vue';
@@ -35,7 +28,7 @@ export default{
     return{
       brand_items:[],
       category_items:[],
-      search:'',
+      search : '',
       word : '',
       code: []
 
@@ -44,7 +37,6 @@ export default{
   watch: {
       '$route' (to, from) {
         if(to.path !== from.path) {
-          console.log(to.path, from.path);
           if(from.path.match(/detail/gi)){
 
           } else if(from.path.match(/search/gi)){
@@ -70,6 +62,7 @@ export default{
     searchCheck(){
       //검색에 관련된 전역변수 초기화
       //기억된 단어가 있을경우에는 word
+
       this.$store.state.pageKeepAlive = true
       if(this.$store.state.searchWord != ''){
         this.word = "page-" + this.$store.state.searchWord
@@ -139,7 +132,6 @@ export default{
           var re = new RegExp(descript);
 
           if(word.indexOf(this.code[i].descript) != -1){
-            console.log(this.code[i].descript);
             var wordObj = new Object();
             word = word.replace(re,"");
             word = word.trim();
