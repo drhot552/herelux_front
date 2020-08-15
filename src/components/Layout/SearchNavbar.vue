@@ -50,6 +50,7 @@ import { search,code } from '../../api'
           this.$store.state.searchFlag = false
         } else {
           this.$store.state.searchFlag = true
+          this.$store.state.isLoadingSearch = true;
         }
       }
     },
@@ -75,6 +76,10 @@ import { search,code } from '../../api'
         var word = this.search;
         word=word.replace(/ /gi, "");    // 모든 공백을 제거
 
+        this.$store.state.isLoadingSearch=false;
+        setTimeout(() => {
+          this.$store.state.isLoadingSearch = true;
+        }, 700)
         //단어 <- code에서 있는지 확인
         //샤넬 남성가방 <-
         for(var i=0; i<this.code.length; i++){
