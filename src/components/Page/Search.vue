@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="section" style="padding: 49px 0 53px;">
     <div class="blogs-4" id="blogs-4">
       <div>
@@ -124,6 +124,10 @@ export default{
       var word = searchWord;
       //단어 <- code에서 있는지 확인
       //샤넬 남성가방 <-
+      this.$store.state.isLoadingSearch=false;
+      setTimeout(() => {
+        this.$store.state.isLoadingSearch = true;
+      }, 700)
       word=word.replace(/ /gi, "");    // 모든 공백을 제거
       for(var i=0; i<this.code.length; i++){
           var descript = this.code[i].descript;
