@@ -72,6 +72,7 @@ export default {
       eventproduct : [],
       eventId : 0,
       index : 0,
+      test : '',
       swiperOptions: {
           pagination: {
             el: '.swiper-pagination'
@@ -108,10 +109,9 @@ export default {
     },
     handleClickSlide(url){
       gtag('event','이벤트상품클릭',{'event_label':url});
-      url = url.replace(/\//gi,'!!');
-      url = url.replace(/\?/gi,'@@');
+      // URI Encoding
       setTimeout(() => {
-        this.$router.push(this.$route.query.returnPath || '/pagemove/' + url);
+        this.$router.push(this.$route.query.returnPath || '/pagemove/' + encodeURIComponent(url));
       }, 200);
     }
   }

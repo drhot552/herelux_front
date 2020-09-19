@@ -90,10 +90,8 @@ export default{
   methods:{
     onClick(url){
       gtag('event','11번가상품정보클릭',{'event_label':url});
-      url = url.replace(/\//gi,'!!');
-      url = url.replace(/\?/gi,'@@');
       setTimeout(() => {
-        this.$router.push(this.$route.query.returnPath || '/pagemove/' + url);
+        this.$router.push(this.$route.query.returnPath || '/pagemove/' + encodeURIComponent(url));
       }, 200);
     },
     searchProduct(searchWord){

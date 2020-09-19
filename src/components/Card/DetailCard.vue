@@ -340,10 +340,9 @@ export default {
      },
      detailClick(url){
        gtag('event','상품상세클릭',{'event_label':url});
-       url = url.replace(/\//gi,'!!');
-       url = url.replace(/\?/gi,'@@');
+       
        setTimeout(() => {
-         this.$router.push(this.$route.query.returnPath || '/pagemove/' + url);
+         this.$router.push(this.$route.query.returnPath || '/pagemove/' + encodeURIComponent(url));
        }, 200);
      },
      errorAlert(){

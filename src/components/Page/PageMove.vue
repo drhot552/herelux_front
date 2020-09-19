@@ -35,9 +35,8 @@ export default {
   },
   created(){
 
-    this.$route.params.url = this.$route.params.url.replace(/!!/gi,'/');
-    this.$route.params.url = this.$route.params.url.replace(/@@/gi,'?');
-
+    this.$route.params.url = decodeURIComponent(this.$route.params.url);
+    
     setTimeout(() => {
       if(navigator.userAgent.match(/Android|Tablet/i)){
         if(navigator.userAgent.match(/herelux_app_and/i)){
