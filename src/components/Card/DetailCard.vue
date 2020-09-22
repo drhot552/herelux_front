@@ -340,9 +340,9 @@ export default {
      },
      detailClick(url){
        gtag('event','상품상세클릭',{'event_label':url});
-       
+       this.$store.state.pageMoveURL = url;
        setTimeout(() => {
-         this.$router.push(this.$route.query.returnPath || '/pagemove/' + encodeURIComponent(url));
+         this.$router.push(this.$route.query.returnPath || '/pagemove');
        }, 200);
      },
      errorAlert(){

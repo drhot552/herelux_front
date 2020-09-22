@@ -55,8 +55,9 @@ export default {
     },
     onClick(url){
       gtag('event','네이버카페클릭',{'event_label':url});
+      this.$store.state.pageMoveURL = url;
       setTimeout(() => {
-        this.$router.push(this.$route.query.returnPath || '/pagemove/' + encodeURIComponent(url));
+        this.$router.push(this.$route.query.returnPath || '/pagemove');
       }, 200);
     }
   }

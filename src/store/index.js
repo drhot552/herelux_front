@@ -99,7 +99,10 @@ const store = new Vuex.Store({
     productList_readFlag : false,
 
     /* page keepAlive */
-    pageKeepAlive : false
+    pageKeepAlive : false,
+
+    /* page Move Url Keep */
+    pageMoveURL : ''
   },
   //변수 set
   mutations: {

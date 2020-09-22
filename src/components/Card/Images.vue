@@ -49,9 +49,9 @@ export default{
   methods:{
     trackOutboundLink: function (title,subject, url) {
       gtag('event','상품클릭',{'event_category':title,'event_label':subject});
-
+      this.$store.state.pageMoveURL = url;
       setTimeout(() => {
-        this.$router.push(this.$route.query.returnPath || '/pagemove/' + encodeURIComponent(url));
+        this.$router.push(this.$route.query.returnPath || '/pagemove');
       }, 200);
 
     }

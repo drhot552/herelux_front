@@ -323,7 +323,7 @@ const router = new Router({
       }
     },
     {
-      path:'/pagemove/:url',
+      path:'/pagemove',
       name:'PageMove',
       components:{default:PageMove, header:MainNavbar, footer:FooterNavbar},
       props:{

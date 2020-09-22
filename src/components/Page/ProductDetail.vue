@@ -57,7 +57,6 @@ export default {
   },
   watch: {
       '$route' (to, from) {
-
         if(to.path !== from.path ) {
           this.product = []
           this.productId = to.params.id;

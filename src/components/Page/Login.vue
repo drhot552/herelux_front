@@ -141,7 +141,6 @@
         Kakao.Auth.login({
           success: function(authObj) {
              // 로그인 성공시, API를 호출합니다.
-             console.log(this.returnPath);
              Kakao.API.request({
                url: '/v2/user/me',
                success: function(res) {
@@ -149,7 +148,6 @@
                  //로그인
                  // 로그인 창을 띄웁니다.
                  auth.snslogin(res.kakao_account.email, 'kakao', authObj.refresh_token, authObj.access_token).then(data=>{
-                   console.log(data);
                    if(data==200){
                      localStorage.setItem('token', authObj.refresh_token)
                      localStorage.setItem('id', res.kakao_account.email)

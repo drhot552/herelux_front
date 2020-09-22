@@ -35,30 +35,36 @@ export default {
   },
   created(){
 
-    this.$route.params.url = decodeURIComponent(this.$route.params.url);
-    
-    setTimeout(() => {
-      if(navigator.userAgent.match(/Android|Tablet/i)){
-        if(navigator.userAgent.match(/herelux_app_and/i)){
-          window.android.bridge(this.$route.params.url);
+    //this.$route.params.url = decodeURIComponent(this.$route.params.url);
+    if(this.$store.state.pageMoveURL != ''){
+      setTimeout(() => {
+        if(navigator.userAgent.match(/Android|Tablet/i)){
+          if(navigator.userAgent.match(/herelux_app_and/i)){
+            window.android.bridge(this.$store.state.pageMoveURL);
+          }
+          else{
+            window.open(this.$store.state.pageMoveURL, '_blank');
+          }
         }
-        else{
-          window.open(this.$route.params.url, '_blank');
+        else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+          if(navigator.userAgent.match(/herelux_app_ios/i)){
+            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+this.$store.state.pageMoveURL.trim());
+          }
+          else{
+            window.open(this.$store.state.pageMoveURL, '_blank');
+          }
         }
-      }
-      else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
-        if(navigator.userAgent.match(/herelux_app_ios/i)){
-          window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+this.$route.params.url.trim());
+        else {
+          window.open(this.$store.state.pageMoveURL, '_blank');
         }
-        else{
-          window.open(this.$route.params.url, '_blank');
-        }
-      }
-      else {
-        window.open(this.$route.params.url, '_blank');
-      }
-      this.$router.go(-1)
-    }, 4000);
+        this.$router.go(-1)
+      }, 3600);
+    } else {
+        //error message
+        this.$router.go(-1)
+        alert('이용에 불편을 드려 죄송합니다. 현재URL 주소가 존재하지 않습니다.');
+    }
+
   }
 }
 </script>
