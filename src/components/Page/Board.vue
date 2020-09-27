@@ -306,7 +306,7 @@ export default{
   background: #fff;
 }
 .main_app_page{
-  padding: 70px 0 53px;
+  padding: 51px 0 53px;
   background: #fff;
 }
 </style>
