@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar bg-white fixed-top" style="z-index:5003;">
+    <nav class="navbar bg-white fixed-top" v-bind:class="{main_web_navbar : this.$store.state.webFlag}" style="z-index:5003;">
       <div class="container" style="padding-right:0px; padding-left:0px;">
         <span v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="beforePage('/mylist/0')" style="text-align:left;">
             이전
@@ -67,7 +67,7 @@
        : this.$router.push(this.$route.query.returnPath || path)
       },
       searchClick(){
-        
+
       }
     }
   }
@@ -78,5 +78,9 @@ nav {
 }
 .board_style{
   color: rgb(136, 136, 136);
+}
+.main_web_navbar{
+  top:51px;
+  box-shadow:0 20px 20px -20px rgba(0,0,0,.15);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div class="section" style="padding:51px 0;">
+<div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
   <div class="container" style="padding-left:0px; padding-right:0px;">
     <div style="margin-left:15px; margin-right:15px;">
       <div style="border-bottom: 3px solid rgb(0, 0, 0); height: 50px;">
@@ -215,5 +215,13 @@ export default{
       left: 0px;
       top: 0;
       content: '';
+  }
+  .main_web_page{
+    padding: 100px 0 53px;
+    background: #fff;
+  }
+  .main_app_page{
+    padding: 70px 0 53px;
+    background: #fff;
   }
 </style>

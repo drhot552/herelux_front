@@ -45,8 +45,6 @@ import FamousProduct from '../Introduce/FamousProduct';
 import RandomProduct from '../Introduce/RandomProduct';
 import RandomBrand from '../Introduce/RandomBrand';
 import NewEvent from '../Introduce/NewEvent';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel';
 
 export default {
   components:{

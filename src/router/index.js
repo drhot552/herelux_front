@@ -17,6 +17,7 @@ const WriteNavbar = () => import('../components/Layout/WriteNavbar.vue');
 const BoardNavbar = () => import('../components/Layout/BoardNavbar.vue');
 const SearchNavbar = () => import('../components/Layout/SearchNavbar.vue');
 const ProductNavbar = () => import('../components/Layout/ProductNavbar.vue');
+const AppNavbar = () => import('../components/Layout/AppNavbar.vue');
 
 const Home =() => import('../components/Page/Home.vue');
 const Introduce =() => import('../components/Page/Introduce.vue');
@@ -63,7 +64,7 @@ const router = new Router({
     {
       path:'/',
       name:'Home',
-      components:{default:Home, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Home, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Home"},
         footer:{pageName:"Home"}
@@ -75,7 +76,7 @@ const router = new Router({
     {
       path: '/event',
       name: 'Event',
-      components: {default:Event, header:MainNavbar, footer:FooterNavbar},
+      components: {default:Event, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Event"}
       }
@@ -83,7 +84,7 @@ const router = new Router({
     {
       path:'/about',
       name:'About',
-      components:{default:About, header:MainNavbar, footer:FooterNavbar},
+      components:{default:About, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"About"}
       }
@@ -91,7 +92,7 @@ const router = new Router({
     {
       path:'/contact',
       name:'Contact',
-      components:{default:Contact, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Contact, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Contact"}
       }
@@ -99,7 +100,7 @@ const router = new Router({
     {
       path:'/license',
       name:'License',
-      components:{default:License, header:MainNavbar, footer:FooterNavbar},
+      components:{default:License, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"License"}
       }
@@ -107,7 +108,7 @@ const router = new Router({
     {
       path:'/service',
       name:'Service',
-      components:{default:Service, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Service, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Service"}
       }
@@ -115,7 +116,7 @@ const router = new Router({
     {
       path:'/privacy',
       name:'Privacy',
-      components:{default:Privacy, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Privacy, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Privacy"}
       }
@@ -123,7 +124,7 @@ const router = new Router({
     {
       path:'/responsibilty',
       name:'Responsibilty',
-      components:{default:Responsibilty, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Responsibilty, app:AppNavbar,  header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Responsibilty"}
       }
@@ -131,7 +132,7 @@ const router = new Router({
     {
       path:'/product',
       name:'Product',
-      components:{default:Product, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Product, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0},
@@ -141,7 +142,7 @@ const router = new Router({
     {
       path:'/login',
       name:'Login',
-      components:{default:Login, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Login, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Login"}
       }
@@ -149,7 +150,7 @@ const router = new Router({
     {
       path:'/register',
       name:'Register',
-      components:{default:Register, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Register, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Register"}
       }
@@ -157,7 +158,7 @@ const router = new Router({
     {
       path:'/mylist/:pagetype',
       name:'MyList',
-      components:{default:MyList, header:MainNavbar, footer:FooterNavbar},
+      components:{default:MyList, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0, pageName:"MyList"},
@@ -170,7 +171,7 @@ const router = new Router({
     {
       path:'/detail/:id/:pagetype',
       name:'Detail',
-      components:{default:Detail, header:ProductNavbar, footer:FooterNavbar},
+      components:{default:Detail, app:AppNavbar, header:ProductNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Detail"}
       }
@@ -178,7 +179,7 @@ const router = new Router({
     {
       path:'/ranking',
       name:'Ranking',
-      components:{default:Ranking, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Ranking, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Ranking"},
         footer:{pageName:"Rank"}
@@ -191,7 +192,7 @@ const router = new Router({
     {
       path:'/board',
       name:'Board',
-      components:{default:Board, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Board, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"Board"},
         footer:{pageName:"Board"}
@@ -203,7 +204,7 @@ const router = new Router({
     {
       path:'/boarddetail/:board_idx/:pagetype',
       name:'BoardDetail',
-      components:{default:BoardDetail, header:BoardNavbar, footer:FooterNavbar},
+      components:{default:BoardDetail, app:AppNavbar, header:BoardNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0, pageName:"BoardDetail"}
       }
@@ -211,7 +212,7 @@ const router = new Router({
     {
       path:'/write',
       name:'Write',
-      components:{default:Write, header:WriteNavbar, footer:FooterNavbar},
+      components:{default:Write, app:AppNavbar, header:WriteNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Write"}
@@ -220,7 +221,7 @@ const router = new Router({
     {
       path:'/search',
       name:'Search',
-      components:{default:Search, header:SearchNavbar, footer:FooterNavbar},
+      components:{default:Search, app:AppNavbar, header:SearchNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Search"}
       },
@@ -231,7 +232,7 @@ const router = new Router({
     {
       path:'/error',
       name:'Error',
-      components:{default:Error, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Error, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Error"}
       }
@@ -239,7 +240,7 @@ const router = new Router({
     {
       path:'/test',
       name:'Test',
-      components:{default:Test, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Test, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Test"}
@@ -248,7 +249,7 @@ const router = new Router({
     {
       path:'/ready',
       name:'Ready',
-      components:{default:Ready, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Ready, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Ready"}
@@ -257,7 +258,7 @@ const router = new Router({
     {
       path:'/brand/:brand_id',
       name:'Brand',
-      components:{default:Brand, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Brand, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Brand"}
       },
@@ -268,7 +269,7 @@ const router = new Router({
     {
       path:'/withdrawal',
       name:'Withdrawal',
-      components:{default:Withdrawal, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Withdrawal, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"Withdrawal"}
@@ -277,7 +278,7 @@ const router = new Router({
     {
       path:'/passwordchg',
       name:'PasswordChg',
-      components:{default:PasswordChg, header:MainNavbar, footer:FooterNavbar},
+      components:{default:PasswordChg, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       beforeEnter:requireAuth,
       props:{
         header:{colorOnScroll:0,pageName:"PasswordChg"}
@@ -286,7 +287,7 @@ const router = new Router({
     {
       path:'/callback',
       name:'Callback',
-      components:{default:Callback, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Callback, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Callback"}
       }
@@ -294,7 +295,7 @@ const router = new Router({
     {
       path:'/allproduct/:pagetype',
       name:'AllProduct',
-      components:{default:AllProduct, header:ProductNavbar, footer:FooterNavbar},
+      components:{default:AllProduct, app:AppNavbar, header:ProductNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"AllProduct"}
       },
@@ -305,7 +306,7 @@ const router = new Router({
     {
       path:'/introduce',
       name:'Introduce',
-      components:{default:Introduce, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Introduce, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Introduce"}
       }
@@ -313,7 +314,7 @@ const router = new Router({
     {
       path:'/page',
       name:'Page',
-      components:{default:Page, header:MainNavbar, footer:FooterNavbar},
+      components:{default:Page, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"Page"},
         footer:{pageName:"Page"}
@@ -325,7 +326,7 @@ const router = new Router({
     {
       path:'/pagemove',
       name:'PageMove',
-      components:{default:PageMove, header:MainNavbar, footer:FooterNavbar},
+      components:{default:PageMove, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
       props:{
         header:{colorOnScroll:0,pageName:"PageMove"}
       }

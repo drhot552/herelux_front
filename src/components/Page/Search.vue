@@ -1,5 +1,5 @@
   <template>
-  <div class="section" style="padding: 49px 0 53px;">
+  <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
     <div class="blogs-4" id="blogs-4">
       <div>
         <div v-if="!this.$store.state.searchFlag">
@@ -228,5 +228,13 @@ export default{
 }
 .in {
   text-align: center;
+}
+.main_web_page{
+  padding: 100px 0 53px;
+  background: #fff;
+}
+.main_app_page{
+  padding: 70px 0 53px;
+  background: #fff;
 }
 </style>

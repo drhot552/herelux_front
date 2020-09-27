@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div v-if="this.$store.state.webFlag">
+      <router-view name="app"></router-view>
+    </div>
     <router-view name="header"></router-view>
     <div>
       <keep-alive>
@@ -26,12 +29,21 @@ export default {
         window.android.check();
         window.Echo = this.Echo;
       }
+      else {
+        this.$store.state.webFlag = true;
+      }
     }
     else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
       if(navigator.userAgent.match(/herelux_app_ios/i)){
         window.webkit.messageHandlers.YOURMETHOD.postMessage('check_herelux');
         window.Echo = this.Echo;
       }
+      else {
+        this.$store.state.webFlag = true;
+      }
+    }
+    else {
+      this.$store.state.webFlag = true;
     }
   },
   methods:{

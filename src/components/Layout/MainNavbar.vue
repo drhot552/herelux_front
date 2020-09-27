@@ -2,7 +2,8 @@
     <navbar position="fixed"
             :transparent="transparent"
             :color-on-scroll="colorOnScroll"
-            menu-classes="ml-auto">
+            menu-classes="ml-auto"
+            v-bind:class="{main_web_navbar : this.$store.state.webFlag}">
         <template slot-scope="{toggle, isToggled}">
                 <router-link class="navbar-brand" to="/">
                   HERE LUX
@@ -102,5 +103,9 @@
 <style scoped>
 nav {
   text-align: center;
+}
+.main_web_navbar{
+  top:51px;
+  box-shadow:0 20px 20px -20px rgba(0,0,0,.15);
 }
 </style>

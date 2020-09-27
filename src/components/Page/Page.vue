@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 70px 0 53px; background: #fff;">
+  <div v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
     <div v-if="loading" style="width:100%; height:1024px; text-align: center;">
       <div style="display: inline-block; margin-top:150px;">
         <clip-loader :loading="loading" :color="'black'" :size="'50px'"></clip-loader>
@@ -19,7 +19,6 @@
       </div>
     </div>
   </div>
-
 </template>
 <script>
 import { plan } from '../../api'
@@ -55,5 +54,12 @@ export default{
 </script>
 
 <style>
-
+.main_web_page{
+  padding: 100px 0 53px;
+  background: #fff;
+}
+.main_app_page{
+  padding: 70px 0 53px;
+  background: #fff;
+}
 </style>

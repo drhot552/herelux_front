@@ -102,7 +102,10 @@ const store = new Vuex.Store({
     pageKeepAlive : false,
 
     /* page Move Url Keep */
-    pageMoveURL : ''
+    pageMoveURL : '',
+
+    /* app flag */
+    webFlag : false
   },
   //변수 set
   mutations: {

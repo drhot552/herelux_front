@@ -1,5 +1,5 @@
 <template>
-  <div class="section" style="padding-bottom:130px;">
+  <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
     <div class="container" style="padding-left:0px; padding-right:0px;">
           <div style="padding-left:15px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
             <div style="display: block; margin: 0px auto; width:90%;" v-for="item in productrandom">
@@ -626,5 +626,13 @@ export default{
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.main_web_page{
+  padding: 130px 0 53px;
+  background: #fff;
+}
+.main_app_page{
+  padding: 70px 0 53px;
+  background: #fff;
 }
 </style>

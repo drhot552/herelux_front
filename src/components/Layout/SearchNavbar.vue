@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-white fixed-top">
+    <nav class="navbar navbar-expand-lg bg-white fixed-top" v-bind:class="{main_web_navbar : this.$store.state.webFlag}">
       <div class="search_btn" v-on:click="searchEnter()">
         <img src="/public/img/btn_search.png" style="height:20px;">
         </img>
@@ -219,5 +219,9 @@ nav {
   width: 100%;
   height: 200px;
   overflow-y: scroll;
+}
+.main_web_navbar{
+  top:51px;
+  box-shadow:0 20px 20px -20px rgba(0,0,0,.15);
 }
 </style>

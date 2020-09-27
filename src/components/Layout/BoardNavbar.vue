@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar bg-white fixed-top button-fixed-top">
+    <nav class="navbar bg-white fixed-top button-fixed-top" v-bind:class="{main_web_navbar : this.$store.state.webFlag}">
       <div class="container" style="padding-right:0px; padding-left:0px;">
         <div v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="boarderClick('/mylist/1')" style="text-align:left;">
           이전
@@ -119,5 +119,9 @@ nav {
 .button-fixed-top  {
   padding-top: calc(constant(safe-area-inset-top) - 10px);
   padding-top: calc(env(safe-area-inset-top) - 10px);
+}
+.main_web_navbar{
+  top:51px;
+  box-shadow:0 20px 20px -20px rgba(0,0,0,.15);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
     <div class="content">
         <div class="container">
             <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
@@ -135,5 +135,13 @@
 <style>
 .div_style{
 
+}
+.main_web_page{
+  padding: 100px 0 53px;
+  background: #fff;
+}
+.main_app_page{
+  padding: 70px 0 53px;
+  background: #fff;
 }
 </style>

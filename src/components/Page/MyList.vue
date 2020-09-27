@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="section" style="padding:51px 0;">
+    <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
       <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh; overflow:auto;">
         <div style="margin-top:15px; border-bottom:1px solid; padding-bottom: 15px;">
           <div v-for="item in myinfo" style="display:inline-block; width:33%; text-align:center;">
@@ -147,12 +147,22 @@ export default{
     position: sticky;
     position: -webkit-sticky;
     top: 1px;
-}.lazy-img-fadein[lazy=loaded] {
+}
+.lazy-img-fadein[lazy=loaded] {
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
     -webkit-animation-name: fadeIn;
     animation-name: fadeIn;
+}
+
+.main_web_page{
+  padding: 100px 0 53px;
+  background: #fff;
+}
+.main_app_page{
+  padding: 70px 0 53px;
+  background: #fff;
 }
 </style>
