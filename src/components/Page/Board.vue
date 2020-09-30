@@ -212,7 +212,6 @@ export default{
       })
     },
     fetch(){
-
       this.$store.commit('SET_INIT_BOARD', this.boardtype);
       this.$store.commit('ISLOADING', true);
       console.log('boardfetch');

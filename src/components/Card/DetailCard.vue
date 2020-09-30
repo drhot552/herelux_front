@@ -129,7 +129,7 @@
         같은 브랜드 추천 아이템
       </h5>
     </div>
-    <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex;">
+    <div style="white-space:nowrap; overflow:auto;  width:100%; display: flex; margin-bottom:30px;">
       <div style="display: block; margin: 0px auto; width:90%;" v-for="item in sameBrand">
         <div style="width:150px; margin-right:15px;" v-ripple v-on:click="productClick(item.id)">
           <div>
@@ -145,6 +145,9 @@
         </div>
       </div>
     </div>
+    <a href="https://coupa.ng/bKyGA4" target="_blank">
+      <img src="https://ads-partners.coupang.com/banners/331770?subId=&traceId=V0-301-879dd1202e5c73b2-I331770&w=728&h=90" alt="">
+    </a>
     <div>
       <div align="left" style="margin-top: 50px;margin-left:15px; margin-right:15px; margin-bottom:10px;">
         <img src="/public/img/naver_logo.png" style="width:70px; margin-bottom: 3px;">
