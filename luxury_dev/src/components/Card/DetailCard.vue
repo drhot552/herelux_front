@@ -8,8 +8,8 @@
         </div>
       </div>
       <div v-else>
-        <img v-lazy="item.url" class="lazy-img-fadein">
-        </img>
+        <images v-bind:img_url="item.url">
+        </images>
      </div>
     </div>
    <div v-if="loading" style="width:100%; height:100%; text-align: center;">

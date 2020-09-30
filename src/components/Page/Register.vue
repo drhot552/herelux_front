@@ -11,7 +11,7 @@
                             type="text" name="email"
                             placeholder="Email">
                   </fg-input>
-                  <h6 style="text-align:center; color:red;" v-if="email_flag = errors.has('email')"> E-mail 형식으로 작성해주세요.</h6>
+                  <h6 style="text-align:center; color:red;"> E-mail 형식으로 작성해주세요.</h6>
 
                   <fg-input addon-left-icon="now-ui-icons text_caps-small"
                             type="password"

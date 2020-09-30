@@ -152,13 +152,13 @@ export default {
       this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/home'
       setTimeout(() => {
         this.$router.push(this.returnPath)
-      }, 300);
+      }, 200);
     },
     detail(searchWord){
       this.$store.state.searchWord = searchWord;
       setTimeout(() => {
         this.$router.push(this.$route.query.returnPath || '/search');
-      }, 300);
+      }, 200);
 
     }
   }
