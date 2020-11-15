@@ -4,7 +4,7 @@
           <div class="card card-plain">
            <div class="author" align="left" style="padding:5px;">
              <h6></h6>
-                <img :src="this.$store.state.brandcategory_descript" style="height:60px; width:60px;" alt="..." class="avatar img-raised lazy-img-fadein">
+                <img :src="brandcategory_descript" style="height:60px; width:60px;" alt="..." class="avatar img-raised lazy-img-fadein">
                 <h6 style="float: right; margin-top: 30px;">
                   <a v-on:click="popup(0)">
                     <img src="/public/img/sort_btn.jpg" style="height:20px;"/>
@@ -19,7 +19,7 @@
            </div>
          </div>
           <div class="row" style="margin-bottom: 50px;">
-            <div class="div_style" v-for="item in this.$store.state.brandcategoryproduct">
+            <div class="div_style" v-for="item in brandcategoryproduct">
               <div v-ripple class="in" v-on:click="detail(item.id)">
                 <img class="lazy-img-fadein"  v-lazy="item.url" alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-          <div v-if="this.$store.state.brandcategory_readFlag" style="text-align:center; height:100px;">
+          <div v-if="brandcategory_readFlag" style="text-align:center; height:100px;">
             <a style="color:#000000;" v-on:click="readMore()">
               <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
             </a>
@@ -55,6 +55,7 @@
 </template>
 <script>
 import Modal from '../Component/Modal';
+import { mapState } from 'vuex'
 import { code } from '../../api'
 export default{
   props:{
@@ -74,15 +75,20 @@ export default{
   components:{
     Modal
   },
+  computed:{
+    ...mapState('brandList', {
+      brandcategory_descript:'brandcategory_descript',
+      brandcategoryproduct:'brandcategoryproduct',
+      brandcategory_readFlag:'brandcategory_readFlag',
+      brandcateogry_brand:'brandcateogry_brand',
+      brandcategory_category:'brandcategory_category',
+      brandcateogry_category_type:'brandcateogry_category_type'
+
+    })
+  },
   methods:{
-    brandClick(){
-
-    },
-    deatil(){
-
-    },
     readMore(){
-      this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.$store.state.brandcateogry_brand, category:this.$store.state.brandcategory_category, category_type:this.$store.state.brandcateogry_category_type, sex:this.sex, filter:this.filter_key});
+      this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.brandcateogry_brand, category:this.brandcategory_category, category_type:this.brandcateogry_category_type, sex:this.sex, filter:this.filter_key});
     },
     popup(flag){
       //여자
@@ -92,7 +98,7 @@ export default{
           this.modalFilterShow = true;
         })
       } else {
-        code.brandsex(this.$store.state.brandcategory_category, this.sex).then(data=>{
+        code.brandsex(this.brandcategory_category, this.sex).then(data=>{
           this.category_middle = data;
           this.modalShow = true;
         })
@@ -102,21 +108,22 @@ export default{
     filterSelect(key, descript){
       this.filter_data = descript
       this.filter_key = key;
-      this.$store.state.brandcategory_filter = key;
-      this.$store.commit('SET_BRANDCATEGORYPRODUCT_INIT');
-      this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.$store.state.brandcateogry_brand, category:this.$store.state.brandcategory_category, category_type:this.$store.state.brandcateogry_category_type, sex:this.sex, filter:this.filter_key});
+      this.$store.commit('brandList/SET_BRNADCATEGORY_FILTER', key);
+      this.$store.commit('brandList/SET_BRANDCATEGORYPRODUCT_INIT');
+      this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.brandcateogry_brand, category:this.brandcategory_category, category_type:this.brandcateogry_category_type, sex:this.sex, filter:this.filter_key});
       this.modalFilterShow = false;
     },
     categorySelect(key){
       // 카테고리 타입이 2이면 부카테고리로 set한다
       this.category_key = key;
-      this.$store.state.brandcateogry_category_type = 1
-      this.$store.commit('SET_BRANDCATEGORYPRODUCT_INIT');
-      this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.$store.state.brandcateogry_brand, category:key, category_type:this.$store.state.brandcateogry_category_type, sex:this.sex, filter:this.filter_key});
+      this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORYTYPE', 1);
+      this.$store.commit('brandList/SET_BRANDCATEGORYPRODUCT_INIT');
+      this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.brandcateogry_brand, category:key, category_type:this.brandcateogry_category_type, sex:this.sex, filter:this.filter_key});
       this.modalShow = false;
     },
     detail(id){
-      this.$store.state.productDetail_name = 'home'
+      this.$store.commit('brandList/SET_BRNADCATEGORY_PRODUCTNAME', 'home');
+      this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORYTYPE', 1);
       this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/home'
       setTimeout(() => {
         this.$router.push(this.returnPath)

@@ -78,6 +78,7 @@
 import { code } from '../../api'
 import Modal from '../Component/Modal';
 import WriteCard from '../Card/WriteCard';
+import { mapState } from 'vuex'
   export default {
     name: 'tabs',
     inheritAttrs: false,
@@ -144,7 +145,10 @@ import WriteCard from '../Card/WriteCard';
             return `nav-${baseClass}-${this.type}`;
           }
           return ''
-      }
+      },
+      ...mapState('writeboard',{
+        writeBoard_Category : 'writeBoard_Category'
+      })
     },
     methods: {
       findAndActivateTab(label){
@@ -164,25 +168,26 @@ import WriteCard from '../Card/WriteCard';
         this.data = i;
 
         //탭 id 기억, 상단 포럼 및 카테고리 초기화
-        this.$store.state.writeBoard_Category = i + 1;
-        this.$store.state.writeBoard_name = '';
-        this.$store.state.writeBoard_image  = [];
-        this.$store.state.writeBoard_forum = 0;
+        this.$store.commit('writeboard/SET_WRITEBOARD_CATEGORY',  i + 1);
+        this.$store.commit('writeboard/SET_WRITEBOARD_NAME', '');
+        this.$store.commit('writeboard/SET_WRITEBOARD_IMAGE');
+        this.$store.commit('writeboard/SET_WRITEBOARD_FORUM', 0);
+
         //탭누를때마다 해당 값은
         // i=0 브랜드 포럼 i=1 이거샀어
-        if( this.$store.state.writeBoard_Category == 1 || this.$store.state.writeBoard_Category == 2 ) {
+        if( this.writeBoard_Category == 1 || this.writeBoard_Category == 2 ) {
           //major_key가 0이면 브랜드포럼 1이면 상품포럼 코드값 세팅
-          code.forum(this.$store.state.writeBoard_Category).then(result=>{
+          code.forum(this.writeBoard_Category).then(result=>{
             if(result.length == 0){
                 //server Error
             }
             else{
               this.forum = result;
-              if(this.$store.state.writeBoard_Category == 1){
-                this.$store.state.writeBoard_name = "포럼선택";
+              if(this.writeBoard_Category == 1){
+                this.$store.commit('writeboard/SET_WRITEBOARD_NAME', "포럼선택");
               }
               else{
-                this.$store.state.writeBoard_name = "카테고리선택";
+                this.$store.commit('writeboard/SET_WRITEBOARD_NAME', "카테고리선택");
               }
               this.modalShow = true;
             }
@@ -213,8 +218,8 @@ import WriteCard from '../Card/WriteCard';
         }
       },
       forumSelect(minor_key, name){
-        this.$store.state.writeBoard_name = name;
-        this.$store.state.writeBoard_forum = minor_key;
+        this.$store.commit('writeboard/SET_WRITEBOARD_NAME', name);
+        this.$store.commit('writeboard/SET_WRITEBOARD_FORUM', minor_key);
         this.modalShow = false;
       },
       onClose(){
@@ -234,7 +239,7 @@ import WriteCard from '../Card/WriteCard';
         }
         else{
           this.forum = result;
-          this.$store.state.writeBoard_name = "포럼선택";
+          this.$store.commit('writeboard/SET_WRITEBOARD_NAME', "포럼선택");
           this.modalShow = true;
           //this.$refs['modal-write'].show()
         }

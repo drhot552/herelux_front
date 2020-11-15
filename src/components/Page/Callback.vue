@@ -50,6 +50,11 @@
     components: {
       Modal
     },
+    computed:{
+      ...mapState('hereluxAll',{
+        loginreturnPath : 'loginreturnPath'
+      })
+    },
     data() {
       return {
           returnPath : '',
@@ -62,11 +67,15 @@
       }
     },
     created() {
-      this.returnPath = this.$route.query.returnPath || '/'
+      //내가 이동한 url을 기억해서 이동
+      if(loginreturnPath != null){
+        this.returnPath = this.$route.query.returnPath || loginreturnPath
+      } else {
+        this.returnPath = this.$route.query.returnPath || '/'
+      }
 
     },
     mounted(){
-      console.log(this.$route.query.code, this.$route.query.state);
       var callbackFuc = async () =>{
 
         //네이버 로그인 인증 코드
@@ -106,7 +115,6 @@
     methods:{
       onNaverOk(){
         auth.snslogin(this.loginArry.response.email, 'naver', this.authArry.refresh_token, this.authArry.access_token).then(data=>{
-          console.log(data);
           if(data==200 || data==201){
             //
             if(navigator.userAgent.match(/Android|Tablet/i)){

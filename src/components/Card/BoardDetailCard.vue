@@ -1,5 +1,5 @@
 <template>
-  <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+  <div class="section" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
     <div class="container" style="padding-left:0px; padding-right:0px;">
           <div style="padding-left:15px; white-space:nowrap; overflow:auto;  width:100%; display: flex;">
             <div style="display: block; margin: 0px auto; width:90%;" v-for="item in productrandom">
@@ -208,31 +208,30 @@
       </template>
     </modal>
 
-    <!-- loading -->
-    <loading :active.sync="this.$store.state.isLoading"
-              :can-cancel="true"
-              :is-full-page="true"
-              :z-index="1060">
-    </loading>
   </div>
 </template>
 <script>
 import { comment, board, info, home } from '../../api'
+import { mapState } from 'vuex'
 import Modal from '../Component/Modal';
-import Loading from 'vue-loading-overlay';
 import Adsense from '../Component/Adsense';
-import 'vue-loading-overlay/dist/vue-loading.css';
-import Cauly from '../Card/Cauly'
 
 export default{
   components:{
     Modal,
-    Loading,
-    Cauly,
     Adsense
   },
   props:{
     board_idx : Number
+  },
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    }),
+    ...mapState('boardList', {
+      boardtype : 'boardtype',
+      boardCommentFlag : 'boardCommentFlag'
+    })
   },
   data(){
     return{
@@ -272,7 +271,7 @@ export default{
   methods:{
     productClick(id){
       this.returnPath = this.$route.query.returnPath || '/detail'
-      this.$store.state.productDetail_name = 'board'
+      this.$store.commit('hereluxAll/SET_PRODUCTDETAIL_NAME', 'board');
       this.returnPath = this.returnPath +'/' + id + '/board'
       setTimeout(() => {
         this.$router.push(this.returnPath)
@@ -282,15 +281,13 @@ export default{
       this.userid = localStorage.getItem('id');
 
       //댓글 상태변수 set
-      this.$store.state.boardCommentFlag = false;
-      //게시판 조회
-      this.$store.commit('ISLOADING', true);
+      this.$store.commit('boardList/SET_BOARD_COMMENTFLAG', false);
 
       //해당 알림 확인 시
       if(this.userid != ''){
         info.boardupdate(this.userid, this.board_idx).then(data=>{
           if(data == 200){
-            this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+            this.$store.dispatch('boardList/SELECT_BOARD_INFO_ALERT',{userid:this.userid});
           } else {
             this.errorAlert();
           }
@@ -320,7 +317,7 @@ export default{
         //alert 후 페이지 이동
         this.errorAlert();
       });
-      board.select(this.board_idx,this.$store.state.boardtype).then(data => {
+      board.select(this.board_idx,this.boardtype).then(data => {
         if(data.length > 0 ){
           var url = data[0].descript.match(/(http(s)?:\/\/|www.)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}([\/a-z0-9-%#?&=\w])+(\.[a-z0-9]{2,4}(\?[\/a-z0-9-%#?&=\w]+)*)*/gi);
           this.boardDetail = data;
@@ -334,16 +331,15 @@ export default{
           //작성자 Id와 같은지 체크 같으면 댓글 시 같은 닉네임을 사용한다.
           if(this.userid == data[0].userid){
             this.nickName = data[0].name;
-            this.$store.state.boardCommentFlag = true;
+            this.$store.commit('boardList/SET_BOARD_COMMENTFLAG', true);
           }
           else {
-            this.$store.state.boardCommentFlag = false;
+            this.$store.commit('boardList/SET_BOARD_COMMENTFLAG', false);
           }
 
           this.commentDownSelect();
           this.commentSelect();
         }
-        this.$store.commit('ISLOADING', false);
       }).catch(error =>{
         console.log("error",error);
         //alert 후 페이지 이동
@@ -377,14 +373,12 @@ export default{
     },
     handleOk(){
       //modalFlag = 1 댓글 삽입
-      this.$store.commit('ISLOADING', true);
 
       if(this.modalFlag == 1){
         comment.commentInsert(this.board_idx, this.userid, this.nickName, $("#comment").text()).then(data=>{
           $("#comment").text("");
           this.commentDownSelect(); //대댓글조회
           this.commentSelect(); //댓글조회
-          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
           this.errorAlert();
@@ -395,7 +389,6 @@ export default{
         comment.commentDelete(this.comment_idx).then(data=>{
           this.commentDownSelect(); //대댓글조회
           this.commentSelect();
-          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
           this.errorAlert();
@@ -408,7 +401,6 @@ export default{
           this.commentFold();
           this.commentDownSelect(); //대댓글조회
           this.commentSelect();
-          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
           this.errorAlert();
@@ -419,7 +411,6 @@ export default{
         comment.commentDownDelete(this.commentdown_idx).then(data=>{
           this.commentDownSelect(); //대댓글조회
           this.commentSelect();
-          this.$store.commit('ISLOADING', false);
         }).catch(error=>{
           console.log(error);
           this.errorAlert();
@@ -428,7 +419,6 @@ export default{
       else {
         this.modalShowComment = false;
         setTimeout(() => {
-          this.$store.commit('ISLOADING', false);
           this.$router.push(this.$route.query.returnPath || '/login');
         }, 300);
       }
@@ -437,7 +427,6 @@ export default{
     commentSelect(){
       this.comment = [];
       this.modalShowComment = false;
-      this.$store.commit('ISLOADING', true);
 
       comment.commentSelect(this.board_idx).then(data =>{
         if(data.length > 0){
@@ -445,12 +434,11 @@ export default{
 
           //댓글리스트에 내 아이디가 있는지 체크 && 글 작성자가 아닌지 체크 -> 없으면 랜덤으로 아이디 부여
           for(var i = 0; i < data.length; i++){
-            if(this.userid == data[i].userid && !this.$store.state.boardCommentFlag){
+            if(this.userid == data[i].userid && !this.boardCommentFlag){
               this.nickName = data[i].name;
             }
           }
         }
-        this.$store.commit('ISLOADING', false);
       }).catch(error=>{
         console.log(error);
         this.errorAlert();
@@ -459,7 +447,6 @@ export default{
     commentDownSelect(){
       this.commentdownArry = [];
       this.modalShowComment = false;
-      this.$store.commit('ISLOADING', true);
 
       comment.commentDownSelect(this.board_idx).then(data =>{
         if(data.length > 0){
@@ -467,13 +454,11 @@ export default{
 
           //댓글리스트에 내 아이디가 있는지 체크 && 글 작성자가 아닌지 체크 -> 없으면 랜덤으로 아이디 부여
           for(var i = 0; i < data.length; i++){
-            if(this.userid == data[i].userid && !this.$store.state.boardCommentFlag){
+            if(this.userid == data[i].userid && !this.boardCommentFlag){
               this.nickName = data[i].name;
             }
           }
-
         }
-        this.$store.commit('ISLOADING', false);
       }).catch(error=>{
         console.log(error);
         this.errorAlert();

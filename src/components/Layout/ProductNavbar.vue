@@ -1,20 +1,20 @@
 <template>
-    <nav class="navbar bg-white fixed-top" v-bind:class="{main_web_navbar : this.$store.state.webFlag}" style="z-index:5003;">
+    <nav class="navbar bg-white fixed-top" v-bind:class="{main_web_navbar : webFlag}" style="z-index:5003;">
       <div class="container" style="padding-right:0px; padding-left:0px;">
-        <span v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="beforePage('/mylist/0')" style="text-align:left;">
-            이전
+        <span v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="beforePage('/mylist/0')" style="text-align:left; margin:0;">
+            <img src="/public/img/btn_back.png" style="height:20px;"/>
         </span>
-        <span v-else-if="pageType=='ranking'" class="board_style navbar-brand" v-on:click="beforePage('/ranking')" style="text-align:left;">
-            이전
+        <span v-else-if="pageType=='ranking'" class="board_style navbar-brand" v-on:click="beforePage('/ranking')" style="text-align:left; margin:0;">
+            <img src="/public/img/btn_back.png" style="height:20px;"/>
         </span>
-        <span v-else-if="pageType=='home'" class="board_style navbar-brand" v-on:click="beforePage('/')" style="text-align:left;">
-            이전
+        <span v-else-if="pageType=='home'" class="board_style navbar-brand" v-on:click="beforePage('/')" style="text-align:left; margin:0;">
+            <img src="/public/img/btn_back.png" style="height:20px;"/>
         </span>
-        <span v-else-if="pageType=='all'" class="board_style navbar-brand" v-on:click="beforePage('/allproduct/home')" style="text-align:left;">
-            이전
+        <span v-else-if="pageType=='all'" class="board_style navbar-brand" v-on:click="beforePage('/allproduct/home')" style="text-align:left; margin:0;">
+            <img src="/public/img/btn_back.png" style="height:20px;"/>
         </span>
-        <span v-else class="board_style navbar-brand" v-on:click="onClick()" style="text-align:left; color:black;">
-            이전
+        <span v-else class="board_style navbar-brand" v-on:click="onClick()" style="text-align:left; color:black; margin:0;">
+            <img src="/public/img/btn_back.png" style="height:20px;"/>
         </span>
         <span style="text-align:right; padding-bottom:0.5rem">
           <router-link to="/search" v-on:click.native="searchClick()" style="margin-right:10px;">
@@ -26,9 +26,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
   export default {
     props: {
       colorOnScroll: Number
+    },
+    computed:{
+      ...mapState('hereluxAll', {
+        webFlag: 'webFlag'
+      })
     },
     data(){
       return{

@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-white fixed-top" v-bind:class="{main_web_navbar : this.$store.state.webFlag}">
+    <nav class="navbar navbar-expand-lg bg-white fixed-top" v-bind:class="{main_web_navbar : webFlag}">
       <div class="container">
         <div class="write_style" style="text-align:left;">
           <router-link class="navbar-brand" to="/" style="margin:0">
@@ -7,8 +7,8 @@
           </router-link>
         </div>
         <div class="write_style_middle">
-          <a v-on:click="select()"> {{this.$store.state.writeBoard_name}} </a>
-          <i v-if="this.$store.state.writeBoard_name != ''" class="now-ui-icons arrows-1_minimal-down" style="font-size:10px;"></i>
+          <a v-on:click="select()"> {{writeBoard_name}} </a>
+          <i v-if="writeBoard_name != ''" class="now-ui-icons arrows-1_minimal-down" style="font-size:10px;"></i>
         </div>
         <div class="write_style" style="text-align:right;">
            <div style="color:#888; font-size:1.2em;" v-on:click="checklist()"> 등록 </div>
@@ -33,21 +33,14 @@
           </div>
         </div>
       </modal>
-      <!-- loading -->
-      <loading :active.sync="this.$store.state.isLoading"
-                :can-cancel="true"
-                :is-full-page="true"
-                :z-index="1060">
-      </loading>
     </nav>
 </template>
 
 <script>
 import axios from 'axios'
 import { code, WRITEDOMAIN } from '../../api'
+import { mapState } from 'vuex'
 import Modal from '../Component/Modal';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
   // Init plugin
   export default {
     props: {
@@ -55,8 +48,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       colorOnScroll: Number,
     },
     components: {
-      Modal,
-      Loading
+      Modal
     },
     data(){
       return{
@@ -82,6 +74,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.login = false;
       }
     },
+    computed:{
+      ...mapState('writeboard', {
+        writeBoard_Category: 'writeBoard_Category',
+        writeBoard_forum: 'writeBoard_forum',
+        writeBoard_name : 'writeBoard_name',
+        formData : 'formData'
+      })
+    },
     watch:{
       email_id: function(){
         this.email_id = localStorage.getItem('id');
@@ -89,16 +89,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
     },
     methods:{
       forumSelect(minor_key, name){
-        this.$store.state.writeBoard_name = name;
-        this.$store.state.writeBoard_forum = minor_key;
+        this.$store.commit('writeboard/SET_WRITEBOARD_NAME', name);
+        this.$store.commit('writeboard/SET_WRITEBOARD_FORUM', minor_key);
         this.modalShow = false;
       },
       select(){
         //탭 id 기억, 상단 포럼 및 카테고리 초기화
-        var  i = this.$store.state.writeBoard_Category;
+        var  i = this.writeBoard_Category;
 
         if( i == 1 || i == 2 ) {
-          this.$store.commit('ISLOADING', true);
           //major_key가 0이면 브랜드포럼 1이면 상품포럼
           code.forum(i).then(result=>{
             if(result.length == 0){
@@ -114,7 +113,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               }
               this.modalShow = true;
             }
-            this.$store.commit('ISLOADING', false);
           }).catch(response => {
            //error
            console.log("error",response)
@@ -160,8 +158,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
       writecheck(){
         //포럼 체크 및 해당 글 체크
-        if(this.$store.state.writeBoard_Category == 1){
-          if(this.$store.state.writeBoard_forum == 0){
+        if(this.writeBoard_Category == 1){
+          if(this.writeBoard_forum == 0){
             alert("포럼을 선택하세요.");
           }
           else if($("#subject").text() == ""){
@@ -174,8 +172,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.writeAlarm();
           }
         }
-        else if(this.$store.state.writeBoard_Category == 2){
-          if(this.$store.state.writeBoard_forum == 0){
+        else if(this.writeBoard_Category == 2){
+          if(this.writeBoard_forum == 0){
             alert("카테고리를 선택하세요.");
           }
           else if($("#subject").text() == ""){
@@ -216,35 +214,28 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
 
         var check_flag = 0;
-        if(this.$store.state.writeBoard_Category == 1 || this.$store.state.writeBoard_Category == 2){
-          if(this.$store.state.writeBoard_forum == 0){
+        if(this.writeBoard_Category == 1 || this.writeBoard_Category == 2){
+          if(this.writeBoard_forum == 0){
             check_flag++;
           }
-        } else if (this.$store.state.writeBoard_Category == 3 || this.$store.state.writeBoard_Category == 4){
-          if(this.$store.state.writeBoard_forum > 0){
+        } else if (this.writeBoard_Category == 3 || this.writeBoard_Category == 4){
+          if(this.writeBoard_forum > 0){
             check_flag++;
           }
         }
         if(check_flag > 0){
           alert("카테고리 및 포럼을 다시 선택해주세요.");
         } else {
-          this.$store.state.formData.append('userid', this.email_id);
-          this.$store.state.formData.append('descript', str);
-          this.$store.state.formData.append('subject', $("#subject").text());
-          this.$store.state.formData.append('boardtype', this.$store.state.writeBoard_Category);
-          this.$store.state.formData.append('boardforum', this.$store.state.writeBoard_forum);
-          this.$store.state.formData.append('url_1', $("#url_1").val());
-          this.$store.state.formData.append('url_2', $("#url_2").val());
+          this.$store.commit('writeboard/SET_WRITEBOARD_OBJECT', {userid:this.email_id,descript:str, subject:$("#subject").text(),
+          boardtype:this.writeBoard_Category, boardforum:this.writeBoard_forum, url_1:$("#url_1").val(), url_2:$("#url_2").val()});
 
           //Image server Set
-          this.$store.commit('ISLOADING', true);
           let settings = { headers: { 'content-type': 'multipart/form-data' } }
-          axios.post( WRITEDOMAIN + '/board/write', this.$store.state.formData, settings)
+          axios.post( WRITEDOMAIN + '/board/write', this.formData, settings)
            .then(data => {
             this.modalShowWrite = false;
 
             setTimeout(() => {
-              this.$store.commit('ISLOADING', false);
               this.$router.push(this.returnPath);
             }, 300);
 

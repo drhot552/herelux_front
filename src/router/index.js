@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VueAnalytics from 'vue-analytics'
 
-const Event = () => import('../components/Page/Event.vue');
 const About = () => import('../components/About/About.vue');
 const License = () => import('../components/About/License.vue');
 const Service = () => import('../components/Service/Service.vue');
@@ -71,14 +70,6 @@ const router = new Router({
       },
       meta: {
         keepAlive: true // Need to be cached
-      }
-    },
-    {
-      path: '/event',
-      name: 'Event',
-      components: {default:Event, app:AppNavbar, header:MainNavbar, footer:FooterNavbar},
-      props:{
-        header:{colorOnScroll:0, pageName:"Event"}
       }
     },
     {

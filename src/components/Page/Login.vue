@@ -1,5 +1,5 @@
 <template>
-  <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+  <div class="section" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
     <div class="content">
         <div class="container">
             <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
@@ -48,6 +48,7 @@
 <script>
   import FormGroupInput from '../Component/formGroupInput';
   import { auth, setAuthInHeader } from '../../api'
+  import { mapState } from 'vuex'
   import Modal from '../Component/Modal'
   export default {
     props: {
@@ -61,6 +62,11 @@
     components: {
       [FormGroupInput.name]: FormGroupInput,
       Modal
+    },
+    computed:{
+      ...mapState('hereluxAll', {
+        webFlag: 'webFlag'
+      })
     },
     data() {
       return {
@@ -87,7 +93,6 @@
     },
     methods:{
       naverlogin(){
-        console.log(url);
         var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+this.client_id+'&redirect_uri='+this.callbackUrl+'&state=1234';
         window.location.replace(url);
       },
@@ -128,14 +133,15 @@
       },
       onClose(){
         this.modalShow = false;
-      },
+      }
+      /*
       kakaoAuth(){
-        console.log(this.returnPath);
         Kakao.Auth.login({
           success: (authObj) => this.kakaoAPI(authObj),
           fail: (err) => this.onFailure(err)
         });
       },
+
       logincheck(){
         Kakao.Auth.login({
           success: function(authObj) {
@@ -173,7 +179,7 @@
       }, test123(obj){
         console.log(obj);
       }
-
+      */
 
     }
   }

@@ -1,8 +1,8 @@
   <template>
-  <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+  <div class="section" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
     <div class="blogs-4" id="blogs-4">
       <div>
-        <div v-if="!this.$store.state.searchFlag">
+        <div v-if="!searchFlag">
           <SearchMain>
           </SearchMain>
         </div>
@@ -18,6 +18,8 @@ import { code,search } from '../../api'
 import SearchPage from '../Search/SearchPage.vue'
 import SearchMain from '../Search/SearchMain.vue'
 import SearchProductCard from '../Card/SearchProductCard.vue';
+import { mapState } from 'vuex'
+
 export default{
   components:{
     SearchProductCard,
@@ -48,6 +50,15 @@ export default{
       }
   },
   computed: {
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag',
+      pageKeepAlive : 'pageKeepAlive'
+    }),
+    ...mapState('searchList',  {
+      searchFlag: 'searchFlag',
+      searchWord: 'searchWord',
+      wordcatch : 'wordcatch'
+    }),
    filteredList() {
      return this.brand_items.filter(item => {
        return item.sub_descript.toLowerCase().includes(this.search.toLowerCase())
@@ -55,38 +66,37 @@ export default{
    }
   },
   created(){
-
     this.searchCheck();
   },
   methods:{
     searchCheck(){
       //검색에 관련된 전역변수 초기화
-      //기억된 단어가 있을경우에는 word
-
-      this.$store.state.pageKeepAlive = true
-      if(this.$store.state.searchWord != ''){
-        this.word = "page-" + this.$store.state.searchWord
+      //기억된 단어가 있을경우에는 word=
+      this.$store.commit('hereluxAll/SET_PAGEKEEPLIVE', true);
+      if(this.searchWord != ''){
+        this.word = "page-" + this.searchWord
       } else {
         this.word = "page-";
       }
-      this.$store.commit('SET_SEARCHPRODUCT_INIT');
+      this.$store.commit('searchList/SET_SEARCHPRODUCT_INIT');
       if(this.word == "page-"){
-        this.$store.state.searchPageType = 0;
-        this.$store.state.searchFlag = false;
+        this.$store.commit('searchList/SET_SEARCHPAGETYPE',0);
+        this.$store.commit('searchList/SET_SEARCHFLAG',false);
       } else {
         search.code().then(data=>{
           this.code = data
+          console.log(this.word);
           this.word = this.word.replace(/page-/gi,'');
-          $("#search").val(this.word);
-          this.$store.state.searchPageType = 2;
-          this.$store.state.searchFlag = true;
-          this.searchWord(this.word);
+          $("#searchword").val(this.word);
+          this.$store.commit('searchList/SET_SEARCHPAGETYPE',2);
+          this.$store.commit('searchList/SET_SEARCHFLAG',true);
+
+          this.searchLogic(this.word);
         }).catch(error=>{
           console.log(error);
         })
 
       }
-      this.$store.commit('ISLOADING', true);
       code.forum(1).then(data=>{
         if(data.length == 0){
 
@@ -94,12 +104,11 @@ export default{
         else{
           this.brand_items = data;
         }
-        this.$store.commit('ISLOADING', false);
       }).catch(error =>{
         console.log("error",error);
         //alert 후 페이지 이동
       });
-      this.$store.commit('ISLOADING', true);
+
       code.forum(2).then(data=>{
         if(data.length == 0){
 
@@ -107,7 +116,7 @@ export default{
         else{
           this.category_items = data;
         }
-        this.$store.commit('ISLOADING', false);
+
       }).catch(error =>{
         console.log("error",error);
         //alert 후 페이지 이동
@@ -119,14 +128,15 @@ export default{
     searchClick(){
       this.$router.push(this.$route.query.returnPath || '/searchpage');
     },
-    searchWord(searchWord){
-      this.$store.state.wordcatch = new Array();
+    searchLogic(searchWord){
+      //Word new Array()로 초기화
+      this.$store.commit('searchList/SET_WORDCATCH');
       var word = searchWord;
       //단어 <- code에서 있는지 확인
       //샤넬 남성가방 <-
-      this.$store.state.isLoadingSearch=false;
+      this.$store.commit('searchList/SET_LOADINGSEARCHFLAG',false);
       setTimeout(() => {
-        this.$store.state.isLoadingSearch = true;
+        this.$store.commit('searchList/SET_LOADINGSEARCHFLAG',true);
       }, 700)
       word=word.replace(/ /gi, "");    // 모든 공백을 제거
       for(var i=0; i<this.code.length; i++){
@@ -143,17 +153,17 @@ export default{
               wordObj.code = 'brand_name';
               wordObj.minor_key = this.code[i].minor_key;
               wordObj.descript = this.code[i].descript;
-              this.$store.state.wordcatch.push(wordObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH',wordObj);
             } else if(this.code[i].major_key == 2){
               wordObj.code = 'category_large';
               wordObj.minor_key = this.code[i].minor_key;
               wordObj.descript = this.code[i].descript;
-              this.$store.state.wordcatch.push(wordObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH',wordObj);
             } else {
               wordObj.code = 'category_middle';
               wordObj.minor_key = this.code[i].minor_key;
               wordObj.descript = this.code[i].descript;
-              this.$store.state.wordcatch.push(wordObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH',wordObj);
             }
           }
       }
@@ -168,17 +178,17 @@ export default{
               codeObj.code = 'brand_name';
               codeObj.minor_key = this.code[j].minor_key;
               codeObj.descript = this.code[j].descript;
-              this.$store.state.wordcatch.push(codeObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH',codeObj);
             } else if(this.code[j].major_key == 2){
               codeObj.code = 'category_large';
               codeObj.minor_key = this.code[j].minor_key;
               codeObj.descript = this.code[j].descript;
-              this.$store.state.wordcatch.push(codeObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH',codeObj);
             } else {
               codeObj.code = 'category_middle';
               codeObj.minor_key = this.code[j].minor_key;
               codeObj.descript = this.code[j].descript;
-              this.$store.state.wordcatch.push(codeObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH',codeObj);
             }
           }
         }
@@ -186,12 +196,12 @@ export default{
       //두개 존재하면 검색에 포함
       //둘중 하나도 없으면
       //하나만 있으면 검색에 포함 x
-      if(this.$store.state.wordcatch.length > 0){
-        this.$store.state.searchType = 1;
-        this.$store.state.searchFlag = true;
-        this.$store.commit('SET_SEARCHPRODUCT_INIT');
-        this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:99, category:0, type:0, filter:0, brand:0});
-        this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:0, brand:0});
+      if(this.wordcatch.length > 0){
+        this.$store.commit('searchList/SET_SEARCHTYPE',1);
+        this.$store.commit('searchList/SET_SEARCHFLAG',true);
+        this.$store.commit('searchList/SET_SEARCHPRODUCT_INIT');
+        this.$store.dispatch('searchList/FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.wordcatch, sex:99, category:0, type:0, filter:0, brand:0});
+        this.$store.dispatch('searchList/SEARCHLIST_CNT',{wordcatch:this.wordcatch, category:0, brand:0});
       }
     }
   }

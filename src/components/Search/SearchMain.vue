@@ -42,6 +42,7 @@
 </template>
 <script>
 import { search } from '../../api'
+import { mapState } from 'vuex'
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 export default{
   components:{
@@ -64,6 +65,12 @@ export default{
     setTimeout(() => {
       this.loading = false;
     }, 500)
+  },
+  computed:{
+    ...mapState('searchList', {
+      wordcatch : 'wordcatch',
+
+    })
   },
   created(){
     this.loading = true;
@@ -102,15 +109,15 @@ export default{
   },
   methods:{
     search(searchWord){
-      this.$store.state.wordcatch = new Array();
+      this.$store.commit('searchList/SET_WORDCATCH');
       var word = searchWord;
-      this.$store.state.searchWord = word
-      $("#search").val(searchWord);
+      this.$store.commit('searchList/SET_SEARCHWORD', word);
+      $("#searchword").val(searchWord);
       //단어 <- code에서 있는지 확인
       //샤넬 남성가방 <-
-      this.$store.state.isLoadingSearch=false;
+      this.$store.commit('searchList/SET_LOADINGSEARCHFLAG', false);
       setTimeout(() => {
-        this.$store.state.isLoadingSearch = true;
+        this.$store.commit('searchList/SET_LOADINGSEARCHFLAG', true);
       }, 700)
 
       for(var i=0; i<this.code.length; i++){
@@ -124,17 +131,17 @@ export default{
               wordObj.code = 'brand_name';
               wordObj.minor_key = this.code[i].minor_key;
               wordObj.descript = this.code[i].descript;
-              this.$store.state.wordcatch.push(wordObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH', wordObj);
             } else if(this.code[i].major_key == 2){
               wordObj.code = 'category_large';
               wordObj.minor_key = this.code[i].minor_key;
               wordObj.descript = this.code[i].descript;
-              this.$store.state.wordcatch.push(wordObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH', wordObj);
             } else {
               wordObj.code = 'category_middle';
               wordObj.minor_key = this.code[i].minor_key;
               wordObj.descript = this.code[i].descript;
-              this.$store.state.wordcatch.push(wordObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH', wordObj);
             }
           }
       }
@@ -147,18 +154,17 @@ export default{
               codeObj.code = 'brand_name';
               codeObj.minor_key = this.code[j].minor_key;
               codeObj.descript = this.code[j].descript;
-              this.$store.state.wordcatch.push(codeObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH', codeObj);
             } else if(this.code[j].major_key == 2){
               codeObj.code = 'category_large';
               codeObj.minor_key = this.code[j].minor_key;
               codeObj.descript = this.code[j].descript;
-              this.$store.state.wordcatch.push(codeObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH', codeObj);
             } else {
               codeObj.code = 'category_middle';
               codeObj.minor_key = this.code[j].minor_key;
               codeObj.descript = this.code[j].descript;
-
-              this.$store.state.wordcatch.push(codeObj);
+              this.$store.commit('searchList/SET_WORDCATCH_PUSH', codeObj);
             }
           }
         }
@@ -166,13 +172,13 @@ export default{
       //두개 존재하면 검색에 포함
       //둘중 하나도 없으면
       //하나만 있으면 검색에 포함 x
-      if(this.$store.state.wordcatch.length > 0){
-        this.$store.state.searchType = 1;
-        this.$store.state.searchList_readFlag = false;
-        this.$store.state.searchFlag = true;
-        this.$store.commit('SET_SEARCHPRODUCT_INIT');
-        this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:99, category:0, type:0, filter:0, brand:0});
-        this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:0, brand:0});
+      if(this.wordcatch.length > 0){
+        this.$store.commit('searchList/SET_SEARCHTYPE', 1);
+        this.$store.commit('searchList/SET_SEARCHFLAG', true);
+        this.$store.commit('searchList/SET_SEARCHREADFLAG', false);
+        this.$store.commit('searchList/SET_SEARCHPRODUCT_INIT');
+        this.$store.dispatch('searchList/FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.wordcatch, sex:99, category:0, type:0, filter:0, brand:0});
+        this.$store.dispatch('searchList/SEARCHLIST_CNT',{wordcatch:this.wordcatch, category:0, brand:0});
       }
 
     }

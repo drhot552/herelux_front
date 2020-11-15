@@ -29,33 +29,39 @@
 </template>
 <script>
 import AdsenseMove from '../Component/AdsenseMove.vue'
+import { mapState } from 'vuex'
 export default {
   components:{
     AdsenseMove
   },
+  computed:{
+    ...mapState('hereluxAll', {
+      pageMoveURL: 'pageMoveURL'
+    })
+  },
   created(){
 
     //this.$route.params.url = decodeURIComponent(this.$route.params.url);
-    if(this.$store.state.pageMoveURL != ''){
+    if(this.pageMoveURL != ''){
       setTimeout(() => {
         if(navigator.userAgent.match(/Android|Tablet/i)){
           if(navigator.userAgent.match(/herelux_app_and/i)){
-            window.android.bridge(this.$store.state.pageMoveURL);
+            window.android.bridge(this.pageMoveURL);
           }
           else{
-            window.open(this.$store.state.pageMoveURL, '_blank');
+            window.open(this.pageMoveURL, '_blank');
           }
         }
         else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
           if(navigator.userAgent.match(/herelux_app_ios/i)){
-            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+this.$store.state.pageMoveURL.trim());
+            window.webkit.messageHandlers.YOURMETHOD.postMessage('url_herelux|'+this.pageMoveURL.trim());
           }
           else{
-            window.open(this.$store.state.pageMoveURL, '_blank');
+            window.open(this.pageMoveURL, '_blank');
           }
         }
         else {
-          window.open(this.$store.state.pageMoveURL, '_blank');
+          window.open(this.pageMoveURL, '_blank');
         }
         this.$router.go(-1)
       }, 3600);

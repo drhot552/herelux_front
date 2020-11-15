@@ -3,7 +3,7 @@
             :transparent="transparent"
             :color-on-scroll="colorOnScroll"
             menu-classes="ml-auto"
-            v-bind:class="{main_web_navbar : this.$store.state.webFlag}">
+            v-bind:class="{main_web_navbar : webFlag}">
         <template slot-scope="{toggle, isToggled}">
                 <router-link class="navbar-brand" to="/">
                   HERE LUX
@@ -56,6 +56,7 @@
   import Navbar from '../Navbar/Navbar';
   import NavLink from '../Navbar/NavLink';
   import DropDown from '../Navbar/Dropdown';
+  import { mapState } from 'vuex'
   export default {
     name: 'main-navbar',
     props: {
@@ -66,6 +67,11 @@
       Navbar,
       NavLink,
       DropDown
+    },
+    computed:{
+      ...mapState('hereluxAll', {
+        webFlag: 'webFlag'
+      })
     },
     data(){
       return{

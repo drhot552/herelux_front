@@ -97,13 +97,11 @@
   import Button from '../Component/Button.vue';
   import InfoSection from '../Component/InfoSection.vue';
   import { Select, Option } from 'element-ui';
-  import Card from '../Card/Cards.vue'
 
   export default {
     name: 'about-us',
     bodyClass: 'about-us',
     components: {
-      Card,
       InfoSection,
       [Button.name]: Button,
       [Option.name]: Option,

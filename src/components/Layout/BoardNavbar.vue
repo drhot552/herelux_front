@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar bg-white fixed-top button-fixed-top" v-bind:class="{main_web_navbar : this.$store.state.webFlag}">
+    <nav class="navbar bg-white fixed-top button-fixed-top" v-bind:class="{main_web_navbar : webFlag}">
       <div class="container" style="padding-right:0px; padding-left:0px;">
         <div v-if="pageType=='mylist'" class="board_style navbar-brand" v-on:click="boarderClick('/mylist/1')" style="text-align:left;">
           이전
@@ -9,7 +9,7 @@
         </div>
         <div class="board_style_middle">
         </div>
-        <div v-if="this.$store.state.boardCommentFlag" class="board_style" style="text-align:right;">
+        <div v-if="boardCommentFlag" class="board_style" style="text-align:right;">
           <!-- <a style="color:#888; font-size:1.2em;" v-on:click="update()"> 수정 </a> -->
            <a style="color:#888; font-size:1.2em;" v-on:click="deleteboard()"> 삭제 </a>
         </div>
@@ -22,28 +22,28 @@
           <button class="btn btn-primary" v-on:click="handleOk()">Ok</button>
         </template>
       </modal>
-      <loading :active.sync="this.$store.state.isLoading"
-                :can-cancel="true"
-                :is-full-page="true"
-                :z-index="1060">
-      </loading>
     </nav>
 </template>
 
 <script>
 import { board } from '../../api'
+import { mapState } from 'vuex'
 import Modal from '../Component/Modal';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
-
   export default {
     props: {
       transparent: Boolean,
       colorOnScroll: Number
     },
+    computed:{
+      ...mapState('boardList', {
+        boardCommentFlag : 'boardCommentFlag',
+      }),
+      ...mapState('hereluxAll',{
+        webFlag : 'webFlag'
+      })
+    },
     components:{
-      Modal,
-      Loading
+      Modal
     },
     data(){
       return{
@@ -68,12 +68,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.descript = "게시글을 삭제하시겠습니까?";
       },
       handleOk(){
-        this.$store.commit('ISLOADING', true);
-
         board.delete(this.$route.params.board_idx).then(data => {
           this.modalShowBoard = false;
           setTimeout(() => {
-            this.$store.commit('ISLOADING', false);
             this.$router.push(this.returnPath);
           }, 300);
         }).catch(error =>{
@@ -87,9 +84,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
       },
       boarderClick(path){
-        this.$store.commit('SET_BOARDINFO_INIT');
+        this.$store.commit('boardList/SET_BOARDINFO_INIT');
         if(this.userid != ''){
-          this.$store.dispatch('SELECT_BOARD_INFO_ALERT',{userid:this.userid});
+          this.$store.dispatch('boardList/SELECT_BOARD_INFO_ALERT',{userid:this.userid});
         }
         //
         window.history.length > 1

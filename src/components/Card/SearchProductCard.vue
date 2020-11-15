@@ -1,8 +1,8 @@
 <template>
   <div class="content">
-    <div v-if="!this.$store.state.isLoadingSearch" style="width:100%; height:1024px; text-align: center;">
+    <div v-if="!isLoadingSearch" style="width:100%; height:1024px; text-align: center;">
       <div style="display: inline-block; margin-top:150px;">
-        <clip-loader :loading="!this.$store.state.isLoadingSearch" :color="'black'" :size="'50px'"></clip-loader>
+        <clip-loader :loading="!isLoadingSearch" :color="'black'" :size="'50px'"></clip-loader>
       </div>
     </div>
     <div v-else>
@@ -10,7 +10,7 @@
         <h6></h6>
            <h6 style="margin-top: 30px; margin-right:10px; text-align:right;">
              <b style="float:left; margin-left:15px;">
-               총 {{this.$store.state.searchList_cnt}} 개 상품
+               총 {{searchList_cnt}} 개 상품
              </b>
              <a v-on:click="popup(2)">
                <b>{{brand_name_descript}}</b>
@@ -28,8 +28,8 @@
         <h6></h6>
       </div>
       <div class="container">
-          <div v-if="this.$store.state.searchList.length > 0" class="row" style="margin-bottom: 50px; margin-top:20px;">
-            <div class="div_style" v-for="item in this.$store.state.searchList">
+          <div v-if="searchList.length > 0" class="row" style="margin-bottom: 50px; margin-top:20px;">
+            <div class="div_style" v-for="item in searchList">
               <div v-ripple class="in" v-on:click="detail(item.id)">
                 <img class="lazy-img-fadein"  v-lazy="item.url" alt="..." >
                   <div class="lazy-img-fadein" v-lazy:background-image="item.url"></div>
@@ -45,7 +45,7 @@
                   </div>
               </div>
           </div>
-          <div v-if="this.$store.state.searchList_readFlag" style="text-align:center; height:100px;">
+          <div v-if="searchList_readFlag" style="text-align:center; height:100px;">
             <a style="color:#000000;" v-on:click="readMore()">
               <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
             </a>
@@ -101,9 +101,10 @@
 import { code, search } from '../../api'
 import Modal from '../Component/Modal';
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
+import { mapState } from 'vuex'
 export default{
   created(){
-    this.$store.commit('SET_SEARCHPRODUCT_INIT');
+    this.$store.commit('searchList/SET_SEARCHPRODUCT_INIT');
     this.$nextTick(() => this.$refs.categorysearch.focus())
   },
   mounted(){
@@ -119,6 +120,15 @@ export default{
     document.removeEventListener('scroll', this.onScroll);
   },
   computed: {
+    ...mapState('searchList',  {
+      isLoadingSearch : 'isLoadingSearch',
+      searchList : 'searchList',
+      searchList_cnt : 'searchList_cnt',
+      wordcatch : 'wordcatch',
+      searchType : 'searchType',
+      searchWord : 'searchWord',
+      searchList_readFlag : 'searchList_readFlag'
+    }),
     filteredList() {
       return this.category_middle.filter(post => {
         return post.descript.toLowerCase().includes(this.categorysearch.toLowerCase())
@@ -160,31 +170,29 @@ export default{
   },
   methods:{
     readMore(){
-      this.searchWord = $("#search").val();
-      this.$store.commit('ISLOADING', true);
-      if(this.$store.state.searchType == 0){
-        this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.$store.state.searchWord});
+      this.searchWord = $("#searchword").val();
+      if(this.searchType == 0){
+        this.$store.dispatch('searchList/FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.searchWord});
       } else {
-        this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
-        this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
+        this.$store.dispatch('searchList/FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
+        this.$store.dispatch('searchList/SEARCHLIST_CNT',{wordcatch:this.wordcatch, category:this.category_key, brand:this.brand_key});
       }
     },
     detail(id){
-      this.searchWord = $("#search").val();
-      this.$store.state.productDetail_name = 'search'
+      this.searchWord = $("#searchword").val();
+      this.$store.commit('hereluxAll/SET_PRODUCTDETAIL_NAME', 'search');
       this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/' + 'search'
       setTimeout(() => {
         this.$router.push(this.returnPath)
       }, 300);
     },
     onScroll(){
-      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.searchList_readFlag) {
-        this.$store.commit('ISLOADING', true);
-        if(this.$store.state.searchType == 0){
-          this.$store.dispatch('FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.$store.state.searchWord});
+      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.searchList_readFlag) {
+        if(this.searchType == 0){
+          this.$store.dispatch('searchList/FETCH_SEARCHPRODUCTLIST_READMORE',{word:this.searchWord});
         } else {
-          this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
-          this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
+          this.$store.dispatch('searchList/FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
+          this.$store.dispatch('searchList/SEARCHLIST_CNT',{wordcatch:this.wordcatch, category:this.category_key, brand:this.brand_key});
         }
       }
     },
@@ -218,13 +226,13 @@ export default{
         this.category_middle = [];
         this.category_large_type = [];
 
-        for(var i =0; i< this.$store.state.wordcatch.length;  i++ ){
-          if(this.$store.state.wordcatch[i].code == "category_large"){
-              this.category_large_type.push((this.$store.state.wordcatch[i].minor_key * 10) +1);
+        for(var i =0; i< this.wordcatch.length;  i++ ){
+          if(this.wordcatch[i].code == "category_large"){
+              this.category_large_type.push((this.wordcatch[i].minor_key * 10) +1);
           }
-          else if(this.$store.state.wordcatch[i].code == "category_middle"){
-              category_middle_obj.minor_key = this.$store.state.wordcatch[i].minor_key;
-              category_middle_obj.descript = this.$store.state.wordcatch[i].descript;
+          else if(this.wordcatch[i].code == "category_middle"){
+              category_middle_obj.minor_key = this.wordcatch[i].minor_key;
+              category_middle_obj.descript = this.wordcatch[i].descript;
               this.category_middle_type.push(category_middle_obj);
           }
           else{
@@ -253,10 +261,10 @@ export default{
         //브랜드가 있으면
         var brands_name_obj = new Object();
         this.brands_name = [];
-        for(var i =0; i< this.$store.state.wordcatch.length;  i++ ){
-          if(this.$store.state.wordcatch[i].code == "brand_name"){
-              brands_name_obj.descript = this.$store.state.wordcatch[i].descript;
-              brands_name_obj.minor_key = this.$store.state.wordcatch[i].minor_key;
+        for(var i =0; i< this.wordcatch.length;  i++ ){
+          if(this.wordcatch[i].code == "brand_name"){
+              brands_name_obj.descript = this.wordcatch[i].descript;
+              brands_name_obj.minor_key = this.wordcatch[i].minor_key;
               this.brands_name.push(brands_name_obj);
           }
         }
@@ -273,27 +281,27 @@ export default{
     brandSelect(key,descript){
       this.brand_key = key;
       this.brand_name_descript = descript;
-      this.$store.commit('SET_SEARCHPRODUCT_INIT');
-      this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
-      this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
+      this.$store.commit('searchList/SET_SEARCHPRODUCT_INIT');
+      this.$store.dispatch('searchList/FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
+      this.$store.dispatch('searchList/SEARCHLIST_CNT',{wordcatch:this.wordcatch, category:this.category_key, brand:this.brand_key});
       this.modalBrandShow = false;
 
     },
     filterSelect(key, descript){
       this.filter_data = descript;
       this.filter_key = key;
-      this.$store.commit('SET_SEARCHPRODUCT_INIT');
-      this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
-      this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
+      this.$store.commit('searchList/SET_SEARCHPRODUCT_INIT');
+      this.$store.dispatch('searchList/FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
+      this.$store.dispatch('searchList/SEARCHLIST_CNT',{wordcatch:this.wordcatch, category:this.category_key, brand:this.brand_key});
       this.modalFilterShow = false;
     },
     categorySelect(key,descript){
       // 카테고리 타입이 2이면 부카테고리로 set한다
       this.category_key = key;
       this.category_middle_descript = descript;
-      this.$store.commit('SET_SEARCHPRODUCT_INIT');
-      this.$store.dispatch('FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.$store.state.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
-      this.$store.dispatch('SEARCHLIST_CNT',{wordcatch:this.$store.state.wordcatch, category:this.category_key, brand:this.brand_key});
+      this.$store.commit('searchList/SET_SEARCHPRODUCT_INIT');
+      this.$store.dispatch('searchList/FETCH_SEARCHCODELIST_READMORE',{wordcatch:this.wordcatch, sex:this.sex, category:this.category_key, type:0, filter:this.filter_key, brand:this.brand_key});
+      this.$store.dispatch('searchList/SEARCHLIST_CNT',{wordcatch:this.wordcatch, category:this.category_key, brand:this.brand_key});
       this.modalShow = false;
     }
   }

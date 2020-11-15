@@ -55,6 +55,7 @@ export default {
     },
     onClick(url){
       gtag('event','네이버카페클릭',{'event_label':url});
+      this.$store.commit('hereluxAll/SET_PAGEMOVEURL', url);
       this.$store.state.pageMoveURL = url;
       setTimeout(() => {
         this.$router.push(this.$route.query.returnPath || '/pagemove');

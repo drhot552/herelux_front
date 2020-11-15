@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar fixed-top button-fixed-top" style="background-color: #ddd;">
       <div class="container" style="padding-right:0px; padding-left:0px;">
-        <div class="navbar-brand" v-on:click="appClick()" style="text-align:left;">
+        <div class="navbar-brand" v-on:click="appClick(false)" style="text-align:left;">
           <img src="/public/img/btn_close.png" style="height:20px;"/>
         </div>
         <div v-on:click="appStore()">
@@ -14,12 +14,10 @@
     </nav>
 </template>
 <script>
+import { mapMutations, mapState } from 'vuex'
   export default {
     methods:{
-      appClick(){
-        //이미지 삭제
-        this.$store.state.webFlag = false;
-      },
+      ...mapMutations('hereluxAll',{ appClick : 'SET_WEBFLAG' }),
       appStore(url){
         if(navigator.userAgent.match(/Android|Tablet/i)){
           if(navigator.userAgent.match(/herelux_app_and/i)){

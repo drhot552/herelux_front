@@ -1,5 +1,5 @@
 <template>
-  <div class="contactus-1 section-image" style="background-image: url('/public/img/luxury.jpeg')">
+  <div class="contactus-1 section-image" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }" style="background-image: url('/public/img/luxury.jpeg')">
       <div class="container">
           <div class="row">
               <div class="col-md-5">
@@ -38,18 +38,30 @@
 import Button from '../Component/Button.vue';
 import InfoSection from '../Component/InfoSection.vue';
 import FormGroupInput from '../Component/formGroupInput.vue';
-import Card from '../Card/Cards.vue'
 import { Select, Option } from 'element-ui';
+import { mapState } from 'vuex'
 
 export default{
   components: {
-    Card,
     InfoSection,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput
+  },
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    })
   }
 }
 </script>
 
 <style>
+.main_web_page{
+  padding: 100px 0 53px;
+  background: #fff;
+}
+.main_app_page{
+  padding: 70px 0 53px;
+  background: #fff;
+}
 </style>

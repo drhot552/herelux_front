@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="this.$store.state.webFlag">
+    <div v-if="webFlag">
       <router-view name="app"></router-view>
     </div>
     <router-view name="header"></router-view>
@@ -21,8 +21,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'app',
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    })
+  },
   created(){
     if(navigator.userAgent.match(/Android|Tablet/i)){
       if(navigator.userAgent.match(/herelux_app_and/i)){
@@ -30,7 +36,7 @@ export default {
         window.Echo = this.Echo;
       }
       else {
-        this.$store.state.webFlag = true;
+        this.$store.commit('hereluxAll/SET_WEBFLAG', true);
       }
     }
     else if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
@@ -39,11 +45,11 @@ export default {
         window.Echo = this.Echo;
       }
       else {
-        this.$store.state.webFlag = true;
+        this.$store.commit('hereluxAll/SET_WEBFLAG', true);
       }
     }
     else {
-      this.$store.state.webFlag = true;
+      this.$store.commit('hereluxAll/SET_WEBFLAG', true);
     }
   },
   methods:{

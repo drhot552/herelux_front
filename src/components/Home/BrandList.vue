@@ -36,6 +36,7 @@
 
 <script>
 import { code, home, search } from '../../api'
+import { mapState } from 'vuex'
 import HomeBrandCard from '../Card/HomeBrandCard'
 export default {
     props:{
@@ -48,10 +49,18 @@ export default {
           sub_descript : '',
           minor_key : 0,
           transition: "slide-next",
-          tabwidth: 200,
-          categorylist : ['전체','지갑','가방','신발'],
+          tabwidth: 250,
+          categorylist : ['전체','지갑','가방','신발','의류'],
           categoryactivetab : 0
       }
+    },
+    computed:{
+      ...mapState('brandList', {
+        brandcategory_readFlag: 'brandcategory_readFlag',
+        brandcategory_category: 'brandcategory_category',
+        brandcateogry_category_type: 'brandcateogry_category_type',
+        brandcategory_filter:'brandcategory_filter'
+      })
     },
     components:{
       HomeBrandCard
@@ -80,14 +89,13 @@ export default {
     methods:{
       brand(brand, sub_descript){
         this.brandproduct = []
-        this.$store.state.brandcategory_descript = `/public/img/brand/` + sub_descript + `.png`;
-        this.$store.state.brandcateogry_brand = brand;
+        this.$store.commit('brandList/SET_BRNADCATEGORY_BRAND', {brandcategory_descript:`/public/img/brand/` + sub_descript + `.png`, brandcateogry_brand:brand});
         this.minor_key = brand
         this.brandcategoryfetch()
 
       },
       productClick(id){
-        this.$store.state.productDetail_name = 'home'
+        this.$store.commit('brandList/SET_BRNADCATEGORY_PRODUCTNAME', 'home');
         this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/home'
         setTimeout(() => {
           this.$router.push(this.returnPath)
@@ -118,40 +126,47 @@ export default {
         })
       },
       brandcategoryfetch(){
-        this.$store.state.brandcateogry_category_type = 0;
-        this.$store.commit('SET_BRANDCATEGORYPRODUCT_INIT');
-        this.$store.commit('ISLOADING', true);
+        this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORYTYPE', 0);
+        this.$store.commit('brandList/SET_BRANDCATEGORYPRODUCT_INIT');
 
         //전체
         if(this.categoryactivetab == 0){
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:50, category_type:0, sex:this.sex, filter:0});
-          this.$store.state.brandcategory_category = 50;
+          this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:50, category_type:0, sex:this.sex, filter:0});
+          this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORY', 50);
         }
         //가방
         else if(this.categoryactivetab == 2){
           if(this.sex == 0){
-            this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:21, category_type:0, sex:this.sex, filter:0});
-            this.$store.state.brandcategory_category = 21;
+            this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:21, category_type:0, sex:this.sex, filter:0});
+            this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORY', 21);
           } else {
-            this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:31, category_type:0, sex:this.sex, filter:0});
-            this.$store.state.brandcategory_category = 31;
+            this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:31, category_type:0, sex:this.sex, filter:0});
+            this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORY', 31);
           }
         }
         //신발
         else if(this.categoryactivetab == 3){
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:41, category_type:0, sex:this.sex, filter:0});
-          this.$store.state.brandcategory_category = 41;
+          this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:41, category_type:0, sex:this.sex, filter:0});
+          this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORY', 41);
         }
         //지갑
+        else if (this.categoryactivetab == 4){
+          if(this.sex == 0){
+            this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:51, category_type:0, sex:this.sex, filter:0});
+            this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORY', 51);
+          } else {
+            this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:61, category_type:0, sex:this.sex, filter:0});
+            this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORY', 61);
+          }
+        }
         else {
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:11, category_type:0, sex:this.sex, filter:0});
-          this.$store.state.brandcategory_category = 11;
+          this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:11, category_type:0, sex:this.sex, filter:0});
+          this.$store.commit('brandList/SET_BRNADCATEGORY_CATEGORY', 11);
         }
       },
       onScroll(){
-        if (Math.round( $(window).scrollTop()) >= $(document).height() - $(window).height() && this.$store.state.brandcategory_readFlag) {
-          this.$store.commit('ISLOADING', true);
-          this.$store.dispatch('FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:this.$store.state.brandcategory_category, category_type:this.$store.state.brandcateogry_category_type, sex:this.sex, filter:this.$store.state.brandcategory_filter});
+        if (Math.round( $(window).scrollTop()) >= $(document).height() - $(window).height() && this.brandcategory_readFlag) {
+          this.$store.dispatch('brandList/FETCH_BRANDCATEGORYLIST_READMORE',{brand:this.minor_key, category:this.brandcategory_category, category_type:this.brandcateogry_category_type, sex:this.sex, filter:this.brandcategory_filter});
         }
       }
     }
@@ -190,7 +205,7 @@ export default {
 }
 .slider_brandcategory{
   height:2px;
-  width:12.5%;
+  width:8%;
   background:black;
   transition:.5s ease;
   margin-left : 6.5%;

@@ -1,5 +1,5 @@
 <template>
-    <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+    <div class="section" v-bind:class="{ main_boardweb_page: webFlag, main_boradapp_page: !webFlag }">
     <div class="container" style="padding-left:0px; padding-right:0px;">
 
       <ul class="tabs_board" ref="tabbar">
@@ -19,23 +19,16 @@
         </transition>
       </div>
     </div>
-    <loading :active.sync="this.$store.state.isLoading"
-              :can-cancel="true"
-              :is-full-page="true"
-              :z-index="1060">
-    </loading>
   </div>
 </template>
 
 <script>
 import BoardCard from '../Card/BoardCard';
+import { mapState } from 'vuex'
 import { code } from '../../api';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 export default{
   components:{
-    BoardCard,
-    Loading
+    BoardCard
   },
   data() {
     return {
@@ -52,7 +45,6 @@ export default{
   watch: {
       '$route' (to, from) {
         if(to.path !== from.path) {
-          console.log(to.path, from.path);
           if(from.path.match(/boarddetail/gi)){
 
           } else if(from.path.match(/board/gi)){
@@ -98,6 +90,14 @@ export default{
    document.removeEventListener('scroll', this.onScroll);
  },
  computed:{
+   ...mapState('hereluxAll', {
+     webFlag: 'webFlag'
+   }),
+   ...mapState('boardList', {
+     board_readFlag : 'board_readFlag',
+     boardTabStatus : 'boardTabStatus'
+
+   }),
    pointer(){
       if(window.PointerEvent) return true
       else return false
@@ -207,24 +207,20 @@ export default{
       this.$nextTick(function() {
       	this.boardactivetab = n;
         this.boardtype = n;
-        this.$store.state.boardTabStatus = n;
+        this.$store.commit('boardList/SET_BOARD_TABSTATUS', n);
         this.fetch();
       })
     },
     fetch(){
-      this.$store.commit('SET_INIT_BOARD', this.boardtype);
-      this.$store.commit('ISLOADING', true);
-      console.log('boardfetch');
-      this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.boardtype});
+      this.$store.commit('boardList/SET_INIT_BOARD', this.boardtype);
+      this.$store.dispatch('boardList/FETCH_BOARD_READMORE',{boardtype:this.boardtype});
     },
     errorAlert(){
       this.$router.push(this.$route.query.returnPath || '/error');
     },
     onScroll () {
-
-      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.board_readFlag) {
-        this.$store.commit('ISLOADING', true);
-        this.$store.dispatch('FETCH_BOARD_READMORE',{boardtype:this.$store.state.boardTabStatus});
+      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.board_readFlag) {
+        this.$store.dispatch('boardList/FETCH_BOARD_READMORE',{boardtype:this.boardTabStatus});
       }
     }
  }
@@ -300,11 +296,11 @@ export default{
   height: 200px;
   overflow-y: scroll;
 }
-.main_web_page{
+.main_boardweb_page{
   padding: 100px 0 53px;
   background: #fff;
 }
-.main_app_page{
+.main_boradapp_page{
   padding: 51px 0 53px;
   background: #fff;
 }

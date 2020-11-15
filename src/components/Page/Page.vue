@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+  <div v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
     <div v-if="loading" style="width:100%; height:1024px; text-align: center;">
       <div style="display: inline-block; margin-top:150px;">
         <clip-loader :loading="loading" :color="'black'" :size="'50px'"></clip-loader>
@@ -22,11 +22,17 @@
 </template>
 <script>
 import { plan } from '../../api'
+import { mapState } from 'vuex'
 import Images from '../Card/Images'
 import PlanProductCard from '../Card/PlanProductCard'
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 
 export default{
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    })
+  },
   data(){
     return{
       page : [],

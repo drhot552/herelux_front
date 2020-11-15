@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
     <p class="license_title">  # Node js 10.15.0</p>
     <p class="license">
       The original contents of the nodejs.org repo are licensed for use as follows:
@@ -167,7 +167,14 @@ The text of the npm License follows and the text of the additional terms follows
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default{
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    })
+  }
 }
 </script>
 
@@ -176,7 +183,15 @@ export default{
   font-size:10px;
   font-weight:bold;
 }
-  .license{
-    font-size:10px
-  }
+.license{
+  font-size:10px
+}
+.main_web_page{
+  padding: 100px 0 53px;
+  background: #fff;
+}
+.main_app_page{
+  padding: 70px 0 53px;
+  background: #fff;
+}
 </style>

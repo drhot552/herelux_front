@@ -76,6 +76,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default{
   data(){
     return{
@@ -85,8 +86,13 @@ export default{
       background_Flag_One : true
     }
   },
+  computed:{
+    ...mapState('writeboard', {
+      formData: 'formData'
+    })
+  },
   mounted(){
-    this.$store.state.formData = new FormData();
+    this.$store.commit('writeboard/SET_WRITEBOARD_FORM');
   },
   methods:{
     FirstshowFiles() {
@@ -97,11 +103,12 @@ export default{
         this.background_Flag_One = false;
 
         if(this.imageCount != 0){
-          this.$store.state.formData.delete('image_1');
+
+          this.formData.delete('image_1');
           $('#imgzone_1').empty();
           for (var i = 0; i <= fi.files.length - 1; i++) {
                 this.imageCount++;
-                this.$store.state.formData.append('image_1', fi.files[i]);
+                this.formData.append('image_1', fi.files[i]);
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var img = new Image();
@@ -121,7 +128,7 @@ export default{
           else {
             for (var i = 0; i <= fi.files.length - 1; i++) {
                   this.imageCount++;
-                  this.$store.state.formData.append('image_1', fi.files[i]);
+                  this.$store.commit('writeboard/SET_WRITEBOARD_OBJECT_IMG1', {image:fi.files[i]});
                   var reader = new FileReader();
                   reader.onload = function (e) {
                       var img = new Image();
@@ -144,11 +151,11 @@ export default{
         this.background_Flag_Two = false;
 
         if(this.imageCountScd != 0){
-          this.$store.state.formData.delete('image_2');
+          this.formData.delete('image_2');
           $('#imgzone_2').empty();
           for (var i = 0; i <= fi.files.length - 1; i++) {
                 this.imageCountScd++;
-                this.$store.state.formData.append('image_2', fi.files[i]);
+                this.$store.commit('writeboard/SET_WRITEBOARD_OBJECT_IMG2', {image:fi.files[i]});
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var img = new Image();
@@ -168,7 +175,7 @@ export default{
           else{
             for (var i = 0; i <= fi.files.length - 1; i++) {
                   this.imageCountScd++;
-                  this.$store.state.formData.append('image_2', fi.files[i]);
+                  this.formData.append('image_2', fi.files[i]);
                   var reader = new FileReader();
                   reader.onload = function (e) {
                       var img = new Image();
@@ -188,7 +195,7 @@ export default{
       var fi = document.getElementById('file_input_1');           // Get the File input.
 
       this.background_Flag_One = true;
-      this.$store.state.formData.delete('image_1');
+      this.formData.delete('image_1');
       $('#imgzone_1').empty();
     },
     SecondImgDelete(){
@@ -196,7 +203,7 @@ export default{
       var fi = document.getElementById('file_input_2');           // Get the File input.
 
       this.background_Flag_Two = true;
-      this.$store.state.formData.delete('image_2');
+      this.formData.delete('image_2');
       $('#imgzone_2').empty();
     }
   }

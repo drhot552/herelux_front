@@ -29,13 +29,14 @@
 <script>
 import Tabs from '../Component/WriteTabs';
 import TabPane from '../Component/Tab';
+import { mapState } from 'vuex';
 export default{
   components:{
     Tabs,
     TabPane
   },
   created(){
-    this.$store.state.writeBoard_forum = 0;
+    this.$store.commit('writeboard/SET_WRITEBOARD_FORUM', 0);
   }
 
 }

@@ -1,6 +1,7 @@
 <template>
     <SlideYUpTransition :duration="animationDuration">
         <div class="modal fade"
+            style="z-index:5050;"  
              @click.self="closeModal"
              :class="[{'show d-block': show}, {'d-none': !show}, {'modal-mini': type === 'mini'}]"
              v-show="show"

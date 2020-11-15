@@ -19,7 +19,6 @@
     },
     mounted() {
       this.addTab(this)
-      console.log('tabtab');
     },
     destroyed() {
       if (this.$el && this.$el.parentNode) {

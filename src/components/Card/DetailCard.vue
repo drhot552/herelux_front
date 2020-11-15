@@ -185,16 +185,15 @@
 </template>
 <script>
 import Collapse from '../Component/Collapse'
+import CollapseItem from '../Component/CollapseItem'
 import BlogCard from '../Card/BlogCard'
 import KaKaoCard from '../Card/KaKaoCard'
+import CafeCard from '../Card/CafeCard'
 import NaverShopCard from '../Card/NaverShopCard'
 import ElevenShopCard from '../Card/ElevenShopCard'
-import CafeCard from '../Card/CafeCard'
-import CollapseItem from '../Component/CollapseItem'
-import Images from './Images'
 import Modal from '../Component/Modal'
 import Adsense from '../Component/Adsense'
-import { product,callback } from '../../api'
+import { product } from '../../api'
 
 export default {
     props: {
@@ -235,7 +234,6 @@ export default {
       }
     },
     components:{
-      Images,
       Collapse,
       CollapseItem,
       Modal,

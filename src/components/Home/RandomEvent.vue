@@ -110,7 +110,7 @@ export default {
     handleClickSlide(url){
       gtag('event','이벤트상품클릭',{'event_label':url});
       // URI Encoding
-      this.$store.state.pageMoveURL = url;
+      this.$store.commit('hereluxAll/SET_PAGEMOVEURL', url);
       setTimeout(() => {
         this.$router.push(this.$route.query.returnPath || '/pagemove');
       }, 200);

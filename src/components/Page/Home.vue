@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+  <div v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
     <div v-if="loading" style="width:100%; height:1024px; text-align: center;">
       <div style="display: inline-block; margin-top:150px;">
         <clip-loader :loading="loading" :color="'black'" :size="'50px'"></clip-loader>
@@ -8,10 +8,10 @@
     <div v-else class="container" style="padding-left:0; padding-right:0">
       <RandomEvent></RandomEvent>
       <AdsenseHome v-bind:slot="8582528687"></AdsenseHome>
-      <div style="padding-left:10px; width:100%; display: flex; padding-top:15px;">
-        <div v-for="item in category">
-          <div v-if= "item.minor_key <5 " style="width:80px; margin-right:10px;" v-ripple v-on:click="detail(item.descript)">
-            <img v-lazy="item.url" class="lazy-img-fadein"  style="border-radius: 10px; width: 80px; height: 80px;" alt="..." />
+      <div class="row" style="margin:0; padding-top:15px;">
+        <div v-for="(item, i) in category" style="width:33.3%;">
+          <div v-if= "item.minor_key <7" v-ripple v-on:click="detail(item.descript)">
+            <img v-lazy="item.url" class="lazy-img-fadein" alt="..." />
             <h6 style="font-weight:700; text-align:center; margin-top:10px;">{{item.descript}}</h6>
           </div>
         </div>
@@ -46,6 +46,7 @@
 <script>
 import { search, code } from '../../api'
 import CategoryList from '../Home/CategoryList';
+import { mapState, mapMutations } from 'vuex'
 import BrandList from '../Home/BrandList';
 import AdsenseHome from '../Component/AdsenseHome';
 import RandomEvent from '../Home/RandomEvent'
@@ -65,6 +66,11 @@ export default{
       loading : false
     }
   },
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    })
+  },
   components:{
     CategoryList,
     BrandList,
@@ -83,8 +89,9 @@ export default{
     }, 800)
   },
   methods:{
+    ...mapMutations('hereluxAll',{ appClick : 'SET_WEBFLAG' }),
     detail(searchWord){
-      this.$store.state.searchWord = searchWord;
+      this.$store.commit('searchList/SET_SEARCHWORD', searchWord);
       setTimeout(() => {
         this.$router.push(this.$route.query.returnPath || '/search');
       }, 300);

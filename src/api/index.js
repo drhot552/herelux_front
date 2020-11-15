@@ -3,12 +3,12 @@ import axios from 'axios'
 import router from '../router'
 
 /* 운영서버 */
-const DOMAIN ='http://54.180.120.131:4000';
-export const WRITEDOMAIN = 'http://54.180.120.131:4000';
+//const DOMAIN ='http://54.180.120.131:4000';
+//export const WRITEDOMAIN = 'http://54.180.120.131:4000';
 
 /* 개발서버 */
-//const DOMAIN ='http://54.180.153.54:4000'
-//export const WRITEDOMAIN = 'http://54.180.153.54:4000';
+const DOMAIN ='http://54.180.153.54:4000'
+export const WRITEDOMAIN = 'http://54.180.153.54:4000';
 
 const UNAUTHORIZED = 401
 
@@ -93,6 +93,9 @@ export const product = {
   },
   productlovechk(product_id, user_id){
     return request('get', '/product/productlovechk/' +  user_id + '/' + product_id);
+  },
+  productrecommend(category_middle){
+    return request('get', '/product/productrecommend/' + category_middle)
   }
 }
 export const event = {
@@ -299,5 +302,27 @@ export const plan = {
   },
   product(event_id){
     return request('get', '/plan/product/' + event_id )
+  }
+}
+export const talk = {
+  list(product_id, product_name, brand_name, category_large, category_middle){
+    return request('get', '/talk/list/' + product_id + '/' + product_name + '/' + brand_name + '/' + category_large + '/' +  category_middle)
+  },
+  nickname(talk_id, user_id){
+    return request('get', '/talk/nickname/' + talk_id + '/' + user_id)
+  },
+  delete(talk_id){
+    return request('get', '/talk/delete/' + talk_id )
+  }
+}
+export const talkcomment = {
+  talkcomment(talk_id,userid, descript, name){
+    return request('post', '/talkcomment/write',  {talk_id, userid, descript, name})
+  },
+  list(talk_id){
+    return request('get', '/talkcomment/list/' + talk_id)
+  },
+  delete(talk_id, comment_id){
+    return request('get', '/talkcomment/delete/'+ talk_id +'/'+ comment_id)
   }
 }

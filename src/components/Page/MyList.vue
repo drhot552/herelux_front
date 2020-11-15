@@ -108,7 +108,6 @@ export default{
       this.$router.push(this.$route.query.returnPath || '/error');
     },
     onScroll () {
-      console.log($(window).scrollTop(), $(document).height() - $(window).height());
       if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.myList_readFlag) {
         this.$store.commit('ISLOADING', true);
         if(this.listFlag ==  1){

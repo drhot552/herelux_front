@@ -1,5 +1,5 @@
 <template>
-<div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+<div class="section" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
   <div class="container" style="padding-left:0px; padding-right:0px;">
     <div style="margin-left:15px; margin-right:15px;">
       <div style="border-bottom: 3px solid rgb(0, 0, 0); height: 50px;">
@@ -49,6 +49,7 @@
 import FormGroupInput from '../Component/formGroupInput';
 import Modal from '../Component/Modal';
 import { auth } from '../../api'
+import { mapState } from 'vuex'
 export default{
   components: {
     [FormGroupInput.name]: FormGroupInput,
@@ -64,6 +65,11 @@ export default{
       descript : String,
       title : String
     }
+  },
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    })
   },
   created(){
     this.userId = localStorage.getItem('id')
