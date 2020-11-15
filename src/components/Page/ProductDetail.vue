@@ -187,7 +187,7 @@ export default {
         this.errorAlert();
       });
     }
-
+    this.loginCheck();
     this.listProduct();
   },
   methods:{
@@ -231,7 +231,7 @@ export default {
         })
      },
      doLove(){
-       if(this.userid != ""){
+       if(this.userid != null){
          product.productlove(this.id, this.userid).then(data=>{
            if(data == 200){
              if(this.likeFlag){
@@ -252,9 +252,6 @@ export default {
 
            }
          })
-
-
-
        } else{
          this.title = "로그인 확인"
          this.descript = "로그인 후 위시리스트에 담을 수 있습니다. 로그인 하시겠습니까?"
@@ -265,7 +262,7 @@ export default {
     //talk
     loginCheck(){
       this.userid = localStorage.getItem('id');
-      if(this.userid == ""){
+      if(this.userid == null){
         this.$store.commit('talkList/SET_TALK_FLAG', false);
       } else {
         this.$store.commit('talkList/SET_TALK_FLAG', true);
