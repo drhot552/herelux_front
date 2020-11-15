@@ -97,6 +97,9 @@ export default {
     FirstImgDelete() {
       this.imageFlag = false;
       $('#imgzone_1').empty();
+      this.$store.commit('talkList/SET_TALKCOMMENT_OBJECT_INIT');
+      this.$store.commit('talkList/SET_TALK_OBJECT_INIT');
+      
     },
     FirstshowFiles() {
         var div = document.getElementById('imgzone_1');     // The DIV.
@@ -122,8 +125,6 @@ export default {
 
     },
     talkInit(){
-      this.$store.commit('talkList/SET_TALKCOMMENT_OBJECT_INIT');
-      this.$store.commit('talkList/SET_TALK_OBJECT_INIT');
       this.$store.commit('talkList/SET_TALK_INIT');
       this.FirstImgDelete();
 
