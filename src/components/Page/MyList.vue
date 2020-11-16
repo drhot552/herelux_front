@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="section" v-bind:class="{ main_web_page: this.$store.state.webFlag, main_app_page: !this.$store.state.webFlag }">
+    <div class="section" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
       <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh; overflow:auto;">
         <div style="margin-top:15px; border-bottom:1px solid; padding-bottom: 15px;">
           <div v-for="item in myinfo" style="display:inline-block; width:33%; text-align:center;">
@@ -19,12 +19,12 @@
           <div v-if="listFlag==1">
             <span class="board_span_style" style="color:black;" v-on:click="listChange(1)">내가 선택한 명품</span>
             <span class="board_span_style" v-on:click="listChange(2)">내가 작성한 글</span>
-            <span style="font-size:10px; color:red;" v-if="this.$store.state.boardFlag">N</span>
+            <span style="font-size:10px; color:red;" v-if="boardFlag">N</span>
           </div>
           <div v-else-if="listFlag==2">
             <span class="board_span_style" v-on:click="listChange(1)">내가 선택한 명품</span>
             <span class="board_span_style" style="color:black;" v-on:click="listChange(2)">내가 작성한 글</span>
-            <span style="font-size:10px; color:red;" v-if="this.$store.state.boardFlag">N</span>
+            <span style="font-size:10px; color:red;" v-if="boardFlag">N</span>
           </div>
         </div>
         <div v-if="listFlag == 1">
@@ -42,6 +42,7 @@
 import MylistBoard from '../Page/MylistBoard';
 import Mylistproduct from '../Page/Mylistproduct';
 import { info } from '../../api';
+import { mapState } from 'vuex'
 
 export default{
   props:{
@@ -50,6 +51,20 @@ export default{
   components:{
     Mylistproduct,
     MylistBoard
+  },
+  computed:{
+    ...mapState('hereluxAll', {
+      webFlag: 'webFlag'
+    }),
+    ...mapState('boardList', {
+      boardFlag: 'boardFlag'
+    }),
+    ...mapState('myList', {
+      myList_readFlag: 'myList_readFlag',
+      myList_category_type : 'myList_category_type',
+      myboardList_type : 'myboardList_type'
+    })
+
   },
   data() {
     return {
@@ -108,12 +123,11 @@ export default{
       this.$router.push(this.$route.query.returnPath || '/error');
     },
     onScroll () {
-      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.$store.state.myList_readFlag) {
-        this.$store.commit('ISLOADING', true);
+      if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height() && this.myList_readFlag) {
         if(this.listFlag ==  1){
-          this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userId, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+          this.$store.dispatch('myList/FETCH_MYLIST_READMORE',{userid:this.userId, category_type:this.myList_category_type, category:this.myList_category});
         } else {
-          this.$store.dispatch('FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
+          this.$store.dispatch('myList/FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.myboardList_type});
         }
       }
     }

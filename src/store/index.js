@@ -7,6 +7,7 @@ import talkList from './modules/talkList'
 import product from './modules/product'
 import writeboard from './modules/writeboard'
 import boardList from './modules/boardList'
+import myList from './modules/myList'
 
 
 Vue.use(Vuex)
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
     talkList,
     product,
     writeboard,
-    boardList
+    boardList,
+    myList
   }
 })
 

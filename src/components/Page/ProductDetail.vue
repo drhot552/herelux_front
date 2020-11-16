@@ -175,8 +175,9 @@ export default {
     this.$store.commit('talkList/SET_TALK_FLAG', false);
   },
   created(){
+    this.userid = localStorage.getItem('id');
     this.productId = this.$route.params.id;
-    if(this.userid != ""){
+    if(this.userid != null){
       product.productlovechk(this.userid, this.id).then(data =>{
         if(data == 500){
           this.errorAlert();
@@ -187,7 +188,6 @@ export default {
         this.errorAlert();
       });
     }
-    this.loginCheck();
     this.listProduct();
   },
   methods:{
@@ -261,7 +261,6 @@ export default {
      },
     //talk
     loginCheck(){
-      this.userid = localStorage.getItem('id');
       if(this.userid == null){
         this.$store.commit('talkList/SET_TALK_FLAG', false);
       } else {

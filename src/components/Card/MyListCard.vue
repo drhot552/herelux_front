@@ -4,8 +4,8 @@
           <div style="color:#888; text-align:center; margin:10px;">
             <span> 위시리스트 상품입니다.</span>
           </div>
-          <div v-if="this.$store.state.myList.length > 0" class="row" style="margin-bottom: 50px;">
-            <article class="div_style" v-for="item in this.$store.state.myList">
+          <div v-if="myList.length > 0" class="row" style="margin-bottom: 50px;">
+            <article class="div_style" v-for="item in myList">
               <div class="in">
                 <div v-ripple style="color:#000000;" v-on:click="detail(item.id)">
                   <img class="lazy-img-fadein" v-lazy="item.url" style="width: 130px; height: 130px;"alt="..." >
@@ -23,7 +23,7 @@
                   </div>
               </div>
           </div>
-          <div v-if="this.$store.state.myList_readFlag" style="text-align:center; height:100px;">
+          <div v-if="myList_readFlag" style="text-align:center; height:100px;">
             <a style="color:#000000;" v-on:click="readMore()">
               <img src="/public/img/btn_arrow_down.png" style="height:20px;margin-top: 10px;"/>
             </a>
@@ -35,24 +35,35 @@
 
 <script>
 import { product } from '../../api'
+import { mapState } from 'vuex'
 
 export default{
-  created(){
-    this.userid = localStorage.getItem('id');
-  },
+
   data(){
     return{
       returnPath : '',
       userid : ''
     }
   },
+  computed:{
+    ...mapState('myList', {
+      myList: 'myList',
+      myList_category_type : 'myList_category_type',
+      myList_category : 'myList_category',
+      myList_readFlag : 'myList_readFlag'
+    })
+  },
+  created(){
+    this.userid = localStorage.getItem('id');
+  },
   methods:{
     readMore(){
-      this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+      this.$store.dispatch('myList/FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.myList_category_type, category:this.myList_category});
     },
     detail(id){
-      this.$store.state.productDetail_name = 'mylist'
+      this.$store.commit('ISLOADING', true);
+      this.$store.commit('hereluxAll/SET_PRODUCTDETAIL_NAME', 'mylist');
+
       this.returnPath = this.$route.query.returnPath || '/detail/' + id + '/' + 'mylist'
       setTimeout(() => {
         this.$router.push(this.returnPath)

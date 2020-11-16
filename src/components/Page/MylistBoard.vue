@@ -16,11 +16,6 @@
          </div>
       </transition>
     </div>
-    <loading :active.sync="this.$store.state.isLoading"
-              :can-cancel="true"
-              :is-full-page="true"
-              :z-index="1060">
-    </loading>
   </div>
 </template>
 
@@ -28,8 +23,7 @@
 import MyListBoardCard from '../Card/MyListBoardCard';
 import Modal from '../Component/Modal';
 import { code } from '../../api';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import { mapState } from 'vuex'
 
 export default{
   props:{
@@ -37,7 +31,6 @@ export default{
   },
   components:{
     Modal,
-    Loading,
     MyListBoardCard
   },
   data() {
@@ -57,7 +50,6 @@ export default{
 
    this.userid = localStorage.getItem('id');
 
-   this.$store.commit('ISLOADING', true);
    //게시판전체가져오기
    code.category(3).then(data=>{
      if(data.length == 0){
@@ -67,7 +59,6 @@ export default{
        this.boarditems = data;
        this.myboardFetch();
      }
-     this.$store.commit('ISLOADING', false);
    }).catch(error =>{
      console.log("error",error);
      //alert 후 페이지 이동
@@ -85,6 +76,9 @@ beforeDestroy () {
    document.removeEventListener('touchmove', this.movemyboardTouch, false);
  },
  computed:{
+   ...mapState('myList', {
+     myboardList_type: 'myboardList_type'
+   }),
    pointer(){
       if(window.PointerEvent) return true
       else return false
@@ -179,16 +173,14 @@ beforeDestroy () {
 
       this.$nextTick(function() {
       	this.mylistboardactivetab = n
-        this.$store.state.myboardList_type = n;
-
+        this.$store.commit('myList/SET_INIT_MYLIST_BOARD', n);
         this.myboardFetch();
       })
     },
     myboardFetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
-      this.$store.commit('SET_INIT_MYLIST_BOARD', this.mylistboardactivetab);
-      this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
+      this.$store.commit('myList/SET_INIT_MYLIST_BOARD', this.mylistboardactivetab);
+      this.$store.dispatch('myList/FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.myboardList_type});
       // console.log(this.$store.state.readFlag)
     },
     errorAlert(){
@@ -202,14 +194,6 @@ beforeDestroy () {
 </script>
 
 <style>
-.slide-next-leave-active, .slide-next-enter-active, .slide-prev-enter-active, .slide-prev-leave-active {
-}
-.slide-next-enter,.slide-next-leave, .slide-prev-leave-to
-{
-}
-
-.slide-next-leave-to, .slide-prev-enter, .slide-prev-leave {
-}
 .mylisttabs{
   display:flex;
   color: #f1f1f1;

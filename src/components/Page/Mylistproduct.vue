@@ -38,11 +38,6 @@
          </div>
        </div>
      </modal>
-     <loading :active.sync="this.$store.state.isLoading"
-               :can-cancel="true"
-               :is-full-page="true"
-               :z-index="1060">
-     </loading>
 
 </div>
 </template>
@@ -51,8 +46,7 @@
 import MyListCard from '../Card/MyListCard';
 import Modal from '../Component/Modal';
 import { code } from '../../api';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import { mapState } from 'vuex'
 
 export default{
   props:{
@@ -60,8 +54,7 @@ export default{
   },
   components:{
     MyListCard,
-    Modal,
-    Loading
+    Modal
   },
   data() {
     return {
@@ -79,13 +72,11 @@ export default{
     }
   },
  created(){
-
-   this.$store.state.myList_category_type = 0;
-   this.mylistActivetab = this.$store.state.myList_category;
+   this.$store.commit('myList/SET_MYLIST_CATEGORY_TYPE', 0);
+   this.mylistActivetab = this.myList_category;
 
    this.userid = localStorage.getItem('id');
-   this.$store.commit('ISLOADING', true);
-   this.$store.commit('SET_MYLIST_INIT');
+   this.$store.commit('myList/SET_MYLIST_INIT');
 
    //전체가져오기
    code.category(2).then(data=>{
@@ -97,7 +88,6 @@ export default{
        this.fetch();
        this.categoryMiddle();
      }
-     this.$store.commit('ISLOADING', false);
    }).catch(error =>{
      console.log("error",error);
      //alert 후 페이지 이동
@@ -118,7 +108,11 @@ beforeDestroy () {
    pointer(){
       if(window.PointerEvent) return true
       else return false
-   }
+   },
+   ...mapState('myList', {
+     myList_category: 'myList_category',
+     myList_category_type : 'myList_category_type'
+   })
  },
  methods: {
   startmylistTouch(e) {
@@ -212,7 +206,7 @@ beforeDestroy () {
         this.subject = this.items[n].descript;
 
         this.data = n;
-        this.$store.state.myList_category = n;
+        this.$store.commit('myList/SET_MYLIST_CATEGORY', n);
 
         this.fetch();
         this.categoryMiddle();
@@ -220,20 +214,18 @@ beforeDestroy () {
     },
     fetch(){
       // 카테고리 타입이 1이면 대 카테고리로 set한다
-      this.$store.state.myList_category_type = 1;
-      this.$store.commit('SET_MYLIST_INIT');
-      this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+      this.$store.commit('myList/SET_MYLIST_CATEGORY_TYPE', 1);
+      this.$store.commit('myList/SET_MYLIST_INIT');
+      this.$store.dispatch('myList/FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.myList_category_type, category:this.myList_category});
       // console.log(this.$store.state.readFlag)
     },
     categorySelect(key, descript){
       // 카테고리 타입이 2이면 부카테고리로 set한다
       this.subject = descript;
-      this.$store.state.myList_category_type = 2;
-      this.$store.state.myList_category = key;
-      this.$store.commit('SET_MYLIST_INIT');
-      this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.$store.state.myList_category_type, category:this.$store.state.myList_category});
+      this.$store.commit('myList/SET_MYLIST_CATEGORY_TYPE', 2);
+      this.$store.commit('myList/SET_MYLIST_CATEGORY', key);
+      this.$store.commit('myList/SET_MYLIST_INIT');
+      this.$store.dispatch('myList/FETCH_MYLIST_READMORE',{userid:this.userid, category_type:this.myList_category_type, category:this.myList_category});
       this.modalShow = false;
     },
     categoryMiddle(){
@@ -247,7 +239,6 @@ beforeDestroy () {
       {
         idx = 99;
       }
-      this.$store.commit('ISLOADING', true);
       code.category(idx).then(result=>{
         if(result.length == 0){
 
@@ -257,7 +248,6 @@ beforeDestroy () {
         //  this.modalShow = true;
         //  this.$refs['modal-category'].show()
         }
-        this.$store.commit('ISLOADING', false);
       }).catch(error =>{
         console.log("error",error);
         //alert 후 페이지 이동
@@ -275,14 +265,6 @@ beforeDestroy () {
 </script>
 
 <style>
-.slide-next-leave-active, .slide-next-enter-active, .slide-prev-enter-active, .slide-prev-leave-active {
-}
-.slide-next-enter,.slide-next-leave, .slide-prev-leave-to
-{
-}
-
-.slide-next-leave-to, .slide-prev-enter, .slide-prev-leave {
-}
 
 .mylisttabs{
   display:flex;

@@ -1,8 +1,8 @@
 <template>
     <div class="content">
-        <div v-if="this.$store.state.myboardList.length > 0" class="container" style="margin-bottom:80px">
+        <div v-if="myboardList.length > 0" class="container" style="margin-bottom:80px">
           <div class="row" style="padding-bottom: 15px; border-bottom: 7px solid hsla(0,0%,53%,.3);"
-                v-for="(item,i) in this.$store.state.myboardList">
+                v-for="(item,i) in myboardList">
             <div style="width:100%;">
               <div class="div_board_1" style="margin-left:10px; margin-right:10px;">
                 <!--순위대로 색을 다르게 check-->
@@ -73,6 +73,7 @@
 </template>
 <script>
 import { board } from '../../api'
+import { mapState } from 'vuex'
 //import InfiniteLoading from 'vue-infinite-loading';
 export default {
   props: {
@@ -86,16 +87,26 @@ export default {
       infoData :[]
     }
   },
+  computed:{
+    ...mapState('boardList', {
+      boardInfo: 'boardInfo'
+    }),
+    ...mapState('myList', {
+      myboardList: 'myboardList',
+      myboardList_type : 'myboardList_type'
+    })
+
+  },
   created(){
     //this.readMore();
-    this.infoData = this.$store.state.boardInfo;
+    this.infoData = this.boardInfo;
     this.userid = localStorage.getItem('id');
   },
   methods:{
     readMore(){
       //처음은 일단 0으로 set
       this.$store.commit('ISLOADING', true);
-      this.$store.dispatch('FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
+      this.$store.dispatch('myList/FETCH_MYBOARDLIST_READMORE',{userid:this.userid, myboardlist_type:this.$store.state.myboardList_type});
 
     }
   }

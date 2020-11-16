@@ -46,6 +46,7 @@
 <script>
   import { auth, setAuthInHeader, callback } from '../../api'
   import Modal from '../Component/Modal'
+  import { mapState } from 'vuex'
   export default {
     components: {
       Modal
