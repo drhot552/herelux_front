@@ -48,7 +48,6 @@ const actions = {
     else {
       key = category;
     }
-    console.log(userid, category_type, category);
     return api.product.mylist(userid, state.myList_idx, category_type, key).then(data=>{
       if(data.length == 0){
         state.myList_readFlag = false;
