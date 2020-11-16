@@ -35,7 +35,7 @@
                 </button>
               </div>
             </div>
-            <div v-else>
+            <div v-else style="height: 40vh;">
               <h4 style="font-weight: 900; margin: 30px;">
                 현재 Talk가 없습니다. 제일먼저 Talk를 남겨보세요!
               </h4>
