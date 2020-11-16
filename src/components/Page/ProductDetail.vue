@@ -178,7 +178,7 @@ export default {
     this.userid = localStorage.getItem('id');
     this.productId = this.$route.params.id;
     if(this.userid != null){
-      product.productlovechk(this.userid, this.id).then(data =>{
+      product.productlovechk(this.userid, this.productId).then(data =>{
         if(data == 500){
           this.errorAlert();
         } else if(data.length > 0){
@@ -232,7 +232,7 @@ export default {
      },
      doLove(){
        if(this.userid != null){
-         product.productlove(this.id, this.userid).then(data=>{
+        product.productlove(this.productId, this.userid).then(data=>{
            if(data == 200){
              if(this.likeFlag){
                this.$notify({
