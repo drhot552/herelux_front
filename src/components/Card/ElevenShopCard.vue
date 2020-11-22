@@ -74,17 +74,14 @@ export default{
     this.loading = true;
     setTimeout(() => {
       callback.elevenstore(this.elevenshopserach).then(data=>{
-        if(data.length > 0){
-          for(var i = 0; i < data.ProductSearchResponse.Products[0].Product.length; i++){
-            if(i % 3 == 0 && i != 0){
-              this.elevenshopArray.push(this.elevenshop)
-              this.elevenshop = [];
-            }
-            data.ProductSearchResponse.Products[0].Product[i].ProductPrice = data.ProductSearchResponse.Products[0].Product[i].ProductPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            this.elevenshop.push(data.ProductSearchResponse.Products[0].Product[i]);
+        for(var i = 0; i < data.ProductSearchResponse.Products[0].Product.length; i++){
+          if(i % 3 == 0 && i != 0){
+            this.elevenshopArray.push(this.elevenshop)
+            this.elevenshop = [];
           }
+          data.ProductSearchResponse.Products[0].Product[i].ProductPrice = data.ProductSearchResponse.Products[0].Product[i].ProductPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          this.elevenshop.push(data.ProductSearchResponse.Products[0].Product[i]);
         }
-
         this.loading = false;
       }).catch(error =>{
         this.loading = false;
