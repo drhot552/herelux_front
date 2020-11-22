@@ -328,8 +328,8 @@ export const talkcomment = {
   list(talk_id){
     return request('get', '/talkcomment/list/' + talk_id)
   },
-  delete(talk_id, comment_id, user_id){
-    return request('get', '/talkcomment/delete/'+ talk_id +'/'+ comment_id + '/' + user_id)
+  delete(talk_id, comment_id){
+    return request('get', '/talkcomment/delete/'+ talk_id +'/'+ comment_id)
   },
   like(talk_id, comment_id, user_id, product_id) {
     return request('get', '/talkcomment/like/' + talk_id + '/' + comment_id + '/' + user_id + '/' + product_id)
