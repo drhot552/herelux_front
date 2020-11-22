@@ -66,7 +66,8 @@
                         v-bind:category_large = "item.category_large"
                         v-bind:category_middle = "item.category_middle"
                         v-bind:reg_dttm = "item.reg_dttm"
-                        v-bind:img_url = "item.img_url">
+                        v-bind:img_url = "item.img_url"
+                        v-bind:talk_like = "item.talk_like">
               </TalkCard>
             </div>
           </div>

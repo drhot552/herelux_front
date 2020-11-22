@@ -313,6 +313,12 @@ export const talk = {
   },
   delete(talk_id){
     return request('get', '/talk/delete/' + talk_id )
+  },
+  like(talk_id, user_id, product_id){
+    return request('get', '/talk/like/' + talk_id + '/' + user_id + '/' + product_id)
+  },
+  likelist(talk_id, user_id, product_id){
+    return request('get', '/talk/likelist/' + talk_id + '/' + user_id + '/' + product_id)
   }
 }
 export const talkcomment = {
@@ -322,7 +328,13 @@ export const talkcomment = {
   list(talk_id){
     return request('get', '/talkcomment/list/' + talk_id)
   },
-  delete(talk_id, comment_id){
-    return request('get', '/talkcomment/delete/'+ talk_id +'/'+ comment_id)
+  delete(talk_id, comment_id, user_id){
+    return request('get', '/talkcomment/delete/'+ talk_id +'/'+ comment_id + '/' + user_id)
+  },
+  like(talk_id, comment_id, user_id, product_id) {
+    return request('get', '/talkcomment/like/' + talk_id + '/' + comment_id + '/' + user_id + '/' + product_id)
+  },
+  likelist(talk_id, comment_id, user_id, product_id) {
+    return request('get', '/talkcomment/likelist/' + talk_id + '/' + comment_id + '/' + user_id + '/' + product_id)
   }
 }

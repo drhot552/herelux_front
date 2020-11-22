@@ -17,11 +17,29 @@
                    </ul>
                    <div class="slider_category" :style="'transform:translateX('+detailactivetab*tabwidth+'%)'">
                    </div>
-                  <swiper ref="mySwiper" :options="swiperOptions" @slideChangeTransitionStart="onSwiperSlideChangeTransitionStart">
-                    <swiper-slide v-for="(loop, index) in detailtab" >
-                      <div class="tabpane_category" v-if="index === 0 && index === detailactivetab">
-                        <Detail
-                          v-bind:id="product[0].id"
+                   <div ref="tcon" class="tabcontainer_sex">
+                     <transition :name="transition" v-for="(loop, index) in detailtab" :key="index">
+                       <div class="tabpane_category" v-if="index === 0 && index === detailactivetab">
+                         <Detail
+                           v-bind:id="product[0].id"
+                           v-bind:brand="product[0].brand_name"
+                           v-bind:category_large="product[0].category_large"
+                           v-bind:category_middle="product[0].category_middle"
+                           v-bind:brand_name="product[0].brand_name_descript"
+                           v-bind:category_large_name="product[0].category_large_name"
+                           v-bind:category_middle_name="product[0].category_middle_name"
+                           v-bind:name="product[0].name"
+                           v-bind:size="product[0].size"
+                           v-bind:color="product[0].color"
+                           v-bind:price="product[0].price"
+                           v-bind:star="product[0].star"
+                           v-bind:count="product[0].count"
+                           v-bind:sub_name="product[0].sub_name"
+                           v-bind:reg_dttm="product[0].reg_dttm">
+                         </Detail>
+                       </div>
+                        <div class="tabpane_category" v-if="index === 1 && index === detailactivetab">
+                          <Talk v-bind:id="product[0].id"
                           v-bind:brand="product[0].brand_name"
                           v-bind:category_large="product[0].category_large"
                           v-bind:category_middle="product[0].category_middle"
@@ -36,28 +54,11 @@
                           v-bind:count="product[0].count"
                           v-bind:sub_name="product[0].sub_name"
                           v-bind:reg_dttm="product[0].reg_dttm">
-                        </Detail>
-                      </div>
-                       <div class="tabpane_category" v-if="index === 1 && index === detailactivetab">
-                         <Talk v-bind:id="product[0].id"
-                         v-bind:brand="product[0].brand_name"
-                         v-bind:category_large="product[0].category_large"
-                         v-bind:category_middle="product[0].category_middle"
-                         v-bind:brand_name="product[0].brand_name_descript"
-                         v-bind:category_large_name="product[0].category_large_name"
-                         v-bind:category_middle_name="product[0].category_middle_name"
-                         v-bind:name="product[0].name"
-                         v-bind:size="product[0].size"
-                         v-bind:color="product[0].color"
-                         v-bind:price="product[0].price"
-                         v-bind:star="product[0].star"
-                         v-bind:count="product[0].count"
-                         v-bind:sub_name="product[0].sub_name"
-                         v-bind:reg_dttm="product[0].reg_dttm">
-                         </Talk>
-                       </div>
-                    </swiper-slide>
-                  </swiper>
+                          </Talk>
+                        </div>
+                     </transition>
+                   </div>
+
                   <br/>
                   <br/>
                 </div>
@@ -103,8 +104,6 @@ import SearchInfo from '../ProductDetail/SearchInfo'
 import AtherShop from '../ProductDetail/AtherShop.vue'
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 import Modal from '../Component/Modal';
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
 import { product, talk, talkcomment } from '../../api'
 import { mapState } from 'vuex'
 
@@ -115,12 +114,7 @@ export default {
     AtherShop,
     SearchInfo,
     Talk,
-    Swiper,
-    SwiperSlide,
     Modal
-  },
-  directives: {
-    swiper: directive
   },
   data(){
     return{
@@ -149,9 +143,6 @@ export default {
       }
   },
   computed: {
-      swiper() {
-        return this.$refs.mySwiper.$swiper
-      },
       ...mapState('hereluxAll', {
         webFlag: 'webFlag'
       }),
@@ -197,20 +188,6 @@ export default {
         this.$store.commit('talkList/SET_TALK_FLAG', false);
       } else {
         this.loginCheck();
-      }
-      this.swiper.activeIndex = this.detailactivetab;
-    },
-    onSwiperSlideChangeTransitionStart(){
-      this.detailactivetab = this.swiper.activeIndex;
-      if(this.detailactivetab == 0){
-        this.$store.commit('talkList/SET_TALK_FLAG', false);
-      } else {
-        //로그인 했는지 확인
-        this.loginCheck();
-        this.$store.commit('talkList/SET_TALK_ISLOADING', true);
-        setTimeout(() => {
-          this.$store.commit('talkList/SET_TALK_ISLOADING', false);
-        }, 500);
       }
     },
     doCopy() {

@@ -14,7 +14,7 @@
         <img src="/public/img/btn_image.png" style="height: 25px; margin-bottom: 0.5rem;">
         </img>
       </label>
-      <input class="talk_textarea" v-model="descript" placeholder="댓글작성.." style="max-height: 35px; height: 30px;">
+      <input class="talk_textarea" v-model="descript" placeholder="댓글작성.." style="max-height: 35px; height: 30px;" v-on:keyup.enter="talkWrite()">
 
       </input>
       <a v-on:click="talkWrite()">
@@ -99,7 +99,7 @@ export default {
       $('#imgzone_1').empty();
       this.$store.commit('talkList/SET_TALKCOMMENT_OBJECT_INIT');
       this.$store.commit('talkList/SET_TALK_OBJECT_INIT');
-      
+
     },
     FirstshowFiles() {
         var div = document.getElementById('imgzone_1');     // The DIV.
