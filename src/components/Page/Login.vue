@@ -99,8 +99,7 @@
     },
     methods:{
       naverlogin(){
-        var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+this.client_id+'&redirect_uri='+this.callbackUrl+'&state=1234';
-        console.log(this.returnPath);
+        var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+this.client_id+'&redirect_uri='+this.callbackUrl+'&state=1234&redirect='+this.returnPath;
         window.location.replace(url);
       },
       onSubmit() {
