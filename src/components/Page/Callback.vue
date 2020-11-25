@@ -69,10 +69,10 @@
     },
     created() {
       //내가 이동한 url을 기억해서 이동
-      if(loginreturnPath != null){
-        this.returnPath = this.$route.query.returnPath || loginreturnPath
+      if(this.oginreturnPath != null){
+        this.returnPath = this.loginreturnPath
       } else {
-        this.returnPath = this.$route.query.returnPath || '/'
+        this.returnPath = '/'
       }
 
     },
@@ -137,7 +137,7 @@
             localStorage.setItem('id', this.loginArry.response.email)
             localStorage.setItem('type', 'naver')
             setAuthInHeader(this.authArry.refresh_token) //token
-            this.$router.push('/');
+            this.$router.push(this.returnPath);
           } else {
 
           }

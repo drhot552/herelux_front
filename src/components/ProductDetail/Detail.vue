@@ -320,7 +320,8 @@ export default {
  },
  methods:{
    onLogin(page){
-     this.$router.push(this.$route.query.returnPath || page);
+     this.$store.commit('hereluxAll/SET_LOGINPATH', window.location.pathname);
+     this.$router.push(page);
    },
    imgurlclick(url){
      if(this.userId){
@@ -328,7 +329,7 @@ export default {
          gtag('event','이미지더보기클릭',{'event_category':'이미지더보기','event_label':this.name});
          this.$store.commit('hereluxAll/SET_PAGEMOVEURL', url);
          setTimeout(() => {
-           this.$router.push(this.$route.query.returnPath || '/pagemove');
+           this.$router.push('/pagemove');
          }, 200);
        }
      }
@@ -339,14 +340,14 @@ export default {
        gtag('event','상품상세클릭',{'event_label':url});
        this.$store.commit('hereluxAll/SET_PAGEMOVEURL', url);
        setTimeout(() => {
-         this.$router.push(this.$route.query.returnPath || '/pagemove');
+         this.$router.push('/pagemove');
        }, 200);
      } else {
        if(i == 0){
          gtag('event','상품상세클릭',{'event_label':url});
          this.$store.commit('hereluxAll/SET_PAGEMOVEURL', url);
          setTimeout(() => {
-           this.$router.push(this.$route.query.returnPath || '/pagemove');
+           this.$router.push('/pagemove');
          }, 200);
        }
      }

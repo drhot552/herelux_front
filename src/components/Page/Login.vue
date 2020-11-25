@@ -65,7 +65,8 @@
     },
     computed:{
       ...mapState('hereluxAll', {
-        webFlag: 'webFlag'
+        webFlag: 'webFlag',
+        loginreturnPath : 'loginreturnPath'
       })
     },
     data() {
@@ -82,7 +83,12 @@
       }
     },
     created() {
-      this.returnPath = this.$route.query.returnPath || '/'
+      //내가 이동한 url을 기억해서 이동
+      if(this.loginreturnPath != null){
+        this.returnPath = this.loginreturnPath
+      } else {
+        this.returnPath = '/'
+      }
       //개발
       //this.client_id = 'qb4UvpZbIcIPB7AeHsg5'
       //this.callbackUrl = 'http://52.79.240.238:8080/callback'

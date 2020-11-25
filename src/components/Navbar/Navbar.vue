@@ -185,11 +185,9 @@
         this.setNav(!this.showMenu)
       },
       open(){
-        console.log("open");
         this.setNav(true);
       },
       close(){
-        console.log("close");
         //로그아웃 플래그
         if(this.flag){
           //this.$root.$emit('bv::hide::modal','modal-logout', '#btnShow')
@@ -204,7 +202,8 @@
             }
           }
           localStorage.clear();
-          this.$router.push(this.$route.query.returnPath || '/login')
+          this.$store.commit('hereluxAll/SET_LOGINPATH', '/');
+          this.$router.push('/login')
           this.flag = false
           this.modalShow = false
         }

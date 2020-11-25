@@ -140,7 +140,8 @@ export default{
   },
   methods:{
     onLogin(page){
-      this.$router.push(this.$route.query.returnPath || page);
+      this.$store.commit('hereluxAll/SET_LOGINPATH', window.location.pathname);
+      this.$router.push(page);
     },
     doWrite(){
       this.modalShow = true;

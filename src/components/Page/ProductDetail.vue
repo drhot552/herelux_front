@@ -250,7 +250,7 @@ export default {
     },
     handleLoginOk(){
       this.modalShow = false;
-      this.$router.push(this.$route.query.returnPath || '/login');
+      this.$router.push('/login');
     },
     handleOk(){
       if(this.talkmodalGubun == "talk"){
@@ -258,18 +258,16 @@ export default {
           this.$store.commit('talkList/SET_TALK_MODAL', {talkmodalShow:false,talkmodalcommentId:0, talkmodalId:0, talkmodalDescript:"", talkmodalTitle:"", talkmodalGubun:""});
           this.talkInit();
         }).catch(error => {
-          console.log(error);
           alert("서버와의 통신 에러가 발생하였습니다.");
-          this.$router.push(this.$route.query.returnPath || '/error');
+          this.$router.push('/error');
         })
       } else {
         talkcomment.delete(this.talkmodalId, this.talkmodalcommentId).then(data=>{
           this.$store.commit('talkList/SET_TALK_MODAL', {talkmodalShow:false,talkmodalcommentId:0, talkmodalId:0, talkmodalDescript:"", talkmodalTitle:"", talkmodalGubun:""});
           this.talkInit();
         }).catch(error => {
-          console.log(error);
           alert("서버와의 통신 에러가 발생하였습니다.");
-          this.$router.push(this.$route.query.returnPath || '/error');
+          this.$router.push('/error');
         })
       }
     },
@@ -302,7 +300,7 @@ export default {
         .catch(error =>{
           console.log(error);
           alert("서버와의 통신 에러가 발생하였습니다.");
-          this.$router.push(this.$route.query.returnPath || '/error');
+          this.$router.push('/error');
         });
       }, 800)
     }
@@ -343,7 +341,6 @@ export default {
   justify-content:center;
   width:100%;
   cursor:pointer;
-
 }
 .tabitem_category.active{
   font-size: 15px;
