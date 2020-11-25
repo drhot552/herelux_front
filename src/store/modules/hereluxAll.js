@@ -17,7 +17,7 @@ const state = {
   productDetail_name : String,
 
   /* 로그인 및 회원가입 후 returnPath */
-  loginreturnPath : String,
+  loginreturnPath : '/',
 
   /* 명품관 관련 Data*/
   brandList:[],
