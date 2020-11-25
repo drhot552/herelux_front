@@ -137,6 +137,7 @@
             localStorage.setItem('id', this.loginArry.response.email)
             localStorage.setItem('type', 'naver')
             setAuthInHeader(this.authArry.refresh_token) //token
+            console.log(this.returnPath);
             this.$router.push(this.returnPath);
           } else {
 
