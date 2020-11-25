@@ -69,7 +69,7 @@
     },
     created() {
       //내가 이동한 url을 기억해서 이동
-      if(this.oginreturnPath != null){
+      if(this.loginreturnPath != null){
         this.returnPath = this.loginreturnPath
       } else {
         this.returnPath = '/'
