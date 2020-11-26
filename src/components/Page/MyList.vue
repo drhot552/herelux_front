@@ -2,27 +2,36 @@
   <div>
     <div class="section" v-bind:class="{ main_web_page: webFlag, main_app_page: !webFlag }">
       <div class="container" style="padding-left: 0px; padding-right: 0px; height: 80vh; overflow:auto;">
-        <div class="container">
-          <div class="row">
-            <article class="col-md-8 ml-auto mr-auto" style="padding:0;">
-              <ul class="mylisttabs_category" ref="tabbar">
-                 <div class="tabitem_category" :class="index === mylisttab ? 'active' : ''"  v-for="(tab, index) in mylisttab" @click="switchtab(index)" :key="index" ref="tab">
-                   {{tab}}
-                 </div>
-               </ul>
-               <div class="slider_category" :style="'transform:translateX('+detailactivetab*tabwidth+'%)'">
-               </div>
-               <div ref="tcon" class="tabcontainer_sex">
-                 <transition :name="transition" v-for="(loop, index) in detailtab" :key="index">
-                    <div class="tabpane_category" v-if="index === 0 && index === detailactivetab">
+        <div style="margin-top:15px; border-bottom:1px solid; padding-bottom: 15px;">
+          <div v-for="item in myinfo" style="display:inline-block; width:33%; text-align:center;">
+            <div class="icon icon-circle" style="text-align:center; margin-left: 15px; display: block; margin: 0px auto;" v-if="item.type=='선호브랜드'">
+              <img class="img-raised" style="border-radius:50%;" v-lazy="`/public/img/brand/${item.sub_name}.png`"/>
 
-                    </div>
-                </transition>
-               </div>
-              <br/>
-              <br/>
-            </article>
+            </div>
+            <div v-else>
+              <h5>{{item.cnt}}</h5>
+
+            </div>
+            <h5 style="margin-left:4px;">{{item.type}}</h5>
           </div>
+        </div>
+        <div class="sticky">
+          <div v-if="listFlag==1">
+            <span class="board_span_style" style="color:black;" v-on:click="listChange(1)">내가 선택한 명품</span>
+            <span class="board_span_style" v-on:click="listChange(2)">내가 작성한 글</span>
+            <span style="font-size:10px; color:red;" v-if="boardFlag">N</span>
+          </div>
+          <div v-else-if="listFlag==2">
+            <span class="board_span_style" v-on:click="listChange(1)">내가 선택한 명품</span>
+            <span class="board_span_style" style="color:black;" v-on:click="listChange(2)">내가 작성한 글</span>
+            <span style="font-size:10px; color:red;" v-if="boardFlag">N</span>
+          </div>
+        </div>
+        <div v-if="listFlag == 1">
+          <Mylistproduct></Mylistproduct>
+        </div>
+        <div v-else>
+          <MylistBoard></MylistBoard>
         </div>
       </div>
     </div>
@@ -30,13 +39,18 @@
 </template>
 
 <script>
+import MylistBoard from '../Page/MylistBoard';
+import Mylistproduct from '../Page/Mylistproduct';
 import { info } from '../../api';
-
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default{
   props:{
     item:Array
+  },
+  components:{
+    Mylistproduct,
+    MylistBoard
   },
   computed:{
     ...mapState('hereluxAll', {
@@ -57,10 +71,29 @@ export default{
       listFlag : 0,
       userId:String,
       myinfo:[],
-      mylisttab : ['관심상품','작성글','댓글단 글','좋아요한 글']
+      position: { scrollTop: 0, scrollLeft: 0 }
     }
   },
-  created(){
+  mounted(){
+    document.addEventListener('scroll', this.onScroll);
+  },
+  beforeDestroy(){
+    document.removeEventListener('scroll', this.onScroll);
+  },
+  activated(){
+    document.addEventListener('scroll', this.onScroll);
+  },
+  deactivated(){
+    document.removeEventListener('scroll', this.onScroll);
+  },
+ created(){
+   if(this.$route.params.pagetype == 0){
+     this.listFlag = 1
+   } else if (this.$route.params.pagetype == 1){
+     this.listFlag = 2
+   } else {
+     this.listFlag = 3
+   }
    this.userId = localStorage.getItem('id');
    info.myinfo(this.userId).then(data=>{
      if(data.length == 0){
@@ -103,63 +136,46 @@ export default{
 </script>
 
 <style>
-.mylisttabs_category{
-  display:flex;
-  height:48px;
-  overflow-x:scroll;
-  white-space:nowrap;
-  overflow: -moz-scrollbars-none;
-  -ms-overflow-style: none;
-  z-index: 1;
-  padding:0;
-  margin:0;
+.board_span_style{
+  font-size:1.2em;
+  margin-left: 10px;
+  color:rgb(136, 136, 136);
 }
-.tabs::-webkit-scrollbar  {
-  width: 0 !important;
-  height:0 !important;
-}
-.tabitem_category{
-  font-size: 15px;
-  font-weight: 700;
-  color: #888;
-  display:flex;
-  background:white;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  cursor:pointer;
-}
-.tabitem_category.active{
-  font-size: 15px;
-  font-weight: 700;
-  background:white;
-  color: black;
-}
-.slider_category{
-  height:2px;
-  width:25%;
-  background:black;
-  transition:.5s ease;
-}
-.tabcontainer_category {
-  height:480px;
-  position: relative;
-  min-height: 100%;
-  width: 100%;
-  z-index: 0;
-  touch-action: pan-y !important;
-}
-.tabpane_category{
+.icon.icon-circle{
+  max-width: 80px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 9px 35px -6px rgba(0,0,0,.3);
+    font-size: .7142em;
+    background-color: #fff;
+    position: relative;
+}/* The sticky class is added to the header with JS when it reaches its scroll position */
+.sticky {
+  background-color: white;
+    z-index: 1;
     width: 100%;
-    align-items:center;
-    justify-content:center;
+    height: 50px;
+    padding-top: 15px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 1px;
 }
+.lazy-img-fadein[lazy=loaded] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+
 .main_web_page{
   padding: 100px 0 53px;
   background: #fff;
 }
-.main_product_app_page{
-  padding: 50px 0 53px;
+.main_app_page{
+  padding: 70px 0 53px;
   background: #fff;
 }
 </style>
